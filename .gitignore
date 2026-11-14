@@ -1,0 +1,22 @@
+# Build artifacts
+dist/
+build/
+pages-dist/
+.wrangler/
+
+# Keep bundled worker sources in public/repo/ tracked by Git
+!public/repo/*.js
+
+# Generated deploy config (scripts/deploy.sh writes it with the live D1 id)
+wrangler.deploy.toml
+
+# Dependencies
+node_modules/
+
+# Editors
+.vscode/
+
+# Environment
+.env
+.env.local
+*.env.*
