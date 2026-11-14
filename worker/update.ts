@@ -201,14 +201,22 @@ export async function runDeploymentUpdate(
     typeof storedCfg.source_url === 'string' && /github\.com|raw\.githubusercontent\.com/i.test(storedCfg.source_url)
       ? storedCfg.source_url.trim()
       : ''
-  const storedSourceUrl = repoUrl || legacySourceUrl
+  const known = lookupWorkerSource(dep.worker_source)
+  // A catalogued source resolves through the catalog, never through the stored
+  // `source_url`: that value is the fingerprint of the file a deploy/update
+  // read, not the definition of the source. Letting it win kept an old Mili
+  // deployment pinned to the repository it was first fetched from even after
+  // the catalog moved to the panel's new address — so "update" could never
+  // reach the newest release. Only an arbitrary GitHub deployment (no catalog
+  // entry) re-resolves its stored URL, including rows written before
+  // `repo_url` existed.
+  const storedSourceUrl = repoUrl || (known ? '' : legacySourceUrl)
   let sourceConfig: WorkerSourceConfig
   if (storedSourceUrl) {
     const resolved = await buildGithubSourceConfig(storedSourceUrl)
     if (!resolved.ok) return result({ message: resolved.error, error: resolved.error })
     sourceConfig = resolved.config
   } else {
-    const known = lookupWorkerSource(dep.worker_source)
     if (!known) {
       const msg =
         `منبع ورکر «${dep.worker_source}» در این نسخه از پنل شناخته‌شده نیست — به‌روزرسانی انجام نشد تا پنل اشتباهی روی این ورکر نرود.`

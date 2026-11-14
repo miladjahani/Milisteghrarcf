@@ -1,11 +1,13 @@
 /**
- * Mili (miladjahani/Milios3.10.2) source wiring: the catalog entry, the deploy
- * engine's entry, the routing model and the upstream file must agree.
+ * Mili (miladjahani/Milizeroooo) source wiring: the catalog entry, the deploy
+ * engine's entry, the routing model and the upstream file must agree — and the
+ * engine must read the **branch head** of that repository, never the copy
+ * bundled at build time, so every deployment is the newest release.
  *
  * The last part is live: the engine's own fetch path is used, so the check
- * fails if GitHub's published blob checksum, the file size or the identity
- * marker stop matching — the three things that keep a partial/foreign file away
- * from a worker.
+ * fails if GitHub's published blob checksum, the whole-file download or the
+ * identity marker stops matching — the things that keep a partial/foreign file
+ * away from a worker.
  *
  * Run: bun scripts/check-milios-source.test.ts
  */
@@ -23,9 +25,9 @@ function check(label: string, ok: boolean, detail = ''): void {
 const entry = WORKER_SOURCES_CATALOG.find((s) => s.id === 'milios')
 check('catalog lists milios', !!entry)
 check('catalog name is Mili', entry?.name === 'Mili', String(entry?.name))
-check('catalog repo is miladjahani/Milios3.10.2', entry?.repo === 'miladjahani/Milios3.10.2', String(entry?.repo))
+check('catalog repo is miladjahani/Milizeroooo', entry?.repo === 'miladjahani/Milizeroooo', String(entry?.repo))
 check('catalog mode is auto (deployable by the engine)', entry?.mode === 'auto')
-check('catalog url points at the repository', entry?.url === 'https://github.com/miladjahani/Milios3.10.2')
+check('catalog url points at the repository', entry?.url === 'https://github.com/miladjahani/Milizeroooo')
 check('auto sources include it (wizard + bot pickers)', autoWorkerSources().some((s) => s.id === 'milios'))
 check('it is the FIRST auto source (top of the bot and mini-app list)', autoWorkerSources()[0]?.id === 'milios', String(autoWorkerSources()[0]?.id))
 check('the old miliconfigosv3 source is gone from the pickers', !autoWorkerSources().some((s) => s.id === 'miliconfigosv3'))
@@ -33,9 +35,17 @@ check('the old miliconfigosv3 source is gone from the pickers', !autoWorkerSourc
 // ── engine ──────────────────────────────────────────────────────────────────
 const cfg = lookupWorkerSource('milios')
 check('engine knows the id (no silent edgetunnel fallback)', !!cfg && cfg.label !== lookupWorkerSource('edgetunnel')!.label)
-check('engine fetches the published bundle from dist/', !!cfg?.url.endsWith('/main/dist/_worker.js'), cfg?.url)
-check('engine keeps the root copy as a fallback', (cfg?.fallbackUrls ?? []).some((u) => u.endsWith('/main/_worker.js')), JSON.stringify(cfg?.fallbackUrls))
-check('engine fetches it from the new repository', cfg?.url.includes('miladjahani/Milios3.10.2'), cfg?.url)
+check(
+  'engine fetches the bundle version.json publishes (root _worker.js on main)',
+  cfg?.url === 'https://raw.githubusercontent.com/miladjahani/Milizeroooo/main/_worker.js',
+  cfg?.url,
+)
+check('engine keeps the dist copy as a fallback', (cfg?.fallbackUrls ?? []).some((u) => u.endsWith('/main/dist/_worker.js')), JSON.stringify(cfg?.fallbackUrls))
+check('engine fetches it from the new repository', cfg?.url.includes('miladjahani/Milizeroooo'), cfg?.url)
+// Regression guard: the bundled copy used to be hoisted above the upstream URL,
+// so every deployment shipped the file frozen at build time instead of the
+// newest release. `preferBundled` is only for private upstreams.
+check('engine prefers the live upstream over the bundled copy', cfg?.preferBundled !== true, String(cfg?.preferBundled))
 check('engine verifies the identity marker', cfg?.expectMarker === 'MILICONFIG')
 check('engine uses the repo compatibility date', cfg?.compat === '2024-11-06', cfg?.compat)
 check('engine provisions a D1 database', cfg?.provisionD1 === true)
@@ -76,10 +86,10 @@ if (!fetched.source && fetched.errors.some((e) => e.includes('fetch failed'))) {
   if (fetched.source) {
     check('checksum verified against the published blob', fetched.source.checksumVerified === true)
     const bytes = new TextEncoder().encode(fetched.source.code).length
-    check('bytes match the published size (739,602)', bytes === 739602, String(bytes))
+    check('download is the whole published file', bytes > 100_000, String(bytes))
     check('it is the project (marker present)', fetched.source.code.includes('MILICONFIG'))
     check('it is a module bundle (cloudflare:sockets import)', fetched.source.code.includes('cloudflare:sockets'))
-    check('it reads the admin path from the env var the engine sets', /[.n]\.u\b/.test(fetched.source.code))
+    check('it reads the admin path from the env var the engine sets', /[.n]\?\.u\b|[.n]\.u\b/.test(fetched.source.code))
   }
 }
 
