@@ -267,12 +267,13 @@ const WORKER_SOURCES: Record<string, WorkerSourceConfig> = {
     //
     // Reading it from `main` deploys whatever release is current at deploy
     // time — the source carries no version number, so it can never fall behind
-    // upstream. `dist/_worker.js` is the same build (byte-identical to the root
-    // copy) and stays as the mirror fallback; the bundled `/repo/milios.js` is
-    // only reached when neither network candidate works.
-    url: 'https://raw.githubusercontent.com/miladjahani/Milizeroooo/main/_worker.js',
+    // upstream. The primary candidate is the `dist/` build (what the repository
+    // itself publishes); the root copy is byte-identical and stays as the mirror
+    // fallback, and the bundled `/repo/milios.js` is only reached when neither
+    // network candidate works.
+    url: 'https://raw.githubusercontent.com/miladjahani/Milizeroooo/main/dist/_worker.js',
     label: 'Mili (miladjahani/Milizeroooo)',
-    fallbackUrls: ['https://raw.githubusercontent.com/miladjahani/Milizeroooo/main/dist/_worker.js', '/repo/milios.js'],
+    fallbackUrls: ['https://raw.githubusercontent.com/miladjahani/Milizeroooo/main/_worker.js', '/repo/milios.js'],
     // `compatibility_date` from the repo's own wrangler.toml / wrangler.worker.toml;
     // it declares no compatibility flags, so none are added here either.
     compat: '2024-11-06',
@@ -1367,15 +1368,21 @@ export async function verifyAndHeal(
   const cfg = safeJsonParse<Record<string, unknown>>(typeof row.config === 'string' ? row.config : '', {})
   const at = typeof cfg.self_check_at === 'string' ? Date.parse(cfg.self_check_at) : 0
   // Already known dead (the Pages heal is running or has run) — leave it alone.
-  if (cfg.self_check === 'dead' || cfg.self_check === 'failed') return
-  if (cfg.self_check !== 'passed') return
+  if (cfg.self_check === 'dead') return
+  // `failed` is the common case on accounts whose Workers runtime answers 1101
+  // for every script: the deploy-time self-check already saw it, and no later
+  // poll would ever heal the row under the old `passed`-only gate.
+  if (cfg.self_check !== 'passed' && cfg.self_check !== 'failed') return
   const now = Date.now()
   if (at && now - at < 90_000) return
   // Claim the slot BEFORE probing so concurrent polls do not probe as well.
   await patchDeploymentConfig(env, id, { self_check_at: new Date(now).toISOString() })
 
   const alive = await waitForWorkerLive(workerUrl, 1, 0, 5_000)
-  if (alive) return
+  if (alive) {
+    if (cfg.self_check === 'failed') await patchDeploymentConfig(env, id, { self_check: 'passed' })
+    return
+  }
 
   const tokenRow = row.cf_token_row_id
     ? await env.DB.prepare('SELECT token FROM cf_tokens WHERE id = ? AND user_id = ?')

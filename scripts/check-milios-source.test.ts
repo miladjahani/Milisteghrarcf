@@ -36,11 +36,15 @@ check('the old miliconfigosv3 source is gone from the pickers', !autoWorkerSourc
 const cfg = lookupWorkerSource('milios')
 check('engine knows the id (no silent edgetunnel fallback)', !!cfg && cfg.label !== lookupWorkerSource('edgetunnel')!.label)
 check(
-  'engine fetches the bundle version.json publishes (root _worker.js on main)',
-  cfg?.url === 'https://raw.githubusercontent.com/miladjahani/Milizeroooo/main/_worker.js',
+  'engine fetches the dist build (dist/_worker.js on main)',
+  cfg?.url === 'https://raw.githubusercontent.com/miladjahani/Milizeroooo/main/dist/_worker.js',
   cfg?.url,
 )
-check('engine keeps the dist copy as a fallback', (cfg?.fallbackUrls ?? []).some((u) => u.endsWith('/main/dist/_worker.js')), JSON.stringify(cfg?.fallbackUrls))
+check(
+  'engine keeps the root mirror as the fallback (not the same dist file)',
+  (cfg?.fallbackUrls ?? []).some((u) => u === 'https://raw.githubusercontent.com/miladjahani/Milizeroooo/main/_worker.js'),
+  JSON.stringify(cfg?.fallbackUrls),
+)
 check('engine fetches it from the new repository', cfg?.url.includes('miladjahani/Milizeroooo'), cfg?.url)
 // Regression guard: the bundled copy used to be hoisted above the upstream URL,
 // so every deployment shipped the file frozen at build time instead of the
