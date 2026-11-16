@@ -204,7 +204,7 @@ async function main() {
   res = await routeCallback(args(`dpl:p:${panelId}`, mk({ target: 'railway' })))
   res = await routeCallback(args('dpl:t:tok1', mk({ target: 'railway', panel: panelId })))
   check('confirm screen', !!res && res.text.includes('تأیید نهایی'), res?.text.slice(0, 80))
-  check('random name set', !!res && /mil-[a-z2-9]{6}/.test(res.text))
+  check('random name set', !!res && /studio-[a-z2-9]{6}/.test(res.text))
 
   console.log('5) rename via await_name state → back to confirm')
   const renamedSession: BotSession = { state: 'await_name', data: { target: 'railway', panel: panelId, tokenId: 'tok1', tokenName: 'My Railway', name: 'old' } }

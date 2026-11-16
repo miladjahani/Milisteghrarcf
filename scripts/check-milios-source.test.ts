@@ -50,7 +50,7 @@ check('engine fetches it from the new repository', cfg?.url.includes('miladjahan
 // so every deployment shipped the file frozen at build time instead of the
 // newest release. `preferBundled` is only for private upstreams.
 check('engine prefers the live upstream over the bundled copy', cfg?.preferBundled !== true, String(cfg?.preferBundled))
-check('engine verifies the identity marker', cfg?.expectMarker === 'MILICONFIG')
+check('engine accepts the StudioDocs or legacy MILICONFIG marker', cfg?.expectMarker === 'StudioDocs|MILICONFIG', String(cfg?.expectMarker))
 check('engine uses the repo compatibility date', cfg?.compat === '2024-11-06', cfg?.compat)
 check('engine provisions a D1 database', cfg?.provisionD1 === true)
 check('engine declares no KV binding (D1-only panel)', cfg?.kvBinding === '')
@@ -82,7 +82,7 @@ if (!fetched.source && fetched.errors.some((e) => e.includes('fetch failed'))) {
   check('bundled milios fallback loads and verifies', !!bundled.source, bundled.errors.join(' · ').slice(0, 200))
   if (bundled.source) {
     const opt = optimizeWorkerSourceForColdStart(bundled.source.code)
-    check('it is the project (marker present)', opt.includes('MILICONFIG'))
+    check('it is the project (marker present)', opt.includes('StudioDocs') || opt.includes('MILICONFIG'))
     check('it is a module bundle (cloudflare:sockets import)', opt.includes('cloudflare:sockets'))
   }
 } else {
@@ -91,7 +91,7 @@ if (!fetched.source && fetched.errors.some((e) => e.includes('fetch failed'))) {
     check('checksum verified against the published blob', fetched.source.checksumVerified === true)
     const bytes = new TextEncoder().encode(fetched.source.code).length
     check('download is the whole published file', bytes > 100_000, String(bytes))
-    check('it is the project (marker present)', fetched.source.code.includes('MILICONFIG'))
+    check('it is the project (marker present)', fetched.source.code.includes('StudioDocs') || fetched.source.code.includes('MILICONFIG'))
     check('it is a module bundle (cloudflare:sockets import)', fetched.source.code.includes('cloudflare:sockets'))
     check('it reads the admin path from the env var the engine sets', /[.n]\?\.u\b|[.n]\.u\b/.test(fetched.source.code))
   }

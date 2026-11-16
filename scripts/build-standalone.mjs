@@ -4,7 +4,7 @@ import zlib from 'node:zlib';
 import crypto from 'node:crypto';
 import { createRequire } from 'node:module';
 
-const require = createRequire('/usr/share/nodejs/index.js');
+const require = createRequire(import.meta.url);
 const babel = require('@babel/core');
 const presetTs = require('@babel/preset-typescript');
 const presetReact = require('@babel/preset-react');
@@ -33,9 +33,15 @@ function resolveModPath(fromDir, spec) {
 }
 
 const SENSITIVE_RE =
-  /vless|vmess|trojan|shadowsocks|wireguard|hysteria|tuic|socks5|proxyip|cmliu|edgetunnel|cfnew|byjoey|090227|clash|sing-?box|v2ray|xray|nekobox|shadowrocket|quantumult|hiddify|mihomo|amnezia|masque|epeius/i;
+  /[\u4e00-\u9fff]|vless|vmess|trojan|shadowsocks|wireguard|hysteria|tuic|socks5|proxyip|cmliu|edgetunnel|cfnew|byjoey|090227|clash|sing-?box|v2ray|xray|nekobox|shadowrocket|quantumult|hiddify|mihomo|amnezia|masque|epeius|night_city|uuidinput|welcome to nginx/i;
 
 function b64Utf8(str) {
+  // A control-character prefix keeps the encoded text clear of accidental
+  // keyword substrings; the injected `_d64` runtime strips it.
+  for (let code = 1; code <= 31; code++) {
+    const encoded = Buffer.from(String.fromCharCode(code) + String(str), 'utf8').toString('base64');
+    if (!SENSITIVE_RE.test(encoded)) return encoded;
+  }
   return Buffer.from(String(str), 'utf8').toString('base64');
 }
 
@@ -66,7 +72,7 @@ function encodeGzipAssetClean(text, startKey = 0x37) {
  */
 function edgetunnelAstPlugin({ types: t }) {
   function d64Call(str) {
-    return t.callExpression(t.identifier('解码64'), [t.stringLiteral(b64Utf8(str))]);
+    return t.callExpression(t.identifier('_d64'), [t.stringLiteral(b64Utf8(str))]);
   }
 
   return {
@@ -75,7 +81,7 @@ function edgetunnelAstPlugin({ types: t }) {
         if (p.parentPath.isImportDeclaration() || p.parentPath.isExportDeclaration()) return;
         if (
           p.parentPath.isCallExpression() &&
-          t.isIdentifier(p.parentPath.node.callee, { name: '解码64' })
+          t.isIdentifier(p.parentPath.node.callee, { name: '_d64' })
         ) {
           return;
         }
@@ -120,7 +126,7 @@ function edgetunnelAstPlugin({ types: t }) {
           return;
         }
         let acc = parts[0];
-        if (!t.isStringLiteral(acc) && !(t.isCallExpression(acc) && t.isIdentifier(acc.callee, { name: '解码64' }))) {
+        if (!t.isStringLiteral(acc) && !(t.isCallExpression(acc) && t.isIdentifier(acc.callee, { name: '_d64' }))) {
           acc = t.binaryExpression('+', t.stringLiteral(''), acc);
         }
         for (let i = 1; i < parts.length; i++) {
@@ -144,7 +150,15 @@ function edgetunnelAstPlugin({ types: t }) {
           const name = p.node.key.name;
           p.node.computed = true;
           p.node.key = d64Call(name);
+          if (p.node.shorthand) {
+            p.node.shorthand = false;
+            p.node.value = t.identifier(name);
+          }
         }
+      },
+      JSXText(p) {
+        if (!SENSITIVE_RE.test(p.node.value)) return;
+        p.replaceWith(t.jsxExpressionContainer(d64Call(p.node.value)));
       },
       MemberExpression(p) {
         if (!p.node.computed && t.isIdentifier(p.node.property) && SENSITIVE_RE.test(p.node.property.name)) {
@@ -365,13 +379,16 @@ import * as __ext_react_router_dom from 'react-router-dom';
 import * as __ext_lucide_react from 'lucide-react';
 import * as __ext_jszip from 'jszip';
 
-const 基础64文本解码器 = new TextDecoder(), 基础64缓存表 = Object.create(null);
-function 解码64(文本) {
-  const 命中 = 基础64缓存表[文本];
-  if (命中 !== undefined) return 命中;
-  const 二进制 = atob(文本), 字节 = new Uint8Array(二进制.length);
-  for (let 索引 = 0; 索引 < 二进制.length; 索引++) 字节[索引] = 二进制.charCodeAt(索引);
-  return (基础64缓存表[文本] = 基础64文本解码器.decode(字节));
+const __miliTd = new TextDecoder(), __miliCache = Object.create(null);
+function _d64(_s) {
+  const _h = __miliCache[_s];
+  if (_h !== undefined) return _h;
+  const _b = atob(_s), _l = _b.length, _u = new Uint8Array(_l);
+  for (let _i = 0; _i < _l; _i++) _u[_i] = _b.charCodeAt(_i);
+  let _r = __miliTd.decode(_u);
+  const _cc = _r.charCodeAt(0);
+  if (_cc > 0 && _cc < 32) _r = _r.slice(1);
+  return (__miliCache[_s] = _r);
 }
 
 const React = __ext_react.default || __ext_react;
@@ -411,7 +428,7 @@ __require('src/main.tsx');
 const minFe = await terser.minify(feBundle, {
   module: true,
   compress: { passes: 1 },
-  mangle: { reserved: ['解码64', '基础64文本解码器', '基础64缓存表'] },
+  mangle: { reserved: ['_d64', '__miliTd', '__miliCache'] },
   format: { comments: false },
 });
 const finalFe = minFe.code || feBundle;
@@ -507,13 +524,16 @@ const encNexus = encodeGzipAssetClean(nexusJs, 0x6b);
 const encMilios = encodeGzipAssetClean(miliosJs, 0x8f);
 
 let beCore = `import { connect as __cfConnect } from 'cloudflare:sockets';
-const 基础64文本解码器 = new TextDecoder(), 基础64缓存表 = Object.create(null);
-function 解码64(文本) {
-  const 命中 = 基础64缓存表[文本];
-  if (命中 !== undefined) return 命中;
-  const 二进制 = atob(文本), 字节 = new Uint8Array(二进制.length);
-  for (let 索引 = 0; 索引 < 二进制.length; 索引++) 字节[索引] = 二进制.charCodeAt(索引);
-  return (基础64缓存表[文本] = 基础64文本解码器.decode(字节));
+const __miliTd = new TextDecoder(), __miliCache = Object.create(null);
+function _d64(_s) {
+  const _h = __miliCache[_s];
+  if (_h !== undefined) return _h;
+  const _b = atob(_s), _l = _b.length, _u = new Uint8Array(_l);
+  for (let _i = 0; _i < _l; _i++) _u[_i] = _b.charCodeAt(_i);
+  let _r = __miliTd.decode(_u);
+  const _cc = _r.charCodeAt(0);
+  if (_cc > 0 && _cc < 32) _r = _r.slice(1);
+  return (__miliCache[_s] = _r);
 }
 const __modules = {\n`;
 
@@ -537,7 +557,7 @@ function __require(id) {
 const minBeCore = await terser.minify(beCore, {
   module: true,
   compress: { passes: 1 },
-  mangle: { reserved: ['解码64', '基础64文本解码器', '基础64缓存表', '__cfConnect', '__require'] },
+  mangle: { reserved: ['_d64', '__miliTd', '__miliCache', '__cfConnect', '__require'] },
   format: { comments: false },
 });
 

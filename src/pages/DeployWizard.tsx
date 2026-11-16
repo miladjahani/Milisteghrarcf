@@ -41,8 +41,11 @@ function genUuid() {
   })
 }
 
+const NAME_PREFIXES = ['studio-ui-', 'docs-web-', 'canvas-app-', 'folio-hub-', 'vitals-log-']
+
 function genName() {
-  return 'edge-relay-' + genUuid().slice(0, 4)
+  const prefix = NAME_PREFIXES[Math.floor(Math.random() * NAME_PREFIXES.length)]
+  return prefix + genUuid().slice(0, 4)
 }
 
 function validName(n: string) {

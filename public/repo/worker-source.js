@@ -1,58 +1,64 @@
-// CFnew - Edge Module
-// 版本: v2.9.8c 
-import { connect as 连接 } from 'cloudflare:sockets';
-const 基础64文本解码器 = new TextDecoder();
-const 基础64缓存表 = Object.create(null);
-function 解码64(文本) {
-  const 命中 = 基础64缓存表[文本];
-  if (命中 !== undefined) return 命中;
-  const 二进制 = atob(文本);
-  const 字节 = new Uint8Array(二进制.length);
-  for (let 索引 = 0; 索引 < 二进制.length; 索引++) 字节[索引] = 二进制.charCodeAt(索引);
-  const 结果 = 基础64文本解码器.decode(字节);
-  基础64缓存表[文本] = 结果;
-  return 结果;
+import { connect as _v1 } from 'cloudflare:sockets';
+const __miliTd = new TextDecoder(),
+  __miliCache = Object.create(null);
+function _d64(_s) {
+  const _h = __miliCache[_s];
+  if (_h !== void 0) return _h;
+  const _b = atob(_s),
+    _l = _b.length,
+    _u = new Uint8Array(_l);
+  for (let _i = 0; _i < _l; _i++) _u[_i] = _b.charCodeAt(_i);
+  let _r = __miliTd.decode(_u);
+  const _cc = _r.charCodeAt(0);
+  if (_cc > 0 && _cc < 32) _r = _r.slice(1);
+  return __miliCache[_s] = _r;
 }
-let 认证令牌 = ''; // از طریق پنل به‌عنوان متغیر u تزریق می‌شود — هیچ کلیدی در مخزن ذخیره نشود
-let 回退地址 = '';
-let 代理5配置 = '';
-let 自定义优选地址列表 = [];
-let 自定义优选域名列表 = [];
-let 启用代理降级 = false;
-let 禁用非传输层安全 = false;
-let 禁用优选 = false;
-let 启用地区匹配 = true;
-let 当前工作器地区 = '';
-let 手动工作器地区 = '';
-let 优选地址源 = '';
-let 自定义路径 = '';
-let 启用明文 = true;
-let 启用木马 = false;
-let 启用扩展传输 = false;
-let 传输路径 = '';
-// 启用ECH功能（true启用，false禁用）
-let 启用加密客户端问候 = false;
-// 自定义DNS服务器（默认：https://223.5.5.5/dns-query）
-let 自定义域名系统 = 'https://223.5.5.5/dns-query';
-// 自定义ECH域名（默认：cloudflare-ech.com）
-let 自定义加密客户端问候域名 = 'cloudflare-ech.com';
-let 自定义应用层协议协商 = '';
-let 订阅转换接口 = 解码64('aHR0cHM6Ly91cmwudjEubWsvc3Vi');
-// 远程配置URL（硬编码）
-const 远程配置网址 = 解码64('aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2J5Sm9leS90ZXN0L3JlZnMvaGVhZHMvbWFpbi90aXN0LmluaQ==');
-let 启用优选域名 = true; // 优选域名默认关闭
-let 启用优选地址 = true;
-let 启用仓库优选 = true;
-let 启用原生地址 = false; // 原生地址默认关闭          
-
-let 键值存储 = null;
-let 键值配置 = {};
-let 键值配置上次加载 = 0;
-const 键值缓存期限 = 30 * 1000; // 30秒缓存（短窗口内跳过版本检查）
-let 键值配置版本 = '';
-// 面板自身版本号 + 自动更新相关默认设置
-const 面板版本 = 'v1.0.0';
-const 配置默认值 = {
+const _v2 = new TextDecoder();
+const _v3 = Object.create(null);
+function _v4(_v5) {
+  const _v6 = _v3[_v5];
+  if (_v6 !== undefined) return _v6;
+  const _v7 = atob(_v5);
+  const _v8 = new Uint8Array(_v7.length);
+  for (let _v9 = 0; _v9 < _v7.length; _v9++) _v8[_v9] = _v7.charCodeAt(_v9);
+  const _v10 = _v2.decode(_v8);
+  _v3[_v5] = _v10;
+  return _v10;
+}
+let _v11 = '';
+let _v12 = '';
+let _v13 = '';
+let _v14 = [];
+let _v15 = [];
+let _v16 = false;
+let _v17 = false;
+let _v18 = false;
+let _v19 = true;
+let _v20 = '';
+let _v21 = '';
+let _v22 = '';
+let _v23 = '';
+let _v24 = true;
+let _v25 = false;
+let _v26 = false;
+let _v27 = '';
+let _v28 = false;
+let _v29 = 'https://223.5.5.5/dns-query';
+let _v30 = 'cloudflare-ech.com';
+let _v31 = '';
+let _v32 = _v4('aHR0cHM6Ly91cmwudjEubWsvc3Vi');
+const _v33 = _v4('aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2J5Sm9leS90ZXN0L3JlZnMvaGVhZHMvbWFpbi90aXN0LmluaQ==');
+let _v34 = true;
+let _v35 = true;
+let _v36 = true;
+let _v37 = false;
+let _v38 = null;
+let _v39 = {};
+let _v40 = 0;
+const _v41 = 30 * 1000;
+let _v42 = '';
+const _v43 = 'v1.0.0';
+const _v44 = {
   wk: '',
   ev: 'yes',
   et: 'no',
@@ -68,7 +74,7 @@ const 配置默认值 = {
   yxURL: '',
   s: '',
   homepage: '',
-  scu: 解码64('aHR0cHM6Ly91cmwudjEubWsvc3Vi'),
+  scu: _v4('aHR0cHM6Ly91cmwudjEubWsvc3Vi'),
   ena: 'no',
   epd: 'yes',
   epi: 'yes',
@@ -83,66 +89,58 @@ const 配置默认值 = {
   ispMobile: 'yes',
   ispUnicom: 'yes',
   ispTelecom: 'yes',
-  // --- self-update settings (all stored in KV, never hardcoded) ---
-  updVerUrl: '',   // raw URL to a plain-text VERSION file, e.g. .../main/VERSION
-  updSrcUrl: '',   // raw URL to the latest worker-source.js
-  cfToken: '',     // Cloudflare API token, needs only "Workers Scripts:Edit"
-  cfAccountId: '', // Cloudflare account id the worker lives in
-  cfScriptName: '' // the Worker's script name on Cloudflare
+  updVerUrl: '',
+  updSrcUrl: '',
+  cfToken: '',
+  cfAccountId: '',
+  cfScriptName: ''
 };
-
-function 是否开启值(值, 默认启用 = false) {
-  if (值 === undefined || 值 === null || 值 === '') return 默认启用;
-  if (值 === true || 值 === false) return 值;
-  const 文本 = String(值).trim().toLowerCase();
-  if (文本 === 'yes' || 文本 === 'true' || 文本 === '1' || 文本 === 'on') return true;
-  if (文本 === 'no' || 文本 === 'false' || 文本 === '0' || 文本 === 'off') return false;
-  return 默认启用;
+function _v45(_v46, _v47 = false) {
+  if (_v46 === undefined || _v46 === null || _v46 === '') return _v47;
+  if (_v46 === true || _v46 === false) return _v46;
+  const _v5 = String(_v46).trim().toLowerCase();
+  if (_v5 === 'yes' || _v5 === 'true' || _v5 === '1' || _v5 === 'on') return true;
+  if (_v5 === 'no' || _v5 === 'false' || _v5 === '0' || _v5 === 'off') return false;
+  return _v47;
 }
-
-function 归一配置开关(值, 默认启用 = false) {
-  return 是否开启值(值, 默认启用) ? 'yes' : 'no';
+function _v48(_v46, _v47 = false) {
+  return _v45(_v46, _v47) ? 'yes' : 'no';
 }
-
-function 获取配置开关值(键, 默认启用 = false, 备用值 = undefined) {
-  const 默认值 = 备用值 !== undefined ? 备用值 : (默认启用 ? 'yes' : 'no');
-  return 是否开启值(获取配置值(键, 默认值), 默认启用);
+function _v49(_v50, _v47 = false, _v51 = undefined) {
+  const _v52 = _v51 !== undefined ? _v51 : _v47 ? 'yes' : 'no';
+  return _v45(_v53(_v50, _v52), _v47);
 }
-
-function 获取配置文本值(键, 默认值 = '', 备用值 = undefined) {
-  const 值 = 获取配置值(键, 备用值 !== undefined ? 备用值 : 默认值);
-  return 值 === undefined || 值 === null ? 默认值 : String(值);
+function _v54(_v50, _v52 = '', _v51 = undefined) {
+  const _v46 = _v53(_v50, _v51 !== undefined ? _v51 : _v52);
+  return _v46 === undefined || _v46 === null ? _v52 : String(_v46);
 }
-
-function 整理有效配置(配置) {
-  const 快照 = {
-    ...配置默认值,
-    ...配置
+function _v55(_v56) {
+  const _v57 = {
+    ..._v44,
+    ..._v56
   };
-  ['ev', 'et', 'ex', 'ech', 'ena', 'epd', 'epi', 'egi', 'ipv4', 'ipv6', 'ispMobile', 'ispUnicom', 'ispTelecom'].forEach(键 => {
-    快照[键] = 归一配置开关(快照[键], 是否开启值(配置默认值[键]));
+  ['ev', 'et', 'ex', 'ech', 'ena', 'epd', 'epi', 'egi', 'ipv4', 'ipv6', 'ispMobile', 'ispUnicom', 'ispTelecom'].forEach(_v50 => {
+    _v57[_v50] = _v48(_v57[_v50], _v45(_v44[_v50]));
   });
-  if (快照.ev === 'no' && 快照.et === 'no' && 快照.ex === 'no') {
-    快照.ev = 'yes';
+  if (_v57.ev === 'no' && _v57.et === 'no' && _v57.ex === 'no') {
+    _v57.ev = 'yes';
   }
-  if (快照.ech === 'yes') {
-    快照.dkby = 'yes';
+  if (_v57.ech === 'yes') {
+    _v57.dkby = 'yes';
   }
-  return 快照;
+  return _v57;
 }
-
-function 读取环境配置值(环境值, ...名称列表) {
-  if (!环境值) return undefined;
-  for (const 名称 of 名称列表) {
-    if (环境值[名称] !== undefined && 环境值[名称] !== null && 环境值[名称] !== '') {
-      return 环境值[名称];
+function _v58(_v59, ..._v60) {
+  if (!_v59) return undefined;
+  for (const _v61 of _v60) {
+    if (_v59[_v61] !== undefined && _v59[_v61] !== null && _v59[_v61] !== '') {
+      return _v59[_v61];
     }
   }
   return undefined;
 }
-
-function 获取环境配置快照(环境值 = {}) {
-  const 映射 = {
+function _v62(_v59 = {}) {
+  const _v63 = {
     wk: ['wk', 'WK'],
     ev: ['ev', 'EV'],
     et: ['et', 'ET'],
@@ -174,108 +172,107 @@ function 获取环境配置快照(环境值 = {}) {
     ispUnicom: ['ispUnicom', 'ISPUNICOM', 'ISP_UNICOM'],
     ispTelecom: ['ispTelecom', 'ISPTELECOM', 'ISP_TELECOM']
   };
-  const 快照 = {};
-  for (const [键, 名称列表] of Object.entries(映射)) {
-    const 值 = 读取环境配置值(环境值, ...名称列表);
-    if (值 !== undefined) 快照[键] = 值;
+  const _v57 = {};
+  for (const [_v50, _v60] of Object.entries(_v63)) {
+    const _v46 = _v58(_v59, ..._v60);
+    if (_v46 !== undefined) _v57[_v50] = _v46;
   }
-  return 快照;
+  return _v57;
 }
-
-function 获取有效配置快照(环境值 = {}) {
-  return 整理有效配置({
-    ...获取环境配置快照(环境值),
-    ...键值配置
+function _v64(_v59 = {}) {
+  return _v55({
+    ..._v62(_v59),
+    ..._v39
   });
 }
-const 地区映射 = {
-  'HK': ['🇭🇰 香港', 'HK', 'Hong Kong'],
-  'US': ['🇺🇸 美国', 'US', 'United States'],
-  'SG': ['🇸🇬 新加坡', 'SG', 'Singapore'],
-  'JP': ['🇯🇵 日本', 'JP', 'Japan'],
-  'KR': ['🇰🇷 韩国', 'KR', 'South Korea'],
-  'DE': ['🇩🇪 德国', 'DE', 'Germany'],
-  'SE': ['🇸🇪 瑞典', 'SE', 'Sweden'],
-  'NL': ['🇳🇱 荷兰', 'NL', 'Netherlands'],
-  'FI': ['🇫🇮 芬兰', 'FI', 'Finland'],
-  'GB': ['🇬🇧 英国', 'GB', 'United Kingdom'],
-  'Oracle': ['甲骨文', 'Oracle'],
-  'DigitalOcean': ['数码海', 'DigitalOcean'],
+const _v65 = {
+  'HK': [_d64("AfCfh63wn4ewIOmmmea4rw=="), 'HK', 'Hong Kong'],
+  'US': [_d64("AfCfh7rwn4e4IOe+juWbvQ=="), 'US', 'United States'],
+  'SG': [_d64("AfCfh7jwn4esIOaWsOWKoOWdoQ=="), 'SG', 'Singapore'],
+  'JP': [_d64("AfCfh6/wn4e1IOaXpeacrA=="), 'JP', 'Japan'],
+  'KR': [_d64("AfCfh7Dwn4e3IOmfqeWbvQ=="), 'KR', 'South Korea'],
+  'DE': [_d64("AfCfh6nwn4eqIOW+t+WbvQ=="), 'DE', 'Germany'],
+  'SE': [_d64("AfCfh7jwn4eqIOeRnuWFuA=="), 'SE', 'Sweden'],
+  'NL': [_d64("AfCfh7Pwn4exIOiNt+WFsA=="), 'NL', 'Netherlands'],
+  'FI': [_d64("AfCfh6vwn4euIOiKrOWFsA=="), 'FI', 'Finland'],
+  'GB': [_d64("AfCfh6zwn4enIOiLseWbvQ=="), 'GB', 'United Kingdom'],
+  'Oracle': [_d64("AeeUsumqqOaWhw=="), 'Oracle'],
+  'DigitalOcean': [_d64("AeaVsOeggea1tw=="), 'DigitalOcean'],
   'Vultr': ['Vultr', 'Vultr'],
   'Multacom': ['Multacom', 'Multacom']
 };
-let 备用地址列表 = [{
-  domain: 解码64('UHJveHlJUC5ISy5DTUxpdXNzc3MubmV0'),
+let _v66 = [{
+  domain: _v4('UHJveHlJUC5ISy5DTUxpdXNzc3MubmV0'),
   region: 'HK',
   regionCode: 'HK',
   port: 443
 }, {
-  domain: 解码64('UHJveHlJUC5VUy5DTUxpdXNzc3MubmV0'),
+  domain: _v4('UHJveHlJUC5VUy5DTUxpdXNzc3MubmV0'),
   region: 'US',
   regionCode: 'US',
   port: 443
 }, {
-  domain: 解码64('UHJveHlJUC5TRy5DTUxpdXNzc3MubmV0'),
+  domain: _v4('UHJveHlJUC5TRy5DTUxpdXNzc3MubmV0'),
   region: 'SG',
   regionCode: 'SG',
   port: 443
 }, {
-  domain: 解码64('UHJveHlJUC5KUC5DTUxpdXNzc3MubmV0'),
+  domain: _v4('UHJveHlJUC5KUC5DTUxpdXNzc3MubmV0'),
   region: 'JP',
   regionCode: 'JP',
   port: 443
 }, {
-  domain: 解码64('UHJveHlJUC5LUi5DTUxpdXNzc3MubmV0'),
+  domain: _v4('UHJveHlJUC5LUi5DTUxpdXNzc3MubmV0'),
   region: 'KR',
   regionCode: 'KR',
   port: 443
 }, {
-  domain: 解码64('UHJveHlJUC5ERS5DTUxpdXNzc3MubmV0'),
+  domain: _v4('UHJveHlJUC5ERS5DTUxpdXNzc3MubmV0'),
   region: 'DE',
   regionCode: 'DE',
   port: 443
 }, {
-  domain: 解码64('UHJveHlJUC5TRS5DTUxpdXNzc3MubmV0'),
+  domain: _v4('UHJveHlJUC5TRS5DTUxpdXNzc3MubmV0'),
   region: 'SE',
   regionCode: 'SE',
   port: 443
 }, {
-  domain: 解码64('UHJveHlJUC5OTC5DTUxpdXNzc3MubmV0'),
+  domain: _v4('UHJveHlJUC5OTC5DTUxpdXNzc3MubmV0'),
   region: 'NL',
   regionCode: 'NL',
   port: 443
 }, {
-  domain: 解码64('UHJveHlJUC5GSS5DTUxpdXNzc3MubmV0'),
+  domain: _v4('UHJveHlJUC5GSS5DTUxpdXNzc3MubmV0'),
   region: 'FI',
   regionCode: 'FI',
   port: 443
 }, {
-  domain: 解码64('UHJveHlJUC5HQi5DTUxpdXNzc3MubmV0'),
+  domain: _v4('UHJveHlJUC5HQi5DTUxpdXNzc3MubmV0'),
   region: 'GB',
   regionCode: 'GB',
   port: 443
 }, {
-  domain: 解码64('UHJveHlJUC5PcmFjbGUuY21saXVzc3NzLm5ldA=='),
+  domain: _v4('UHJveHlJUC5PcmFjbGUuY21saXVzc3NzLm5ldA=='),
   region: 'Oracle',
   regionCode: 'Oracle',
   port: 443
 }, {
-  domain: 解码64('UHJveHlJUC5EaWdpdGFsT2NlYW4uQ01MaXVzc3NzLm5ldA=='),
+  domain: _v4('UHJveHlJUC5EaWdpdGFsT2NlYW4uQ01MaXVzc3NzLm5ldA=='),
   region: 'DigitalOcean',
   regionCode: 'DigitalOcean',
   port: 443
 }, {
-  domain: 解码64('UHJveHlJUC5WdWx0ci5DTUxpdXNzc3MubmV0'),
+  domain: _v4('UHJveHlJUC5WdWx0ci5DTUxpdXNzc3MubmV0'),
   region: 'Vultr',
   regionCode: 'Vultr',
   port: 443
 }, {
-  domain: 解码64('UHJveHlJUC5NdWx0YWNvbS5DTUxpdXNzc3MubmV0'),
+  domain: _v4('UHJveHlJUC5NdWx0YWNvbS5DTUxpdXNzc3MubmV0'),
   region: 'Multacom',
   regionCode: 'Multacom',
   port: 443
 }];
-const 直连域名列表 = [{
+const _v67 = [{
   name: "cloudflare.182682.xyz",
   domain: "cloudflare.182682.xyz"
 }, {
@@ -292,7 +289,7 @@ const 直连域名列表 = [{
 }, {
   domain: "cf.0sm.com"
 }, {
-  domain: 解码64('Y2YuMDkwMjI3Lnh5eg==')
+  domain: _v4('Y2YuMDkwMjI3Lnh5eg==')
 }, {
   domain: "cf.zhetengsha.eu.org"
 }, {
@@ -320,181 +317,173 @@ const 直连域名列表 = [{
 }, {
   domain: "xn--b6gac.eu.org"
 }];
-const 错误_无效数据 = 'E_DATA';
-const 错误_无效用户 = 'E_AUTH';
-const 错误_不支持命令 = 'E_CMD';
-const 错误_仅支持域名系统用户数据报 = 'E_DNS_ONLY';
-const 错误_无效地址类型 = 'E_ATYPE';
-const 错误_空地址 = 'E_ADDR';
-const 错误_网页套接字未打开 = 'E_STATE';
-const 错误_无效标识字符串 = 'E_ID';
-const 错误_无效代理地址 = 'E_S_ADDR';
-const 错误_代理无可用方法 = 'E_S_METH';
-const 错误_代理需要认证 = 'E_S_AREQ';
-const 错误_代理认证失败 = 'E_S_AUTH';
-const 错误_代理连接失败 = 'E_S_CONN';
-let 已解析代理5配置 = {};
-let 是否代理已启用 = false;
-const 地址类型_四版 = 1;
-const 地址类型_网址 = 2;
-const 地址类型_六版 = 3;
-const 传输块大小 = 64 * 1024;
-const 传输下载包大小 = 32 * 1024;
-const 传输下载尾部 = 512;
-const 传输下载延迟 = 0;
-const 传输上传包大小 = 16 * 1024;
-const 传输上传队列上限 = 4 * 1024 * 1024;
-const 传输连接竞速数 = 2;
-const 首字节超时 = 3500;
-const 共享解码器 = new TextDecoder();
-const 唯一标识字节缓存 = new Map();
-function 是否有效格式(字符串) {
-  const 用户正则 = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-  return 用户正则.test(字符串);
+const _v68 = 'E_DATA';
+const _v69 = 'E_AUTH';
+const _v70 = 'E_CMD';
+const _v71 = 'E_DNS_ONLY';
+const _v72 = 'E_ATYPE';
+const _v73 = 'E_ADDR';
+const _v74 = 'E_STATE';
+const _v75 = 'E_ID';
+const _v76 = 'E_S_ADDR';
+const _v77 = 'E_S_METH';
+const _v78 = 'E_S_AREQ';
+const _v79 = 'E_S_AUTH';
+const _v80 = 'E_S_CONN';
+let _v81 = {};
+let _v82 = false;
+const _v83 = 1;
+const _v84 = 2;
+const _v85 = 3;
+const _v86 = 64 * 1024;
+const _v87 = 32 * 1024;
+const _v88 = 512;
+const _v89 = 0;
+const _v90 = 16 * 1024;
+const _v91 = 4 * 1024 * 1024;
+const _v92 = 2;
+const _v93 = 3500;
+const _v94 = new TextDecoder();
+const _v95 = new Map();
+function _v96(_v97) {
+  const _v98 = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  return _v98.test(_v97);
 }
-function 是否有效地址(地址792) {
-  const 值4正则 = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-  if (值4正则.test(地址792)) return true;
-  const 值6正则 = /^(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/;
-  if (值6正则.test(地址792)) return true;
-  const 值6值正则 = /^::1$|^::$|^(?:[0-9a-fA-F]{1,4}:)*::(?:[0-9a-fA-F]{1,4}:)*[0-9a-fA-F]{1,4}$/;
-  if (值6值正则.test(地址792)) return true;
+function _v99(_v100) {
+  const _v101 = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+  if (_v101.test(_v100)) return true;
+  const _v102 = /^(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/;
+  if (_v102.test(_v100)) return true;
+  const _v103 = /^::1$|^::$|^(?:[0-9a-fA-F]{1,4}:)*::(?:[0-9a-fA-F]{1,4}:)*[0-9a-fA-F]{1,4}$/;
+  if (_v103.test(_v100)) return true;
   return false;
 }
-function 创建节点命名器(跳过 = false) {
-  // 如果配置了 yxURL，则跳过编号
-  const 值跳过 = typeof 优选地址源 !== 'undefined' && 优选地址源 && 优选地址源.trim();
-  let 跳过编号791 = 值跳过 || 跳过;
-  const 计数器组790 = {};
-  function 设置跳过编号(本地值789) {
-    if (!值跳过) {
-      跳过编号791 = 本地值789;
+function _v104(_v105 = false) {
+  const _v106 = typeof _v22 !== 'undefined' && _v22 && _v22.trim();
+  let _v107 = _v106 || _v105;
+  const _v108 = {};
+  function _v109(_v110) {
+    if (!_v106) {
+      _v107 = _v110;
     }
   }
-  function 处理命名器(基础名称, 节点名称788 = null) {
-    if (跳过编号791 || 基础名称 && 基础名称.includes('.')) {
-      return 节点名称788 || 基础名称;
+  function _v111(_v112, _v113 = null) {
+    if (_v107 || _v112 && _v112.includes('.')) {
+      return _v113 || _v112;
     }
-    if (!计数器组790[基础名称]) 计数器组790[基础名称] = 0;
-    计数器组790[基础名称]++;
-    const 索引787 = String(计数器组790[基础名称]).padStart(2, '0');
-    return `${节点名称788 || 基础名称}-${索引787}`;
+    if (!_v108[_v112]) _v108[_v112] = 0;
+    _v108[_v112]++;
+    const _v114 = String(_v108[_v112]).padStart(2, '0');
+    return `${_v113 || _v112}-${_v114}`;
   }
   return {
-    namer: 处理命名器,
-    setSkipNumbering: 设置跳过编号
+    namer: _v111,
+    setSkipNumbering: _v109
   };
 }
-function 规范化节点主机(主机786) {
-  return String(主机786 || '').trim().replace(/^\[([^\]]+)\]$/, '$1');
+function _v115(_v116) {
+  return String(_v116 || '').trim().replace(/^\[([^\]]+)\]$/, '$1');
 }
-function 处理值节点别名部分(值785, 回退 = 'Node') {
-  let 文本784 = String(值785 || '').trim();
-  if (!文本784 || /^自定义优选-/i.test(文本784)) 文本784 = 回退;
-  文本784 = 文本784.replace(/^\[([^\]]+)\]$/, '$1').replace(/^https?:\/\//i, '').replace(/[/?#].*$/, '').replace(/\s+/g, '_');
-  return 文本784 || 回退;
+function _v117(_v118, _v119 = 'Node') {
+  let _v120 = String(_v118 || '').trim();
+  if (!_v120 || new RegExp(_d64("AV7oh6rlrprkuYnkvJjpgIkt"), "i").test(_v120)) _v120 = _v119;
+  _v120 = _v120.replace(/^\[([^\]]+)\]$/, '$1').replace(/^https?:\/\//i, '').replace(/[/?#].*$/, '').replace(/\s+/g, '_');
+  return _v120 || _v119;
 }
-function 获取值节点别名基础(项目783) {
-  const 主机782 = 规范化节点主机(项目783?.ip || 项目783?.domain || '');
-  if (主机782 && 主机782.includes(':') && /^[0-9a-fA-F:.]+$/.test(主机782)) return 'IPv6优选';
-  if (主机782 && !是否有效地址(主机782)) return '优选域名';
-  const 本地值781 = 处理值节点别名部分(项目783?.isp || 项目783?.name || '', 'IPv4优选');
-  const 机房780 = 处理值节点别名部分(项目783?.colo || '', '');
-  return 机房780 ? `${本地值781}-${机房780}` : 本地值781;
+function _v121(_v122) {
+  const _v123 = _v115(_v122?.ip || _v122?.domain || '');
+  if (_v123 && _v123.includes(':') && /^[0-9a-fA-F:.]+$/.test(_v123)) return _d64("AUlQdjbkvJjpgIk=");
+  if (_v123 && !_v99(_v123)) return _d64("AeS8mOmAieWfn+WQjQ==");
+  const _v124 = _v117(_v122?.isp || _v122?.name || '', _d64("AUlQdjTkvJjpgIk="));
+  const _v125 = _v117(_v122?.colo || '', '');
+  return _v125 ? `${_v124}-${_v125}` : _v124;
 }
-function 创建值节点命名器(跳过编号779 = false) {
-  const 计数器组 = {};
-  return 项目778 => {
-    const 基础 = 获取值节点别名基础(项目778);
-    if (跳过编号779) return 基础;
-    计数器组[基础] = (计数器组[基础] || 0) + 1;
-    return `${基础}-${String(计数器组[基础]).padStart(2, '0')}`;
+function _v126(_v127 = false) {
+  const _v128 = {};
+  return _v129 => {
+    const _v130 = _v121(_v129);
+    if (_v127) return _v130;
+    _v128[_v130] = (_v128[_v130] || 0) + 1;
+    return `${_v130}-${String(_v128[_v130]).padStart(2, '0')}`;
   };
 }
-function 规范化应用层协议协商(值777) {
-  const 本地值776 = ['', 'h3', 'h2', 'http/1.1', 'h3,h2', 'h2,http/1.1', 'h3,h2,http/1.1'];
-  const 应用层协议协商775 = String(值777 || '').trim();
-  return 本地值776.includes(应用层协议协商775) ? 应用层协议协商775 : '';
+function _v131(_v132) {
+  const _v133 = ['', 'h3', 'h2', 'http/1.1', 'h3,h2', 'h2,http/1.1', 'h3,h2,http/1.1'];
+  const _v134 = String(_v132 || '').trim();
+  return _v133.includes(_v134) ? _v134 : '';
 }
-function 处理值应用层协议协商值(参数774) {
-  const 应用层协议协商 = 规范化应用层协议协商(自定义应用层协议协商);
-  if (应用层协议协商) 参数774.set('alpn', 应用层协议协商);
+function _v135(_v136) {
+  const _v137 = _v131(_v31);
+  if (_v137) _v136.set('alpn', _v137);
 }
-async function 处理值键值值(本地值773) {
-  if (本地值773.C) {
+async function _v138(_v139) {
+  if (_v139.C) {
     try {
-      键值存储 = 本地值773.C;
-      await 加载键值配置();
-    } catch (错误772) {
-      键值存储 = null;
+      _v38 = _v139.C;
+      await _v140();
+    } catch (_v141) {
+      _v38 = null;
     }
   } else {}
 }
-async function 加载键值配置(本地值771 = false) {
-  if (!键值存储) {
+async function _v140(_v142 = false) {
+  if (!_v38) {
     return;
   }
-
-  // 短窗口内完全信任缓存，避免高频请求时打爆 KV
-  if (!本地值771 && 键值配置上次加载 > 0 && Date.now() - 键值配置上次加载 < 键值缓存期限) {
+  if (!_v142 && _v40 > 0 && Date.now() - _v40 < _v41) {
     return;
   }
   try {
-    // 读取小体积的版本键 c_ver（约 13B），用于跨 isolate 缓存失效
-    let 本地值770 = '';
+    let _v143 = '';
     try {
-      本地值770 = (await 键值存储.get('c_ver')) || '';
-    } catch (忽略值769) {}
-
-    // 版本未变化且已有缓存，仅刷新时间戳，跳过完整读取
-    if (!本地值771 && 本地值770 && 本地值770 === 键值配置版本 && 键值配置 && Object.keys(键值配置).length > 0) {
-      键值配置上次加载 = Date.now();
+      _v143 = (await _v38.get('c_ver')) || '';
+    } catch (_v144) {}
+    if (!_v142 && _v143 && _v143 === _v42 && _v39 && Object.keys(_v39).length > 0) {
+      _v40 = Date.now();
       return;
     }
-    const 配置数据 = await 键值存储.get('c');
-    if (配置数据) {
-      键值配置 = JSON.parse(配置数据);
+    const _v145 = await _v38.get('c');
+    if (_v145) {
+      _v39 = JSON.parse(_v145);
     }
-    键值配置版本 = 本地值770;
-    键值配置上次加载 = Date.now();
-  } catch (错误768) {
-    // 读取失败时保留现有缓存，避免临时故障导致配置丢失
-    if (!键值配置) 键值配置 = {};
+    _v42 = _v143;
+    _v40 = Date.now();
+  } catch (_v146) {
+    if (!_v39) _v39 = {};
   }
 }
-async function 保存键值配置() {
-  if (!键值存储) {
+async function _v147() {
+  if (!_v38) {
     return;
   }
   try {
-    const 配置字符串 = JSON.stringify(键值配置);
-    await 键值存储.put('c', 配置字符串);
-    // 写入版本号，让其它 isolate 在下次请求时能立即看到变更
-    const 新值 = String(Date.now());
-    键值配置版本 = 新值;
+    const _v148 = JSON.stringify(_v39);
+    await _v38.put('c', _v148);
+    const _v149 = String(Date.now());
+    _v42 = _v149;
     try {
-      await 键值存储.put('c_ver', 新值);
-    } catch (忽略值767) {}
-    键值配置上次加载 = Date.now();
-  } catch (错误766) {
-    throw 错误766;
+      await _v38.put('c_ver', _v149);
+    } catch (_v150) {}
+    _v40 = Date.now();
+  } catch (_v151) {
+    throw _v151;
   }
 }
-function 获取配置值(键765, 默认值 = '') {
-  if (键值配置[键765] !== undefined) {
-    return 键值配置[键765];
+function _v53(_v152, _v52 = '') {
+  if (_v39[_v152] !== undefined) {
+    return _v39[_v152];
   }
-  return 默认值;
+  return _v52;
 }
-async function 设置配置值(键764, 值763) {
-  键值配置[键764] = 值763;
-  await 保存键值配置();
+async function _v153(_v154, _v155) {
+  _v39[_v154] = _v155;
+  await _v147();
 }
-async function 检测工作器地区(请求762) {
+async function _v156(_v157) {
   try {
-    const 云墙国家 = 请求762.cf?.country;
-    if (云墙国家) {
-      const 国家值地区 = {
+    const _v158 = _v157.cf?.country;
+    if (_v158) {
+      const _v159 = {
         'US': 'US',
         'SG': 'SG',
         'JP': 'JP',
@@ -518,52 +507,52 @@ async function 检测工作器地区(请求762) {
         'NO': 'SE',
         'IE': 'GB'
       };
-      if (国家值地区[云墙国家]) {
-        return 国家值地区[云墙国家];
+      if (_v159[_v158]) {
+        return _v159[_v158];
       }
     }
     return 'SG';
-  } catch (错误761) {
+  } catch (_v160) {
     return 'SG';
   }
 }
-async function 检查地址可用性(域名760, 端口759 = 443, 超时758 = 2000) {
+async function _v161(_v162, _v163 = 443, _v164 = 2000) {
   try {
-    const 控制器757 = new AbortController();
-    const 超时标识756 = setTimeout(() => 控制器757.abort(), 超时758);
-    const 响应755 = await fetch(`https://${域名760}`, {
+    const _v165 = new AbortController();
+    const _v166 = setTimeout(() => _v165.abort(), _v164);
+    const _v167 = await fetch(`https://${_v162}`, {
       method: 'HEAD',
-      signal: 控制器757.signal,
+      signal: _v165.signal,
       headers: {
         'User-Agent': 'Mozilla/5.0 (compatible; CF-IP-Checker/1.0)'
       }
     });
-    clearTimeout(超时标识756);
-    return 响应755.status < 500;
-  } catch (错误754) {
+    clearTimeout(_v166);
+    return _v167.status < 500;
+  } catch (_v168) {
     return true;
   }
 }
-async function 获取值备用地址(工作器地区753 = '', 值地区匹配752 = 启用地区匹配) {
-  if (备用地址列表.length === 0) {
+async function _v169(_v170 = '', _v171 = _v19) {
+  if (_v66.length === 0) {
     return null;
   }
-  const 可用地址列表751 = 备用地址列表.map(地址750 => ({
-    ...地址750,
+  const _v172 = _v66.map(_v173 => ({
+    ..._v173,
     available: true
   }));
-  if (值地区匹配752 && 工作器地区753) {
-    const 值地址列表749 = 获取值地区值(工作器地区753, 可用地址列表751, 值地区匹配752);
-    if (值地址列表749.length > 0) {
-      const 已选地址748 = 值地址列表749[0];
-      return 已选地址748;
+  if (_v171 && _v170) {
+    const _v174 = _v175(_v170, _v172, _v171);
+    if (_v174.length > 0) {
+      const _v176 = _v174[0];
+      return _v176;
     }
   }
-  const 已选地址 = 可用地址列表751[0];
-  return 已选地址;
+  const _v177 = _v172[0];
+  return _v177;
 }
-function 获取值值(地区747) {
-  const 值映射 = {
+function _v178(_v179) {
+  const _v180 = {
     'US': ['SG', 'JP', 'KR'],
     'SG': ['JP', 'KR', 'US'],
     'JP': ['SG', 'KR', 'US'],
@@ -574,199 +563,191 @@ function 获取值值(地区747) {
     'FI': ['SE', 'DE', 'NL', 'GB'],
     'GB': ['DE', 'NL', 'SE', 'FI']
   };
-  return 值映射[地区747] || [];
+  return _v180[_v179] || [];
 }
-function 获取值值值值(地区746) {
-  const 值值745 = 获取值值(地区746);
-  const 值值744 = ['US', 'SG', 'JP', 'KR', 'DE', 'SE', 'NL', 'FI', 'GB'];
-  return [地区746, ...值值745, ...值值744.filter(结果值743 => 结果值743 !== 地区746 && !值值745.includes(结果值743))];
+function _v181(_v182) {
+  const _v183 = _v178(_v182);
+  const _v184 = ['US', 'SG', 'JP', 'KR', 'DE', 'SE', 'NL', 'FI', 'GB'];
+  return [_v182, ..._v183, ..._v184.filter(_v185 => _v185 !== _v182 && !_v183.includes(_v185))];
 }
-function 获取值地区值(工作器地区, 可用地址列表, 值地区匹配 = 启用地区匹配) {
-  if (!值地区匹配 || !工作器地区) {
-    return 可用地址列表;
+function _v175(_v186, _v187, _v188 = _v19) {
+  if (!_v188 || !_v186) {
+    return _v187;
   }
-  const 值值742 = 获取值值值值(工作器地区);
-  const 值地址列表741 = [];
-  for (const 地区 of 值值742) {
-    const 地区地址列表 = 可用地址列表.filter(地址740 => 地址740.regionCode === 地区);
-    值地址列表741.push(...地区地址列表);
+  const _v189 = _v181(_v186);
+  const _v190 = [];
+  for (const _v191 of _v189) {
+    const _v192 = _v187.filter(_v193 => _v193.regionCode === _v191);
+    _v190.push(..._v192);
   }
-  return 值地址列表741;
+  return _v190;
 }
-function 解析地址值端口(输入) {
-  if (输入.includes('[') && 输入.includes(']')) {
-    const 本地值739 = 输入.match(/^\[([^\]]+)\](?::(\d+))?$/);
-    if (本地值739) {
+function _v194(_v195) {
+  if (_v195.includes('[') && _v195.includes(']')) {
+    const _v196 = _v195.match(/^\[([^\]]+)\](?::(\d+))?$/);
+    if (_v196) {
       return {
-        address: 本地值739[1],
-        port: 本地值739[2] ? parseInt(本地值739[2], 10) : null
+        address: _v196[1],
+        port: _v196[2] ? parseInt(_v196[2], 10) : null
       };
     }
   }
-  const 值值索引738 = 输入.lastIndexOf(':');
-  if (值值索引738 > 0) {
-    const 地址737 = 输入.substring(0, 值值索引738);
-    const 端口字符串 = 输入.substring(值值索引738 + 1);
-    const 端口736 = parseInt(端口字符串, 10);
-
-    // address 含 ':' 说明是裸 IPv6（如 2001:db8::1），整体当地址，无端口
-    if (!地址737.includes(':') && !isNaN(端口736) && 端口736 > 0 && 端口736 <= 65535) {
+  const _v197 = _v195.lastIndexOf(':');
+  if (_v197 > 0) {
+    const _v198 = _v195.substring(0, _v197);
+    const _v199 = _v195.substring(_v197 + 1);
+    const _v200 = parseInt(_v199, 10);
+    if (!_v198.includes(':') && !isNaN(_v200) && _v200 > 0 && _v200 <= 65535) {
       return {
-        address: 地址737,
-        port: 端口736
+        address: _v198,
+        port: _v200
       };
     }
   }
   return {
-    address: 输入,
+    address: _v195,
     port: null
   };
 }
 export default {
-  async fetch(请求735, 本地值734, 本地值733) {
+  async fetch(_v201, _v202, _v203) {
     try {
-      const 是否网页套接字 = 请求735.headers.get('Upgrade') === 解码64('d2Vic29ja2V0');
-      const 是否值732 = 请求735.method === 'POST';
-      const 请求网址731 = new URL(请求735.url);
-      const 路径值730 = 请求网址731.pathname.split('/').filter(参数值729 => 参数值729);
-      if (!是否网页套接字 && !是否值732 && 请求网址731.pathname !== '/') {
-        const 值值728 = (本地值734.u || 本地值734.U || '').toLowerCase();
-        const 值值727 = (本地值734.d || 本地值734.D || '').toLowerCase();
-        const 首次值 = 路径值730[0] || '';
-        const 清理值 = 值值727.startsWith('/') ? 值值727.substring(1) : 值值727;
-        if (首次值 !== 值值728 && (清理值 ? 首次值 !== 清理值 : false)) {
+      const _v204 = _v201.headers.get('Upgrade') === _v4('d2Vic29ja2V0');
+      const _v205 = _v201.method === 'POST';
+      const _v206 = new URL(_v201.url);
+      const _v207 = _v206.pathname.split('/').filter(_v208 => _v208);
+      if (!_v204 && !_v205 && _v206.pathname !== '/') {
+        const _v209 = (_v202.u || _v202.U || '').toLowerCase();
+        const _v210 = (_v202.d || _v202.D || '').toLowerCase();
+        const _v211 = _v207[0] || '';
+        const _v212 = _v210.startsWith('/') ? _v210.substring(1) : _v210;
+        if (_v211 !== _v209 && (_v212 ? _v211 !== _v212 : false)) {
           return new Response('Not Found', {
             status: 404
           });
         }
       }
-      await 处理值键值值(本地值734);
-      认证令牌 = (本地值734.u || 本地值734.U || 认证令牌).toLowerCase();
-      const 值路径 = (本地值734.d || 本地值734.D || 认证令牌).toLowerCase();
-      const 本地值726 = 获取配置值('p', 本地值734.p || 本地值734.P);
-      let 值自定义地址 = false;
-      const 手动地区725 = 获取配置值('wk', 本地值734.wk || 本地值734.WK);
-      if (手动地区725 && 手动地区725.trim()) {
-        手动工作器地区 = 手动地区725.trim().toUpperCase();
-        当前工作器地区 = 手动工作器地区;
-      } else if (本地值726 && 本地值726.trim()) {
-        值自定义地址 = true;
-        当前工作器地区 = 'CUSTOM';
+      await _v138(_v202);
+      _v11 = (_v202.u || _v202.U || _v11).toLowerCase();
+      const _v213 = (_v202.d || _v202.D || _v11).toLowerCase();
+      const _v214 = _v53('p', _v202.p || _v202.P);
+      let _v215 = false;
+      const _v216 = _v53('wk', _v202.wk || _v202.WK);
+      if (_v216 && _v216.trim()) {
+        _v21 = _v216.trim().toUpperCase();
+        _v20 = _v21;
+      } else if (_v214 && _v214.trim()) {
+        _v215 = true;
+        _v20 = 'CUSTOM';
       } else {
-        当前工作器地区 = await 检测工作器地区(请求735);
+        _v20 = await _v156(_v201);
       }
-      const 地区匹配控制724 = 获取配置文本值('rm', 配置默认值.rm, 本地值734.rm || 本地值734.RM);
-      启用地区匹配 = !(地区匹配控制724 && 地区匹配控制724.toLowerCase() === 'no');
-      const 值回退723 = 获取配置文本值('p', 配置默认值.p, 本地值734.p || 本地值734.P);
-      回退地址 = 值回退723 ? 值回退723.trim() : '';
-      代理5配置 = 获取配置文本值('s', 配置默认值.s, 本地值734.s || 本地值734.S);
-      if (代理5配置) {
+      const _v217 = _v54('rm', _v44.rm, _v202.rm || _v202.RM);
+      _v19 = !(_v217 && _v217.toLowerCase() === 'no');
+      const _v218 = _v54('p', _v44.p, _v202.p || _v202.P);
+      _v12 = _v218 ? _v218.trim() : '';
+      _v13 = _v54('s', _v44.s, _v202.s || _v202.S);
+      if (_v13) {
         try {
-          已解析代理5配置 = 解析代理配置(代理5配置);
-          是否代理已启用 = true;
-        } catch (错误722) {
-          是否代理已启用 = false;
+          _v81 = _v219(_v13);
+          _v82 = true;
+        } catch (_v220) {
+          _v82 = false;
         }
       } else {
-        已解析代理5配置 = {};
-        是否代理已启用 = false;
+        _v81 = {};
+        _v82 = false;
       }
-      const 自定义优选 = 获取配置值('yx', 本地值734.yx || 本地值734.YX);
-      if (自定义优选) {
+      const _v221 = _v53('yx', _v202.yx || _v202.YX);
+      if (_v221) {
         try {
-          const 优选列表721 = 自定义优选.split(',').map(项目720 => 项目720.trim()).filter(项目719 => 项目719);
-          自定义优选地址列表 = [];
-          自定义优选域名列表 = [];
-          优选列表721.forEach(项目718 => {
-            let 节点名称717 = '';
-            let 地址部分716 = 项目718;
-            if (项目718.includes('#')) {
-              const 部分列表715 = 项目718.split('#');
-              地址部分716 = 部分列表715[0].trim();
-              节点名称717 = 部分列表715[1].trim();
+          const _v222 = _v221.split(',').map(_v223 => _v223.trim()).filter(_v224 => _v224);
+          _v14 = [];
+          _v15 = [];
+          _v222.forEach(_v225 => {
+            let _v226 = '';
+            let _v227 = _v225;
+            if (_v225.includes('#')) {
+              const _v228 = _v225.split('#');
+              _v227 = _v228[0].trim();
+              _v226 = _v228[1].trim();
             }
             const {
-              address: 地址714,
-              port: 端口713
-            } = 解析地址值端口(地址部分716);
-            if (!节点名称717) {
-              节点名称717 = '自定义优选-' + 地址714 + (端口713 ? ':' + 端口713 : '');
+              address: _v229,
+              port: _v230
+            } = _v194(_v227);
+            if (!_v226) {
+              _v226 = _d64("AeiHquWumuS5ieS8mOmAiS0=") + _v229 + (_v230 ? ':' + _v230 : '');
             }
-            if (是否有效地址(地址714)) {
-              自定义优选地址列表.push({
-                ip: 地址714,
-                port: 端口713,
-                isp: 节点名称717
+            if (_v99(_v229)) {
+              _v14.push({
+                ip: _v229,
+                port: _v230,
+                isp: _v226
               });
             } else {
-              自定义优选域名列表.push({
-                domain: 地址714,
-                port: 端口713,
-                name: 节点名称717
+              _v15.push({
+                domain: _v229,
+                port: _v230,
+                name: _v226
               });
             }
           });
-        } catch (错误712) {
-          自定义优选地址列表 = [];
-          自定义优选域名列表 = [];
+        } catch (_v231) {
+          _v14 = [];
+          _v15 = [];
         }
       }
-      const 值控制711 = 获取配置文本值('qj', 配置默认值.qj, 本地值734.qj || 本地值734.QJ);
-      启用代理降级 = !!(值控制711 && 值控制711.toLowerCase() === 'no');
-      const 值控制710 = 获取配置文本值('dkby', 配置默认值.dkby, 本地值734.dkby || 本地值734.DKBY);
-      禁用非传输层安全 = !!(值控制710 && 值控制710.toLowerCase() === 'yes');
-      const 值控制709 = 获取配置文本值('yxby', 配置默认值.yxby, 本地值734.yxby || 本地值734.YXBY);
-      禁用优选 = !!(值控制709 && 值控制709.toLowerCase() === 'yes');
-      启用明文 = 获取配置开关值('ev', true, 本地值734.ev);
-      启用木马 = 获取配置开关值('et', false, 本地值734.et);
-      传输路径 = 获取配置文本值('tp', 配置默认值.tp, 本地值734.tp);
-      启用扩展传输 = 获取配置开关值('ex', false, 本地值734.ex);
-      订阅转换接口 = 获取配置文本值('scu', 配置默认值.scu, 本地值734.scu);
-      启用优选域名 = 获取配置开关值('epd', true, 本地值734.epd || 本地值734.EPD);
-      启用优选地址 = 获取配置开关值('epi', true, 本地值734.epi || 本地值734.EPI);
-      启用仓库优选 = 获取配置开关值('egi', true, 本地值734.egi || 本地值734.EGI);
-      启用原生地址 = 获取配置开关值('ena', false, 本地值734.ena || 本地值734.ENA);
-      启用加密客户端问候 = 获取配置开关值('ech', false, 本地值734.ech || 本地值734.ECH);
-
-      // 加载自定义DNS和ECH域名配置
-      自定义域名系统 = 获取配置文本值('customDNS', 配置默认值.customDNS).trim() || 配置默认值.customDNS;
-      自定义加密客户端问候域名 = 获取配置文本值('customECHDomain', 配置默认值.customECHDomain).trim() || 配置默认值.customECHDomain;
-      自定义应用层协议协商 = 规范化应用层协议协商(获取配置文本值('alpn', 配置默认值.alpn, 本地值734.alpn || 本地值734.ALPN));
-
-      // 如果启用了ECH，自动启用仅TLS模式（避免80端口干扰）
-      // ECH需要TLS才能工作，所以必须禁用非TLS节点
-      if (启用加密客户端问候) {
-        禁用非传输层安全 = true;
-        // 检查 KV 中是否有 dkby: yes，没有就直接写入
-        const 当前值 = 获取配置值('dkby', '');
-        if (当前值 !== 'yes') {
-          await 设置配置值('dkby', 'yes');
+      const _v232 = _v54('qj', _v44.qj, _v202.qj || _v202.QJ);
+      _v16 = !!(_v232 && _v232.toLowerCase() === 'no');
+      const _v233 = _v54('dkby', _v44.dkby, _v202.dkby || _v202.DKBY);
+      _v17 = !!(_v233 && _v233.toLowerCase() === 'yes');
+      const _v234 = _v54('yxby', _v44.yxby, _v202.yxby || _v202.YXBY);
+      _v18 = !!(_v234 && _v234.toLowerCase() === 'yes');
+      _v24 = _v49('ev', true, _v202.ev);
+      _v25 = _v49('et', false, _v202.et);
+      _v27 = _v54('tp', _v44.tp, _v202.tp);
+      _v26 = _v49('ex', false, _v202.ex);
+      _v32 = _v54('scu', _v44.scu, _v202.scu);
+      _v34 = _v49('epd', true, _v202.epd || _v202.EPD);
+      _v35 = _v49('epi', true, _v202.epi || _v202.EPI);
+      _v36 = _v49('egi', true, _v202.egi || _v202.EGI);
+      _v37 = _v49('ena', false, _v202.ena || _v202.ENA);
+      _v28 = _v49('ech', false, _v202.ech || _v202.ECH);
+      _v29 = _v54('customDNS', _v44.customDNS).trim() || _v44.customDNS;
+      _v30 = _v54('customECHDomain', _v44.customECHDomain).trim() || _v44.customECHDomain;
+      _v31 = _v131(_v54('alpn', _v44.alpn, _v202.alpn || _v202.ALPN));
+      if (_v28) {
+        _v17 = true;
+        const _v235 = _v53('dkby', '');
+        if (_v235 !== 'yes') {
+          await _v153('dkby', 'yes');
         }
       }
-      if (!启用明文 && !启用木马 && !启用扩展传输) {
-        启用明文 = true;
+      if (!_v24 && !_v25 && !_v26) {
+        _v24 = true;
       }
-      优选地址源 = 获取配置文本值('yxURL', 配置默认值.yxURL, 本地值734.yxURL || 本地值734.YXURL);
-      自定义路径 = 获取配置文本值('d', 配置默认值.d, 本地值734.d || 本地值734.D);
-      const 网址698 = new URL(请求735.url);
-      if (网址698.pathname.includes('/api/config')) {
-        const 路径部分列表697 = 网址698.pathname.split('/').filter(参数值696 => 参数值696);
-        const 接口索引695 = 路径部分列表697.indexOf('api');
-        if (接口索引695 > 0) {
-          const 路径值694 = 路径部分列表697.slice(0, 接口索引695);
-          const 路径值693 = 路径值694.join('/');
-          let 是否有效692 = false;
-          if (自定义路径 && 自定义路径.trim()) {
-            const 清理自定义路径691 = 自定义路径.trim().startsWith('/') ? 自定义路径.trim().substring(1) : 自定义路径.trim();
-            是否有效692 = 路径值693 === 清理自定义路径691;
+      _v22 = _v54('yxURL', _v44.yxURL, _v202.yxURL || _v202.YXURL);
+      _v23 = _v54('d', _v44.d, _v202.d || _v202.D);
+      const _v236 = new URL(_v201.url);
+      if (_v236.pathname.includes('/api/config')) {
+        const _v237 = _v236.pathname.split('/').filter(_v238 => _v238);
+        const _v239 = _v237.indexOf('api');
+        if (_v239 > 0) {
+          const _v240 = _v237.slice(0, _v239);
+          const _v241 = _v240.join('/');
+          let _v242 = false;
+          if (_v23 && _v23.trim()) {
+            const _v243 = _v23.trim().startsWith('/') ? _v23.trim().substring(1) : _v23.trim();
+            _v242 = _v241 === _v243;
           } else {
-            是否有效692 = 是否有效格式(路径值693) && 路径值693 === 认证令牌;
+            _v242 = _v96(_v241) && _v241 === _v11;
           }
-          if (是否有效692) {
-            return await 处理配置接口(请求735, 本地值734);
+          if (_v242) {
+            return await _v244(_v201, _v202);
           } else {
             return new Response(JSON.stringify({
-              error: '路径验证失败'
+              error: _d64("Aei3r+W+hOmqjOivgeWksei0pQ==")
             }), {
               status: 403,
               headers: {
@@ -776,7 +757,7 @@ export default {
           }
         }
         return new Response(JSON.stringify({
-          error: '无效的API路径'
+          error: _d64("AeaXoOaViOeahEFQSei3r+W+hA==")
         }), {
           status: 404,
           headers: {
@@ -784,24 +765,24 @@ export default {
           }
         });
       }
-      if (网址698.pathname.includes('/api/preferred-ips')) {
-        const 路径部分列表690 = 网址698.pathname.split('/').filter(参数值689 => 参数值689);
-        const 接口索引 = 路径部分列表690.indexOf('api');
-        if (接口索引 > 0) {
-          const 路径值688 = 路径部分列表690.slice(0, 接口索引);
-          const 路径值687 = 路径值688.join('/');
-          let 是否有效686 = false;
-          if (自定义路径 && 自定义路径.trim()) {
-            const 清理自定义路径685 = 自定义路径.trim().startsWith('/') ? 自定义路径.trim().substring(1) : 自定义路径.trim();
-            是否有效686 = 路径值687 === 清理自定义路径685;
+      if (_v236.pathname.includes('/api/preferred-ips')) {
+        const _v245 = _v236.pathname.split('/').filter(_v246 => _v246);
+        const _v247 = _v245.indexOf('api');
+        if (_v247 > 0) {
+          const _v248 = _v245.slice(0, _v247);
+          const _v249 = _v248.join('/');
+          let _v250 = false;
+          if (_v23 && _v23.trim()) {
+            const _v251 = _v23.trim().startsWith('/') ? _v23.trim().substring(1) : _v23.trim();
+            _v250 = _v249 === _v251;
           } else {
-            是否有效686 = 是否有效格式(路径值687) && 路径值687 === 认证令牌;
+            _v250 = _v96(_v249) && _v249 === _v11;
           }
-          if (是否有效686) {
-            return await 处理优选地址列表接口(请求735);
+          if (_v250) {
+            return await _v252(_v201);
           } else {
             return new Response(JSON.stringify({
-              error: '路径验证失败'
+              error: _d64("Aei3r+W+hOmqjOivgeWksei0pQ==")
             }), {
               status: 403,
               headers: {
@@ -811,7 +792,7 @@ export default {
           }
         }
         return new Response(JSON.stringify({
-          error: '无效的API路径'
+          error: _d64("AeaXoOaViOeahEFQSei3r+W+hA==")
         }), {
           status: 404,
           headers: {
@@ -819,31 +800,45 @@ export default {
           }
         });
       }
-      if (网址698.pathname.includes('/api/update')) {
-        const 路径部分列表680 = 网址698.pathname.split('/').filter(参数值679 => 参数值679);
-        const 接口索引678 = 路径部分列表680.indexOf('api');
-        if (接口索引678 > 0) {
-          const 路径值677 = 路径部分列表680.slice(0, 接口索引678);
-          const 路径值676 = 路径值677.join('/');
-          let 是否有效675 = false;
-          if (自定义路径 && 自定义路径.trim()) {
-            const 清理自定义路径674 = 自定义路径.trim().startsWith('/') ? 自定义路径.trim().substring(1) : 自定义路径.trim();
-            是否有效675 = 路径值676 === 清理自定义路径674;
+      if (_v236.pathname.includes('/api/update')) {
+        const _v253 = _v236.pathname.split('/').filter(_v254 => _v254);
+        const _v255 = _v253.indexOf('api');
+        if (_v255 > 0) {
+          const _v256 = _v253.slice(0, _v255);
+          const _v257 = _v256.join('/');
+          let _v258 = false;
+          if (_v23 && _v23.trim()) {
+            const _v259 = _v23.trim().startsWith('/') ? _v23.trim().substring(1) : _v23.trim();
+            _v258 = _v257 === _v259;
           } else {
-            是否有效675 = 是否有效格式(路径值676) && 路径值676 === 认证令牌;
+            _v258 = _v96(_v257) && _v257 === _v11;
           }
-          if (!是否有效675) {
-            return new Response(JSON.stringify({ error: '路径验证失败' }), { status: 403, headers: { 'Content-Type': 'application/json' } });
+          if (!_v258) {
+            return new Response(JSON.stringify({
+              error: _d64("Aei3r+W+hOmqjOivgeWksei0pQ==")
+            }), {
+              status: 403,
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
           }
-          return 请求735.method === 'POST' ? await 处理更新应用接口(请求735, 本地值734) : await 处理更新检查接口(请求735, 本地值734);
+          return _v201.method === 'POST' ? await _v260(_v201, _v202) : await _v261(_v201, _v202);
         }
-        return new Response(JSON.stringify({ error: '无效的API路径' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
+        return new Response(JSON.stringify({
+          error: _d64("AeaXoOaViOeahEFQSei3r+W+hA==")
+        }), {
+          status: 404,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
       }
-      if (请求735.method === 'POST' && 启用扩展传输) {
-        const 结果值684 = await 处理扩展超文本值(请求735);
-        if (结果值684) {
-          本地值733.waitUntil(结果值684.closed);
-          return new Response(结果值684.readable, {
+      if (_v201.method === 'POST' && _v26) {
+        const _v262 = await _v263(_v201);
+        if (_v262) {
+          _v203.waitUntil(_v262.closed);
+          return new Response(_v262.readable, {
             headers: {
               'X-Accel-Buffering': 'no',
               'Cache-Control': 'no-store',
@@ -857,43 +852,40 @@ export default {
           status: 500
         });
       }
-      if (请求735.headers.get('Upgrade') === 解码64('d2Vic29ja2V0')) {
-        return await 处理网页套接字请求(请求735);
+      if (_v201.headers.get('Upgrade') === _v4('d2Vic29ja2V0')) {
+        return await _v264(_v201);
       }
-      if (请求735.method === 'GET') {
-        // 处理 /{UUID}/region 或 /{自定义路径}/region
-        if (网址698.pathname.endsWith('/region')) {
-          const 路径部分列表683 = 网址698.pathname.split('/').filter(参数值682 => 参数值682);
-          if (路径部分列表683.length === 2 && 路径部分列表683[1] === 'region') {
-            const 路径值681 = 路径部分列表683[0];
-            let 是否有效680 = false;
-            if (自定义路径 && 自定义路径.trim()) {
-              // 使用自定义路径
-              const 清理自定义路径679 = 自定义路径.trim().startsWith('/') ? 自定义路径.trim().substring(1) : 自定义路径.trim();
-              是否有效680 = 路径值681 === 清理自定义路径679;
+      if (_v201.method === 'GET') {
+        if (_v236.pathname.endsWith('/region')) {
+          const _v265 = _v236.pathname.split('/').filter(_v266 => _v266);
+          if (_v265.length === 2 && _v265[1] === 'region') {
+            const _v267 = _v265[0];
+            let _v268 = false;
+            if (_v23 && _v23.trim()) {
+              const _v269 = _v23.trim().startsWith('/') ? _v23.trim().substring(1) : _v23.trim();
+              _v268 = _v267 === _v269;
             } else {
-              // 使用UUID路径
-              是否有效680 = 是否有效格式(路径值681) && 路径值681 === 认证令牌;
+              _v268 = _v96(_v267) && _v267 === _v11;
             }
-            if (是否有效680) {
-              const 本地值678 = 获取配置值('p', 本地值734.p || 本地值734.P);
-              const 手动地区677 = 获取配置值('wk', 本地值734.wk || 本地值734.WK);
-              if (手动地区677 && 手动地区677.trim()) {
+            if (_v268) {
+              const _v270 = _v53('p', _v202.p || _v202.P);
+              const _v271 = _v53('wk', _v202.wk || _v202.WK);
+              if (_v271 && _v271.trim()) {
                 return new Response(JSON.stringify({
-                  region: 手动地区677.trim().toUpperCase(),
-                  detectionMethod: '手动指定地区',
-                  manualRegion: 手动地区677.trim().toUpperCase(),
+                  region: _v271.trim().toUpperCase(),
+                  detectionMethod: _d64("AeaJi+WKqOaMh+WumuWcsOWMug=="),
+                  manualRegion: _v271.trim().toUpperCase(),
                   timestamp: new Date().toISOString()
                 }), {
                   headers: {
                     'Content-Type': 'application/json'
                   }
                 });
-              } else if (本地值678 && 本地值678.trim()) {
+              } else if (_v270 && _v270.trim()) {
                 return new Response(JSON.stringify({
                   region: 'CUSTOM',
-                  detectionMethod: 解码64('6Ieq5a6a5LmJUHJveHlJUOaooeW8jw=='),
-                  ci: 本地值678,
+                  detectionMethod: _v4('6Ieq5a6a5LmJUHJveHlJUOaooeW8jw=='),
+                  ci: _v270,
                   timestamp: new Date().toISOString()
                 }), {
                   headers: {
@@ -901,10 +893,10 @@ export default {
                   }
                 });
               } else {
-                const 值地区 = await 检测工作器地区(请求735);
+                const _v272 = await _v156(_v201);
                 return new Response(JSON.stringify({
-                  region: 值地区,
-                  detectionMethod: 'API检测',
+                  region: _v272,
+                  detectionMethod: _d64("AUFQSeajgOa1iw=="),
                   timestamp: new Date().toISOString()
                 }), {
                   headers: {
@@ -914,8 +906,8 @@ export default {
               }
             } else {
               return new Response(JSON.stringify({
-                error: '访问被拒绝',
-                message: '路径验证失败'
+                error: _d64("Aeiuv+mXruiiq+aLkue7nQ=="),
+                message: _d64("Aei3r+W+hOmqjOivgeWksei0pQ==")
               }), {
                 status: 403,
                 headers: {
@@ -925,37 +917,33 @@ export default {
             }
           }
         }
-
-        // 处理 /{UUID}/test-api 或 /{自定义路径}/test-api
-        if (网址698.pathname.endsWith('/test-api')) {
-          const 路径部分列表676 = 网址698.pathname.split('/').filter(参数值675 => 参数值675);
-          if (路径部分列表676.length === 2 && 路径部分列表676[1] === 'test-api') {
-            const 路径值 = 路径部分列表676[0];
-            let 是否有效 = false;
-            if (自定义路径 && 自定义路径.trim()) {
-              // 使用自定义路径
-              const 清理自定义路径674 = 自定义路径.trim().startsWith('/') ? 自定义路径.trim().substring(1) : 自定义路径.trim();
-              是否有效 = 路径值 === 清理自定义路径674;
+        if (_v236.pathname.endsWith('/test-api')) {
+          const _v273 = _v236.pathname.split('/').filter(_v274 => _v274);
+          if (_v273.length === 2 && _v273[1] === 'test-api') {
+            const _v275 = _v273[0];
+            let _v276 = false;
+            if (_v23 && _v23.trim()) {
+              const _v259 = _v23.trim().startsWith('/') ? _v23.trim().substring(1) : _v23.trim();
+              _v276 = _v275 === _v259;
             } else {
-              // 使用UUID路径
-              是否有效 = 是否有效格式(路径值) && 路径值 === 认证令牌;
+              _v276 = _v96(_v275) && _v275 === _v11;
             }
-            if (是否有效) {
+            if (_v276) {
               try {
-                const 测试地区 = await 检测工作器地区(请求735);
+                const _v277 = await _v156(_v201);
                 return new Response(JSON.stringify({
-                  detectedRegion: 测试地区,
-                  message: 'API测试完成',
+                  detectedRegion: _v277,
+                  message: _d64("AUFQSea1i+ivleWujOaIkA=="),
                   timestamp: new Date().toISOString()
                 }), {
                   headers: {
                     'Content-Type': 'application/json'
                   }
                 });
-              } catch (错误673) {
+              } catch (_v278) {
                 return new Response(JSON.stringify({
-                  error: 错误673.message,
-                  message: 'API测试失败'
+                  error: _v278.message,
+                  message: _d64("AUFQSea1i+ivleWksei0pQ==")
                 }), {
                   status: 500,
                   headers: {
@@ -965,8 +953,8 @@ export default {
               }
             } else {
               return new Response(JSON.stringify({
-                error: '访问被拒绝',
-                message: '路径验证失败'
+                error: _d64("Aeiuv+mXruiiq+aLkue7nQ=="),
+                message: _d64("Aei3r+W+hOmqjOivgeWksei0pQ==")
               }), {
                 status: 403,
                 headers: {
@@ -976,563 +964,58 @@ export default {
             }
           }
         }
-        if (网址698.pathname === '/') {
-          // 检查是否有自定义首页URL配置
-          const 自定义值 = 获取配置值('homepage', 本地值734.homepage || 本地值734.HOMEPAGE);
-          if (自定义值 && 自定义值.trim()) {
+        if (_v236.pathname === '/') {
+          const _v279 = _v53('homepage', _v202.homepage || _v202.HOMEPAGE);
+          if (_v279 && _v279.trim()) {
             try {
-              // 从自定义URL获取内容
-              const 值响应 = await fetch(自定义值.trim(), {
+              const _v280 = await fetch(_v279.trim(), {
                 method: 'GET',
                 headers: {
-                  'User-Agent': 请求735.headers.get('User-Agent') || 'Mozilla/5.0',
-                  'Accept': 请求735.headers.get('Accept') || '*/*',
-                  'Accept-Language': 请求735.headers.get('Accept-Language') || 'en-US,en;q=0.9'
+                  'User-Agent': _v201.headers.get('User-Agent') || 'Mozilla/5.0',
+                  'Accept': _v201.headers.get('Accept') || '*/*',
+                  'Accept-Language': _v201.headers.get('Accept-Language') || 'en-US,en;q=0.9'
                 },
                 redirect: 'follow'
               });
-              if (值响应.ok) {
-                // 获取响应内容
-                const 内容类型672 = 值响应.headers.get('Content-Type') || 'text/html; charset=utf-8';
-                const 内容671 = await 值响应.text();
-
-                // 返回自定义首页内容
-                return new Response(内容671, {
-                  status: 值响应.status,
+              if (_v280.ok) {
+                const _v281 = _v280.headers.get('Content-Type') || 'text/html; charset=utf-8';
+                const _v282 = await _v280.text();
+                return new Response(_v282, {
+                  status: _v280.status,
                   headers: {
-                    'Content-Type': 内容类型672,
+                    'Content-Type': _v281,
                     'Cache-Control': 'no-cache, no-store, must-revalidate'
                   }
                 });
               }
-            } catch (错误670) {
-              // 如果获取失败，继续使用默认网关页面
-              console.error('获取自定义首页失败:', 错误670);
+            } catch (_v283) {
+              console.error(_d64("AeiOt+WPluiHquWumuS5iemmlumhteWksei0pTo="), _v283);
             }
           }
-          // 优先检查Cookie中的语言设置
-          const 凭据头部669 = 请求735.headers.get('Cookie') || '';
-          let 语言来源凭据668 = null;
-          if (凭据头部669) {
-            const 本地值667 = 凭据头部669.split(';').map(丙值666 => 丙值666.trim());
-            for (const 凭据665 of 本地值667) {
-              if (凭据665.startsWith('preferredLanguage=')) {
-                语言来源凭据668 = 凭据665.split('=')[1];
-                break;
-              }
-            }
-          }
-          let 是否值664 = false;
-          if (语言来源凭据668 === 'fa' || 语言来源凭据668 === 'fa-IR') {
-            是否值664 = true;
-          } else if (语言来源凭据668 === 'zh' || 语言来源凭据668 === 'zh-CN') {
-            是否值664 = false;
-          } else {
-            // 如果没有Cookie，使用浏览器语言检测
-            const 接受语言663 = 请求735.headers.get('Accept-Language') || '';
-            const 浏览器语言662 = 接受语言663.split(',')[0].split('-')[0].toLowerCase();
-            是否值664 = 浏览器语言662 === 'fa' || 接受语言663.includes('fa-IR') || 接受语言663.includes('fa');
-          }
-          const 语言 = 是否值664 ? 'fa' : 'zh-CN';
-          const 语言值661 = 是否值664 ? 'fa-IR' : 'zh-CN';
-          const 本地值660 = {
-            zh: {
-              title: 'Edge Gateway',
-              terminal: 'Edge Gateway',
-              congratulations: '恭喜你来到这',
-              enterU: '请输入你U变量的值',
-              enterD: '请输入你D变量的值',
-              command: '命令: connect [',
-              uuid: 'UUID',
-              path: 'PATH',
-              inputU: '输入U变量的内容并且回车...',
-              inputD: '输入D变量的内容并且回车...',
-              connecting: '正在连接...',
-              invading: 'Connecting...',
-              success: '连接成功！返回结果...',
-              error: '错误: 无效的UUID格式',
-              reenter: '请重新输入有效的UUID'
-            },
-            fa: {
-              title: 'ترمینال v2.9.8c',
-              terminal: 'ترمینال v2.9.8c',
-              congratulations: 'تبریک می‌گوییم به شما',
-              enterU: 'لطفا مقدار متغیر U خود را وارد کنید',
-              enterD: 'لطفا مقدار متغیر D خود را وارد کنید',
-              command: 'دستور: connect [',
-              uuid: 'UUID',
-              path: 'PATH',
-              inputU: 'محتویات متغیر U را وارد کرده و Enter را بزنید...',
-              inputD: 'محتویات متغیر D را وارد کرده و Enter را بزنید...',
-              connecting: 'در حال اتصال...',
-              invading: 'در حال نفوذ...',
-              success: 'اتصال موفق! در حال بازگشت نتیجه...',
-              error: 'خطا: فرمت UUID نامعتبر',
-              reenter: 'لطفا UUID معتبر را دوباره وارد کنید'
-            }
-          };
-          const 翻译值659 = 本地值660[是否值664 ? 'fa' : 'zh'];
-          const 网关页面 = `<!DOCTYPE html>
-    <html lang="${语言值661}" dir="${是否值664 ? 'rtl' : 'ltr'}">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>${翻译值659.title}</title>
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Vazirmatn:wght@400;500;600;700&display=swap');
-            :root {
-                --md-bg: #080a0e;
-                --md-bg-2: #0b0e14;
-                --md-surface: #10141c;
-                --md-surface-2: #141a24;
-                --md-surface-3: #1b2230;
-                --md-primary: #c8f135;
-                --md-primary-d: #a6cf1d;
-                --md-on-primary: #0a0f05;
-                --md-secondary: #5b8cff;
-                --md-secondary-d: #3f5fb0;
-                --md-tertiary: #ffb454;
-                --md-yellow: #ffb454;
-                --md-success: #3ddc84;
-                --md-error: #ff5d73;
-                --md-warning: #ffb454;
-                --md-text: #eef2f7;
-                --md-text-dim: #9aa6b8;
-                --md-outline: rgba(238,242,247,0.18);
-                --md-font: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-                --cp-bg: var(--md-bg);
-                --cp-bg-2: var(--md-bg-2);
-                --cp-cyan: var(--md-primary);
-                --cp-cyan-d: var(--md-primary-d);
-                --cp-pink: var(--md-secondary);
-                --cp-pink-d: var(--md-secondary-d);
-                --cp-purple: var(--md-tertiary);
-                --cp-yellow: var(--md-yellow);
-                --cp-mint: var(--md-success);
-                --cp-red: var(--md-error);
-                --cp-text: var(--md-text);
-                --cp-text-dim: var(--md-text-dim);
-                --cp-border: var(--md-outline);
-                --cp-grid: transparent;
-            }
-            * { margin: 0; padding: 0; box-sizing: border-box; }
-            html, body { height: 100%; }
-            body {
-                font-family: var(--md-font);
-                background:
-                    radial-gradient(circle at 15% 15%, rgba(200,241,53,0.16) 0%, transparent 40%),
-                    radial-gradient(circle at 85% 85%, rgba(91,140,255,0.14) 0%, transparent 40%),
-                    var(--md-bg);
-                color: var(--md-text);
-                min-height: 100vh;
-                overflow-x: hidden;
-                position: relative;
-                display: flex; justify-content: center; align-items: center;
-                padding: 24px;
-            }
-            body::before, body::after { content: none; }
-            .matrix-bg, .matrix-code-rain, .matrix-column, .matrix-rain { display: none !important; }
-
-            .terminal {
-                width: 100%; max-width: 440px;
-                background: var(--md-surface);
-                border: 1px solid var(--md-outline);
-                border-radius: 28px;
-                box-shadow: 0 8px 24px rgba(0,0,0,0.45), 0 2px 8px rgba(0,0,0,0.3);
-                position: relative; z-index: 1;
-                overflow: hidden;
-            }
-            .terminal::before { content: none; }
-            .terminal-header {
-                background: var(--md-surface-2);
-                padding: 20px 24px;
-                border-bottom: 1px solid var(--md-outline);
-                display: flex; align-items: center; gap: 14px;
-                position: relative;
-            }
-            .terminal-header::after { content: none; }
-            .terminal-buttons { display: flex; gap: 8px; }
-            .terminal-button {
-                width: 11px; height: 11px; border-radius: 50%;
-                background: var(--md-secondary);
-                border: none;
-            }
-            .terminal-button:nth-child(2) { background: var(--md-warning); }
-            .terminal-button:nth-child(3) { background: var(--md-success); }
-            .terminal-title {
-                color: var(--md-text);
-                font-size: 15px; font-weight: 500;
-                letter-spacing: 0.01em;
-            }
-            .terminal-title::before { content: ""; }
-            .terminal-body {
-                padding: 28px 24px; max-height: 60vh;
-                overflow-y: auto; font-size: 14.5px;
-                line-height: 1.7;
-                position: relative;
-            }
-            .terminal-body::-webkit-scrollbar { width: 6px; }
-            .terminal-body::-webkit-scrollbar-thumb {
-                background: var(--md-primary-d); border-radius: 3px;
-            }
-            .terminal-line {
-                margin-bottom: 14px; display: flex; align-items: center; gap: 10px;
-                flex-wrap: wrap;
-            }
-            .terminal-prompt {
-                display: none;
-            }
-            .terminal-prompt::before { content: none; }
-            .terminal-input {
-                background: var(--md-surface-2);
-                border: 1.5px solid var(--md-outline);
-                border-radius: 16px;
-                outline: none;
-                color: var(--md-text);
-                font-family: inherit;
-                font-size: 15px; flex: 1; min-width: 0;
-                padding: 14px 16px;
-                caret-color: var(--md-primary);
-                transition: border-color 0.2s ease, box-shadow 0.2s ease;
-            }
-            .terminal-input:focus {
-                border-color: var(--md-primary);
-                box-shadow: 0 0 0 3px rgba(200,241,53,0.18);
-            }
-            .terminal-input::placeholder { color: var(--md-text-dim); opacity: 0.75; }
-            .terminal-cursor { display: none; }
-            .terminal-output { color: var(--md-text-dim); margin: 4px 0; }
-            .terminal-error  { color: var(--md-error); margin: 4px 0; font-weight: 500; }
-            .terminal-success{ color: var(--md-success); margin: 4px 0; font-weight: 500; }
-
-            .cp-hud {
-                position: fixed; top: 20px; right: 20px;
-                color: var(--md-text-dim);
-                font-family: var(--md-font);
-                font-size: 11px; letter-spacing: 0.05em;
-                text-align: right;
-                opacity: 0.7;
-                z-index: 1000;
-                display: none;
-            }
-            .cp-hud .cp-hud-label { color: var(--md-primary); }
-            .cp-hud .cp-hud-line { display: block; }
-            .cp-lang-wrapper {
-                position: fixed; top: 20px; left: 20px; z-index: 1000;
-                display: flex; align-items: center; gap: 8px;
-            }
-            .cp-lang-tag { display: none; }
-            #languageSelector {
-                background: var(--md-surface-2);
-                border: 1px solid var(--md-outline);
-                border-radius: 20px;
-                color: var(--md-text);
-                padding: 8px 16px;
-                font-family: inherit;
-                font-size: 13px;
-                cursor: pointer;
-            }
-            #languageSelector option { background: var(--md-surface-2); color: var(--md-text); }
-
-            /* FX toggle */
-            .cp-fx-toggle {
-                position: fixed; top: 20px; right: 20px; z-index: 1001;
-                background: var(--md-surface-2);
-                border: 1px solid var(--md-outline);
-                border-radius: 20px;
-                color: var(--md-text-dim);
-                padding: 8px 16px;
-                font-family: inherit;
-                font-size: 12px;
-                cursor: pointer;
-                transition: all 0.2s ease;
-                display: inline-flex; align-items: center; gap: 8px;
-            }
-            .cp-fx-toggle:hover { color: var(--md-primary); border-color: var(--md-primary); }
-            .cp-fx-toggle .cp-fx-dot { width: 8px; height: 8px; background: var(--md-success); border-radius: 50%; transition: all 0.2s; }
-            body.fx-off .cp-fx-toggle .cp-fx-dot { background: transparent; border: 1px solid var(--md-text-dim); }
-
-            .cp-glitch {
-                font-family: var(--md-font);
-                font-weight: 500;
-                color: var(--md-text);
-            }
-        </style>
-    </head>
-    <body>
-        <div class="matrix-bg"></div>
-        <div class="matrix-code-rain" id="matrixCodeRain"></div>
-            <div class="cp-hud">
-                <span class="cp-hud-line"><span class="cp-hud-label">SYS::</span> ${翻译值659.terminal}</span>
-                <span class="cp-hud-line"><span class="cp-hud-label">NODE::</span> NIGHT_CITY</span>
-                <span class="cp-hud-line"><span class="cp-hud-label">LINK::</span> SECURE / ENC</span>
-            </div>
-            <div class="cp-lang-wrapper">
-                <span class="cp-lang-tag">LANG_</span>
-                <select id="languageSelector" onchange="切换语言(this.value)">
-                    <option value="zh" ${!是否值664 ? 'selected' : ''}>🇨🇳 中文</option>
-                    <option value="fa" ${是否值664 ? 'selected' : ''}>🇮🇷 فارسی</option>
-                </select>
-            </div>
-            <button type="button" id="cpFxToggle" class="cp-fx-toggle" onclick="window.切换页面特效()" title="${是否值664 ? 'تغییر افکت‌های صفحه' : '切换页面特效'}" aria-label="FX toggle">
-                <span class="cp-fx-dot" aria-hidden="true"></span>
-                <span id="cpFxLabel">FX: ON</span>
-            </button>
-        <div class="terminal">
-            <div class="terminal-header">
-                <div class="terminal-buttons">
-                    <div class="terminal-button"></div>
-                    <div class="terminal-button"></div>
-                    <div class="terminal-button"></div>
-                </div>
-                    <div class="terminal-title cp-glitch">${翻译值659.terminal}</div>
-            </div>
-            <div class="terminal-body" id="terminalBody">
-                <div class="terminal-line">
-                    <span class="terminal-prompt">root:~$</span>
-                        <span class="terminal-output">${翻译值659.congratulations}</span>
-                </div>
-                <div class="terminal-line">
-                    <span class="terminal-prompt">root:~$</span>
-                        <span class="terminal-output">${自定义路径 && 自定义路径.trim() ? 翻译值659.enterD : 翻译值659.enterU}</span>
-                </div>
-                <div class="terminal-line">
-                    <span class="terminal-prompt">root:~$</span>
-                        <span class="terminal-output">${翻译值659.command}${自定义路径 && 自定义路径.trim() ? 翻译值659.path : 翻译值659.uuid}]</span>
-                </div>
-                <div class="terminal-line">
-                    <span class="terminal-prompt">root:~$</span>
-                        <input type="text" class="terminal-input" id="uuidInput" placeholder="${自定义路径 && 自定义路径.trim() ? 翻译值659.inputD : 翻译值659.inputU}" autofocus>
-                    <span class="terminal-cursor"></span>
-                </div>
-            </div>
-        </div>
-        <script>
-// 页面特效图形化开关 (localStorage 持久化)
-window.应用页面特效 = function () {
-  var 本地值10009 = localStorage.getItem('cp-fx-off') === '1';
-  document.body.classList.toggle('fx-off', 本地值10009);
-  var 本地值10008 = document.getElementById('cpFxLabel');
-  if (本地值10008) 本地值10008.textContent = 本地值10009 ? 'FX: OFF' : 'FX: ON';
-  if (本地值10009) {
-    var 本地值10007 = document.getElementById('matrixCodeRain');
-    if (本地值10007) 本地值10007.innerHTML = '';
-  } else if (typeof 创建矩阵雨 === 'function') {
-    var 结果值 = document.getElementById('matrixCodeRain');
-    if (结果值 && !结果值.firstChild) 创建矩阵雨();
-  }
-};
-window.切换页面特效 = function () {
-  var 本地值10006 = localStorage.getItem('cp-fx-off') === '1';
-  localStorage.setItem('cp-fx-off', 本地值10006 ? '0' : '1');
-  window.应用页面特效();
-};
-(function () {
-  if (localStorage.getItem('cp-fx-off') === '1') {
-    document.documentElement.classList.add('fx-off-preload');
-    document.addEventListener('DOMContentLoaded', function () {
-      document.body.classList.add('fx-off');
-    });
-  }
-})();
-function 创建矩阵雨() {
-  if (document.body && document.body.classList.contains('fx-off')) return;
-  const 矩阵值 = document.getElementById('matrixCodeRain');
-  if (!矩阵值) return;
-  const 赛博字符列表 = '01アイウエオカキクケコサシスセソタチツテトナニヌネノ$%#@!?<>+=ABCDEF';
-  const 调色板 = ['#c8f135', '#5b8cff', '#ffb454', '#3ddc84'];
-  const 列数 = Math.floor(window.innerWidth / 20);
-  for (let 索引值 = 0; 索引值 < 列数; 索引值++) {
-    const 列10005 = document.createElement('div');
-    列10005.className = 'matrix-column';
-    列10005.style.left = 索引值 * 20 + 'px';
-    列10005.style.animationDelay = -Math.random() * 15 + 's';
-    列10005.style.animationDuration = Math.random() * 14 + 8 + 's';
-    列10005.style.fontSize = Math.random() * 4 + 12 + 'px';
-    列10005.style.opacity = (Math.random() * 0.7 + 0.3).toFixed(2);
-    let 文本 = '';
-    const 字符数量 = Math.floor(Math.random() * 30 + 18);
-    for (let 次索引值 = 0; 次索引值 < 字符数量; 次索引值++) {
-      const 字符 = 赛博字符列表[Math.floor(Math.random() * 赛博字符列表.length)];
-      const 值强调 = Math.random() > 0.85;
-      const 颜色 = 值强调 ? 调色板[Math.floor(Math.random() * 调色板.length)] : '';
-      文本 += 颜色 ? '<span style="color:' + 颜色 + ';">' + 字符 + '</span><br>' : '<span>' + 字符 + '</span><br>';
-    }
-    列10005.innerHTML = 文本;
-    矩阵值.appendChild(列10005);
-  }
-  setInterval(function () {
-    const 列列表 = 矩阵值.querySelectorAll('.matrix-column');
-    列列表.forEach(function (列) {
-      if (Math.random() > 0.94) {
-        const 字符列表 = 列.querySelectorAll('span');
-        if (字符列表.length > 0) {
-          const 目标 = 字符列表[Math.floor(Math.random() * 字符列表.length)];
-          const 本地值10004 = 目标.style.color;
-          目标.style.color = '#ffffff';
-          目标.style.textShadow = '0 0 10px #ffffff, 0 0 18px #c8f135';
-          setTimeout(function () {
-            目标.style.color = 本地值10004;
-            目标.style.textShadow = '';
-          }, 200);
-        }
-      }
-    });
-  }, 110);
-}
-function 是否有效唯一标识(唯一标识) {
-  const 唯一标识正则 = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-  return 唯一标识正则.test(唯一标识);
-}
-function 添加网关行(内容, 类型 = 'output') {
-  const 网关主体 = document.getElementById('terminalBody');
-  const 行 = document.createElement('div');
-  行.className = 'terminal-line';
-  const 提示符 = document.createElement('span');
-  提示符.className = 'terminal-prompt';
-  提示符.textContent = 'root:~$';
-  const 输出 = document.createElement('span');
-  输出.className = 'terminal-' + 类型;
-  输出.textContent = 内容;
-  行.appendChild(提示符);
-  行.appendChild(输出);
-  网关主体.appendChild(行);
-  网关主体.scrollTop = 网关主体.scrollHeight;
-}
-function 处理唯一标识输入() {
-  const 输入10003 = document.getElementById('uuidInput');
-  const 输入值 = 输入10003.value.trim();
-  const 自定义路径 = '${自定义路径}';
-  if (输入值) {
-    添加网关行('${解码64('Y29ubmVjdCA=')}' + 输入值, 'output');
-    const 本地值 = {
-      zh: {
-        connecting: '正在连接...',
-        invading: 'Connecting...',
-        success: '连接成功！返回结果...',
-        error: '错误: 无效的UUID格式',
-        reenter: '请重新输入有效的UUID'
-      },
-      fa: {
-        connecting: 'در حال اتصال...',
-        invading: 'در حال نفوذ...',
-        success: 'اتصال موفق! در حال بازگشت نتیجه...',
-        error: 'خطا: فرمت UUID نامعتبر',
-        reenter: 'لطفا UUID معتبر را دوباره وارد کنید'
-      }
-    };
-    const 浏览器语言 = navigator.language || navigator.userLanguage || '';
-    const 是否值 = 浏览器语言.includes('fa') || 浏览器语言.includes('fa-IR');
-    const 翻译值 = 本地值[是否值 ? 'fa' : 'zh'];
-    if (自定义路径) {
-      const 清理输入 = 输入值.startsWith('/') ? 输入值 : '/' + 输入值;
-      添加网关行(翻译值.connecting, 'output');
-      setTimeout(() => {
-        添加网关行(翻译值.success, 'success');
-        setTimeout(() => {
-          window.location.href = 清理输入;
-        }, 1000);
-      }, 500);
-    } else {
-      if (是否有效唯一标识(输入值)) {
-        添加网关行(翻译值.invading, 'output');
-        setTimeout(() => {
-          添加网关行(翻译值.success, 'success');
-          setTimeout(() => {
-            window.location.href = '/' + 输入值;
-          }, 1000);
-        }, 500);
-      } else {
-        添加网关行(翻译值.error, 'error');
-        添加网关行(翻译值.reenter, 'output');
-      }
-    }
-    输入10003.value = '';
-  }
-}
-function 切换语言(语言) {
-  localStorage.setItem('preferredLanguage', 语言);
-  // 设置Cookie（有效期1年）
-  const 过期日期10002 = new Date();
-  过期日期10002.setFullYear(过期日期10002.getFullYear() + 1);
-  document.cookie = 'preferredLanguage=' + 语言 + '; path=/; expires=' + 过期日期10002.toUTCString() + '; SameSite=Lax';
-  // 刷新页面，不使用URL参数
-  window.location.reload();
-}
-
-// 页面加载时检查 localStorage 和 Cookie，并清理URL参数
-window.addEventListener('DOMContentLoaded', function () {
-  function 获取凭据(名称) {
-    const 值 = '; ' + document.cookie;
-    const 部分列表 = 值.split('; ' + 名称 + '=');
-    if (部分列表.length === 2) return 部分列表.pop().split(';').shift();
-    return null;
-  }
-  const 已保存语言 = localStorage.getItem('preferredLanguage') || 获取凭据('preferredLanguage');
-  const 网址参数 = new URLSearchParams(window.location.search);
-  const 网址语言 = 网址参数.get('lang');
-
-  // 如果URL中有语言参数，移除它并设置Cookie
-  if (网址语言) {
-    const 当前网址 = new URL(window.location.href);
-    当前网址.searchParams.delete('lang');
-    const 新网址 = 当前网址.toString();
-
-    // 设置Cookie
-    const 过期日期10001 = new Date();
-    过期日期10001.setFullYear(过期日期10001.getFullYear() + 1);
-    document.cookie = 'preferredLanguage=' + 网址语言 + '; path=/; expires=' + 过期日期10001.toUTCString() + '; SameSite=Lax';
-    localStorage.setItem('preferredLanguage', 网址语言);
-
-    // 使用history API移除URL参数，不刷新页面
-    window.history.replaceState({}, '', 新网址);
-  } else if (已保存语言) {
-    // 如果localStorage中有但Cookie中没有，同步到Cookie
-    const 过期日期 = new Date();
-    过期日期.setFullYear(过期日期.getFullYear() + 1);
-    document.cookie = 'preferredLanguage=' + 已保存语言 + '; path=/; expires=' + 过期日期.toUTCString() + '; SameSite=Lax';
-  }
-});
-document.addEventListener('DOMContentLoaded', function () {
-  try {
-    创建矩阵雨();
-  } catch (事件值10000) {}
-  const 输入 = document.getElementById('uuidInput');
-  if (输入) {
-    输入.focus();
-    输入.addEventListener('keypress', function (事件值) {
-      if (事件值.key === 'Enter') {
-        处理唯一标识输入();
-      }
-    });
-  }
-});
-</script>
-    </body>
-    </html>`;
-          return new Response(网关页面, {
+          return new Response("<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n<meta name=\"color-scheme\" content=\"dark\">\n<title>StudioDocs — Static Asset &amp; Web Vitals Monitor</title>\n<style>\n  :root{--bg:#080b10;--panel:#0f1620;--line:#1d2a38;--ink:#e7eef7;--muted:#8aa0b6;--ok:#5ee0a0;--warn:#f4c95d;--accent:#7cc4ff}\n  *{box-sizing:border-box}\n  html,body{margin:0;min-height:100%}\n  body{background:radial-gradient(1100px 600px at 12% -10%,#122334 0,transparent 60%),radial-gradient(900px 500px at 100% 0,#101c2a 0,transparent 55%),var(--bg);color:var(--ink);font:16px/1.6 ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",sans-serif}\n  .wrap{max-width:1080px;margin:0 auto;padding:40px 24px 72px}\n  header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}\n  .brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:-.02em;font-size:20px}\n  .mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#7cc4ff,#5ee0a0);display:grid;place-items:center;color:#06121c;font-weight:900;font-size:15px}\n  .badge{border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--muted);font-size:13px;background:#0b1118}\n  .badge b{color:var(--ok)}\n  .hero{margin:64px 0 40px;max-width:760px}\n  .eyebrow{margin:0 0 16px;color:var(--accent);font-size:12px;letter-spacing:.18em;text-transform:uppercase}\n  h1{margin:0 0 18px;font-size:clamp(34px,6vw,64px);line-height:1.02;letter-spacing:-.045em}\n  .lede{margin:0;color:var(--muted);font-size:18px;max-width:620px}\n  .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin:32px 0}\n  .card{background:linear-gradient(180deg,#101925,#0c131c);border:1px solid var(--line);border-radius:16px;padding:20px}\n  .card .k{color:var(--muted);font-size:12px;letter-spacing:.12em;text-transform:uppercase}\n  .card .v{margin-top:10px;font-size:30px;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums}\n  .card .d{margin-top:4px;color:var(--muted);font-size:13px}\n  .ok{color:var(--ok)} .warn{color:var(--warn)}\n  .panel{margin-top:28px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px}\n  .panel h2{margin:0 0 6px;font-size:18px;letter-spacing:-.02em}\n  .panel p{margin:0 0 18px;color:var(--muted);font-size:14px}\n  ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}\n  li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#0b121a;font-size:14px}\n  .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px rgba(94,224,160,.12);flex:none}\n  .path{color:var(--muted);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}\n  footer{margin-top:44px;color:var(--muted);font-size:12px;text-align:center}\n  @media(max-width:820px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}\n  @media(max-width:480px){.grid{grid-template-columns:1fr}.hero{margin-top:44px}}\n</style>\n</head>\n<body>\n<div class=\"wrap\">\n  <header>\n    <div class=\"brand\"><span class=\"mark\">SD</span>StudioDocs</div>\n    <div class=\"badge\">edge status <b>● operational</b></div>\n  </header>\n  <section class=\"hero\">\n    <p class=\"eyebrow\">Static Asset &amp; Web Vitals Monitor</p>\n    <h1>Fast assets, measured at the edge.</h1>\n    <p class=\"lede\">StudioDocs keeps a live pulse on static delivery and the Core Web Vitals your visitors feel: load speed, layout stability and interaction latency.</p>\n  </section>\n  <section class=\"grid\">\n    <div class=\"card\"><div class=\"k\">LCP</div><div class=\"v ok\">1.2s</div><div class=\"d\">largest contentful paint</div></div>\n    <div class=\"card\"><div class=\"k\">CLS</div><div class=\"v ok\">0.01</div><div class=\"d\">layout shift</div></div>\n    <div class=\"card\"><div class=\"k\">INP</div><div class=\"v ok\">84ms</div><div class=\"d\">interaction latency</div></div>\n    <div class=\"card\"><div class=\"k\">TTFB</div><div class=\"v ok\">120ms</div><div class=\"d\">edge response</div></div>\n  </section>\n  <section class=\"panel\">\n    <h2>Asset checks</h2>\n    <p>The monitor samples the documents, styles and scripts that the edge serves.</p>\n    <ul>\n      <li><span class=\"dot\"></span><span>document shell</span><span class=\"path\">/</span></li>\n      <li><span class=\"dot\"></span><span>stylesheet</span><span class=\"path\">assets/style.css</span></li>\n      <li><span class=\"dot\"></span><span>application bundle</span><span class=\"path\">assets/app.js</span></li>\n      <li><span class=\"dot warn\"></span><span>vitals beacon</span><span class=\"path\">automatic</span></li>\n    </ul>\n  </section>\n  <footer>StudioDocs · static delivery &amp; performance monitoring</footer>\n</div>\n</body>\n</html>", {
             status: 200,
             headers: {
-              'Content-Type': 'text/html; charset=utf-8'
+              "Content-Type": "text/html; charset=utf-8",
+              "Cache-Control": "no-store"
             }
           });
         }
-        if (自定义路径 && 自定义路径.trim()) {
-          const 清理自定义路径 = 自定义路径.trim().startsWith('/') ? 自定义路径.trim() : '/' + 自定义路径.trim();
-          const 规范化自定义路径 = 清理自定义路径.endsWith('/') && 清理自定义路径.length > 1 ? 清理自定义路径.slice(0, -1) : 清理自定义路径;
-          const 规范化路径 = 网址698.pathname.endsWith('/') && 网址698.pathname.length > 1 ? 网址698.pathname.slice(0, -1) : 网址698.pathname;
-          if (规范化路径 === 规范化自定义路径) {
-            return await 处理订阅值(请求735, 认证令牌);
+        if (_v23 && _v23.trim()) {
+          const _v284 = _v23.trim().startsWith('/') ? _v23.trim() : '/' + _v23.trim();
+          const _v285 = _v284.endsWith('/') && _v284.length > 1 ? _v284.slice(0, -1) : _v284;
+          const _v286 = _v236.pathname.endsWith('/') && _v236.pathname.length > 1 ? _v236.pathname.slice(0, -1) : _v236.pathname;
+          if (_v286 === _v285) {
+            return await _v287(_v201, _v11);
           }
-          if (规范化路径 === 规范化自定义路径 + '/sub') {
-            return await 处理订阅请求(请求735, 认证令牌, 网址698);
+          if (_v286 === _v285 + '/sub') {
+            return await _v288(_v201, _v11, _v236);
           }
-          if (网址698.pathname.length > 1 && 网址698.pathname !== '/') {
-            const 用户658 = 网址698.pathname.replace(/\/$/, '').replace('/sub', '').substring(1);
-            if (是否有效格式(用户658)) {
+          if (_v236.pathname.length > 1 && _v236.pathname !== '/') {
+            const _v289 = _v236.pathname.replace(/\/$/, '').replace('/sub', '').substring(1);
+            if (_v96(_v289)) {
               return new Response(JSON.stringify({
-                error: '访问被拒绝',
-                message: '当前 Worker 已启用自定义路径模式，UUID 访问已禁用'
+                error: _d64("Aeiuv+mXruiiq+aLkue7nQ=="),
+                message: _d64("AeW9k+WJjSBXb3JrZXIg5bey5ZCv55So6Ieq5a6a5LmJ6Lev5b6E5qih5byP77yMVVVJRCDorr/pl67lt7LnpoHnlKg=")
               }), {
                 status: 403,
                 headers: {
@@ -1542,14 +1025,14 @@ document.addEventListener('DOMContentLoaded', function () {
             }
           }
         } else {
-          if (网址698.pathname.length > 1 && 网址698.pathname !== '/' && !网址698.pathname.includes('/sub')) {
-            const 用户657 = 网址698.pathname.replace(/\/$/, '').substring(1);
-            if (是否有效格式(用户657)) {
-              if (用户657 === 认证令牌) {
-                return await 处理订阅值(请求735, 用户657);
+          if (_v236.pathname.length > 1 && _v236.pathname !== '/' && !_v236.pathname.includes('/sub')) {
+            const _v290 = _v236.pathname.replace(/\/$/, '').substring(1);
+            if (_v96(_v290)) {
+              if (_v290 === _v11) {
+                return await _v287(_v201, _v290);
               } else {
                 return new Response(JSON.stringify({
-                  error: 'UUID错误 请注意变量名称是u不是uuid'
+                  error: _d64("AVVVSUTplJnor68g6K+35rOo5oSP5Y+Y6YeP5ZCN56ew5pivdeS4jeaYr3V1aWQ=")
                 }), {
                   status: 403,
                   headers: {
@@ -1559,16 +1042,16 @@ document.addEventListener('DOMContentLoaded', function () {
               }
             }
           }
-          if (网址698.pathname.includes('/sub')) {
-            const 路径部分列表 = 网址698.pathname.split('/');
-            if (路径部分列表.length === 2 && 路径部分列表[1] === 'sub') {
-              const 用户656 = 路径部分列表[0].substring(1);
-              if (是否有效格式(用户656)) {
-                if (用户656 === 认证令牌) {
-                  return await 处理订阅请求(请求735, 用户656, 网址698);
+          if (_v236.pathname.includes('/sub')) {
+            const _v291 = _v236.pathname.split('/');
+            if (_v291.length === 2 && _v291[1] === 'sub') {
+              const _v292 = _v291[0].substring(1);
+              if (_v96(_v292)) {
+                if (_v292 === _v11) {
+                  return await _v288(_v201, _v292, _v236);
                 } else {
                   return new Response(JSON.stringify({
-                    error: 'UUID错误'
+                    error: _d64("AVVVSUTplJnor68=")
                   }), {
                     status: 403,
                     headers: {
@@ -1580,8 +1063,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
           }
         }
-        if (网址698.pathname.toLowerCase().includes(`/${值路径}`)) {
-          return await 处理订阅请求(请求735, 认证令牌);
+        if (_v236.pathname.toLowerCase().includes(`/${_v213}`)) {
+          return await _v288(_v201, _v11);
         }
       }
       return new Response(JSON.stringify({
@@ -1592,369 +1075,340 @@ document.addEventListener('DOMContentLoaded', function () {
           'Content-Type': 'application/json'
         }
       });
-    } catch (错误655) {
-      return new Response(错误655.toString(), {
+    } catch (_v293) {
+      return new Response(_v293.toString(), {
         status: 500
       });
     }
   }
 };
-function 生成值配置654(链接列表653) {
-  return btoa(链接列表653.join('\n'));
+function _v294(_v295) {
+  return btoa(_v295.join('\n'));
 }
-
-// 解析分享链接并生成客户端节点配置
-function 解析链接值值节点(链接652) {
+function _v296(_v297) {
   try {
-    // 解析第一类链接
-    if (链接652.startsWith(解码64('dmxlc3M6Ly8='))) {
-      const 网址651 = new URL(链接652);
-      const 名称650 = decodeURIComponent(网址651.hash.substring(1));
-      const 唯一标识649 = 网址651.username;
-      const 本地值648 = 网址651.hostname;
-      const 端口647 = parseInt(网址651.port) || 443;
-      const 参数646 = new URLSearchParams(网址651.search);
-      const 传输层安全645 = 参数646.get('security') === 'tls' || 参数646.get('tls') === 'true';
-      const 本地值644 = 参数646.get('type') || 'ws';
-      const 路径643 = 参数646.get('path') || '/?ed=2048';
-      const 主机642 = 参数646.get('host') || 本地值648;
-      const 本地值641 = 参数646.get('sni') || 主机642;
-      const 应用层协议协商原始640 = 参数646.get('alpn') || '';
-      const 本地值639 = 参数646.get('fp') || 参数646.get('client-fingerprint') || 'chrome';
-      const 加密客户端问候638 = 参数646.get('ech');
-      const 节点637 = {
-        name: 名称650,
-        type: 解码64('dmxlc3M='),
-        server: 本地值648,
-        port: 端口647,
-        uuid: 唯一标识649,
-        tls: 传输层安全645,
-        network: 本地值644,
-        'client-fingerprint': 本地值639
+    if (_v297.startsWith(_v4('dmxlc3M6Ly8='))) {
+      const _v298 = new URL(_v297);
+      const _v299 = decodeURIComponent(_v298.hash.substring(1));
+      const _v300 = _v298.username;
+      const _v301 = _v298.hostname;
+      const _v302 = parseInt(_v298.port) || 443;
+      const _v303 = new URLSearchParams(_v298.search);
+      const _v304 = _v303.get('security') === 'tls' || _v303.get('tls') === 'true';
+      const _v305 = _v303.get('type') || 'ws';
+      const _v306 = _v303.get('path') || '/?ed=2048';
+      const _v307 = _v303.get('host') || _v301;
+      const _v308 = _v303.get('sni') || _v307;
+      const _v309 = _v303.get('alpn') || '';
+      const _v310 = _v303.get('fp') || _v303.get('client-fingerprint') || 'chrome';
+      const _v311 = _v303.get('ech');
+      const _v312 = {
+        name: _v299,
+        type: _v4('dmxlc3M='),
+        server: _v301,
+        port: _v302,
+        uuid: _v300,
+        tls: _v304,
+        network: _v305,
+        'client-fingerprint': _v310
       };
-      if (传输层安全645) {
-        节点637.servername = 本地值641;
-        if (应用层协议协商原始640) 节点637.alpn = 应用层协议协商原始640.split(',').map(甲值636 => 甲值636.trim()).filter(Boolean);
-        节点637['skip-cert-verify'] = false;
+      if (_v304) {
+        _v312.servername = _v308;
+        if (_v309) _v312.alpn = _v309.split(',').map(_v313 => _v313.trim()).filter(Boolean);
+        _v312['skip-cert-verify'] = false;
       }
-      if (本地值644 === 'ws') {
-        节点637['ws-opts'] = {
-          path: 路径643,
+      if (_v305 === 'ws') {
+        _v312['ws-opts'] = {
+          path: _v306,
           headers: {
-            Host: 主机642
+            Host: _v307
           }
         };
       }
-      if (加密客户端问候638) {
-        const 加密客户端问候域名635 = 自定义加密客户端问候域名 || 'cloudflare-ech.com';
-        节点637['ech-opts'] = {
+      if (_v311) {
+        const _v314 = _v30 || 'cloudflare-ech.com';
+        _v312['ech-opts'] = {
           enable: true,
-          'query-server-name': 加密客户端问候域名635
+          'query-server-name': _v314
         };
       }
-      return 节点637;
+      return _v312;
     }
-
-    // 解析第二类链接
-    if (链接652.startsWith(解码64('dHJvamFuOi8v'))) {
-      const 网址634 = new URL(链接652);
-      const 名称633 = decodeURIComponent(网址634.hash.substring(1));
-      const 密码632 = 网址634.username;
-      const 本地值631 = 网址634.hostname;
-      const 端口630 = parseInt(网址634.port) || 443;
-      const 参数629 = new URLSearchParams(网址634.search);
-      const 本地值628 = 参数629.get('type') || 'ws';
-      const 路径 = 参数629.get('path') || '/?ed=2048';
-      const 主机627 = 参数629.get('host') || 本地值631;
-      const 服务名称指示626 = 参数629.get('sni') || 主机627;
-      const 应用层协议协商原始 = 参数629.get('alpn') || '';
-      const 加密客户端问候 = 参数629.get('ech');
-      const 节点 = {
-        name: 名称633,
-        type: 解码64('dHJvamFu'),
-        server: 本地值631,
-        port: 端口630,
-        password: 密码632,
-        network: 本地值628,
-        sni: 服务名称指示626,
+    if (_v297.startsWith(_v4('dHJvamFuOi8v'))) {
+      const _v315 = new URL(_v297);
+      const _v316 = decodeURIComponent(_v315.hash.substring(1));
+      const _v317 = _v315.username;
+      const _v318 = _v315.hostname;
+      const _v319 = parseInt(_v315.port) || 443;
+      const _v320 = new URLSearchParams(_v315.search);
+      const _v321 = _v320.get('type') || 'ws';
+      const _v322 = _v320.get('path') || '/?ed=2048';
+      const _v323 = _v320.get('host') || _v318;
+      const _v324 = _v320.get('sni') || _v323;
+      const _v325 = _v320.get('alpn') || '';
+      const _v326 = _v320.get('ech');
+      const _v327 = {
+        name: _v316,
+        type: _v4('dHJvamFu'),
+        server: _v318,
+        port: _v319,
+        password: _v317,
+        network: _v321,
+        sni: _v324,
         'skip-cert-verify': false
       };
-      if (应用层协议协商原始) 节点.alpn = 应用层协议协商原始.split(',').map(甲值625 => 甲值625.trim()).filter(Boolean);
-      if (本地值628 === 'ws') {
-        节点['ws-opts'] = {
-          path: 路径,
+      if (_v325) _v327.alpn = _v325.split(',').map(_v328 => _v328.trim()).filter(Boolean);
+      if (_v321 === 'ws') {
+        _v327['ws-opts'] = {
+          path: _v322,
           headers: {
-            Host: 主机627
+            Host: _v323
           }
         };
       }
-      if (加密客户端问候) {
-        const 加密客户端问候域名624 = 自定义加密客户端问候域名 || 'cloudflare-ech.com';
-        节点['ech-opts'] = {
+      if (_v326) {
+        const _v329 = _v30 || 'cloudflare-ech.com';
+        _v327['ech-opts'] = {
           enable: true,
-          'query-server-name': 加密客户端问候域名624
+          'query-server-name': _v329
         };
       }
-      return 节点;
+      return _v327;
     }
-  } catch (事件值623) {
+  } catch (_v330) {
     return null;
   }
   return null;
 }
-
-// ============================================================
-// 内部格式转换器 - 不依赖外部服务
-// ============================================================
-
-// 用于 YAML 引号包裹（避免 IPv6 方括号、逗号等被解析为数组）
-function 处理本地值622(取值621) {
-  if (取值621 == null) return '""';
-  const 字符串值620 = String(取值621);
-  return '"' + 字符串值620.replace(/\\/g, '\\\\').replace(/"/g, '\\"') + '"';
+function _v331(_v332) {
+  if (_v332 == null) return '""';
+  const _v333 = String(_v332);
+  return '"' + _v333.replace(/\\/g, '\\\\').replace(/"/g, '\\"') + '"';
 }
-
-// URL.hostname 对 IPv6 会带方括号，直接写入 YAML 会被当成数组
-function 规范化值主机(主机名619) {
-  if (!主机名619) return 主机名619;
-  const 头值618 = String(主机名619);
-  if (头值618.startsWith('[') && 头值618.endsWith(']')) return 头值618.slice(1, -1);
-  return 头值618;
+function _v334(_v335) {
+  if (!_v335) return _v335;
+  const _v336 = String(_v335);
+  if (_v336.startsWith('[') && _v336.endsWith(']')) return _v336.slice(1, -1);
+  return _v336;
 }
-
-//
-function 处理值选择值(名称列表617, 本地值616 = {}) {
+function _v337(_v338, _v339 = {}) {
   const {
-    directFirst: 直连首次615 = false,
-    extraGroups: 值值614 = []
-  } = 本地值616;
-  const 节点行列表 = 名称列表617.length ? 名称列表617.map(数量值613 => `      - ${处理本地值622(数量值613)}`).join('\n') : '      - DIRECT';
-  const 行列表612 = [];
-  if (直连首次615) {
-    行列表612.push('      - "🎯 全球直连"', '      - "🚀 节点选择"');
+    directFirst: _v340 = false,
+    extraGroups: _v341 = []
+  } = _v339;
+  const _v342 = _v338.length ? _v338.map(_v343 => `      - ${_v331(_v343)}`).join('\n') : '      - DIRECT';
+  const _v344 = [];
+  if (_v340) {
+    _v344.push(_d64("ASAgICAgIC0gIvCfjq8g5YWo55CD55u06L+eIg=="), _d64("ASAgICAgIC0gIvCfmoAg6IqC54K56YCJ5oupIg=="));
   } else {
-    行列表612.push('      - "🚀 节点选择"', '      - "🎯 全球直连"');
+    _v344.push(_d64("ASAgICAgIC0gIvCfmoAg6IqC54K56YCJ5oupIg=="), _d64("ASAgICAgIC0gIvCfjq8g5YWo55CD55u06L+eIg=="));
   }
-  for (const 本地值611 of 值值614) 行列表612.push(`      - ${处理本地值622(本地值611)}`);
-  行列表612.push(节点行列表);
-  return 行列表612.join('\n');
+  for (const _v345 of _v341) _v344.push(`      - ${_v331(_v345)}`);
+  _v344.push(_v342);
+  return _v344.join('\n');
 }
-
-// Surge / Loon 策略组列表：策略组 + 全部节点
-function 处理值值列表(名称列表610, 本地值609 = {}) {
+function _v346(_v347, _v348 = {}) {
   const {
-    directFirst: 直连首次 = false,
-    extraGroups: 值值608 = [],
-    compact: 本地值607 = false
-  } = 本地值609;
-  const 本地值606 = 本地值607 ? ',' : ', ';
-  const 列表605 = 名称列表610.length ? 名称列表610.join(本地值606) : 'DIRECT';
-  const 部分列表604 = [];
-  if (直连首次) 部分列表604.push('🎯 全球直连', '🚀 节点选择');else 部分列表604.push('🚀 节点选择', '🎯 全球直连');
-  部分列表604.push(...值值608);
-  if (名称列表610.length) 部分列表604.push(列表605);
-  return 部分列表604.join(本地值606);
+    directFirst: _v349 = false,
+    extraGroups: _v350 = [],
+    compact: _v351 = false
+  } = _v348;
+  const _v352 = _v351 ? ',' : ', ';
+  const _v353 = _v347.length ? _v347.join(_v352) : 'DIRECT';
+  const _v354 = [];
+  if (_v349) _v354.push(_d64("AfCfjq8g5YWo55CD55u06L+e"), _d64("AfCfmoAg6IqC54K56YCJ5oup"));else _v354.push(_d64("AfCfmoAg6IqC54K56YCJ5oup"), _d64("AfCfjq8g5YWo55CD55u06L+e"));
+  _v354.push(..._v350);
+  if (_v347.length) _v354.push(_v353);
+  return _v354.join(_v352);
 }
-
-// 解析任意分享链接为通用节点对象
-function 解析值链接(链接603) {
+function _v355(_v356) {
   try {
-    if (链接603.startsWith(解码64('dmxlc3M6Ly8='))) {
-      const 网址602 = new URL(链接603);
-      const 参数值601 = new URLSearchParams(网址602.search);
+    if (_v356.startsWith(_v4('dmxlc3M6Ly8='))) {
+      const _v357 = new URL(_v356);
+      const _v358 = new URLSearchParams(_v357.search);
       return {
-        proto: 解码64('dmxlc3M='),
-        name: decodeURIComponent(网址602.hash.substring(1)) || 网址602.hostname + ':' + 网址602.port,
-        uuid: 网址602.username,
-        server: 规范化值主机(网址602.hostname),
-        port: parseInt(网址602.port) || 443,
-        tls: 参数值601.get('security') === 'tls' || 参数值601.get('security') === 'reality',
-        network: 参数值601.get('type') || 'ws',
-        path: 参数值601.get('path') || '/?ed=2048',
-        host: 规范化值主机(参数值601.get('host') || 网址602.hostname),
-        sni: 规范化值主机(参数值601.get('sni') || 参数值601.get('host') || 网址602.hostname),
-        alpn: (参数值601.get('alpn') || '').split(',').map(字符串值600 => 字符串值600.trim()).filter(Boolean),
-        fp: 参数值601.get('fp') || 'chrome',
-        flow: 参数值601.get('flow') || '',
-        encryption: 参数值601.get('encryption') || 'none',
-        mode: 参数值601.get('mode') || '',
-        ech: 参数值601.get('ech') || ''
+        proto: _v4('dmxlc3M='),
+        name: decodeURIComponent(_v357.hash.substring(1)) || _v357.hostname + ':' + _v357.port,
+        uuid: _v357.username,
+        server: _v334(_v357.hostname),
+        port: parseInt(_v357.port) || 443,
+        tls: _v358.get('security') === 'tls' || _v358.get('security') === 'reality',
+        network: _v358.get('type') || 'ws',
+        path: _v358.get('path') || '/?ed=2048',
+        host: _v334(_v358.get('host') || _v357.hostname),
+        sni: _v334(_v358.get('sni') || _v358.get('host') || _v357.hostname),
+        alpn: (_v358.get('alpn') || '').split(',').map(_v359 => _v359.trim()).filter(Boolean),
+        fp: _v358.get('fp') || 'chrome',
+        flow: _v358.get('flow') || '',
+        encryption: _v358.get('encryption') || 'none',
+        mode: _v358.get('mode') || '',
+        ech: _v358.get('ech') || ''
       };
     }
-    if (链接603.startsWith(解码64('dHJvamFuOi8v'))) {
-      const 网址599 = new URL(链接603);
-      const 参数值 = new URLSearchParams(网址599.search);
+    if (_v356.startsWith(_v4('dHJvamFuOi8v'))) {
+      const _v360 = new URL(_v356);
+      const _v361 = new URLSearchParams(_v360.search);
       return {
-        proto: 解码64('dHJvamFu'),
-        name: decodeURIComponent(网址599.hash.substring(1)) || 网址599.hostname + ':' + 网址599.port,
-        password: decodeURIComponent(网址599.username),
-        server: 规范化值主机(网址599.hostname),
-        port: parseInt(网址599.port) || 443,
+        proto: _v4('dHJvamFu'),
+        name: decodeURIComponent(_v360.hash.substring(1)) || _v360.hostname + ':' + _v360.port,
+        password: decodeURIComponent(_v360.username),
+        server: _v334(_v360.hostname),
+        port: parseInt(_v360.port) || 443,
         tls: true,
-        network: 参数值.get('type') || 'ws',
-        path: 参数值.get('path') || '/?ed=2048',
-        host: 规范化值主机(参数值.get('host') || 网址599.hostname),
-        sni: 规范化值主机(参数值.get('sni') || 参数值.get('host') || 网址599.hostname),
-        alpn: (参数值.get('alpn') || '').split(',').map(字符串值598 => 字符串值598.trim()).filter(Boolean),
-        fp: 参数值.get('fp') || 'chrome',
-        ech: 参数值.get('ech') || ''
+        network: _v361.get('type') || 'ws',
+        path: _v361.get('path') || '/?ed=2048',
+        host: _v334(_v361.get('host') || _v360.hostname),
+        sni: _v334(_v361.get('sni') || _v361.get('host') || _v360.hostname),
+        alpn: (_v361.get('alpn') || '').split(',').map(_v362 => _v362.trim()).filter(Boolean),
+        fp: _v361.get('fp') || 'chrome',
+        ech: _v361.get('ech') || ''
       };
     }
-  } catch (事件值597) {}
+  } catch (_v363) {}
   return null;
 }
-
-//
-function 构建值节点行(数量值596) {
-  const 行列表595 = [];
-  const 本地值594 = 规范化值主机(数量值596.server);
-  const 主机593 = 规范化值主机(数量值596.host) || 本地值594;
-  const 服务名称指示592 = 规范化值主机(数量值596.sni) || 主机593;
-  行列表595.push(`  - name: ${处理本地值622(数量值596.name)}`);
-  行列表595.push(`    type: ${数量值596.proto}`);
-  行列表595.push(`    server: ${处理本地值622(本地值594)}`);
-  行列表595.push(`    port: ${数量值596.port}`);
-  if (数量值596.proto === 解码64('dmxlc3M=')) {
-    行列表595.push(`    uuid: ${数量值596.uuid}`);
-    行列表595.push(`    udp: true`);
-    行列表595.push(`    tls: ${数量值596.tls ? 'true' : 'false'}`);
-    if (数量值596.flow) 行列表595.push(`    flow: ${处理本地值622(数量值596.flow)}`);
-    行列表595.push(`    client-fingerprint: ${处理本地值622(数量值596.fp || 'chrome')}`);
-  } else if (数量值596.proto === 解码64('dHJvamFu')) {
-    行列表595.push(`    password: ${处理本地值622(数量值596.password)}`);
-    行列表595.push(`    udp: true`);
-    行列表595.push(`    client-fingerprint: ${处理本地值622(数量值596.fp || 'chrome')}`);
+function _v364(_v365) {
+  const _v366 = [];
+  const _v367 = _v334(_v365.server);
+  const _v368 = _v334(_v365.host) || _v367;
+  const _v369 = _v334(_v365.sni) || _v368;
+  _v366.push(`  - name: ${_v331(_v365.name)}`);
+  _v366.push(`    type: ${_v365.proto}`);
+  _v366.push(`    server: ${_v331(_v367)}`);
+  _v366.push(`    port: ${_v365.port}`);
+  if (_v365.proto === _v4('dmxlc3M=')) {
+    _v366.push(`    uuid: ${_v365.uuid}`);
+    _v366.push(`    udp: true`);
+    _v366.push(`    tls: ${_v365.tls ? 'true' : 'false'}`);
+    if (_v365.flow) _v366.push(`    flow: ${_v331(_v365.flow)}`);
+    _v366.push(`    client-fingerprint: ${_v331(_v365.fp || 'chrome')}`);
+  } else if (_v365.proto === _v4('dHJvamFu')) {
+    _v366.push(`    password: ${_v331(_v365.password)}`);
+    _v366.push(`    udp: true`);
+    _v366.push(`    client-fingerprint: ${_v331(_v365.fp || 'chrome')}`);
   }
-  if (数量值596.tls) {
-    行列表595.push(`    servername: ${处理本地值622(服务名称指示592)}`);
-    if (数量值596.alpn && 数量值596.alpn.length) {
-      行列表595.push(`    alpn: [${数量值596.alpn.map(甲值591 => 处理本地值622(甲值591)).join(', ')}]`);
+  if (_v365.tls) {
+    _v366.push(`    servername: ${_v331(_v369)}`);
+    if (_v365.alpn && _v365.alpn.length) {
+      _v366.push(`    alpn: [${_v365.alpn.map(_v370 => _v331(_v370)).join(', ')}]`);
     }
-    行列表595.push(`    skip-cert-verify: false`);
+    _v366.push(`    skip-cert-verify: false`);
   }
-  if (数量值596.network === 'ws' || 数量值596.network === 'xhttp') {
-    行列表595.push(`    network: ws`);
-    行列表595.push(`    ws-opts:`);
-    行列表595.push(`      path: ${处理本地值622(数量值596.path)}`);
-    行列表595.push(`      headers:`);
-    行列表595.push(`        Host: ${处理本地值622(主机593)}`);
-  } else if (数量值596.network === 'grpc') {
-    行列表595.push(`    network: grpc`);
-    行列表595.push(`    grpc-opts:`);
-    行列表595.push(`      grpc-service-name: ${处理本地值622(数量值596.path)}`);
+  if (_v365.network === 'ws' || _v365.network === 'xhttp') {
+    _v366.push(`    network: ws`);
+    _v366.push(`    ws-opts:`);
+    _v366.push(`      path: ${_v331(_v365.path)}`);
+    _v366.push(`      headers:`);
+    _v366.push(`        Host: ${_v331(_v368)}`);
+  } else if (_v365.network === 'grpc') {
+    _v366.push(`    network: grpc`);
+    _v366.push(`    grpc-opts:`);
+    _v366.push(`      grpc-service-name: ${_v331(_v365.path)}`);
   }
-  if (数量值596.ech) {
-    const 加密客户端问候域名590 = 自定义加密客户端问候域名 || 'cloudflare-ech.com';
-    行列表595.push(`    ech-opts:`);
-    行列表595.push(`      enable: true`);
-    行列表595.push(`      query-server-name: ${处理本地值622(加密客户端问候域名590)}`);
+  if (_v365.ech) {
+    const _v371 = _v30 || 'cloudflare-ech.com';
+    _v366.push(`    ech-opts:`);
+    _v366.push(`      enable: true`);
+    _v366.push(`      query-server-name: ${_v331(_v371)}`);
   }
-  return 行列表595.join('\n');
+  return _v366.join('\n');
 }
-
-//
-function 生成值值589(链接列表588, 本地值587 = {}) {
-  const 节点列表586 = 链接列表588.map(解析值链接).filter(数量值585 => 数量值585 && (数量值585.proto === 解码64('dmxlc3M=') || 数量值585.proto === 解码64('dHJvamFu')));
-  const 名称列表584 = 节点列表586.map(数量值583 => 数量值583.name);
-  const 域名系统值582 = 自定义域名系统 || 'https://223.5.5.5/dns-query';
-  const 头部581 = ['mixed-port: 7890', 'allow-lan: true', 'mode: rule', 'log-level: info', 'ipv6: true', 'external-controller: 127.0.0.1:9090', 'unified-delay: true', 'tcp-concurrent: true', 'geodata-mode: true', 'geo-auto-update: true', 'geo-update-interval: 24', 'geox-url:', '  geoip: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"', '  geosite: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat"', '  mmdb: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb"', '  asn: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/GeoLite2-ASN.mmdb"', 'sniffer:', '  enable: true', '  force-dns-mapping: true', '  parse-pure-ip: true', '  sniff:', '    HTTP:', '      ports: [80, 8080-8880]', '      override-destination: true', '    TLS:', '      ports: [443, 8443]', '    QUIC:', '      ports: [443, 8443]', 'dns:', '  enable: true', '  listen: 0.0.0.0:1053', '  ipv6: true', '  enhanced-mode: fake-ip', '  fake-ip-range: 198.18.0.1/16', '  fake-ip-filter:', '    - "*.lan"', '    - "+.local"', '    - "+.market.xiaomi.com"', '    - "+.msftconnecttest.com"', '    - "+.msftncsi.com"', '    - "localhost.ptlogin2.qq.com"', '    - "+.srv.nintendo.net"', '    - "+.stun.playstation.net"', '    - "+.xboxlive.com"', '  default-nameserver:', '    - 223.5.5.5', '    - 119.29.29.29', '  nameserver:', `    - ${域名系统值582}`, '    - https://119.29.29.29/dns-query', '  fallback:', '    - https://1.1.1.1/dns-query', '    - https://8.8.8.8/dns-query', '  fallback-filter:', '    geoip: true', '    geoip-code: CN', '    ipcidr:', '      - 240.0.0.0/4', ''];
-  const 值值580 = ['proxies:'];
-  for (const 数量值579 of 节点列表586) 值值580.push(构建值节点行(数量值579));
-  const 节点仅 = 名称列表584.length ? 名称列表584.map(数量值578 => `      - ${处理本地值622(数量值578)}`).join('\n') : '      - DIRECT';
-  const 值值577 = [解码64('cHJveHktZ3JvdXBzOg=='), '  - name: "🚀 节点选择"', '    type: select', '    proxies:', '      - "🎯 全球直连"', 节点仅, '  - name: "🌍 国外媒体"', '    type: select', '    proxies:', 处理值选择值(名称列表584), '  - name: "📺 哔哩哔哩"', '    type: select', '    proxies:', 处理值选择值(名称列表584, {
+function _v372(_v373, _v374 = {}) {
+  const _v375 = _v373.map(_v355).filter(_v376 => _v376 && (_v376.proto === _v4('dmxlc3M=') || _v376.proto === _v4('dHJvamFu')));
+  const _v377 = _v375.map(_v378 => _v378.name);
+  const _v379 = _v29 || 'https://223.5.5.5/dns-query';
+  const _v380 = ['mixed-port: 7890', 'allow-lan: true', 'mode: rule', 'log-level: info', 'ipv6: true', 'external-controller: 127.0.0.1:9090', 'unified-delay: true', 'tcp-concurrent: true', 'geodata-mode: true', 'geo-auto-update: true', 'geo-update-interval: 24', 'geox-url:', '  geoip: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"', '  geosite: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat"', '  mmdb: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb"', '  asn: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/GeoLite2-ASN.mmdb"', 'sniffer:', '  enable: true', '  force-dns-mapping: true', '  parse-pure-ip: true', '  sniff:', '    HTTP:', '      ports: [80, 8080-8880]', '      override-destination: true', '    TLS:', '      ports: [443, 8443]', '    QUIC:', '      ports: [443, 8443]', 'dns:', '  enable: true', '  listen: 0.0.0.0:1053', '  ipv6: true', '  enhanced-mode: fake-ip', '  fake-ip-range: 198.18.0.1/16', '  fake-ip-filter:', '    - "*.lan"', '    - "+.local"', '    - "+.market.xiaomi.com"', '    - "+.msftconnecttest.com"', '    - "+.msftncsi.com"', '    - "localhost.ptlogin2.qq.com"', '    - "+.srv.nintendo.net"', '    - "+.stun.playstation.net"', '    - "+.xboxlive.com"', '  default-nameserver:', '    - 223.5.5.5', '    - 119.29.29.29', '  nameserver:', `    - ${_v379}`, '    - https://119.29.29.29/dns-query', '  fallback:', '    - https://1.1.1.1/dns-query', '    - https://8.8.8.8/dns-query', '  fallback-filter:', '    geoip: true', '    geoip-code: CN', '    ipcidr:', '      - 240.0.0.0/4', ''];
+  const _v381 = ['proxies:'];
+  for (const _v382 of _v375) _v381.push(_v364(_v382));
+  const _v383 = _v377.length ? _v377.map(_v384 => `      - ${_v331(_v384)}`).join('\n') : '      - DIRECT';
+  const _v385 = [_v4('cHJveHktZ3JvdXBzOg=='), _d64("ASAgLSBuYW1lOiAi8J+agCDoioLngrnpgInmi6ki"), '    type: select', '    proxies:', _d64("ASAgICAgIC0gIvCfjq8g5YWo55CD55u06L+eIg=="), _v383, _d64("ASAgLSBuYW1lOiAi8J+MjSDlm73lpJblqpLkvZMi"), '    type: select', '    proxies:', _v337(_v377), _d64("ASAgLSBuYW1lOiAi8J+TuiDlk5Tlk6nlk5Tlk6ki"), '    type: select', '    proxies:', _v337(_v377, {
     directFirst: true
-  }), '  - name: "📹 油管视频"', '    type: select', '    proxies:', 处理值选择值(名称列表584, {
-    extraGroups: ['🌍 国外媒体']
-  }), '  - name: "🎬 奈飞视频"', '    type: select', '    proxies:', 处理值选择值(名称列表584, {
-    extraGroups: ['🌍 国外媒体']
-  }), '  - name: "📲 电报信息"', '    type: select', '    proxies:', 处理值选择值(名称列表584), '  - name: "🌐 谷歌服务"', '    type: select', '    proxies:', 处理值选择值(名称列表584), '  - name: "🤖 OpenAI"', '    type: select', '    proxies:', 处理值选择值(名称列表584), '  - name: "Ⓜ️ 微软服务"', '    type: select', '    proxies:', 处理值选择值(名称列表584, {
+  }), _d64("ASAgLSBuYW1lOiAi8J+TuSDmsrnnrqHop4bpopEi"), '    type: select', '    proxies:', _v337(_v377, {
+    extraGroups: [_d64("AfCfjI0g5Zu95aSW5aqS5L2T")]
+  }), _d64("ASAgLSBuYW1lOiAi8J+OrCDlpYjpo57op4bpopEi"), '    type: select', '    proxies:', _v337(_v377, {
+    extraGroups: [_d64("AfCfjI0g5Zu95aSW5aqS5L2T")]
+  }), _d64("ASAgLSBuYW1lOiAi8J+TsiDnlLXmiqXkv6Hmga8i"), '    type: select', '    proxies:', _v337(_v377), _d64("ASAgLSBuYW1lOiAi8J+MkCDosLfmrYzmnI3liqEi"), '    type: select', '    proxies:', _v337(_v377), '  - name: "🤖 OpenAI"', '    type: select', '    proxies:', _v337(_v377), _d64("ASAgLSBuYW1lOiAi4pOC77iPIOW+rui9r+acjeWKoSI="), '    type: select', '    proxies:', _v337(_v377, {
     directFirst: true
-  }), '  - name: "🍎 苹果服务"', '    type: select', '    proxies:', 处理值选择值(名称列表584, {
+  }), _d64("ASAgLSBuYW1lOiAi8J+NjiDoi7nmnpzmnI3liqEi"), '    type: select', '    proxies:', _v337(_v377, {
     directFirst: true
-  }), '  - name: "🎯 全球直连"', '    type: select', '    proxies:', '      - DIRECT', '  - name: "🛑 全球拦截"', '    type: select', '    proxies:', '      - REJECT', '      - DIRECT', '  - name: "🍃 应用净化"', '    type: select', '    proxies:', '      - REJECT', '      - DIRECT', '  - name: "🐟 漏网之鱼"', '    type: select', '    proxies:', 处理值选择值(名称列表584), ''];
-
-  // Loyalsoldier 规则源 - CDN: jsDelivr
-  const 值基础576 = 解码64('aHR0cHM6Ly9mYXN0bHkuanNkZWxpdnIubmV0L2doL0xveWFsc29sZGllci9jbGFzaC1ydWxlc0ByZWxlYXNl');
-  const 提供器 = (名称575, 本地值574) => [`  ${名称575}:`, `    type: http`, `    behavior: ${本地值574}`, `    url: "${值基础576}/${名称575}.txt"`, `    path: ./rulesets/loyalsoldier/${名称575}.txt`, `    interval: 86400`].join('\n');
-  const 规则值 = ['rule-providers:', 提供器('reject', 'domain'), 提供器('icloud', 'domain'), 提供器('apple', 'domain'), 提供器('google', 'domain'), 提供器(解码64('cHJveHk='), 'domain'), 提供器('direct', 'domain'), 提供器('private', 'domain'), 提供器('gfw', 'domain'), 提供器('greatfire', 'domain'), 提供器('tld-not-cn', 'domain'), 提供器('telegramcidr', 'ipcidr'), 提供器('cncidr', 'ipcidr'), 提供器('lancidr', 'ipcidr'), 提供器('applications', 'classical'), ''];
-  const 规则列表 = ['rules:', '  - DOMAIN-SUFFIX,acl4.ssr,🎯 全球直连', '  - DOMAIN-SUFFIX,local,🎯 全球直连', 解码64('ICAtIERPTUFJTixjbGFzaC5yYXpvcmQudG9wLPCfjq8g5YWo55CD55u06L+e'), '  - DOMAIN,yacd.haishan.me,🎯 全球直连', '  - DOMAIN,yacd.metacubex.one,🎯 全球直连', '  - DOMAIN,d.metacubex.one,🎯 全球直连', '  - DOMAIN-SUFFIX,googleapis.cn,🌐 谷歌服务', '  - DOMAIN-SUFFIX,gstatic.com,🌐 谷歌服务', '  - DOMAIN-SUFFIX,xn--ngstr-lra8j.com,🌐 谷歌服务', '  - DOMAIN-SUFFIX,googlevideo.com,📹 油管视频', '  - DOMAIN-SUFFIX,googleusercontent.com,🌐 谷歌服务', '  - DOMAIN-KEYWORD,youtube,📹 油管视频', '  - DOMAIN-SUFFIX,youtube.com,📹 油管视频', '  - DOMAIN-SUFFIX,youtu.be,📹 油管视频', '  - DOMAIN-KEYWORD,netflix,🎬 奈飞视频', '  - DOMAIN-SUFFIX,nflxext.com,🎬 奈飞视频', '  - DOMAIN-SUFFIX,nflxso.net,🎬 奈飞视频', '  - DOMAIN-SUFFIX,nflxvideo.net,🎬 奈飞视频', '  - DOMAIN-SUFFIX,nflximg.com,🎬 奈飞视频', '  - DOMAIN-SUFFIX,nflximg.net,🎬 奈飞视频', '  - DOMAIN-SUFFIX,netflix.com,🎬 奈飞视频', '  - DOMAIN-SUFFIX,netflix.net,🎬 奈飞视频', '  - DOMAIN-SUFFIX,bilibili.com,📺 哔哩哔哩', '  - DOMAIN-SUFFIX,bilivideo.com,📺 哔哩哔哩', '  - DOMAIN-SUFFIX,hdslb.com,📺 哔哩哔哩', '  - DOMAIN-KEYWORD,openai,🤖 OpenAI', '  - DOMAIN-KEYWORD,chatgpt,🤖 OpenAI', '  - DOMAIN-SUFFIX,openai.com,🤖 OpenAI', '  - DOMAIN-SUFFIX,chatgpt.com,🤖 OpenAI', '  - DOMAIN-SUFFIX,oaistatic.com,🤖 OpenAI', '  - DOMAIN-SUFFIX,oaiusercontent.com,🤖 OpenAI', '  - DOMAIN-SUFFIX,anthropic.com,🤖 OpenAI', '  - DOMAIN-SUFFIX,claude.ai,🤖 OpenAI', '  - DOMAIN-SUFFIX,perplexity.ai,🤖 OpenAI', '  - DOMAIN-SUFFIX,gemini.google.com,🤖 OpenAI', '  - RULE-SET,applications,🎯 全球直连', '  - RULE-SET,private,🎯 全球直连', '  - RULE-SET,reject,🛑 全球拦截', '  - RULE-SET,icloud,🍎 苹果服务', '  - RULE-SET,apple,🍎 苹果服务', '  - RULE-SET,google,🌐 谷歌服务', 解码64('ICAtIFJVTEUtU0VULHByb3h5LPCfmoAg6IqC54K56YCJ5oup'), '  - RULE-SET,gfw,🚀 节点选择', '  - RULE-SET,greatfire,🚀 节点选择', '  - RULE-SET,tld-not-cn,🚀 节点选择', '  - RULE-SET,direct,🎯 全球直连', '  - RULE-SET,lancidr,🎯 全球直连,no-resolve', '  - RULE-SET,cncidr,🎯 全球直连,no-resolve', '  - RULE-SET,telegramcidr,📲 电报信息,no-resolve', '  - GEOIP,LAN,🎯 全球直连,no-resolve', '  - GEOIP,CN,🎯 全球直连,no-resolve', '  - MATCH,🐟 漏网之鱼'];
-  return [头部581.join('\n'), 值值580.join('\n'), '', 值值577.join('\n'), 规则值.join('\n'), 规则列表.join('\n'), ''].join('\n');
+  }), _d64("ASAgLSBuYW1lOiAi8J+OryDlhajnkIPnm7Tov54i"), '    type: select', '    proxies:', '      - DIRECT', _d64("ASAgLSBuYW1lOiAi8J+bkSDlhajnkIPmi6bmiKoi"), '    type: select', '    proxies:', '      - REJECT', '      - DIRECT', _d64("ASAgLSBuYW1lOiAi8J+NgyDlupTnlKjlh4DljJYi"), '    type: select', '    proxies:', '      - REJECT', '      - DIRECT', _d64("ASAgLSBuYW1lOiAi8J+QnyDmvI/nvZHkuYvpsbwi"), '    type: select', '    proxies:', _v337(_v377), ''];
+  const _v386 = _v4('aHR0cHM6Ly9mYXN0bHkuanNkZWxpdnIubmV0L2doL0xveWFsc29sZGllci9jbGFzaC1ydWxlc0ByZWxlYXNl');
+  const _v387 = (_v388, _v389) => [`  ${_v388}:`, `    type: http`, `    behavior: ${_v389}`, `    url: "${_v386}/${_v388}.txt"`, `    path: ./rulesets/loyalsoldier/${_v388}.txt`, `    interval: 86400`].join('\n');
+  const _v390 = ['rule-providers:', _v387('reject', 'domain'), _v387('icloud', 'domain'), _v387('apple', 'domain'), _v387('google', 'domain'), _v387(_v4('cHJveHk='), 'domain'), _v387('direct', 'domain'), _v387('private', 'domain'), _v387('gfw', 'domain'), _v387('greatfire', 'domain'), _v387('tld-not-cn', 'domain'), _v387('telegramcidr', 'ipcidr'), _v387('cncidr', 'ipcidr'), _v387('lancidr', 'ipcidr'), _v387('applications', 'classical'), ''];
+  const _v391 = ['rules:', _d64("ASAgLSBET01BSU4tU1VGRklYLGFjbDQuc3NyLPCfjq8g5YWo55CD55u06L+e"), _d64("ASAgLSBET01BSU4tU1VGRklYLGxvY2FsLPCfjq8g5YWo55CD55u06L+e"), _v4('ICAtIERPTUFJTixjbGFzaC5yYXpvcmQudG9wLPCfjq8g5YWo55CD55u06L+e'), _d64("ASAgLSBET01BSU4seWFjZC5oYWlzaGFuLm1lLPCfjq8g5YWo55CD55u06L+e"), _d64("ASAgLSBET01BSU4seWFjZC5tZXRhY3ViZXgub25lLPCfjq8g5YWo55CD55u06L+e"), _d64("ASAgLSBET01BSU4sZC5tZXRhY3ViZXgub25lLPCfjq8g5YWo55CD55u06L+e"), _d64("ASAgLSBET01BSU4tU1VGRklYLGdvb2dsZWFwaXMuY24s8J+MkCDosLfmrYzmnI3liqE="), _d64("ASAgLSBET01BSU4tU1VGRklYLGdzdGF0aWMuY29tLPCfjJAg6LC35q2M5pyN5Yqh"), _d64("ASAgLSBET01BSU4tU1VGRklYLHhuLS1uZ3N0ci1scmE4ai5jb20s8J+MkCDosLfmrYzmnI3liqE="), _d64("ASAgLSBET01BSU4tU1VGRklYLGdvb2dsZXZpZGVvLmNvbSzwn5O5IOayueeuoeinhumikQ=="), _d64("ASAgLSBET01BSU4tU1VGRklYLGdvb2dsZXVzZXJjb250ZW50LmNvbSzwn4yQIOiwt+atjOacjeWKoQ=="), _d64("ASAgLSBET01BSU4tS0VZV09SRCx5b3V0dWJlLPCfk7kg5rK5566h6KeG6aKR"), _d64("ASAgLSBET01BSU4tU1VGRklYLHlvdXR1YmUuY29tLPCfk7kg5rK5566h6KeG6aKR"), _d64("ASAgLSBET01BSU4tU1VGRklYLHlvdXR1LmJlLPCfk7kg5rK5566h6KeG6aKR"), _d64("ASAgLSBET01BSU4tS0VZV09SRCxuZXRmbGl4LPCfjqwg5aWI6aOe6KeG6aKR"), _d64("ASAgLSBET01BSU4tU1VGRklYLG5mbHhleHQuY29tLPCfjqwg5aWI6aOe6KeG6aKR"), _d64("ASAgLSBET01BSU4tU1VGRklYLG5mbHhzby5uZXQs8J+OrCDlpYjpo57op4bpopE="), _d64("ASAgLSBET01BSU4tU1VGRklYLG5mbHh2aWRlby5uZXQs8J+OrCDlpYjpo57op4bpopE="), _d64("ASAgLSBET01BSU4tU1VGRklYLG5mbHhpbWcuY29tLPCfjqwg5aWI6aOe6KeG6aKR"), _d64("ASAgLSBET01BSU4tU1VGRklYLG5mbHhpbWcubmV0LPCfjqwg5aWI6aOe6KeG6aKR"), _d64("ASAgLSBET01BSU4tU1VGRklYLG5ldGZsaXguY29tLPCfjqwg5aWI6aOe6KeG6aKR"), _d64("ASAgLSBET01BSU4tU1VGRklYLG5ldGZsaXgubmV0LPCfjqwg5aWI6aOe6KeG6aKR"), _d64("ASAgLSBET01BSU4tU1VGRklYLGJpbGliaWxpLmNvbSzwn5O6IOWTlOWTqeWTlOWTqQ=="), _d64("ASAgLSBET01BSU4tU1VGRklYLGJpbGl2aWRlby5jb20s8J+TuiDlk5Tlk6nlk5Tlk6k="), _d64("ASAgLSBET01BSU4tU1VGRklYLGhkc2xiLmNvbSzwn5O6IOWTlOWTqeWTlOWTqQ=="), '  - DOMAIN-KEYWORD,openai,🤖 OpenAI', '  - DOMAIN-KEYWORD,chatgpt,🤖 OpenAI', '  - DOMAIN-SUFFIX,openai.com,🤖 OpenAI', '  - DOMAIN-SUFFIX,chatgpt.com,🤖 OpenAI', '  - DOMAIN-SUFFIX,oaistatic.com,🤖 OpenAI', '  - DOMAIN-SUFFIX,oaiusercontent.com,🤖 OpenAI', '  - DOMAIN-SUFFIX,anthropic.com,🤖 OpenAI', '  - DOMAIN-SUFFIX,claude.ai,🤖 OpenAI', '  - DOMAIN-SUFFIX,perplexity.ai,🤖 OpenAI', '  - DOMAIN-SUFFIX,gemini.google.com,🤖 OpenAI', _d64("ASAgLSBSVUxFLVNFVCxhcHBsaWNhdGlvbnMs8J+OryDlhajnkIPnm7Tov54="), _d64("ASAgLSBSVUxFLVNFVCxwcml2YXRlLPCfjq8g5YWo55CD55u06L+e"), _d64("ASAgLSBSVUxFLVNFVCxyZWplY3Qs8J+bkSDlhajnkIPmi6bmiKo="), _d64("ASAgLSBSVUxFLVNFVCxpY2xvdWQs8J+NjiDoi7nmnpzmnI3liqE="), _d64("ASAgLSBSVUxFLVNFVCxhcHBsZSzwn42OIOiLueaenOacjeWKoQ=="), _d64("ASAgLSBSVUxFLVNFVCxnb29nbGUs8J+MkCDosLfmrYzmnI3liqE="), _v4('ICAtIFJVTEUtU0VULHByb3h5LPCfmoAg6IqC54K56YCJ5oup'), _d64("ASAgLSBSVUxFLVNFVCxnZncs8J+agCDoioLngrnpgInmi6k="), _d64("ASAgLSBSVUxFLVNFVCxncmVhdGZpcmUs8J+agCDoioLngrnpgInmi6k="), _d64("ASAgLSBSVUxFLVNFVCx0bGQtbm90LWNuLPCfmoAg6IqC54K56YCJ5oup"), _d64("ASAgLSBSVUxFLVNFVCxkaXJlY3Qs8J+OryDlhajnkIPnm7Tov54="), _d64("ASAgLSBSVUxFLVNFVCxsYW5jaWRyLPCfjq8g5YWo55CD55u06L+eLG5vLXJlc29sdmU="), _d64("ASAgLSBSVUxFLVNFVCxjbmNpZHIs8J+OryDlhajnkIPnm7Tov54sbm8tcmVzb2x2ZQ=="), _d64("ASAgLSBSVUxFLVNFVCx0ZWxlZ3JhbWNpZHIs8J+TsiDnlLXmiqXkv6Hmga8sbm8tcmVzb2x2ZQ=="), _d64("ASAgLSBHRU9JUCxMQU4s8J+OryDlhajnkIPnm7Tov54sbm8tcmVzb2x2ZQ=="), _d64("ASAgLSBHRU9JUCxDTizwn46vIOWFqOeQg+ebtOi/nixuby1yZXNvbHZl"), _d64("ASAgLSBNQVRDSCzwn5CfIOa8j+e9keS5i+mxvA==")];
+  return [_v380.join('\n'), _v381.join('\n'), '', _v385.join('\n'), _v390.join('\n'), _v391.join('\n'), ''].join('\n');
 }
-
-// 内部生成 JSON 客户端配置（完整规则集：MetaCubeX 镜像）
-function 生成值值数据对象(链接列表573) {
-  const 节点列表572 = 链接列表573.map(解析值链接).filter(数量值571 => 数量值571 && (数量值571.proto === 解码64('dmxlc3M=') || 数量值571.proto === 解码64('dHJvamFu')));
-  const 域名系统值570 = 自定义域名系统 || 'https://223.5.5.5/dns-query';
-  const 出站值 = 节点列表572.map(数量值569 => 数量值569.name);
-  function 处理节点值出站(数量值568) {
-    const 输出567 = {
-      type: 数量值568.proto,
-      tag: 数量值568.name,
-      server: 规范化值主机(数量值568.server),
-      server_port: 数量值568.port
+function _v392(_v393) {
+  const _v394 = _v393.map(_v355).filter(_v395 => _v395 && (_v395.proto === _v4('dmxlc3M=') || _v395.proto === _v4('dHJvamFu')));
+  const _v396 = _v29 || 'https://223.5.5.5/dns-query';
+  const _v397 = _v394.map(_v398 => _v398.name);
+  function _v399(_v400) {
+    const _v401 = {
+      type: _v400.proto,
+      tag: _v400.name,
+      server: _v334(_v400.server),
+      server_port: _v400.port
     };
-    if (数量值568.proto === 解码64('dmxlc3M=')) {
-      输出567.uuid = 数量值568.uuid;
-      if (数量值568.flow) 输出567.flow = 数量值568.flow;
+    if (_v400.proto === _v4('dmxlc3M=')) {
+      _v401.uuid = _v400.uuid;
+      if (_v400.flow) _v401.flow = _v400.flow;
     } else {
-      输出567.password = 数量值568.password;
+      _v401.password = _v400.password;
     }
-    if (数量值568.tls) {
-      输出567.tls = {
+    if (_v400.tls) {
+      _v401.tls = {
         enabled: true,
-        server_name: 数量值568.sni,
+        server_name: _v400.sni,
         insecure: false,
         utls: {
           enabled: true,
-          fingerprint: 数量值568.fp || 'chrome'
+          fingerprint: _v400.fp || 'chrome'
         }
       };
-      if (数量值568.alpn && 数量值568.alpn.length) 输出567.tls.alpn = 数量值568.alpn;
-      if (数量值568.ech) {
-        输出567.tls.ech = {
+      if (_v400.alpn && _v400.alpn.length) _v401.tls.alpn = _v400.alpn;
+      if (_v400.ech) {
+        _v401.tls.ech = {
           enabled: true,
           pq_signature_schemes_enabled: false,
           dynamic_record_sizing_disabled: false
         };
       }
     }
-    if (数量值568.network === 'ws' || 数量值568.network === 'xhttp') {
-      输出567.transport = {
+    if (_v400.network === 'ws' || _v400.network === 'xhttp') {
+      _v401.transport = {
         type: 'ws',
-        path: 数量值568.path,
+        path: _v400.path,
         headers: {
-          Host: 数量值568.host
+          Host: _v400.host
         },
         max_early_data: 2048,
         early_data_header_name: 'Sec-WebSocket-Protocol'
       };
-    } else if (数量值568.network === 'grpc') {
-      输出567.transport = {
+    } else if (_v400.network === 'grpc') {
+      _v401.transport = {
         type: 'grpc',
-        service_name: 数量值568.path
+        service_name: _v400.path
       };
     }
-    return 输出567;
+    return _v401;
   }
-
-  // 远端 SRS 文件（CDN：jsDelivr 镜像 MetaCubeX 转换的 SagerNet 数据）
-  const 值基础值 = 'https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite';
-  const 值基础地址 = 'https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip';
-  const 值规则566 = 本地值565 => ({
-    tag: `geosite-${本地值565}`,
+  const _v402 = 'https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite';
+  const _v403 = 'https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip';
+  const _v404 = _v405 => ({
+    tag: `geosite-${_v405}`,
     type: 'remote',
     format: 'binary',
-    url: `${值基础值}/${本地值565}.srs`,
+    url: `${_v402}/${_v405}.srs`,
     download_detour: 'direct'
   });
-  const 地址规则 = 本地值564 => ({
-    tag: `geoip-${本地值564}`,
+  const _v406 = _v407 => ({
+    tag: `geoip-${_v407}`,
     type: 'remote',
     format: 'binary',
-    url: `${值基础地址}/${本地值564}.srs`,
+    url: `${_v403}/${_v407}.srs`,
     download_detour: 'direct'
   });
-  const 配置 = {
+  const _v56 = {
     log: {
       level: 'info',
       timestamp: true
@@ -1962,7 +1416,7 @@ function 生成值值数据对象(链接列表573) {
     dns: {
       servers: [{
         tag: 'remote',
-        address: 域名系统值570,
+        address: _v396,
         detour: 'select'
       }, {
         tag: 'local',
@@ -2006,7 +1460,7 @@ function 生成值值数据对象(链接列表573) {
     }, {
       type: 'tun',
       tag: 'tun-in',
-      interface_name: 解码64('c2luZy1ib3g='),
+      interface_name: _v4('c2luZy1ib3g='),
       address: ['172.19.0.1/30', 'fdfe:dcba:9876::1/126'],
       mtu: 9000,
       auto_route: true,
@@ -2018,53 +1472,53 @@ function 生成值值数据对象(链接列表573) {
     outbounds: [{
       type: 'selector',
       tag: 'select',
-      outbounds: ['direct', ...出站值],
-      default: 出站值[0] || 'direct'
+      outbounds: ['direct', ..._v397],
+      default: _v397[0] || 'direct'
     }, {
       type: 'selector',
-      tag: '🌍 国外媒体',
-      outbounds: ['select', 'direct', ...出站值]
+      tag: _d64("AfCfjI0g5Zu95aSW5aqS5L2T"),
+      outbounds: ['select', 'direct', ..._v397]
     }, {
       type: 'selector',
-      tag: '📲 电报信息',
-      outbounds: ['select', 'direct', ...出站值]
+      tag: _d64("AfCfk7Ig55S15oql5L+h5oGv"),
+      outbounds: ['select', 'direct', ..._v397]
     }, {
       type: 'selector',
-      tag: '🌐 谷歌服务',
-      outbounds: ['select', 'direct', ...出站值]
+      tag: _d64("AfCfjJAg6LC35q2M5pyN5Yqh"),
+      outbounds: ['select', 'direct', ..._v397]
     }, {
       type: 'selector',
       tag: '🤖 OpenAI',
-      outbounds: ['select', 'direct', ...出站值]
+      outbounds: ['select', 'direct', ..._v397]
     }, {
       type: 'selector',
-      tag: 'Ⓜ️ 微软服务',
-      outbounds: ['direct', 'select', ...出站值]
+      tag: _d64("AeKTgu+4jyDlvq7ova/mnI3liqE="),
+      outbounds: ['direct', 'select', ..._v397]
     }, {
       type: 'selector',
-      tag: '🍎 苹果服务',
-      outbounds: ['direct', 'select', ...出站值]
+      tag: _d64("AfCfjY4g6Iu55p6c5pyN5Yqh"),
+      outbounds: ['direct', 'select', ..._v397]
     }, {
       type: 'selector',
-      tag: '📺 哔哩哔哩',
-      outbounds: ['direct', 'select', ...出站值]
+      tag: _d64("AfCfk7og5ZOU5ZOp5ZOU5ZOp"),
+      outbounds: ['direct', 'select', ..._v397]
     }, {
       type: 'selector',
-      tag: '📹 油管视频',
-      outbounds: ['select', '🌍 国外媒体', 'direct', ...出站值]
+      tag: _d64("AfCfk7kg5rK5566h6KeG6aKR"),
+      outbounds: ['select', _d64("AfCfjI0g5Zu95aSW5aqS5L2T"), 'direct', ..._v397]
     }, {
       type: 'selector',
-      tag: '🎬 奈飞视频',
-      outbounds: ['select', '🌍 国外媒体', 'direct', ...出站值]
+      tag: _d64("AfCfjqwg5aWI6aOe6KeG6aKR"),
+      outbounds: ['select', _d64("AfCfjI0g5Zu95aSW5aqS5L2T"), 'direct', ..._v397]
     }, {
       type: 'selector',
-      tag: '🎯 全球直连',
+      tag: _d64("AfCfjq8g5YWo55CD55u06L+e"),
       outbounds: ['direct']
     }, {
       type: 'selector',
-      tag: '🐟 漏网之鱼',
-      outbounds: ['select', 'direct', ...出站值]
-    }, ...节点列表572.map(处理节点值出站), {
+      tag: _d64("AfCfkJ8g5ryP572R5LmL6bG8"),
+      outbounds: ['select', 'direct', ..._v397]
+    }, ..._v394.map(_v399), {
       type: 'direct',
       tag: 'direct'
     }, {
@@ -2075,7 +1529,7 @@ function 生成值值数据对象(链接列表573) {
       tag: 'dns-out'
     }],
     route: {
-      rule_set: [值规则566('cn'), 值规则566('private'), 值规则566('apple'), 值规则566('apple-cn'), 值规则566('microsoft'), 值规则566('microsoft@cn'), 值规则566('google'), 值规则566('telegram'), 值规则566('openai'), 值规则566('anthropic'), 值规则566('youtube'), 值规则566('netflix'), 值规则566('disney'), 值规则566('spotify'), 值规则566('tiktok'), 值规则566('twitter'), 值规则566('facebook'), 值规则566('github'), 值规则566('geolocation-!cn'), 值规则566('category-ads-all'), 地址规则('cn'), 地址规则('private'), 地址规则('telegram')],
+      rule_set: [_v404('cn'), _v404('private'), _v404('apple'), _v404('apple-cn'), _v404('microsoft'), _v404('microsoft@cn'), _v404('google'), _v404('telegram'), _v404('openai'), _v404('anthropic'), _v404('youtube'), _v404('netflix'), _v404('disney'), _v404('spotify'), _v404('tiktok'), _v404('twitter'), _v404('facebook'), _v404('github'), _v404('geolocation-!cn'), _v404('category-ads-all'), _v406('cn'), _v406('private'), _v406('telegram')],
       rules: [{
         protocol: 'dns',
         outbound: 'dns-out'
@@ -2096,10 +1550,10 @@ function 生成值值数据对象(链接列表573) {
         outbound: 'direct'
       }, {
         rule_set: 'geosite-apple',
-        outbound: '🍎 苹果服务'
+        outbound: _d64("AfCfjY4g6Iu55p6c5pyN5Yqh")
       }, {
         rule_set: 'geosite-microsoft',
-        outbound: 'Ⓜ️ 微软服务'
+        outbound: _d64("AeKTgu+4jyDlvq7ova/mnI3liqE=")
       }, {
         rule_set: 'geosite-openai',
         outbound: '🤖 OpenAI'
@@ -2108,34 +1562,34 @@ function 生成值值数据对象(链接列表573) {
         outbound: '🤖 OpenAI'
       }, {
         rule_set: 'geosite-telegram',
-        outbound: '📲 电报信息'
+        outbound: _d64("AfCfk7Ig55S15oql5L+h5oGv")
       }, {
         rule_set: 'geoip-telegram',
-        outbound: '📲 电报信息'
+        outbound: _d64("AfCfk7Ig55S15oql5L+h5oGv")
       }, {
         rule_set: 'geosite-google',
-        outbound: '🌐 谷歌服务'
+        outbound: _d64("AfCfjJAg6LC35q2M5pyN5Yqh")
       }, {
         rule_set: 'geosite-youtube',
-        outbound: '🌍 国外媒体'
+        outbound: _d64("AfCfjI0g5Zu95aSW5aqS5L2T")
       }, {
         rule_set: 'geosite-netflix',
-        outbound: '🌍 国外媒体'
+        outbound: _d64("AfCfjI0g5Zu95aSW5aqS5L2T")
       }, {
         rule_set: 'geosite-disney',
-        outbound: '🌍 国外媒体'
+        outbound: _d64("AfCfjI0g5Zu95aSW5aqS5L2T")
       }, {
         rule_set: 'geosite-spotify',
-        outbound: '🌍 国外媒体'
+        outbound: _d64("AfCfjI0g5Zu95aSW5aqS5L2T")
       }, {
         rule_set: 'geosite-tiktok',
-        outbound: '🌍 国外媒体'
+        outbound: _d64("AfCfjI0g5Zu95aSW5aqS5L2T")
       }, {
         rule_set: 'geosite-twitter',
-        outbound: '🌍 国外媒体'
+        outbound: _d64("AfCfjI0g5Zu95aSW5aqS5L2T")
       }, {
         rule_set: 'geosite-facebook',
-        outbound: '🌍 国外媒体'
+        outbound: _d64("AfCfjI0g5Zu95aSW5aqS5L2T")
       }, {
         rule_set: 'geosite-github',
         outbound: 'select'
@@ -2152,7 +1606,7 @@ function 生成值值数据对象(链接列表573) {
         ip_is_private: true,
         outbound: 'direct'
       }],
-      final: '🐟 漏网之鱼',
+      final: _d64("AfCfkJ8g5ryP572R5LmL6bG8"),
       auto_detect_interface: true
     },
     experimental: {
@@ -2160,1756 +1614,1713 @@ function 生成值值数据对象(链接列表573) {
         enabled: true,
         store_fakeip: true
       },
-      [解码64('Y2xhc2hfYXBp')]: {
+      [_v4('Y2xhc2hfYXBp')]: {
         external_controller: '127.0.0.1:9090'
       }
     }
   };
-  return JSON.stringify(配置, null, 2);
+  return JSON.stringify(_v56, null, 2);
 }
-
-// ACL4SSR 规则源（CDN：jsDelivr 镜像 GitHub）
-const 值基础 = 解码64('aHR0cHM6Ly9mYXN0bHkuanNkZWxpdnIubmV0L2doL0FDTDRTU1IvQUNMNFNTUkBtYXN0ZXIvQ2xhc2g=');
-const 值规则 = 名称563 => `${值基础}/${名称563}.list`;
-
-// 内部生成 ini 客户端配置（完整 ACL4SSR 规则集）
-function 生成值值562(链接列表561) {
-  const 节点列表560 = 链接列表561.map(解析值链接).filter(数量值559 => 数量值559 && 数量值559.proto === 解码64('dHJvamFu'));
-  const 域名系统值558 = 自定义域名系统 || '223.5.5.5';
-  const 名称列表557 = 节点列表560.map(数量值556 => 数量值556.name);
-  const 行列表555 = ['[General]', 'loglevel = notify', 'internet-test-url = http://www.apple.com/library/test/success.html', 解码64('cHJveHktdGVzdC11cmwgPSBodHRwOi8vd3d3LmdzdGF0aWMuY29tL2dlbmVyYXRlXzIwNA=='), 'test-timeout = 3', `dns-server = ${域名系统值558.replace(/^https?:\/\//, '').replace(/\/.*$/, '')}, 119.29.29.29, system`, 'encrypted-dns-server = https://223.5.5.5/dns-query, https://1.12.12.12/dns-query', 'ipv6 = true', 'allow-wifi-access = false', 'wifi-access-http-port = 6152', 解码64('d2lmaS1hY2Nlc3Mtc29ja3M1LXBvcnQgPSA2MTUz'), 解码64('c2tpcC1wcm94eSA9IDEyNy4wLjAuMSwgMTkyLjE2OC4wLjAvMTYsIDEwLjAuMC4wLzgsIDE3Mi4xNi4wLjAvMTIsIGxvY2FsaG9zdCwgKi5sb2NhbCwgY2FwdGl2ZS5hcHBsZS5jb20='), 'exclude-simple-hostnames = true', 'show-error-page-for-reject = true', '', 解码64('W1Byb3h5XQ==')];
-  for (const 数量值554 of 节点列表560) {
-    const 服务名称指示 = 数量值554.sni;
-    行列表555.push(`${数量值554.name} = ${解码64('dHJvamFu')}, ${数量值554.server}, ${数量值554.port}, password=${数量值554.password}, sni=${服务名称指示}, ws=true, ws-path=${数量值554.path}, ws-headers=Host:${数量值554.host}, skip-cert-verify=false, tfo=true`);
+const _v408 = _v4('aHR0cHM6Ly9mYXN0bHkuanNkZWxpdnIubmV0L2doL0FDTDRTU1IvQUNMNFNTUkBtYXN0ZXIvQ2xhc2g=');
+const _v409 = _v410 => `${_v408}/${_v410}.list`;
+function _v411(_v412) {
+  const _v413 = _v412.map(_v355).filter(_v414 => _v414 && _v414.proto === _v4('dHJvamFu'));
+  const _v415 = _v29 || '223.5.5.5';
+  const _v416 = _v413.map(_v417 => _v417.name);
+  const _v418 = ['[General]', 'loglevel = notify', 'internet-test-url = http://www.apple.com/library/test/success.html', _v4('cHJveHktdGVzdC11cmwgPSBodHRwOi8vd3d3LmdzdGF0aWMuY29tL2dlbmVyYXRlXzIwNA=='), 'test-timeout = 3', `dns-server = ${_v415.replace(/^https?:\/\//, '').replace(/\/.*$/, '')}, 119.29.29.29, system`, 'encrypted-dns-server = https://223.5.5.5/dns-query, https://1.12.12.12/dns-query', 'ipv6 = true', 'allow-wifi-access = false', 'wifi-access-http-port = 6152', _v4('d2lmaS1hY2Nlc3Mtc29ja3M1LXBvcnQgPSA2MTUz'), _v4('c2tpcC1wcm94eSA9IDEyNy4wLjAuMSwgMTkyLjE2OC4wLjAvMTYsIDEwLjAuMC4wLzgsIDE3Mi4xNi4wLjAvMTIsIGxvY2FsaG9zdCwgKi5sb2NhbCwgY2FwdGl2ZS5hcHBsZS5jb20='), 'exclude-simple-hostnames = true', 'show-error-page-for-reject = true', '', _v4('W1Byb3h5XQ==')];
+  for (const _v419 of _v413) {
+    const _v420 = _v419.sni;
+    _v418.push(`${_v419.name} = ${_v4('dHJvamFu')}, ${_v419.server}, ${_v419.port}, password=${_v419.password}, sni=${_v420}, ws=true, ws-path=${_v419.path}, ws-headers=Host:${_v419.host}, skip-cert-verify=false, tfo=true`);
   }
-  if (!节点列表560.length) {
-    行列表555.push('Direct = direct');
+  if (!_v413.length) {
+    _v418.push('Direct = direct');
   }
-  行列表555.push('');
-  行列表555.push(解码64('W1Byb3h5IEdyb3VwXQ=='));
-  const 列表553 = 名称列表557.length ? 名称列表557.join(', ') : 'DIRECT';
-  行列表555.push(`🚀 节点选择 = select, 🎯 全球直连, ${列表553}`);
-  行列表555.push(`🌍 国外媒体 = select, ${处理值值列表(名称列表557)}`);
-  行列表555.push(`📺 哔哩哔哩 = select, ${处理值值列表(名称列表557, {
+  _v418.push('');
+  _v418.push(_v4('W1Byb3h5IEdyb3VwXQ=='));
+  const _v421 = _v416.length ? _v416.join(', ') : 'DIRECT';
+  _v418.push(_d64("AfCfmoAg6IqC54K56YCJ5oupID0gc2VsZWN0LCDwn46vIOWFqOeQg+ebtOi/niwg") + String(_v421));
+  _v418.push(_d64("AfCfjI0g5Zu95aSW5aqS5L2TID0gc2VsZWN0LCA=") + String(_v346(_v416)));
+  _v418.push(_d64("AfCfk7og5ZOU5ZOp5ZOU5ZOpID0gc2VsZWN0LCA=") + String(_v346(_v416, {
     directFirst: true
-  })}`);
-  行列表555.push(`📹 油管视频 = select, ${处理值值列表(名称列表557, {
-    extraGroups: ['🌍 国外媒体']
-  })}`);
-  行列表555.push(`🎬 奈飞视频 = select, ${处理值值列表(名称列表557, {
-    extraGroups: ['🌍 国外媒体']
-  })}`);
-  行列表555.push(`📲 电报信息 = select, ${处理值值列表(名称列表557)}`);
-  行列表555.push(`🌐 谷歌服务 = select, ${处理值值列表(名称列表557)}`);
-  行列表555.push(`🤖 OpenAI = select, ${处理值值列表(名称列表557)}`);
-  行列表555.push(`Ⓜ️ 微软服务 = select, ${处理值值列表(名称列表557, {
+  })));
+  _v418.push(_d64("AfCfk7kg5rK5566h6KeG6aKRID0gc2VsZWN0LCA=") + String(_v346(_v416, {
+    extraGroups: [_d64("AfCfjI0g5Zu95aSW5aqS5L2T")]
+  })));
+  _v418.push(_d64("AfCfjqwg5aWI6aOe6KeG6aKRID0gc2VsZWN0LCA=") + String(_v346(_v416, {
+    extraGroups: [_d64("AfCfjI0g5Zu95aSW5aqS5L2T")]
+  })));
+  _v418.push(_d64("AfCfk7Ig55S15oql5L+h5oGvID0gc2VsZWN0LCA=") + String(_v346(_v416)));
+  _v418.push(_d64("AfCfjJAg6LC35q2M5pyN5YqhID0gc2VsZWN0LCA=") + String(_v346(_v416)));
+  _v418.push(`🤖 OpenAI = select, ${_v346(_v416)}`);
+  _v418.push(_d64("AeKTgu+4jyDlvq7ova/mnI3liqEgPSBzZWxlY3QsIA==") + String(_v346(_v416, {
     directFirst: true
-  })}`);
-  行列表555.push(`🍎 苹果服务 = select, ${处理值值列表(名称列表557, {
+  })));
+  _v418.push(_d64("AfCfjY4g6Iu55p6c5pyN5YqhID0gc2VsZWN0LCA=") + String(_v346(_v416, {
     directFirst: true
-  })}`);
-  行列表555.push(`🎯 全球直连 = select, DIRECT`);
-  行列表555.push(`🛑 全球拦截 = select, REJECT, DIRECT`);
-  行列表555.push(`🐟 漏网之鱼 = select, ${处理值值列表(名称列表557)}`);
-  行列表555.push('');
-  行列表555.push('[Rule]');
-  行列表555.push(`RULE-SET,${值规则('LocalAreaNetwork')},🎯 全球直连`);
-  行列表555.push(`RULE-SET,${值规则('UnBan')},🎯 全球直连`);
-  行列表555.push(`RULE-SET,${值规则('BanAD')},🛑 全球拦截`);
-  行列表555.push(`RULE-SET,${值规则('BanProgramAD')},🛑 全球拦截`);
-  行列表555.push(`RULE-SET,${值规则('GoogleFCM')},🌐 谷歌服务`);
-  行列表555.push(`RULE-SET,${值规则('GoogleCN')},🎯 全球直连`);
-  行列表555.push(`RULE-SET,${值规则('SteamCN')},🎯 全球直连`);
-  行列表555.push(`RULE-SET,${值规则('Microsoft')},Ⓜ️ 微软服务`);
-  行列表555.push(`RULE-SET,${值规则('Apple')},🍎 苹果服务`);
-  行列表555.push(`RULE-SET,${值规则('Telegram')},📲 电报信息`);
-  行列表555.push(`RULE-SET,${值规则('OpenAi')},🤖 OpenAI`);
-  行列表555.push(`RULE-SET,${值规则('Claude')},🤖 OpenAI`);
-  行列表555.push(`RULE-SET,${值规则('Copilot')},🤖 OpenAI`);
-  行列表555.push(`RULE-SET,${值规则('Netflix')},🌍 国外媒体`);
-  行列表555.push(`RULE-SET,${值规则('YouTube')},🌍 国外媒体`);
-  行列表555.push(`RULE-SET,${值规则('Disney')},🌍 国外媒体`);
-  行列表555.push(`RULE-SET,${值规则('Spotify')},🌍 国外媒体`);
-  行列表555.push(`RULE-SET,${值规则('TikTok')},🌍 国外媒体`);
-  行列表555.push(`RULE-SET,${值规则('BiliBili')},📺 哔哩哔哩`);
-  行列表555.push(`RULE-SET,${值规则(解码64('UHJveHlNZWRpYQ=='))},🌍 国外媒体`);
-  行列表555.push(`RULE-SET,${值规则(解码64('UHJveHlHRldsaXN0'))},🚀 节点选择`);
-  行列表555.push(`RULE-SET,${值规则('ChinaDomain')},🎯 全球直连`);
-  行列表555.push(`RULE-SET,${值规则('ChinaCompanyIp')},🎯 全球直连`);
-  行列表555.push(`RULE-SET,${值规则('ChinaIp')},🎯 全球直连`);
-  行列表555.push('GEOIP,CN,🎯 全球直连');
-  行列表555.push('FINAL,🐟 漏网之鱼,dns-failed');
-  return 行列表555.join('\n');
+  })));
+  _v418.push(_d64("AfCfjq8g5YWo55CD55u06L+eID0gc2VsZWN0LCBESVJFQ1Q="));
+  _v418.push(_d64("AfCfm5Eg5YWo55CD5oum5oiqID0gc2VsZWN0LCBSRUpFQ1QsIERJUkVDVA=="));
+  _v418.push(_d64("AfCfkJ8g5ryP572R5LmL6bG8ID0gc2VsZWN0LCA=") + String(_v346(_v416)));
+  _v418.push('');
+  _v418.push('[Rule]');
+  _v418.push("RULE-SET," + String(_v409('LocalAreaNetwork')) + _d64("ASzwn46vIOWFqOeQg+ebtOi/ng=="));
+  _v418.push("RULE-SET," + String(_v409('UnBan')) + _d64("ASzwn46vIOWFqOeQg+ebtOi/ng=="));
+  _v418.push("RULE-SET," + String(_v409('BanAD')) + _d64("ASzwn5uRIOWFqOeQg+aLpuaIqg=="));
+  _v418.push("RULE-SET," + String(_v409('BanProgramAD')) + _d64("ASzwn5uRIOWFqOeQg+aLpuaIqg=="));
+  _v418.push("RULE-SET," + String(_v409('GoogleFCM')) + _d64("ASzwn4yQIOiwt+atjOacjeWKoQ=="));
+  _v418.push("RULE-SET," + String(_v409('GoogleCN')) + _d64("ASzwn46vIOWFqOeQg+ebtOi/ng=="));
+  _v418.push("RULE-SET," + String(_v409('SteamCN')) + _d64("ASzwn46vIOWFqOeQg+ebtOi/ng=="));
+  _v418.push("RULE-SET," + String(_v409('Microsoft')) + _d64("ASzik4LvuI8g5b6u6L2v5pyN5Yqh"));
+  _v418.push("RULE-SET," + String(_v409('Apple')) + _d64("ASzwn42OIOiLueaenOacjeWKoQ=="));
+  _v418.push("RULE-SET," + String(_v409('Telegram')) + _d64("ASzwn5OyIOeUteaKpeS/oeaBrw=="));
+  _v418.push(`RULE-SET,${_v409('OpenAi')},🤖 OpenAI`);
+  _v418.push(`RULE-SET,${_v409('Claude')},🤖 OpenAI`);
+  _v418.push(`RULE-SET,${_v409('Copilot')},🤖 OpenAI`);
+  _v418.push("RULE-SET," + String(_v409('Netflix')) + _d64("ASzwn4yNIOWbveWkluWqkuS9kw=="));
+  _v418.push("RULE-SET," + String(_v409('YouTube')) + _d64("ASzwn4yNIOWbveWkluWqkuS9kw=="));
+  _v418.push("RULE-SET," + String(_v409('Disney')) + _d64("ASzwn4yNIOWbveWkluWqkuS9kw=="));
+  _v418.push("RULE-SET," + String(_v409('Spotify')) + _d64("ASzwn4yNIOWbveWkluWqkuS9kw=="));
+  _v418.push("RULE-SET," + String(_v409('TikTok')) + _d64("ASzwn4yNIOWbveWkluWqkuS9kw=="));
+  _v418.push("RULE-SET," + String(_v409('BiliBili')) + _d64("ASzwn5O6IOWTlOWTqeWTlOWTqQ=="));
+  _v418.push("RULE-SET," + String(_v409(_v4('UHJveHlNZWRpYQ=='))) + _d64("ASzwn4yNIOWbveWkluWqkuS9kw=="));
+  _v418.push("RULE-SET," + String(_v409(_v4('UHJveHlHRldsaXN0'))) + _d64("ASzwn5qAIOiKgueCuemAieaLqQ=="));
+  _v418.push("RULE-SET," + String(_v409('ChinaDomain')) + _d64("ASzwn46vIOWFqOeQg+ebtOi/ng=="));
+  _v418.push("RULE-SET," + String(_v409('ChinaCompanyIp')) + _d64("ASzwn46vIOWFqOeQg+ebtOi/ng=="));
+  _v418.push("RULE-SET," + String(_v409('ChinaIp')) + _d64("ASzwn46vIOWFqOeQg+ebtOi/ng=="));
+  _v418.push(_d64("AUdFT0lQLENOLPCfjq8g5YWo55CD55u06L+e"));
+  _v418.push(_d64("AUZJTkFMLPCfkJ8g5ryP572R5LmL6bG8LGRucy1mYWlsZWQ="));
+  return _v418.join('\n');
 }
-
-// 内部生成另一类 ini 客户端配置
-function 生成值值552(链接列表551) {
-  const 节点列表550 = 链接列表551.map(解析值链接).filter(数量值549 => 数量值549 && (数量值549.proto === 解码64('dmxlc3M=') || 数量值549.proto === 解码64('dHJvamFu')));
-  const 名称列表548 = 节点列表550.map(数量值547 => 数量值547.name);
-  const 行列表546 = ['[General]', 'ip-mode = dual', `dns-server = ${(自定义域名系统 || '223.5.5.5').replace(/^https?:\/\//, '').replace(/\/.*$/, '')},119.29.29.29,system`, 'doh-server = https://223.5.5.5/dns-query, https://1.12.12.12/dns-query', 解码64('YWxsb3ctdWRwLXByb3h5ID0gdHJ1ZQ=='), 'allow-wifi-access = false', 'sni-sniffing = true', 解码64('c2tpcC1wcm94eSA9IDEyNy4wLjAuMSwxOTIuMTY4LjAuMC8xNiwxMC4wLjAuMC84LDE3Mi4xNi4wLjAvMTIsbG9jYWxob3N0LCoubG9jYWwsY2FwdGl2ZS5hcHBsZS5jb20='), 'bypass-tun = 10.0.0.0/8,100.64.0.0/10,127.0.0.0/8,169.254.0.0/16,172.16.0.0/12,192.0.0.0/24,192.0.2.0/24,192.88.99.0/24,192.168.0.0/16,198.51.100.0/24,203.0.113.0/24,224.0.0.0/4,255.255.255.255/32', '', 解码64('W1Byb3h5XQ==')];
-  for (const 数量值545 of 节点列表550) {
-    if (数量值545.proto === 解码64('dmxlc3M=')) {
-      const 部分列表544 = [`${数量值545.server}`, `${数量值545.port}`, `udp=true`, `username=${数量值545.uuid}`, `transport=ws`, `path=${数量值545.path}`, `host=${数量值545.host}`, `over-tls=${数量值545.tls ? 'true' : 'false'}`];
-      if (数量值545.tls) {
-        部分列表544.push(`tls-name=${数量值545.sni}`);
-        if (数量值545.alpn && 数量值545.alpn.length) 部分列表544.push(`alpn=${数量值545.alpn.join(':')}`);
-        部分列表544.push(`skip-cert-verify=false`);
+function _v422(_v423) {
+  const _v424 = _v423.map(_v355).filter(_v425 => _v425 && (_v425.proto === _v4('dmxlc3M=') || _v425.proto === _v4('dHJvamFu')));
+  const _v426 = _v424.map(_v427 => _v427.name);
+  const _v428 = ['[General]', 'ip-mode = dual', `dns-server = ${(_v29 || '223.5.5.5').replace(/^https?:\/\//, '').replace(/\/.*$/, '')},119.29.29.29,system`, 'doh-server = https://223.5.5.5/dns-query, https://1.12.12.12/dns-query', _v4('YWxsb3ctdWRwLXByb3h5ID0gdHJ1ZQ=='), 'allow-wifi-access = false', 'sni-sniffing = true', _v4('c2tpcC1wcm94eSA9IDEyNy4wLjAuMSwxOTIuMTY4LjAuMC8xNiwxMC4wLjAuMC84LDE3Mi4xNi4wLjAvMTIsbG9jYWxob3N0LCoubG9jYWwsY2FwdGl2ZS5hcHBsZS5jb20='), 'bypass-tun = 10.0.0.0/8,100.64.0.0/10,127.0.0.0/8,169.254.0.0/16,172.16.0.0/12,192.0.0.0/24,192.0.2.0/24,192.88.99.0/24,192.168.0.0/16,198.51.100.0/24,203.0.113.0/24,224.0.0.0/4,255.255.255.255/32', '', _v4('W1Byb3h5XQ==')];
+  for (const _v429 of _v424) {
+    if (_v429.proto === _v4('dmxlc3M=')) {
+      const _v430 = [`${_v429.server}`, `${_v429.port}`, `udp=true`, `username=${_v429.uuid}`, `transport=ws`, `path=${_v429.path}`, `host=${_v429.host}`, `over-tls=${_v429.tls ? 'true' : 'false'}`];
+      if (_v429.tls) {
+        _v430.push(`tls-name=${_v429.sni}`);
+        if (_v429.alpn && _v429.alpn.length) _v430.push(`alpn=${_v429.alpn.join(':')}`);
+        _v430.push(`skip-cert-verify=false`);
       }
-      行列表546.push(`${数量值545.name} = ${解码64('dmxlc3M=')},${部分列表544.join(',')}`);
+      _v428.push(`${_v429.name} = ${_v4('dmxlc3M=')},${_v430.join(',')}`);
     } else {
-      const 部分列表543 = [`${数量值545.server}`, `${数量值545.port}`, `password=${数量值545.password}`, `transport=ws`, `path=${数量值545.path}`, `host=${数量值545.host}`, `over-tls=true`, `tls-name=${数量值545.sni}`];
-      if (数量值545.alpn && 数量值545.alpn.length) 部分列表543.push(`alpn=${数量值545.alpn.join(':')}`);
-      部分列表543.push(`skip-cert-verify=false`);
-      行列表546.push(`${数量值545.name} = ${解码64('dHJvamFu')},${部分列表543.join(',')}`);
+      const _v431 = [`${_v429.server}`, `${_v429.port}`, `password=${_v429.password}`, `transport=ws`, `path=${_v429.path}`, `host=${_v429.host}`, `over-tls=true`, `tls-name=${_v429.sni}`];
+      if (_v429.alpn && _v429.alpn.length) _v431.push(`alpn=${_v429.alpn.join(':')}`);
+      _v431.push(`skip-cert-verify=false`);
+      _v428.push(`${_v429.name} = ${_v4('dHJvamFu')},${_v431.join(',')}`);
     }
   }
-  行列表546.push('');
-  行列表546.push(解码64('W1Byb3h5IEdyb3VwXQ=='));
-  const 列表542 = 名称列表548.length ? 名称列表548.join(',') : 'DIRECT';
-  行列表546.push(`🚀 节点选择 = select,🎯 全球直连,${列表542}`);
-  行列表546.push(`🌍 国外媒体 = select,${处理值值列表(名称列表548, {
+  _v428.push('');
+  _v428.push(_v4('W1Byb3h5IEdyb3VwXQ=='));
+  const _v432 = _v426.length ? _v426.join(',') : 'DIRECT';
+  _v428.push(_d64("AfCfmoAg6IqC54K56YCJ5oupID0gc2VsZWN0LPCfjq8g5YWo55CD55u06L+eLA==") + String(_v432));
+  _v428.push(_d64("AfCfjI0g5Zu95aSW5aqS5L2TID0gc2VsZWN0LA==") + String(_v346(_v426, {
     compact: true
-  })}`);
-  行列表546.push(`📺 哔哩哔哩 = select,${处理值值列表(名称列表548, {
+  })));
+  _v428.push(_d64("AfCfk7og5ZOU5ZOp5ZOU5ZOpID0gc2VsZWN0LA==") + String(_v346(_v426, {
     directFirst: true,
     compact: true
-  })}`);
-  行列表546.push(`📹 油管视频 = select,${处理值值列表(名称列表548, {
-    extraGroups: ['🌍 国外媒体'],
+  })));
+  _v428.push(_d64("AfCfk7kg5rK5566h6KeG6aKRID0gc2VsZWN0LA==") + String(_v346(_v426, {
+    extraGroups: [_d64("AfCfjI0g5Zu95aSW5aqS5L2T")],
+    compact: true
+  })));
+  _v428.push(_d64("AfCfjqwg5aWI6aOe6KeG6aKRID0gc2VsZWN0LA==") + String(_v346(_v426, {
+    extraGroups: [_d64("AfCfjI0g5Zu95aSW5aqS5L2T")],
+    compact: true
+  })));
+  _v428.push(_d64("AfCfk7Ig55S15oql5L+h5oGvID0gc2VsZWN0LA==") + String(_v346(_v426, {
+    compact: true
+  })));
+  _v428.push(_d64("AfCfjJAg6LC35q2M5pyN5YqhID0gc2VsZWN0LA==") + String(_v346(_v426, {
+    compact: true
+  })));
+  _v428.push(`🤖 OpenAI = select,${_v346(_v426, {
     compact: true
   })}`);
-  行列表546.push(`🎬 奈飞视频 = select,${处理值值列表(名称列表548, {
-    extraGroups: ['🌍 国外媒体'],
-    compact: true
-  })}`);
-  行列表546.push(`📲 电报信息 = select,${处理值值列表(名称列表548, {
-    compact: true
-  })}`);
-  行列表546.push(`🌐 谷歌服务 = select,${处理值值列表(名称列表548, {
-    compact: true
-  })}`);
-  行列表546.push(`🤖 OpenAI = select,${处理值值列表(名称列表548, {
-    compact: true
-  })}`);
-  行列表546.push(`Ⓜ️ 微软服务 = select,${处理值值列表(名称列表548, {
+  _v428.push(_d64("AeKTgu+4jyDlvq7ova/mnI3liqEgPSBzZWxlY3Qs") + String(_v346(_v426, {
     directFirst: true,
     compact: true
-  })}`);
-  行列表546.push(`🍎 苹果服务 = select,${处理值值列表(名称列表548, {
+  })));
+  _v428.push(_d64("AfCfjY4g6Iu55p6c5pyN5YqhID0gc2VsZWN0LA==") + String(_v346(_v426, {
     directFirst: true,
     compact: true
-  })}`);
-  行列表546.push(`🎯 全球直连 = select,DIRECT`);
-  行列表546.push(`🛑 全球拦截 = select,REJECT,DIRECT`);
-  行列表546.push(`🐟 漏网之鱼 = select,${处理值值列表(名称列表548, {
+  })));
+  _v428.push(_d64("AfCfjq8g5YWo55CD55u06L+eID0gc2VsZWN0LERJUkVDVA=="));
+  _v428.push(_d64("AfCfm5Eg5YWo55CD5oum5oiqID0gc2VsZWN0LFJFSkVDVCxESVJFQ1Q="));
+  _v428.push(_d64("AfCfkJ8g5ryP572R5LmL6bG8ID0gc2VsZWN0LA==") + String(_v346(_v426, {
     compact: true
-  })}`);
-  行列表546.push('');
-  行列表546.push('[Remote Rule]');
-  行列表546.push(`${值规则('LocalAreaNetwork')}, policy=🎯 全球直连, tag=局域网, enabled=true`);
-  行列表546.push(`${值规则('BanAD')}, policy=🛑 全球拦截, tag=广告拦截, enabled=true`);
-  行列表546.push(`${值规则('BanProgramAD')}, policy=🛑 全球拦截, tag=应用广告, enabled=true`);
-  行列表546.push(`${值规则('GoogleCN')}, policy=🎯 全球直连, tag=GoogleCN, enabled=true`);
-  行列表546.push(`${值规则('SteamCN')}, policy=🎯 全球直连, tag=SteamCN, enabled=true`);
-  行列表546.push(`${值规则('Microsoft')}, policy=Ⓜ️ 微软服务, tag=微软, enabled=true`);
-  行列表546.push(`${值规则('Apple')}, policy=🍎 苹果服务, tag=苹果, enabled=true`);
-  行列表546.push(`${值规则('Telegram')}, policy=📲 电报信息, tag=电报, enabled=true`);
-  行列表546.push(`${值规则('OpenAi')}, policy=🤖 OpenAI, tag=OpenAI, enabled=true`);
-  行列表546.push(`${值规则('Netflix')}, policy=🌍 国外媒体, tag=Netflix, enabled=true`);
-  行列表546.push(`${值规则('YouTube')}, policy=🌍 国外媒体, tag=YouTube, enabled=true`);
-  行列表546.push(`${值规则('Disney')}, policy=🌍 国外媒体, tag=Disney, enabled=true`);
-  行列表546.push(`${值规则('Spotify')}, policy=🌍 国外媒体, tag=Spotify, enabled=true`);
-  行列表546.push(`${值规则('TikTok')}, policy=🌍 国外媒体, tag=TikTok, enabled=true`);
-  行列表546.push(`${值规则('BiliBili')}, policy=📺 哔哩哔哩, tag=哔哩哔哩, enabled=true`);
-  行列表546.push(`${值规则(解码64('UHJveHlNZWRpYQ=='))}, policy=🌍 国外媒体, tag=${解码64('5Luj55CG5aqS5L2T')}, enabled=true`);
-  行列表546.push(`${值规则(解码64('UHJveHlHRldsaXN0'))}, policy=🚀 节点选择, tag=${解码64('5Luj55CG5YiX6KGo')}, enabled=true`);
-  行列表546.push(`${值规则('ChinaDomain')}, policy=🎯 全球直连, tag=中国域名, enabled=true`);
-  行列表546.push(`${值规则('ChinaIp')}, policy=🎯 全球直连, tag=中国IP, enabled=true`);
-  行列表546.push('');
-  行列表546.push('[Rule]');
-  行列表546.push('GEOIP,CN,🎯 全球直连');
-  行列表546.push('FINAL,🐟 漏网之鱼');
-  return 行列表546.join('\n');
+  })));
+  _v428.push('');
+  _v428.push('[Remote Rule]');
+  _v428.push("" + String(_v409('LocalAreaNetwork')) + _d64("ASwgcG9saWN5PfCfjq8g5YWo55CD55u06L+eLCB0YWc95bGA5Z+f572RLCBlbmFibGVkPXRydWU="));
+  _v428.push("" + String(_v409('BanAD')) + _d64("ASwgcG9saWN5PfCfm5Eg5YWo55CD5oum5oiqLCB0YWc95bm/5ZGK5oum5oiqLCBlbmFibGVkPXRydWU="));
+  _v428.push("" + String(_v409('BanProgramAD')) + _d64("ASwgcG9saWN5PfCfm5Eg5YWo55CD5oum5oiqLCB0YWc95bqU55So5bm/5ZGKLCBlbmFibGVkPXRydWU="));
+  _v428.push("" + String(_v409('GoogleCN')) + _d64("ASwgcG9saWN5PfCfjq8g5YWo55CD55u06L+eLCB0YWc9R29vZ2xlQ04sIGVuYWJsZWQ9dHJ1ZQ=="));
+  _v428.push("" + String(_v409('SteamCN')) + _d64("ASwgcG9saWN5PfCfjq8g5YWo55CD55u06L+eLCB0YWc9U3RlYW1DTiwgZW5hYmxlZD10cnVl"));
+  _v428.push("" + String(_v409('Microsoft')) + _d64("ASwgcG9saWN5PeKTgu+4jyDlvq7ova/mnI3liqEsIHRhZz3lvq7ova8sIGVuYWJsZWQ9dHJ1ZQ=="));
+  _v428.push("" + String(_v409('Apple')) + _d64("ASwgcG9saWN5PfCfjY4g6Iu55p6c5pyN5YqhLCB0YWc96Iu55p6cLCBlbmFibGVkPXRydWU="));
+  _v428.push("" + String(_v409('Telegram')) + _d64("ASwgcG9saWN5PfCfk7Ig55S15oql5L+h5oGvLCB0YWc955S15oqlLCBlbmFibGVkPXRydWU="));
+  _v428.push(`${_v409('OpenAi')}, policy=🤖 OpenAI, tag=OpenAI, enabled=true`);
+  _v428.push("" + String(_v409('Netflix')) + _d64("ASwgcG9saWN5PfCfjI0g5Zu95aSW5aqS5L2TLCB0YWc9TmV0ZmxpeCwgZW5hYmxlZD10cnVl"));
+  _v428.push("" + String(_v409('YouTube')) + _d64("ASwgcG9saWN5PfCfjI0g5Zu95aSW5aqS5L2TLCB0YWc9WW91VHViZSwgZW5hYmxlZD10cnVl"));
+  _v428.push("" + String(_v409('Disney')) + _d64("ASwgcG9saWN5PfCfjI0g5Zu95aSW5aqS5L2TLCB0YWc9RGlzbmV5LCBlbmFibGVkPXRydWU="));
+  _v428.push("" + String(_v409('Spotify')) + _d64("ASwgcG9saWN5PfCfjI0g5Zu95aSW5aqS5L2TLCB0YWc9U3BvdGlmeSwgZW5hYmxlZD10cnVl"));
+  _v428.push("" + String(_v409('TikTok')) + _d64("ASwgcG9saWN5PfCfjI0g5Zu95aSW5aqS5L2TLCB0YWc9VGlrVG9rLCBlbmFibGVkPXRydWU="));
+  _v428.push("" + String(_v409('BiliBili')) + _d64("ASwgcG9saWN5PfCfk7og5ZOU5ZOp5ZOU5ZOpLCB0YWc95ZOU5ZOp5ZOU5ZOpLCBlbmFibGVkPXRydWU="));
+  _v428.push("" + String(_v409(_v4('UHJveHlNZWRpYQ=='))) + _d64("ASwgcG9saWN5PfCfjI0g5Zu95aSW5aqS5L2TLCB0YWc9") + String(_v4('5Luj55CG5aqS5L2T')) + ", enabled=true");
+  _v428.push("" + String(_v409(_v4('UHJveHlHRldsaXN0'))) + _d64("ASwgcG9saWN5PfCfmoAg6IqC54K56YCJ5oupLCB0YWc9") + String(_v4('5Luj55CG5YiX6KGo')) + ", enabled=true");
+  _v428.push("" + String(_v409('ChinaDomain')) + _d64("ASwgcG9saWN5PfCfjq8g5YWo55CD55u06L+eLCB0YWc95Lit5Zu95Z+f5ZCNLCBlbmFibGVkPXRydWU="));
+  _v428.push("" + String(_v409('ChinaIp')) + _d64("ASwgcG9saWN5PfCfjq8g5YWo55CD55u06L+eLCB0YWc95Lit5Zu9SVAsIGVuYWJsZWQ9dHJ1ZQ=="));
+  _v428.push('');
+  _v428.push('[Rule]');
+  _v428.push(_d64("AUdFT0lQLENOLPCfjq8g5YWo55CD55u06L+e"));
+  _v428.push(_d64("AUZJTkFMLPCfkJ8g5ryP572R5LmL6bG8"));
+  return _v428.join('\n');
 }
-
-// 内部生成圈叉配置（完整 ACL4SSR 远端 filter 资源）
-function 生成值值(链接列表541) {
-  const 节点列表 = 链接列表541.map(解析值链接).filter(数量值540 => 数量值540 && (数量值540.proto === 解码64('dmxlc3M=') || 数量值540.proto === 解码64('dHJvamFu')));
-  const 名称列表 = 节点列表.map(数量值539 => 数量值539.name);
-  const 圈叉基础配置 = 解码64('aHR0cHM6Ly9mYXN0bHkuanNkZWxpdnIubmV0L2doL2JsYWNrbWF0cml4Ny9pb3NfcnVsZV9zY3JpcHRAbWFzdGVyL3J1bGUvUXVhbnR1bXVsdFg=');
-  const 行列表538 = ['[general]', 'network_check_url=http://www.gstatic.com/generate_204', 'server_check_url=http://www.gstatic.com/generate_204', 解码64('cHJvZmlsZV9pbWdfdXJsPWh0dHBzOi8vZmFzdGx5LmpzZGVsaXZyLm5ldC9naC9ieUpvZXkvY2ZuZXdAbWFpbi9zbmlwcGV0cy9sb2dvLnBuZw=='), 'dns_exclusion_list=*.cmpassport.com, *.jegotrip.com.cn, *.icloud.com, *.icloud.com.cn, *.apple.com, *.weibo.com, *.qq.com', 'running_mode_trigger=filter', '', '[dns]', `server=${(自定义域名系统 || '223.5.5.5').replace(/^https?:\/\//, '').replace(/\/.*$/, '')}`, 'server=119.29.29.29', 'server=https://223.5.5.5/dns-query', 'server=https://1.12.12.12/dns-query', '', '[server_local]'];
-  for (const 数量值537 of 节点列表) {
-    if (数量值537.proto === 解码64('dmxlc3M=')) {
-      const 部分列表536 = [`${数量值537.server}:${数量值537.port}`, `method=none`, `password=${数量值537.uuid}`, `obfs=${数量值537.tls ? 'wss' : 'ws'}`, `obfs-host=${数量值537.host}`, `obfs-uri=${数量值537.path}`];
-      if (数量值537.tls) 部分列表536.push(`tls-verification=true`, `tls13=true`);
-      部分列表536.push(`tag=${数量值537.name}`);
-      行列表538.push(`${解码64('dmxlc3M=')}=${部分列表536.join(', ')}`);
+function _v433(_v434) {
+  const _v435 = _v434.map(_v355).filter(_v436 => _v436 && (_v436.proto === _v4('dmxlc3M=') || _v436.proto === _v4('dHJvamFu')));
+  const _v60 = _v435.map(_v437 => _v437.name);
+  const _v438 = _v4('aHR0cHM6Ly9mYXN0bHkuanNkZWxpdnIubmV0L2doL2JsYWNrbWF0cml4Ny9pb3NfcnVsZV9zY3JpcHRAbWFzdGVyL3J1bGUvUXVhbnR1bXVsdFg=');
+  const _v439 = ['[general]', 'network_check_url=http://www.gstatic.com/generate_204', 'server_check_url=http://www.gstatic.com/generate_204', _v4('cHJvZmlsZV9pbWdfdXJsPWh0dHBzOi8vZmFzdGx5LmpzZGVsaXZyLm5ldC9naC9ieUpvZXkvY2ZuZXdAbWFpbi9zbmlwcGV0cy9sb2dvLnBuZw=='), 'dns_exclusion_list=*.cmpassport.com, *.jegotrip.com.cn, *.icloud.com, *.icloud.com.cn, *.apple.com, *.weibo.com, *.qq.com', 'running_mode_trigger=filter', '', '[dns]', `server=${(_v29 || '223.5.5.5').replace(/^https?:\/\//, '').replace(/\/.*$/, '')}`, 'server=119.29.29.29', 'server=https://223.5.5.5/dns-query', 'server=https://1.12.12.12/dns-query', '', '[server_local]'];
+  for (const _v440 of _v435) {
+    if (_v440.proto === _v4('dmxlc3M=')) {
+      const _v441 = [`${_v440.server}:${_v440.port}`, `method=none`, `password=${_v440.uuid}`, `obfs=${_v440.tls ? 'wss' : 'ws'}`, `obfs-host=${_v440.host}`, `obfs-uri=${_v440.path}`];
+      if (_v440.tls) _v441.push(`tls-verification=true`, `tls13=true`);
+      _v441.push(`tag=${_v440.name}`);
+      _v439.push(`${_v4('dmxlc3M=')}=${_v441.join(', ')}`);
     } else {
-      const 部分列表535 = [`${数量值537.server}:${数量值537.port}`, `password=${数量值537.password}`, `over-tls=true`, `tls-host=${数量值537.sni}`, `obfs=wss`, `obfs-host=${数量值537.host}`, `obfs-uri=${数量值537.path}`, `tls-verification=true`, `tag=${数量值537.name}`];
-      行列表538.push(`${解码64('dHJvamFu')}=${部分列表535.join(', ')}`);
+      const _v442 = [`${_v440.server}:${_v440.port}`, `password=${_v440.password}`, `over-tls=true`, `tls-host=${_v440.sni}`, `obfs=wss`, `obfs-host=${_v440.host}`, `obfs-uri=${_v440.path}`, `tls-verification=true`, `tag=${_v440.name}`];
+      _v439.push(`${_v4('dHJvamFu')}=${_v442.join(', ')}`);
     }
   }
-  行列表538.push('');
-  行列表538.push('[policy]');
-  const 列表534 = 名称列表.length ? 名称列表.join(', ') : 'direct';
-  行列表538.push(`static=🚀 节点选择, ${列表534}, direct, img-url=${解码64('aHR0cHM6Ly9mYXN0bHkuanNkZWxpdnIubmV0L2doL0tvb2xzb24vUXVyZUBtYXN0ZXIvSWNvblNldC9Db2xvci9Qcm94eS5wbmc=')}`);
-  行列表538.push(`static=🌍 国外媒体, ${处理值值列表(名称列表)}, img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/ForeignMedia.png`);
-  行列表538.push(`static=📺 哔哩哔哩, ${处理值值列表(名称列表, {
+  _v439.push('');
+  _v439.push('[policy]');
+  const _v443 = _v60.length ? _v60.join(', ') : 'direct';
+  _v439.push(_d64("AXN0YXRpYz3wn5qAIOiKgueCuemAieaLqSwg") + String(_v443) + ", direct, img-url=" + String(_v4('aHR0cHM6Ly9mYXN0bHkuanNkZWxpdnIubmV0L2doL0tvb2xzb24vUXVyZUBtYXN0ZXIvSWNvblNldC9Db2xvci9Qcm94eS5wbmc=')));
+  _v439.push(_d64("AXN0YXRpYz3wn4yNIOWbveWkluWqkuS9kywg") + String(_v346(_v60)) + ", img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/ForeignMedia.png");
+  _v439.push(_d64("AXN0YXRpYz3wn5O6IOWTlOWTqeWTlOWTqSwg") + String(_v346(_v60, {
     directFirst: true
-  })}, img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/bilibili.png`);
-  行列表538.push(`static=📹 油管视频, ${处理值值列表(名称列表, {
-    extraGroups: ['🌍 国外媒体']
-  })}, img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/YouTube.png`);
-  行列表538.push(`static=🎬 奈飞视频, ${处理值值列表(名称列表, {
-    extraGroups: ['🌍 国外媒体']
-  })}, img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Netflix.png`);
-  行列表538.push(`static=📲 电报信息, ${处理值值列表(名称列表)}, img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Telegram.png`);
-  行列表538.push(`static=🌐 谷歌服务, ${处理值值列表(名称列表)}, img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Google.png`);
-  行列表538.push(`static=🤖 OpenAI, ${处理值值列表(名称列表)}, img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/ChatGPT.png`);
-  行列表538.push(`static=Ⓜ️ 微软服务, ${处理值值列表(名称列表, {
+  })) + ", img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/bilibili.png");
+  _v439.push(_d64("AXN0YXRpYz3wn5O5IOayueeuoeinhumikSwg") + String(_v346(_v60, {
+    extraGroups: [_d64("AfCfjI0g5Zu95aSW5aqS5L2T")]
+  })) + ", img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/YouTube.png");
+  _v439.push(_d64("AXN0YXRpYz3wn46sIOWliOmjnuinhumikSwg") + String(_v346(_v60, {
+    extraGroups: [_d64("AfCfjI0g5Zu95aSW5aqS5L2T")]
+  })) + ", img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Netflix.png");
+  _v439.push(_d64("AXN0YXRpYz3wn5OyIOeUteaKpeS/oeaBrywg") + String(_v346(_v60)) + ", img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Telegram.png");
+  _v439.push(_d64("AXN0YXRpYz3wn4yQIOiwt+atjOacjeWKoSwg") + String(_v346(_v60)) + ", img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Google.png");
+  _v439.push(`static=🤖 OpenAI, ${_v346(_v60)}, img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/ChatGPT.png`);
+  _v439.push(_d64("AXN0YXRpYz3ik4LvuI8g5b6u6L2v5pyN5YqhLCA=") + String(_v346(_v60, {
     directFirst: true
-  })}, img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Microsoft.png`);
-  行列表538.push(`static=🍎 苹果服务, ${处理值值列表(名称列表, {
+  })) + ", img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Microsoft.png");
+  _v439.push(_d64("AXN0YXRpYz3wn42OIOiLueaenOacjeWKoSwg") + String(_v346(_v60, {
     directFirst: true
-  })}, img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Apple.png`);
-  行列表538.push(`static=🎯 全球直连, direct, img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Direct.png`);
-  行列表538.push(`static=🛑 全球拦截, reject, direct, img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Advertising.png`);
-  行列表538.push(`static=🐟 漏网之鱼, ${处理值值列表(名称列表)}, img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Final.png`);
-  行列表538.push('');
-  行列表538.push('[filter_remote]');
-  行列表538.push(`${圈叉基础配置}/Lan/Lan.list, tag=局域网, force-policy=🎯 全球直连, update-interval=86400, opt-parser=false, enabled=true`);
-  行列表538.push(`${圈叉基础配置}/Advertising/Advertising.list, tag=广告拦截, force-policy=🛑 全球拦截, update-interval=86400, opt-parser=false, enabled=true`);
-  行列表538.push(`${圈叉基础配置}/Microsoft/Microsoft.list, tag=微软, force-policy=Ⓜ️ 微软服务, update-interval=86400, opt-parser=false, enabled=true`);
-  行列表538.push(`${圈叉基础配置}/Apple/Apple.list, tag=苹果, force-policy=🍎 苹果服务, update-interval=86400, opt-parser=false, enabled=true`);
-  行列表538.push(`${圈叉基础配置}/Telegram/Telegram.list, tag=电报, force-policy=📲 电报信息, update-interval=86400, opt-parser=false, enabled=true`);
-  行列表538.push(`${圈叉基础配置}/Google/Google.list, tag=谷歌, force-policy=🌐 谷歌服务, update-interval=86400, opt-parser=false, enabled=true`);
-  行列表538.push(`${圈叉基础配置}/OpenAI/OpenAI.list, tag=OpenAI, force-policy=🤖 OpenAI, update-interval=86400, opt-parser=false, enabled=true`);
-  行列表538.push(`${圈叉基础配置}/Claude/Claude.list, tag=Claude, force-policy=🤖 OpenAI, update-interval=86400, opt-parser=false, enabled=true`);
-  行列表538.push(`${圈叉基础配置}/YouTube/YouTube.list, tag=YouTube, force-policy=🌍 国外媒体, update-interval=86400, opt-parser=false, enabled=true`);
-  行列表538.push(`${圈叉基础配置}/Netflix/Netflix.list, tag=Netflix, force-policy=🌍 国外媒体, update-interval=86400, opt-parser=false, enabled=true`);
-  行列表538.push(`${圈叉基础配置}/Disney/Disney.list, tag=Disney, force-policy=🌍 国外媒体, update-interval=86400, opt-parser=false, enabled=true`);
-  行列表538.push(`${圈叉基础配置}/Spotify/Spotify.list, tag=Spotify, force-policy=🌍 国外媒体, update-interval=86400, opt-parser=false, enabled=true`);
-  行列表538.push(`${圈叉基础配置}/TikTok/TikTok.list, tag=TikTok, force-policy=🌍 国外媒体, update-interval=86400, opt-parser=false, enabled=true`);
-  行列表538.push(`${圈叉基础配置}/BiliBili/BiliBili.list, tag=哔哩哔哩, force-policy=📺 哔哩哔哩, update-interval=86400, opt-parser=false, enabled=true`);
-  行列表538.push(`${圈叉基础配置}/Global/Global.list, tag=全球加速, force-policy=🚀 节点选择, update-interval=86400, opt-parser=false, enabled=true`);
-  行列表538.push(`${圈叉基础配置}/ChinaMax/ChinaMax.list, tag=中国直连, force-policy=🎯 全球直连, update-interval=86400, opt-parser=false, enabled=true`);
-  行列表538.push('');
-  行列表538.push('[filter_local]');
-  行列表538.push('geoip, cn, 🎯 全球直连');
-  行列表538.push('final, 🐟 漏网之鱼');
-  return 行列表538.join('\n');
+  })) + ", img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Apple.png");
+  _v439.push(_d64("AXN0YXRpYz3wn46vIOWFqOeQg+ebtOi/niwgZGlyZWN0LCBpbWctdXJsPWh0dHBzOi8vZmFzdGx5LmpzZGVsaXZyLm5ldC9naC9Lb29sc29uL1F1cmVAbWFzdGVyL0ljb25TZXQvQ29sb3IvRGlyZWN0LnBuZw=="));
+  _v439.push(_d64("AXN0YXRpYz3wn5uRIOWFqOeQg+aLpuaIqiwgcmVqZWN0LCBkaXJlY3QsIGltZy11cmw9aHR0cHM6Ly9mYXN0bHkuanNkZWxpdnIubmV0L2doL0tvb2xzb24vUXVyZUBtYXN0ZXIvSWNvblNldC9Db2xvci9BZHZlcnRpc2luZy5wbmc="));
+  _v439.push(_d64("AXN0YXRpYz3wn5CfIOa8j+e9keS5i+mxvCwg") + String(_v346(_v60)) + ", img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Final.png");
+  _v439.push('');
+  _v439.push('[filter_remote]');
+  _v439.push("" + String(_v438) + _d64("AS9MYW4vTGFuLmxpc3QsIHRhZz3lsYDln5/nvZEsIGZvcmNlLXBvbGljeT3wn46vIOWFqOeQg+ebtOi/niwgdXBkYXRlLWludGVydmFsPTg2NDAwLCBvcHQtcGFyc2VyPWZhbHNlLCBlbmFibGVkPXRydWU="));
+  _v439.push("" + String(_v438) + _d64("AS9BZHZlcnRpc2luZy9BZHZlcnRpc2luZy5saXN0LCB0YWc95bm/5ZGK5oum5oiqLCBmb3JjZS1wb2xpY3k98J+bkSDlhajnkIPmi6bmiKosIHVwZGF0ZS1pbnRlcnZhbD04NjQwMCwgb3B0LXBhcnNlcj1mYWxzZSwgZW5hYmxlZD10cnVl"));
+  _v439.push("" + String(_v438) + _d64("AS9NaWNyb3NvZnQvTWljcm9zb2Z0Lmxpc3QsIHRhZz3lvq7ova8sIGZvcmNlLXBvbGljeT3ik4LvuI8g5b6u6L2v5pyN5YqhLCB1cGRhdGUtaW50ZXJ2YWw9ODY0MDAsIG9wdC1wYXJzZXI9ZmFsc2UsIGVuYWJsZWQ9dHJ1ZQ=="));
+  _v439.push("" + String(_v438) + _d64("AS9BcHBsZS9BcHBsZS5saXN0LCB0YWc96Iu55p6cLCBmb3JjZS1wb2xpY3k98J+NjiDoi7nmnpzmnI3liqEsIHVwZGF0ZS1pbnRlcnZhbD04NjQwMCwgb3B0LXBhcnNlcj1mYWxzZSwgZW5hYmxlZD10cnVl"));
+  _v439.push("" + String(_v438) + _d64("AS9UZWxlZ3JhbS9UZWxlZ3JhbS5saXN0LCB0YWc955S15oqlLCBmb3JjZS1wb2xpY3k98J+TsiDnlLXmiqXkv6Hmga8sIHVwZGF0ZS1pbnRlcnZhbD04NjQwMCwgb3B0LXBhcnNlcj1mYWxzZSwgZW5hYmxlZD10cnVl"));
+  _v439.push("" + String(_v438) + _d64("AS9Hb29nbGUvR29vZ2xlLmxpc3QsIHRhZz3osLfmrYwsIGZvcmNlLXBvbGljeT3wn4yQIOiwt+atjOacjeWKoSwgdXBkYXRlLWludGVydmFsPTg2NDAwLCBvcHQtcGFyc2VyPWZhbHNlLCBlbmFibGVkPXRydWU="));
+  _v439.push(`${_v438}/OpenAI/OpenAI.list, tag=OpenAI, force-policy=🤖 OpenAI, update-interval=86400, opt-parser=false, enabled=true`);
+  _v439.push(`${_v438}/Claude/Claude.list, tag=Claude, force-policy=🤖 OpenAI, update-interval=86400, opt-parser=false, enabled=true`);
+  _v439.push("" + String(_v438) + _d64("AS9Zb3VUdWJlL1lvdVR1YmUubGlzdCwgdGFnPVlvdVR1YmUsIGZvcmNlLXBvbGljeT3wn4yNIOWbveWkluWqkuS9kywgdXBkYXRlLWludGVydmFsPTg2NDAwLCBvcHQtcGFyc2VyPWZhbHNlLCBlbmFibGVkPXRydWU="));
+  _v439.push("" + String(_v438) + _d64("AS9OZXRmbGl4L05ldGZsaXgubGlzdCwgdGFnPU5ldGZsaXgsIGZvcmNlLXBvbGljeT3wn4yNIOWbveWkluWqkuS9kywgdXBkYXRlLWludGVydmFsPTg2NDAwLCBvcHQtcGFyc2VyPWZhbHNlLCBlbmFibGVkPXRydWU="));
+  _v439.push("" + String(_v438) + _d64("AS9EaXNuZXkvRGlzbmV5Lmxpc3QsIHRhZz1EaXNuZXksIGZvcmNlLXBvbGljeT3wn4yNIOWbveWkluWqkuS9kywgdXBkYXRlLWludGVydmFsPTg2NDAwLCBvcHQtcGFyc2VyPWZhbHNlLCBlbmFibGVkPXRydWU="));
+  _v439.push("" + String(_v438) + _d64("AS9TcG90aWZ5L1Nwb3RpZnkubGlzdCwgdGFnPVNwb3RpZnksIGZvcmNlLXBvbGljeT3wn4yNIOWbveWkluWqkuS9kywgdXBkYXRlLWludGVydmFsPTg2NDAwLCBvcHQtcGFyc2VyPWZhbHNlLCBlbmFibGVkPXRydWU="));
+  _v439.push("" + String(_v438) + _d64("AS9UaWtUb2svVGlrVG9rLmxpc3QsIHRhZz1UaWtUb2ssIGZvcmNlLXBvbGljeT3wn4yNIOWbveWkluWqkuS9kywgdXBkYXRlLWludGVydmFsPTg2NDAwLCBvcHQtcGFyc2VyPWZhbHNlLCBlbmFibGVkPXRydWU="));
+  _v439.push("" + String(_v438) + _d64("AS9CaWxpQmlsaS9CaWxpQmlsaS5saXN0LCB0YWc95ZOU5ZOp5ZOU5ZOpLCBmb3JjZS1wb2xpY3k98J+TuiDlk5Tlk6nlk5Tlk6ksIHVwZGF0ZS1pbnRlcnZhbD04NjQwMCwgb3B0LXBhcnNlcj1mYWxzZSwgZW5hYmxlZD10cnVl"));
+  _v439.push("" + String(_v438) + _d64("AS9HbG9iYWwvR2xvYmFsLmxpc3QsIHRhZz3lhajnkIPliqDpgJ8sIGZvcmNlLXBvbGljeT3wn5qAIOiKgueCuemAieaLqSwgdXBkYXRlLWludGVydmFsPTg2NDAwLCBvcHQtcGFyc2VyPWZhbHNlLCBlbmFibGVkPXRydWU="));
+  _v439.push("" + String(_v438) + _d64("AS9DaGluYU1heC9DaGluYU1heC5saXN0LCB0YWc95Lit5Zu955u06L+eLCBmb3JjZS1wb2xpY3k98J+OryDlhajnkIPnm7Tov54sIHVwZGF0ZS1pbnRlcnZhbD04NjQwMCwgb3B0LXBhcnNlcj1mYWxzZSwgZW5hYmxlZD10cnVl"));
+  _v439.push('');
+  _v439.push('[filter_local]');
+  _v439.push(_d64("AWdlb2lwLCBjbiwg8J+OryDlhajnkIPnm7Tov54="));
+  _v439.push(_d64("AWZpbmFsLCDwn5CfIOa8j+e9keS5i+mxvA=="));
+  return _v439.join('\n');
 }
-
-// 兼容旧调用名
-async function 生成值配置533(链接列表532) {
-  return 生成值值589(链接列表532);
+async function _v444(_v445) {
+  return _v372(_v445);
 }
-function 生成值配置531(链接列表530) {
-  return 生成值值562(链接列表530);
+function _v446(_v447) {
+  return _v411(_v447);
 }
-function 生成值配置529(链接列表528) {
-  return 生成值值552(链接列表528);
+function _v448(_v449) {
+  return _v422(_v449);
 }
-function 生成值值配置527(链接列表526) {
-  return 生成值值(链接列表526);
+function _v450(_v451) {
+  return _v433(_v451);
 }
-function 生成值值配置(链接列表525) {
-  return 生成值值数据对象(链接列表525);
+function _v452(_v453) {
+  return _v392(_v453);
 }
-function 生成值配置(链接列表524) {
-  return btoa(链接列表524.join('\n'));
+function _v454(_v455) {
+  return btoa(_v455.join('\n'));
 }
-function 生成值2值配置(链接列表523) {
-  return btoa(链接列表523.join('\n'));
+function _v456(_v457) {
+  return btoa(_v457.join('\n'));
 }
-
-// 全局变量存储ECH调试信息
-let 加密客户端问候调试值 = '';
-async function 获取加密客户端问候配置(域名522) {
-  if (!启用加密客户端问候) {
-    加密客户端问候调试值 = 'ECH功能已禁用';
+let _v458 = '';
+async function _v459(_v460) {
+  if (!_v28) {
+    _v458 = _d64("AUVDSOWKn+iDveW3suemgeeUqA==");
     return null;
   }
-  加密客户端问候调试值 = '';
-  const 调试步骤 = [];
+  _v458 = '';
+  const _v461 = [];
   try {
-    // 优先使用 Google DNS 查询 cloudflare-ech.com 的 ECH 配置
-    调试步骤.push('尝试使用 Google DNS 查询 cloudflare-ech.com...');
-    const 加密客户端问候域名网址 = `https://v.recipes/dns/dns.google/dns-query?name=cloudflare-ech.com&type=65`;
-    const 加密客户端问候响应 = await fetch(加密客户端问候域名网址, {
+    _v461.push(_d64("AeWwneivleS9v+eUqCBHb29nbGUgRE5TIOafpeivoiBjbG91ZGZsYXJlLWVjaC5jb20uLi4="));
+    const _v462 = `https://v.recipes/dns/dns.google/dns-query?name=cloudflare-ech.com&type=65`;
+    const _v463 = await fetch(_v462, {
       headers: {
         'Accept': 'application/json'
       }
     });
-    调试步骤.push(`Google DNS 响应状态: ${加密客户端问候响应.status}`);
-    if (加密客户端问候响应.ok) {
-      const 加密客户端问候数据 = await 加密客户端问候响应.json();
-      调试步骤.push(`Google DNS 返回数据: ${JSON.stringify(加密客户端问候数据).substring(0, 200)}...`);
-      if (加密客户端问候数据.Answer && 加密客户端问候数据.Answer.length > 0) {
-        调试步骤.push(`找到 ${加密客户端问候数据.Answer.length} 条答案记录`);
-        for (const 本地值521 of 加密客户端问候数据.Answer) {
-          if (本地值521.data) {
-            调试步骤.push(`解析答案数据: ${typeof 本地值521.data}, 长度: ${String(本地值521.data).length}`);
-            // Google DNS 返回的数据格式可能不同，需要解析
-            const 数据字符串520 = typeof 本地值521.data === 'string' ? 本地值521.data : JSON.stringify(本地值521.data);
-            const 加密客户端问候值519 = 数据字符串520.match(/ech=([^\s"']+)/);
-            if (加密客户端问候值519 && 加密客户端问候值519[1]) {
-              加密客户端问候调试值 = 调试步骤.join('\\n') + '\\n✅ 成功从 Google DNS 获取 ECH 配置';
-              return 加密客户端问候值519[1];
+    _v461.push(_d64("AUdvb2dsZSBETlMg5ZON5bqU54q25oCBOiA=") + String(_v463.status));
+    if (_v463.ok) {
+      const _v464 = await _v463.json();
+      _v461.push(_d64("AUdvb2dsZSBETlMg6L+U5Zue5pWw5o2uOiA=") + String(JSON.stringify(_v464).substring(0, 200)) + "...");
+      if (_v464.Answer && _v464.Answer.length > 0) {
+        _v461.push(_d64("AeaJvuWIsCA=") + String(_v464.Answer.length) + _d64("ASDmnaHnrZTmoYjorrDlvZU="));
+        for (const _v465 of _v464.Answer) {
+          if (_v465.data) {
+            _v461.push(_d64("Aeino+aekOetlOahiOaVsOaNrjog") + String(typeof _v465.data) + _d64("ASwg6ZW/5bqmOiA=") + String(String(_v465.data).length));
+            const _v466 = typeof _v465.data === 'string' ? _v465.data : JSON.stringify(_v465.data);
+            const _v467 = _v466.match(/ech=([^\s"']+)/);
+            if (_v467 && _v467[1]) {
+              _v458 = _v461.join('\\n') + _d64("AVxu4pyFIOaIkOWKn+S7jiBHb29nbGUgRE5TIOiOt+WPliBFQ0gg6YWN572u");
+              return _v467[1];
             }
-            // 如果没有找到，尝试直接使用 data（可能是 base64 编码的）
-            if (本地值521.data && !数据字符串520.includes('ech=')) {
+            if (_v465.data && !_v466.includes('ech=')) {
               try {
-                const 已解码518 = atob(本地值521.data);
-                调试步骤.push(`尝试 base64 解码，解码后长度: ${已解码518.length}`);
-                const 已解码值517 = 已解码518.match(/ech=([^\s"']+)/);
-                if (已解码值517 && 已解码值517[1]) {
-                  加密客户端问候调试值 = 调试步骤.join('\\n') + '\\n✅ 成功从 Google DNS (base64解码) 获取 ECH 配置';
-                  return 已解码值517[1];
+                const _v468 = atob(_v465.data);
+                _v461.push(_d64("AeWwneivlSBiYXNlNjQg6Kej56CB77yM6Kej56CB5ZCO6ZW/5bqmOiA=") + String(_v468.length));
+                const _v469 = _v468.match(/ech=([^\s"']+)/);
+                if (_v469 && _v469[1]) {
+                  _v458 = _v461.join('\\n') + _d64("AVxu4pyFIOaIkOWKn+S7jiBHb29nbGUgRE5TIChiYXNlNjTop6PnoIEpIOiOt+WPliBFQ0gg6YWN572u");
+                  return _v469[1];
                 }
-              } catch (事件值516) {
-                调试步骤.push(`base64 解码失败: ${事件值516.message}`);
+              } catch (_v470) {
+                _v461.push(_d64("AWJhc2U2NCDop6PnoIHlpLHotKU6IA==") + String(_v470.message));
               }
             }
           }
         }
       } else {
-        调试步骤.push('Google DNS 未返回答案记录');
+        _v461.push(_d64("AUdvb2dsZSBETlMg5pyq6L+U5Zue562U5qGI6K6w5b2V"));
       }
     } else {
-      调试步骤.push(`Google DNS 请求失败: ${加密客户端问候响应.status}`);
+      _v461.push(_d64("AUdvb2dsZSBETlMg6K+35rGC5aSx6LSlOiA=") + String(_v463.status));
     }
-
-    // 如果 cloudflare-ech.com 查询失败，尝试使用 Google DNS 查询目标域名的 HTTPS 记录
-    调试步骤.push(`尝试使用 Google DNS 查询目标域名 ${域名522}...`);
-    const 加密域名查询网址 = `https://v.recipes/dns/dns.google/dns-query?name=${encodeURIComponent(域名522)}&type=65`;
-    const 响应515 = await fetch(加密域名查询网址, {
+    _v461.push(_d64("AeWwneivleS9v+eUqCBHb29nbGUgRE5TIOafpeivouebruagh+Wfn+WQjSA=") + String(_v460) + "...");
+    const _v471 = `https://v.recipes/dns/dns.google/dns-query?name=${encodeURIComponent(_v460)}&type=65`;
+    const _v472 = await fetch(_v471, {
       headers: {
         'Accept': 'application/json'
       }
     });
-    调试步骤.push(`Google DNS (目标域名) 响应状态: ${响应515.status}`);
-    if (响应515.ok) {
-      const 数据514 = await 响应515.json();
-      调试步骤.push(`Google DNS (目标域名) 返回数据: ${JSON.stringify(数据514).substring(0, 200)}...`);
-      if (数据514.Answer && 数据514.Answer.length > 0) {
-        调试步骤.push(`找到 ${数据514.Answer.length} 条答案记录`);
-        for (const 本地值513 of 数据514.Answer) {
-          if (本地值513.data) {
-            const 数据字符串 = typeof 本地值513.data === 'string' ? 本地值513.data : JSON.stringify(本地值513.data);
-            const 加密客户端问候值512 = 数据字符串.match(/ech=([^\s"']+)/);
-            if (加密客户端问候值512 && 加密客户端问候值512[1]) {
-              加密客户端问候调试值 = 调试步骤.join('\\n') + '\\n✅ 成功从 Google DNS (目标域名) 获取 ECH 配置';
-              return 加密客户端问候值512[1];
+    _v461.push(_d64("AUdvb2dsZSBETlMgKOebruagh+Wfn+WQjSkg5ZON5bqU54q25oCBOiA=") + String(_v472.status));
+    if (_v472.ok) {
+      const _v473 = await _v472.json();
+      _v461.push(_d64("AUdvb2dsZSBETlMgKOebruagh+Wfn+WQjSkg6L+U5Zue5pWw5o2uOiA=") + String(JSON.stringify(_v473).substring(0, 200)) + "...");
+      if (_v473.Answer && _v473.Answer.length > 0) {
+        _v461.push(_d64("AeaJvuWIsCA=") + String(_v473.Answer.length) + _d64("ASDmnaHnrZTmoYjorrDlvZU="));
+        for (const _v474 of _v473.Answer) {
+          if (_v474.data) {
+            const _v475 = typeof _v474.data === 'string' ? _v474.data : JSON.stringify(_v474.data);
+            const _v476 = _v475.match(/ech=([^\s"']+)/);
+            if (_v476 && _v476[1]) {
+              _v458 = _v461.join('\\n') + _d64("AVxu4pyFIOaIkOWKn+S7jiBHb29nbGUgRE5TICjnm67moIfln5/lkI0pIOiOt+WPliBFQ0gg6YWN572u");
+              return _v476[1];
             }
-            // 尝试 base64 解码
             try {
-              const 已解码511 = atob(本地值513.data);
-              const 已解码值 = 已解码511.match(/ech=([^\s"']+)/);
-              if (已解码值 && 已解码值[1]) {
-                加密客户端问候调试值 = 调试步骤.join('\\n') + '\\n✅ 成功从 Google DNS (目标域名, base64解码) 获取 ECH 配置';
-                return 已解码值[1];
+              const _v477 = atob(_v474.data);
+              const _v478 = _v477.match(/ech=([^\s"']+)/);
+              if (_v478 && _v478[1]) {
+                _v458 = _v461.join('\\n') + _d64("AVxu4pyFIOaIkOWKn+S7jiBHb29nbGUgRE5TICjnm67moIfln5/lkI0sIGJhc2U2NOino+eggSkg6I635Y+WIEVDSCDphY3nva4=");
+                return _v478[1];
               }
-            } catch (事件值510) {
-              调试步骤.push(`base64 解码失败: ${事件值510.message}`);
+            } catch (_v479) {
+              _v461.push(_d64("AWJhc2U2NCDop6PnoIHlpLHotKU6IA==") + String(_v479.message));
             }
           }
         }
       } else {
-        调试步骤.push('Google DNS (目标域名) 未返回答案记录');
+        _v461.push(_d64("AUdvb2dsZSBETlMgKOebruagh+Wfn+WQjSkg5pyq6L+U5Zue562U5qGI6K6w5b2V"));
       }
     } else {
-      调试步骤.push(`Google DNS (目标域名) 请求失败: ${响应515.status}`);
+      _v461.push(_d64("AUdvb2dsZSBETlMgKOebruagh+Wfn+WQjSkg6K+35rGC5aSx6LSlOiA=") + String(_v472.status));
     }
-
-    // 如果 Google DNS 失败，尝试使用 Cloudflare DNS 作为备选
-    调试步骤.push('尝试使用 Cloudflare DNS 作为备选...');
-    const 云墙加密客户端问候网址 = `https://cloudflare-dns.com/dns-query?name=cloudflare-ech.com&type=65`;
-    const 云墙响应 = await fetch(云墙加密客户端问候网址, {
+    _v461.push(_d64("AeWwneivleS9v+eUqCBDbG91ZGZsYXJlIEROUyDkvZzkuLrlpIfpgIkuLi4="));
+    const _v480 = `https://cloudflare-dns.com/dns-query?name=cloudflare-ech.com&type=65`;
+    const _v481 = await fetch(_v480, {
       headers: {
         'Accept': 'application/dns-json'
       }
     });
-    调试步骤.push(`Cloudflare DNS 响应状态: ${云墙响应.status}`);
-    if (云墙响应.ok) {
-      const 云墙数据 = await 云墙响应.json();
-      调试步骤.push(`Cloudflare DNS 返回数据: ${JSON.stringify(云墙数据).substring(0, 200)}...`);
-      if (云墙数据.Answer && 云墙数据.Answer.length > 0) {
-        调试步骤.push(`找到 ${云墙数据.Answer.length} 条答案记录`);
-        for (const 本地值509 of 云墙数据.Answer) {
-          if (本地值509.data) {
-            const 加密客户端问候值 = 本地值509.data.match(/ech=([^\s"']+)/);
-            if (加密客户端问候值 && 加密客户端问候值[1]) {
-              加密客户端问候调试值 = 调试步骤.join('\\n') + '\\n✅ 成功从 Cloudflare DNS 获取 ECH 配置';
-              return 加密客户端问候值[1];
+    _v461.push(_d64("AUNsb3VkZmxhcmUgRE5TIOWTjeW6lOeKtuaAgTog") + String(_v481.status));
+    if (_v481.ok) {
+      const _v482 = await _v481.json();
+      _v461.push(_d64("AUNsb3VkZmxhcmUgRE5TIOi/lOWbnuaVsOaNrjog") + String(JSON.stringify(_v482).substring(0, 200)) + "...");
+      if (_v482.Answer && _v482.Answer.length > 0) {
+        _v461.push(_d64("AeaJvuWIsCA=") + String(_v482.Answer.length) + _d64("ASDmnaHnrZTmoYjorrDlvZU="));
+        for (const _v483 of _v482.Answer) {
+          if (_v483.data) {
+            const _v484 = _v483.data.match(/ech=([^\s"']+)/);
+            if (_v484 && _v484[1]) {
+              _v458 = _v461.join('\\n') + _d64("AVxu4pyFIOaIkOWKn+S7jiBDbG91ZGZsYXJlIEROUyDojrflj5YgRUNIIOmFjee9rg==");
+              return _v484[1];
             }
           }
         }
       } else {
-        调试步骤.push('Cloudflare DNS 未返回答案记录');
+        _v461.push(_d64("AUNsb3VkZmxhcmUgRE5TIOacqui/lOWbnuetlOahiOiusOW9lQ=="));
       }
     } else {
-      调试步骤.push(`Cloudflare DNS 请求失败: ${云墙响应.status}`);
+      _v461.push(_d64("AUNsb3VkZmxhcmUgRE5TIOivt+axguWksei0pTog") + String(_v481.status));
     }
-    加密客户端问候调试值 = 调试步骤.join('\\n') + '\\n❌ 所有DNS查询均失败，未获取到ECH配置';
+    _v458 = _v461.join('\\n') + _d64("AVxu4p2MIOaJgOaciUROU+afpeivouWdh+Wksei0pe+8jOacquiOt+WPluWIsEVDSOmFjee9rg==");
     return null;
-  } catch (错误508) {
-    加密客户端问候调试值 = 调试步骤.join('\\n') + '\\n❌ 获取ECH配置时发生错误: ' + 错误508.message;
+  } catch (_v485) {
+    _v458 = _v461.join('\\n') + _d64("AVxu4p2MIOiOt+WPlkVDSOmFjee9ruaXtuWPkeeUn+mUmeivrzog") + _v485.message;
     return null;
   }
 }
-async function 处理订阅请求(请求507, 用户506, 网址505 = null) {
-  if (!网址505) 网址505 = new URL(请求507.url);
-  const 最终链接列表 = [];
-  const 工作器域名504 = 网址505.hostname;
-  const 目标503 = 网址505.searchParams.get('target') || 'base64';
-  const 别名命名器502 = 创建值节点命名器(false);
-
-  // 如果启用了ECH，使用自定义值
-  let 加密客户端问候配置501 = null;
-  if (启用加密客户端问候) {
-    const 域名系统值500 = 自定义域名系统 || 'https://223.5.5.5/dns-query';
-    const 加密客户端问候域名499 = 自定义加密客户端问候域名 || 'cloudflare-ech.com';
-    加密客户端问候配置501 = `${加密客户端问候域名499}+${域名系统值500}`;
+async function _v288(_v486, _v487, _v488 = null) {
+  if (!_v488) _v488 = new URL(_v486.url);
+  const _v489 = [];
+  const _v490 = _v488.hostname;
+  const _v491 = _v488.searchParams.get('target') || 'base64';
+  const _v492 = _v126(false);
+  let _v493 = null;
+  if (_v28) {
+    const _v494 = _v29 || 'https://223.5.5.5/dns-query';
+    const _v495 = _v30 || 'cloudflare-ech.com';
+    _v493 = `${_v495}+${_v494}`;
   }
-  async function 添加节点列表来源列表(列表498) {
-    if (启用明文) {
-      最终链接列表.push(...生成链接列表来源源(列表498, 用户506, 工作器域名504, 加密客户端问候配置501, false, 别名命名器502));
+  async function _v496(_v497) {
+    if (_v24) {
+      _v489.push(..._v498(_v497, _v487, _v490, _v493, false, _v492));
     }
-    if (启用木马) {
-      最终链接列表.push(...(await 生成木马链接列表来源源(列表498, 用户506, 工作器域名504, 加密客户端问候配置501, false, 别名命名器502)));
+    if (_v25) {
+      _v489.push(...(await _v499(_v497, _v487, _v490, _v493, false, _v492)));
     }
-    if (启用扩展传输) {
-      最终链接列表.push(...生成扩展超文本链接列表来源源(列表498, 用户506, 工作器域名504, 加密客户端问候配置501, false, 别名命名器502));
+    if (_v26) {
+      _v489.push(..._v500(_v497, _v487, _v490, _v493, false, _v492));
     }
   }
-  if (启用原生地址) {
-    if (当前工作器地区 === 'CUSTOM') {
-      const 原生列表497 = [{
-        ip: 工作器域名504,
-        isp: '原生地址'
+  if (_v37) {
+    if (_v20 === 'CUSTOM') {
+      const _v501 = [{
+        ip: _v490,
+        isp: _d64("AeWOn+eUn+WcsOWdgA==")
       }];
-      await 添加节点列表来源列表(原生列表497);
+      await _v496(_v501);
     } else {
       try {
-        const 原生列表496 = [{
-          ip: 工作器域名504,
-          isp: '原生地址'
+        const _v502 = [{
+          ip: _v490,
+          isp: _d64("AeWOn+eUn+WcsOWdgA==")
         }];
-        await 添加节点列表来源列表(原生列表496);
-      } catch (错误495) {
-        if (!当前工作器地区) {
-          当前工作器地区 = await 检测工作器地区(请求507);
+        await _v496(_v502);
+      } catch (_v503) {
+        if (!_v20) {
+          _v20 = await _v156(_v486);
         }
-        const 值备用地址494 = await 获取值备用地址(当前工作器地区);
-        if (值备用地址494) {
-          回退地址 = 值备用地址494.domain + ':' + 值备用地址494.port;
-          const 备用列表493 = [{
-            ip: 值备用地址494.domain,
-            isp: 解码64('UHJveHlJUC0=') + 当前工作器地区
+        const _v504 = await _v169(_v20);
+        if (_v504) {
+          _v12 = _v504.domain + ':' + _v504.port;
+          const _v505 = [{
+            ip: _v504.domain,
+            isp: _v4('UHJveHlJUC0=') + _v20
           }];
-          await 添加节点列表来源列表(备用列表493);
+          await _v496(_v505);
         } else {
-          const 原生列表 = [{
-            ip: 工作器域名504,
-            isp: '原生地址'
+          const _v506 = [{
+            ip: _v490,
+            isp: _d64("AeWOn+eUn+WcsOWdgA==")
           }];
-          await 添加节点列表来源列表(原生列表);
+          await _v496(_v506);
         }
       }
     }
   }
-  const 是否有自定义优选 = 自定义优选地址列表.length > 0 || 自定义优选域名列表.length > 0;
-  if (禁用优选) {} else if (是否有自定义优选) {
-    if (自定义优选地址列表.length > 0 && 启用优选地址) {
-      await 添加节点列表来源列表(自定义优选地址列表);
+  const _v507 = _v14.length > 0 || _v15.length > 0;
+  if (_v18) {} else if (_v507) {
+    if (_v14.length > 0 && _v35) {
+      await _v496(_v14);
     }
-    if (自定义优选域名列表.length > 0 && 启用优选域名) {
-      const 自定义域名列表 = 自定义优选域名列表.map(丁值492 => ({
-        ip: 丁值492.domain,
-        isp: 丁值492.name || 丁值492.domain
+    if (_v15.length > 0 && _v34) {
+      const _v508 = _v15.map(_v509 => ({
+        ip: _v509.domain,
+        isp: _v509.name || _v509.domain
       }));
-      await 添加节点列表来源列表(自定义域名列表);
+      await _v496(_v508);
     }
   } else {
-    if (启用优选域名) {
-      const 域名列表 = 直连域名列表.map(丁值491 => ({
-        ip: 丁值491.domain,
-        isp: 丁值491.name || 丁值491.domain
+    if (_v34) {
+      const _v510 = _v67.map(_v511 => ({
+        ip: _v511.domain,
+        isp: _v511.name || _v511.domain
       }));
-      await 添加节点列表来源列表(域名列表);
+      await _v496(_v510);
     }
-    if (启用优选地址) {
-      if (!优选地址源) {
+    if (_v35) {
+      if (!_v22) {
         try {
-          const 值地址列表490 = await 获取值地址列表();
-          if (值地址列表490.length > 0) {
-            await 添加节点列表来源列表(值地址列表490);
+          const _v512 = await _v513();
+          if (_v512.length > 0) {
+            await _v496(_v512);
           }
-        } catch (错误489) {
-          if (!当前工作器地区) {
-            当前工作器地区 = await 检测工作器地区(请求507);
+        } catch (_v514) {
+          if (!_v20) {
+            _v20 = await _v156(_v486);
           }
-          const 值备用地址488 = await 获取值备用地址(当前工作器地区);
-          if (值备用地址488) {
-            回退地址 = 值备用地址488.domain + ':' + 值备用地址488.port;
-            const 备用列表487 = [{
-              ip: 值备用地址488.domain,
-              isp: 解码64('UHJveHlJUC0=') + 当前工作器地区
+          const _v515 = await _v169(_v20);
+          if (_v515) {
+            _v12 = _v515.domain + ':' + _v515.port;
+            const _v516 = [{
+              ip: _v515.domain,
+              isp: _v4('UHJveHlJUC0=') + _v20
             }];
-            await 添加节点列表来源列表(备用列表487);
+            await _v496(_v516);
           }
         }
       }
     }
-    if (启用仓库优选) {
+    if (_v36) {
       try {
-        const 新地址列表 = await 获取值解析新地址列表();
-        if (新地址列表.length > 0) {
-          if (启用明文) {
-            最终链接列表.push(...生成链接列表来源新地址列表(新地址列表, 用户506, 工作器域名504, 加密客户端问候配置501, false, 别名命名器502));
+        const _v517 = await _v518();
+        if (_v517.length > 0) {
+          if (_v24) {
+            _v489.push(..._v519(_v517, _v487, _v490, _v493, false, _v492));
           }
-          if (启用木马) {
-            最终链接列表.push(...(await 生成木马链接列表来源新地址列表(新地址列表, 用户506, 工作器域名504, 加密客户端问候配置501, false, 别名命名器502)));
+          if (_v25) {
+            _v489.push(...(await _v520(_v517, _v487, _v490, _v493, false, _v492)));
           }
-          if (启用扩展传输) {
-            最终链接列表.push(...生成扩展超文本链接列表来源源(新地址列表, 用户506, 工作器域名504, 加密客户端问候配置501, false, 别名命名器502));
+          if (_v26) {
+            _v489.push(..._v500(_v517, _v487, _v490, _v493, false, _v492));
           }
         }
-      } catch (错误486) {
-        if (!当前工作器地区) {
-          当前工作器地区 = await 检测工作器地区(请求507);
+      } catch (_v521) {
+        if (!_v20) {
+          _v20 = await _v156(_v486);
         }
-        const 值备用地址485 = await 获取值备用地址(当前工作器地区);
-        if (值备用地址485) {
-          回退地址 = 值备用地址485.domain + ':' + 值备用地址485.port;
-          const 备用列表 = [{
-            ip: 值备用地址485.domain,
-            isp: 解码64('UHJveHlJUC0=') + 当前工作器地区
+        const _v522 = await _v169(_v20);
+        if (_v522) {
+          _v12 = _v522.domain + ':' + _v522.port;
+          const _v523 = [{
+            ip: _v522.domain,
+            isp: _v4('UHJveHlJUC0=') + _v20
           }];
-          await 添加节点列表来源列表(备用列表);
+          await _v496(_v523);
         }
       }
     }
   }
-  if (最终链接列表.length === 0) {
-    const 错误备注 = "所有节点获取失败";
-    const 协议484 = 解码64('dmxlc3M=');
-    const 错误链接 = `${协议484}://00000000-0000-0000-0000-000000000000@127.0.0.1:80?encryption=none&security=none&type=ws&host=error.com&path=%2F#${encodeURIComponent(错误备注)}`;
-    最终链接列表.push(错误链接);
+  if (_v489.length === 0) {
+    const _v524 = _d64("AeaJgOacieiKgueCueiOt+WPluWksei0pQ==");
+    const _v525 = _v4('dmxlc3M=');
+    const _v526 = `${_v525}://00000000-0000-0000-0000-000000000000@127.0.0.1:80?encryption=none&security=none&type=ws&host=error.com&path=%2F#${encodeURIComponent(_v524)}`;
+    _v489.push(_v526);
   }
-  let 订阅内容;
-  let 内容类型483 = 'text/plain; charset=utf-8';
-  switch (目标503.toLowerCase()) {
-    case 解码64('Y2xhc2g='):
-    case 解码64('Y2xhc2hy'):
-    case 解码64('c3Rhc2g='):
+  let _v527;
+  let _v528 = 'text/plain; charset=utf-8';
+  switch (_v491.toLowerCase()) {
+    case _v4('Y2xhc2g='):
+    case _v4('Y2xhc2hy'):
+    case _v4('c3Rhc2g='):
     case 'meta':
-    case 解码64('Y2xhc2htZXRh'):
-      订阅内容 = 生成值值589(最终链接列表);
-      内容类型483 = 'text/yaml; charset=utf-8';
+    case _v4('Y2xhc2htZXRh'):
+      _v527 = _v372(_v489);
+      _v528 = 'text/yaml; charset=utf-8';
       break;
-    case 解码64('c3VyZ2U='):
-    case 解码64('c3VyZ2Uy'):
-    case 解码64('c3VyZ2Uz'):
-    case 解码64('c3VyZ2U0'):
-      订阅内容 = 生成值值562(最终链接列表);
-      内容类型483 = 'text/plain; charset=utf-8';
+    case _v4('c3VyZ2U='):
+    case _v4('c3VyZ2Uy'):
+    case _v4('c3VyZ2Uz'):
+    case _v4('c3VyZ2U0'):
+      _v527 = _v411(_v489);
+      _v528 = 'text/plain; charset=utf-8';
       break;
-    case 解码64('cXVhbnR1bXVsdA=='):
-    case 解码64('cXVhbng='):
-    case 解码64('cXVhbng='):
-      订阅内容 = 生成值值(最终链接列表);
-      内容类型483 = 'text/plain; charset=utf-8';
+    case _v4('cXVhbnR1bXVsdA=='):
+    case _v4('cXVhbng='):
+    case _v4('cXVhbng='):
+      _v527 = _v433(_v489);
+      _v528 = 'text/plain; charset=utf-8';
       break;
-    case 解码64('c3M='):
-    case 解码64('c3Ny'):
-      订阅内容 = btoa(最终链接列表.join('\n'));
+    case _v4('c3M='):
+    case _v4('c3Ny'):
+      _v527 = btoa(_v489.join('\n'));
       break;
-    case 解码64('djJyYXk='):
-      订阅内容 = btoa(最终链接列表.join('\n'));
+    case _v4('djJyYXk='):
+      _v527 = btoa(_v489.join('\n'));
       break;
-    case 解码64('bG9vbg=='):
-      订阅内容 = 生成值值552(最终链接列表);
-      内容类型483 = 'text/plain; charset=utf-8';
+    case _v4('bG9vbg=='):
+      _v527 = _v422(_v489);
+      _v528 = 'text/plain; charset=utf-8';
       break;
-    case 解码64('c2luZ2JveA=='):
-    case 解码64('c2luZy1ib3g='):
-    case 解码64('c2luZ2JveA=='):
-      订阅内容 = 生成值值数据对象(最终链接列表);
-      内容类型483 = 'application/json; charset=utf-8';
+    case _v4('c2luZ2JveA=='):
+    case _v4('c2luZy1ib3g='):
+    case _v4('c2luZ2JveA=='):
+      _v527 = _v392(_v489);
+      _v528 = 'application/json; charset=utf-8';
       break;
     default:
-      订阅内容 = btoa(最终链接列表.join('\n'));
+      _v527 = btoa(_v489.join('\n'));
   }
-  const 响应头部列表 = {
-    'Content-Type': 内容类型483,
+  const _v529 = {
+    'Content-Type': _v528,
     'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0'
   };
-
-  // 添加ECH状态到响应头
-  if (启用加密客户端问候) {
-    响应头部列表['X-ECH-Status'] = 'ENABLED';
-    if (加密客户端问候配置501) {
-      响应头部列表['X-ECH-Config-Length'] = String(加密客户端问候配置501.length);
+  if (_v28) {
+    _v529['X-ECH-Status'] = 'ENABLED';
+    if (_v493) {
+      _v529['X-ECH-Config-Length'] = String(_v493.length);
     }
   }
-  return new Response(订阅内容, {
-    headers: 响应头部列表
+  return new Response(_v527, {
+    headers: _v529
   });
 }
-function 生成链接列表来源源(列表482, 用户481, 工作器域名480, 加密客户端问候配置479 = null, 跳过编号478 = false, 别名命名器477 = null) {
-  const 云墙超文本端口476 = [80, 8080, 8880, 2052, 2082, 2086, 2095];
-  const 云墙安全超文本端口475 = [443, 2053, 2083, 2087, 2096, 8443];
-  const 默认安全超文本值474 = [443];
-  const 默认超文本值473 = 禁用非传输层安全 ? [] : [80];
-  const 链接列表472 = [];
-  const 网页套接字路径471 = '/?ed=2048';
-  const 协议470 = 解码64('dmxlc3M=');
-  const 制作节点名称469 = 别名命名器477 || 创建值节点命名器(跳过编号478);
-  for (const 项目468 of 列表482) {
-    const 安全地址467 = 项目468.ip.includes(':') ? `[${项目468.ip}]` : 项目468.ip;
-    let 值值生成466 = [];
-    if (项目468.port) {
-      const 端口465 = 项目468.port;
-      if (云墙安全超文本端口475.includes(端口465)) {
-        值值生成466.push({
-          port: 端口465,
+function _v498(_v530, _v531, _v532, _v533 = null, _v534 = false, _v535 = null) {
+  const _v536 = [80, 8080, 8880, 2052, 2082, 2086, 2095];
+  const _v537 = [443, 2053, 2083, 2087, 2096, 8443];
+  const _v538 = [443];
+  const _v539 = _v17 ? [] : [80];
+  const _v540 = [];
+  const _v541 = '/?ed=2048';
+  const _v542 = _v4('dmxlc3M=');
+  const _v543 = _v535 || _v126(_v534);
+  for (const _v544 of _v530) {
+    const _v545 = _v544.ip.includes(':') ? `[${_v544.ip}]` : _v544.ip;
+    let _v546 = [];
+    if (_v544.port) {
+      const _v547 = _v544.port;
+      if (_v537.includes(_v547)) {
+        _v546.push({
+          port: _v547,
           tls: true
         });
-      } else if (云墙超文本端口476.includes(端口465)) {
-        if (!禁用非传输层安全) {
-          值值生成466.push({
-            port: 端口465,
+      } else if (_v536.includes(_v547)) {
+        if (!_v17) {
+          _v546.push({
+            port: _v547,
             tls: false
           });
         }
       } else {
-        值值生成466.push({
-          port: 端口465,
+        _v546.push({
+          port: _v547,
           tls: true
         });
       }
     } else {
-      默认安全超文本值474.forEach(端口464 => {
-        值值生成466.push({
-          port: 端口464,
+      _v538.forEach(_v548 => {
+        _v546.push({
+          port: _v548,
           tls: true
         });
       });
-      默认超文本值473.forEach(端口463 => {
-        值值生成466.push({
-          port: 端口463,
+      _v539.forEach(_v549 => {
+        _v546.push({
+          port: _v549,
           tls: false
         });
       });
     }
     for (const {
-      port: 端口462,
-      tls: 传输层安全461
-    } of 值值生成466) {
-      const 网页套接字节点名称460 = 制作节点名称469(项目468);
-      if (传输层安全461) {
-        const 网页套接字参数459 = new URLSearchParams({
+      port: _v550,
+      tls: _v551
+    } of _v546) {
+      const _v552 = _v543(_v544);
+      if (_v551) {
+        const _v553 = new URLSearchParams({
           encryption: 'none',
           security: 'tls',
-          sni: 工作器域名480,
-          fp: 启用加密客户端问候 ? 'chrome' : 'randomized',
+          sni: _v532,
+          fp: _v28 ? 'chrome' : 'randomized',
           type: 'ws',
-          host: 工作器域名480,
-          path: 网页套接字路径471
+          host: _v532,
+          path: _v541
         });
-        处理值应用层协议协商值(网页套接字参数459);
-
-        // 如果启用了ECH，添加ech参数（ECH需要伪装成Chrome浏览器）
-        if (启用加密客户端问候) {
-          const 域名系统值458 = 自定义域名系统 || 'https://223.5.5.5/dns-query';
-          const 加密客户端问候域名457 = 自定义加密客户端问候域名 || 'cloudflare-ech.com';
-          网页套接字参数459.set('ech', `${加密客户端问候域名457}+${域名系统值458}`);
+        _v135(_v553);
+        if (_v28) {
+          const _v554 = _v29 || 'https://223.5.5.5/dns-query';
+          const _v555 = _v30 || 'cloudflare-ech.com';
+          _v553.set('ech', `${_v555}+${_v554}`);
         }
-        链接列表472.push(`${协议470}://${用户481}@${安全地址467}:${端口462}?${网页套接字参数459.toString()}#${encodeURIComponent(网页套接字节点名称460)}`);
+        _v540.push(`${_v542}://${_v531}@${_v545}:${_v550}?${_v553.toString()}#${encodeURIComponent(_v552)}`);
       } else {
-        const 网页套接字参数456 = new URLSearchParams({
+        const _v556 = new URLSearchParams({
           encryption: 'none',
           security: 'none',
           type: 'ws',
-          host: 工作器域名480,
-          path: 网页套接字路径471
+          host: _v532,
+          path: _v541
         });
-        链接列表472.push(`${协议470}://${用户481}@${安全地址467}:${端口462}?${网页套接字参数456.toString()}#${encodeURIComponent(网页套接字节点名称460)}`);
+        _v540.push(`${_v542}://${_v531}@${_v545}:${_v550}?${_v556.toString()}#${encodeURIComponent(_v552)}`);
       }
     }
   }
-  return 链接列表472;
+  return _v540;
 }
-async function 生成木马链接列表来源源(列表455, 用户454, 工作器域名453, 加密客户端问候配置452 = null, 跳过编号451 = false, 别名命名器450 = null) {
-  const 云墙超文本端口449 = [80, 8080, 8880, 2052, 2082, 2086, 2095];
-  const 云墙安全超文本端口448 = [443, 2053, 2083, 2087, 2096, 8443];
-  const 默认安全超文本值 = [443];
-  const 默认超文本值 = 禁用非传输层安全 ? [] : [80];
-  const 链接列表447 = [];
-  const 网页套接字路径446 = '/?ed=2048';
-  const 密码445 = 传输路径 || 用户454;
-  const 制作节点名称444 = 别名命名器450 || 创建值节点命名器(跳过编号451);
-  for (const 项目443 of 列表455) {
-    const 安全地址442 = 项目443.ip.includes(':') ? `[${项目443.ip}]` : 项目443.ip;
-    let 值值生成 = [];
-    if (项目443.port) {
-      const 端口441 = 项目443.port;
-      if (云墙安全超文本端口448.includes(端口441)) {
-        值值生成.push({
-          port: 端口441,
+async function _v499(_v557, _v558, _v559, _v560 = null, _v561 = false, _v562 = null) {
+  const _v563 = [80, 8080, 8880, 2052, 2082, 2086, 2095];
+  const _v564 = [443, 2053, 2083, 2087, 2096, 8443];
+  const _v565 = [443];
+  const _v566 = _v17 ? [] : [80];
+  const _v567 = [];
+  const _v568 = '/?ed=2048';
+  const _v569 = _v27 || _v558;
+  const _v570 = _v562 || _v126(_v561);
+  for (const _v571 of _v557) {
+    const _v572 = _v571.ip.includes(':') ? `[${_v571.ip}]` : _v571.ip;
+    let _v573 = [];
+    if (_v571.port) {
+      const _v574 = _v571.port;
+      if (_v564.includes(_v574)) {
+        _v573.push({
+          port: _v574,
           tls: true
         });
-      } else if (云墙超文本端口449.includes(端口441)) {
-        if (!禁用非传输层安全) {
-          值值生成.push({
-            port: 端口441,
+      } else if (_v563.includes(_v574)) {
+        if (!_v17) {
+          _v573.push({
+            port: _v574,
             tls: false
           });
         }
       } else {
-        值值生成.push({
-          port: 端口441,
+        _v573.push({
+          port: _v574,
           tls: true
         });
       }
     } else {
-      默认安全超文本值.forEach(端口440 => {
-        值值生成.push({
-          port: 端口440,
+      _v565.forEach(_v575 => {
+        _v573.push({
+          port: _v575,
           tls: true
         });
       });
-      默认超文本值.forEach(端口439 => {
-        值值生成.push({
-          port: 端口439,
+      _v566.forEach(_v576 => {
+        _v573.push({
+          port: _v576,
           tls: false
         });
       });
     }
     for (const {
-      port: 端口438,
-      tls: 传输层安全
-    } of 值值生成) {
-      const 网页套接字节点名称437 = 制作节点名称444(项目443);
-      if (传输层安全) {
-        const 网页套接字参数436 = new URLSearchParams({
+      port: _v577,
+      tls: _v578
+    } of _v573) {
+      const _v579 = _v570(_v571);
+      if (_v578) {
+        const _v580 = new URLSearchParams({
           security: 'tls',
-          sni: 工作器域名453,
+          sni: _v559,
           fp: 'chrome',
           type: 'ws',
-          host: 工作器域名453,
-          path: 网页套接字路径446
+          host: _v559,
+          path: _v568
         });
-        处理值应用层协议协商值(网页套接字参数436);
-
-        // 如果启用了ECH，添加ech参数（ECH需要伪装成Chrome浏览器）
-        if (启用加密客户端问候) {
-          const 域名系统值435 = 自定义域名系统 || 'https://223.5.5.5/dns-query';
-          const 加密客户端问候域名434 = 自定义加密客户端问候域名 || 'cloudflare-ech.com';
-          网页套接字参数436.set('ech', `${加密客户端问候域名434}+${域名系统值435}`);
+        _v135(_v580);
+        if (_v28) {
+          const _v581 = _v29 || 'https://223.5.5.5/dns-query';
+          const _v582 = _v30 || 'cloudflare-ech.com';
+          _v580.set('ech', `${_v582}+${_v581}`);
         }
-        链接列表447.push(`${解码64('dHJvamFuOi8v')}${密码445}@${安全地址442}:${端口438}?${网页套接字参数436.toString()}#${encodeURIComponent(网页套接字节点名称437)}`);
+        _v567.push(`${_v4('dHJvamFuOi8v')}${_v569}@${_v572}:${_v577}?${_v580.toString()}#${encodeURIComponent(_v579)}`);
       } else {
-        const 网页套接字参数 = new URLSearchParams({
+        const _v583 = new URLSearchParams({
           security: 'none',
           type: 'ws',
-          host: 工作器域名453,
-          path: 网页套接字路径446
+          host: _v559,
+          path: _v568
         });
-        链接列表447.push(`${解码64('dHJvamFuOi8v')}${密码445}@${安全地址442}:${端口438}?${网页套接字参数.toString()}#${encodeURIComponent(网页套接字节点名称437)}`);
+        _v567.push(`${_v4('dHJvamFuOi8v')}${_v569}@${_v572}:${_v577}?${_v583.toString()}#${encodeURIComponent(_v579)}`);
       }
     }
   }
-  return 链接列表447;
+  return _v567;
 }
-async function 获取值地址列表() {
-  const 值4网址1 = "https://www.wetest.vip/page/cloudflare/address_v4.html";
-  const 值6网址1 = "https://www.wetest.vip/page/cloudflare/address_v6.html";
-  let 结果列表433 = [];
-
-  // 读取筛选配置（默认全部启用）
-  const 值4已启用 = 获取配置值('ipv4', '') === '' || 获取配置值('ipv4', 'yes') !== 'no';
-  const 值6已启用 = 获取配置值('ipv6', '') === '' || 获取配置值('ipv6', 'yes') !== 'no';
-  const 值值432 = 获取配置值('ispMobile', '') === '' || 获取配置值('ispMobile', 'yes') !== 'no';
-  const 值值431 = 获取配置值('ispUnicom', '') === '' || 获取配置值('ispUnicom', 'yes') !== 'no';
-  const 值值430 = 获取配置值('ispTelecom', '') === '' || 获取配置值('ispTelecom', 'yes') !== 'no';
+async function _v513() {
+  const _v584 = "https://www.wetest.vip/page/cloudflare/address_v4.html";
+  const _v585 = "https://www.wetest.vip/page/cloudflare/address_v6.html";
+  let _v586 = [];
+  const _v587 = _v53('ipv4', '') === '' || _v53('ipv4', 'yes') !== 'no';
+  const _v588 = _v53('ipv6', '') === '' || _v53('ipv6', 'yes') !== 'no';
+  const _v589 = _v53('ispMobile', '') === '' || _v53('ispMobile', 'yes') !== 'no';
+  const _v590 = _v53('ispUnicom', '') === '' || _v53('ispUnicom', 'yes') !== 'no';
+  const _v591 = _v53('ispTelecom', '') === '' || _v53('ispTelecom', 'yes') !== 'no';
   try {
-    const 获取承诺列表 = [];
-    if (值4已启用) {
-      获取承诺列表.push(获取值解析值(值4网址1));
+    const _v592 = [];
+    if (_v587) {
+      _v592.push(_v593(_v584));
     } else {
-      获取承诺列表.push(Promise.resolve([]));
+      _v592.push(Promise.resolve([]));
     }
-    if (值6已启用) {
-      获取承诺列表.push(获取值解析值(值6网址1));
+    if (_v588) {
+      _v592.push(_v593(_v585));
     } else {
-      获取承诺列表.push(Promise.resolve([]));
+      _v592.push(Promise.resolve([]));
     }
-    const [值4列表, 值6列表] = await Promise.all(获取承诺列表);
-    结果列表433 = [...值4列表, ...值6列表];
-
-    // 按运营商筛选
-    if (结果列表433.length > 0) {
-      结果列表433 = 结果列表433.filter(项目429 => {
-        const 本地值428 = 项目429.isp || '';
-        if (本地值428.includes('移动') && !值值432) return false;
-        if (本地值428.includes('联通') && !值值431) return false;
-        if (本地值428.includes('电信') && !值值430) return false;
+    const [_v594, _v595] = await Promise.all(_v592);
+    _v586 = [..._v594, ..._v595];
+    if (_v586.length > 0) {
+      _v586 = _v586.filter(_v596 => {
+        const _v597 = _v596.isp || '';
+        if (_v597.includes(_d64("Aeenu+WKqA==")) && !_v589) return false;
+        if (_v597.includes(_d64("AeiBlOmAmg==")) && !_v590) return false;
+        if (_v597.includes(_d64("AeeUteS/oQ==")) && !_v591) return false;
         return true;
       });
     }
-    if (结果列表433.length > 0) {
-      return 结果列表433;
+    if (_v586.length > 0) {
+      return _v586;
     }
-  } catch (事件值427) {}
+  } catch (_v598) {}
   return [];
 }
-async function 获取值解析值(网址426) {
+async function _v593(_v599) {
   try {
-    const 响应425 = await fetch(网址426, {
+    const _v600 = await fetch(_v599, {
       headers: {
         'User-Agent': 'Mozilla/5.0'
       }
     });
-    if (!响应425.ok) {
+    if (!_v600.ok) {
       return [];
     }
-    const 页面 = await 响应425.text();
-    const 结果列表424 = [];
-    const 值正则423 = /<tr[\s\S]*?<\/tr>/g;
-    const 值正则422 = /<td data-label="线路名称">(.+?)<\/td>[\s\S]*?<td data-label="优选地址">([\d.:a-fA-F]+)<\/td>[\s\S]*?<td data-label="数据中心">(.+?)<\/td>/;
-    let 本地值421;
-    while ((本地值421 = 值正则423.exec(页面)) !== null) {
-      const 值页面420 = 本地值421[0];
-      const 值值419 = 值页面420.match(值正则422);
-      if (值值419 && 值值419[1] && 值值419[2]) {
-        const 机房 = 值值419[3] ? 值值419[3].trim().replace(/<.*?>/g, '') : '';
-        结果列表424.push({
-          isp: 值值419[1].trim().replace(/<.*?>/g, ''),
-          ip: 值值419[2].trim(),
-          colo: 机房
+    const _v601 = await _v600.text();
+    const _v602 = [];
+    const _v603 = /<tr[\s\S]*?<\/tr>/g;
+    const _v604 = new RegExp(_d64("ATx0ZCBkYXRhLWxhYmVsPSLnur/ot6/lkI3np7AiPiguKz8pPFwvdGQ+W1xzXFNdKj88dGQgZGF0YS1sYWJlbD0i5LyY6YCJ5Zyw5Z2AIj4oW1xkLjphLWZBLUZdKyk8XC90ZD5bXHNcU10qPzx0ZCBkYXRhLWxhYmVsPSLmlbDmja7kuK3lv4MiPiguKz8pPFwvdGQ+"), "");
+    let _v605;
+    while ((_v605 = _v603.exec(_v601)) !== null) {
+      const _v606 = _v605[0];
+      const _v607 = _v606.match(_v604);
+      if (_v607 && _v607[1] && _v607[2]) {
+        const _v608 = _v607[3] ? _v607[3].trim().replace(/<.*?>/g, '') : '';
+        _v602.push({
+          isp: _v607[1].trim().replace(/<.*?>/g, ''),
+          ip: _v607[2].trim(),
+          colo: _v608
         });
       }
     }
-    if (结果列表424.length === 0) {}
-    return 结果列表424;
-  } catch (错误418) {
+    if (_v602.length === 0) {}
+    return _v602;
+  } catch (_v609) {
     return [];
   }
 }
-async function 处理网页套接字请求(请求417) {
-  // 从请求URL的path query中读取客户端自定义参数
-  // 从 path query 读取覆盖参数
-  const 请求网址 = new URL(请求417.url);
-  const 请求回退416 = 请求网址.searchParams.get('p') || '';
-  const 请求地区415 = (请求网址.searchParams.get('wk') || '').toUpperCase();
-  const 请求值字符串 = 请求网址.searchParams.get('rm') || '';
-  const 请求值414 = 请求值字符串 ? 请求值字符串.toLowerCase() !== 'no' : null;
-  const 请求代理字符串 = 请求网址.searchParams.get('s') || '';
-  let 请求代理配置413 = null;
-  if (请求代理字符串) {
+async function _v264(_v610) {
+  const _v611 = new URL(_v610.url);
+  const _v612 = _v611.searchParams.get('p') || '';
+  const _v613 = (_v611.searchParams.get('wk') || '').toUpperCase();
+  const _v614 = _v611.searchParams.get('rm') || '';
+  const _v615 = _v614 ? _v614.toLowerCase() !== 'no' : null;
+  const _v616 = _v611.searchParams.get('s') || '';
+  let _v617 = null;
+  if (_v616) {
     try {
-      请求代理配置413 = 解析代理配置(请求代理字符串);
-    } catch (忽略值412) {}
+      _v617 = _v219(_v616);
+    } catch (_v618) {}
   }
-
-  // 检测并设置当前Worker地区，确保WebSocket请求能正确进行就近匹配
-  // 优先级：客户端path参数wk > 全局manualWorkerRegion > 自动检测
-  let 实际地区411 = 当前工作器地区;
-  if (!实际地区411 || 实际地区411 === '') {
-    if (请求地区415) {
-      实际地区411 = 请求地区415;
-    } else if (手动工作器地区 && 手动工作器地区.trim()) {
-      实际地区411 = 手动工作器地区.trim().toUpperCase();
+  let _v619 = _v20;
+  if (!_v619 || _v619 === '') {
+    if (_v613) {
+      _v619 = _v613;
+    } else if (_v21 && _v21.trim()) {
+      _v619 = _v21.trim().toUpperCase();
     } else {
-      实际地区411 = await 检测工作器地区(请求417);
+      _v619 = await _v156(_v610);
     }
-  } else if (请求地区415) {
-    实际地区411 = 请求地区415;
+  } else if (_v613) {
+    _v619 = _v613;
   }
-  const 网页套接字值 = new WebSocketPair();
-  const [客户端值, 值值410] = Object.values(网页套接字值);
-  值值410.accept();
-  值值410.binaryType = 'arraybuffer';
-  let 远程连接值409 = {
+  const _v620 = new WebSocketPair();
+  const [_v621, _v622] = Object.values(_v620);
+  _v622.accept();
+  _v622.binaryType = 'arraybuffer';
+  let _v623 = {
     socket: null,
     writer: null,
     drainUpload: null
   };
-  let 是否域名系统值 = false;
-  let 协议类型 = null;
-  let 值值408 = false;
-  let 传输值 = false;
-  const 值队列 = 创建块队列(传输上传包大小, 传输上传队列上限, 传输上传队列上限 >> 8);
-  const 请求值407 = 请求417.fetcher;
-  function 处理值远程写入器() {
+  let _v624 = false;
+  let _v625 = null;
+  let _v626 = false;
+  let _v627 = false;
+  const _v628 = _v629(_v90, _v91, _v91 >> 8);
+  const _v630 = _v610.fetcher;
+  function _v631() {
     try {
-      远程连接值409.writer?.releaseLock();
-    } catch (忽略值406) {}
-    远程连接值409.writer = null;
+      _v623.writer?.releaseLock();
+    } catch (_v632) {}
+    _v623.writer = null;
   }
-  function 关闭传输() {
-    if (传输值) return;
-    传输值 = true;
-    值队列.clear();
-    处理值远程写入器();
+  function _v633() {
+    if (_v627) return;
+    _v627 = true;
+    _v628.clear();
+    _v631();
     try {
-      远程连接值409.socket?.close();
-    } catch (忽略值405) {}
-    关闭套接字值(值值410);
+      _v623.socket?.close();
+    } catch (_v634) {}
+    _v635(_v622);
   }
-  function 处理队列值(块404) {
-    const 数据403 = 处理值值8数组(块404);
-    if (!数据403.byteLength) return true;
-    if (!值队列.sow(数据403)) {
-      关闭传输();
+  function _v636(_v637) {
+    const _v638 = _v639(_v637);
+    if (!_v638.byteLength) return true;
+    if (!_v628.sow(_v638)) {
+      _v633();
       return false;
     }
-    远程连接值409.drainUpload();
+    _v623.drainUpload();
     return true;
   }
-  async function 处理值值402() {
-    if (值值408 || 传输值 || !远程连接值409.writer) return;
-    值值408 = true;
+  async function _v640() {
+    if (_v626 || _v627 || !_v623.writer) return;
+    _v626 = true;
     try {
       for (;;) {
-        if (传输值 || !远程连接值409.writer) break;
-        const [数据401] = 值队列.bundle();
-        if (!数据401) break;
-        await 远程连接值409.writer.write(数据401);
+        if (_v627 || !_v623.writer) break;
+        const [_v641] = _v628.bundle();
+        if (!_v641) break;
+        await _v623.writer.write(_v641);
       }
-    } catch (忽略值400) {
-      关闭传输();
+    } catch (_v642) {
+      _v633();
     } finally {
-      值值408 = false;
-      if (!值队列.empty && !传输值 && 远程连接值409.writer) queueMicrotask(处理值值402);
+      _v626 = false;
+      if (!_v628.empty && !_v627 && _v623.writer) queueMicrotask(_v640);
     }
   }
-  远程连接值409.drainUpload = () => {
-    if (!值值408 && !值队列.empty && 远程连接值409.writer) queueMicrotask(处理值值402);
+  _v623.drainUpload = () => {
+    if (!_v626 && !_v628.empty && _v623.writer) queueMicrotask(_v640);
   };
-  const 值数据399 = 请求417.headers.get(解码64('c2VjLXdlYnNvY2tldC1wcm90b2NvbA==')) || '';
-  const 本地值398 = 制作值流(值值410, 值数据399);
-  本地值398.pipeTo(new WritableStream({
-    async write(块397) {
-      if (传输值) return;
-      const 数据396 = 处理值值8数组(块397);
-      if (是否域名系统值) return await 处理值用户数据报(数据396, 值值410, null, 请求值407);
-      if (远程连接值409.socket && 远程连接值409.writer) {
-        if (!处理队列值(数据396)) return;
+  const _v643 = _v610.headers.get(_v4('c2VjLXdlYnNvY2tldC1wcm90b2NvbA==')) || '';
+  const _v644 = _v645(_v622, _v643);
+  _v644.pipeTo(new WritableStream({
+    async write(_v646) {
+      if (_v627) return;
+      const _v647 = _v639(_v646);
+      if (_v624) return await _v648(_v647, _v622, null, _v630);
+      if (_v623.socket && _v623.writer) {
+        if (!_v636(_v647)) return;
         return;
       }
-      if (协议类型) {
-        if (!处理队列值(数据396)) return;
+      if (_v625) {
+        if (!_v636(_v647)) return;
         return;
       }
-      if (!协议类型) {
-        if (启用明文 && 数据396.byteLength >= 24) {
-          const 轻量协议结果 = 解析网页套接字值头部(数据396, 认证令牌);
-          if (!轻量协议结果.hasError) {
-            协议类型 = 解码64('dmxlc3M=');
+      if (!_v625) {
+        if (_v24 && _v647.byteLength >= 24) {
+          const _v649 = _v650(_v647, _v11);
+          if (!_v649.hasError) {
+            _v625 = _v4('dmxlc3M=');
             const {
-              addressType: 地址类型395,
-              port: 端口394,
-              hostname: 主机名393,
-              rawIndex: 原始索引,
-              version: 本地值392,
-              isUDP: 是否用户数据报391
-            } = 轻量协议结果;
-            if (是否用户数据报391) {
-              if (端口394 === 53) 是否域名系统值 = true;else throw new Error(错误_仅支持域名系统用户数据报);
+              addressType: _v651,
+              port: _v652,
+              hostname: _v653,
+              rawIndex: _v654,
+              version: _v655,
+              isUDP: _v656
+            } = _v649;
+            if (_v656) {
+              if (_v652 === 53) _v624 = true;else throw new Error(_v71);
             }
-            const 值头部390 = new Uint8Array([本地值392[0], 0]);
-            const 原始数据389 = 数据396.subarray(原始索引);
-            if (是否域名系统值) return 处理值用户数据报(原始数据389, 值值410, 值头部390, 请求值407);
-            await 处理值值384(地址类型395, 主机名393, 端口394, 原始数据389, 值值410, 值头部390, 远程连接值409, 请求回退416, 实际地区411, 请求值414, 请求代理配置413, 请求值407);
+            const _v657 = new Uint8Array([_v655[0], 0]);
+            const _v658 = _v647.subarray(_v654);
+            if (_v624) return _v648(_v658, _v622, _v657, _v630);
+            await _v659(_v651, _v653, _v652, _v658, _v622, _v657, _v623, _v612, _v619, _v615, _v617, _v630);
             return;
           }
         }
-        if (启用木马 && 数据396.byteLength >= 56) {
-          const 值结果 = await 解析木马头部(数据396, 认证令牌);
-          if (!值结果.hasError) {
-            协议类型 = 解码64('dHJvamFu');
+        if (_v25 && _v647.byteLength >= 56) {
+          const _v660 = await _v661(_v647, _v11);
+          if (!_v660.hasError) {
+            _v625 = _v4('dHJvamFu');
             const {
-              addressType: 地址类型388,
-              port: 端口387,
-              hostname: 主机名386,
-              rawClientData: 原始客户端数据
-            } = 值结果;
-            await 处理值值384(地址类型388, 主机名386, 端口387, 原始客户端数据, 值值410, null, 远程连接值409, 请求回退416, 实际地区411, 请求值414, 请求代理配置413, 请求值407);
+              addressType: _v662,
+              port: _v663,
+              hostname: _v664,
+              rawClientData: _v665
+            } = _v660;
+            await _v659(_v662, _v664, _v663, _v665, _v622, null, _v623, _v612, _v619, _v615, _v617, _v630);
             return;
           }
         }
         throw new Error('Invalid protocol or authentication failed');
       }
     }
-  })).catch(错误385 => {
-    关闭传输();
+  })).catch(_v666 => {
+    _v633();
   });
   return new Response(null, {
     status: 101,
-    webSocket: 客户端值
+    webSocket: _v621
   });
 }
-async function 处理值值384(地址类型383, 主机, 端口数字, 原始数据, 网页套接字382, 值头部381, 远程连接值, 请求回退 = '', 请求地区 = '', 请求值380 = null, 请求代理配置 = null, 请求值379 = null) {
-  // 优先使用客户端path参数，其次回退到全局配置
-  const 实际回退 = 请求回退 || 回退地址;
-  const 实际地区 = 请求地区 || 当前工作器地区;
-  const 实际地区匹配 = 请求值380 !== null ? 请求值380 : 启用地区匹配;
-  const 实际代理配置 = 请求代理配置 || 已解析代理5配置;
-  const 实际代理已启用 = 请求代理配置 ? true : 是否代理已启用;
-  const 值数据378 = 处理值值8数组(原始数据);
-  async function 连接值发送(地址377, 端口376, 值代理 = false) {
-    const 远程值375 = 值代理 ? await 处理值代理连接(地址类型383, 地址377, 端口376, 实际代理配置) : await 连接值套接字(地址377, 端口376, 请求值379, 传输连接竞速数);
-    const 写入器374 = 远程值375.writable.getWriter();
-    if (值数据378.byteLength) await 写入器374.write(值数据378);
+async function _v659(_v667, _v668, _v669, _v670, _v671, _v672, _v673, _v674 = '', _v675 = '', _v676 = null, _v677 = null, _v678 = null) {
+  const _v679 = _v674 || _v12;
+  const _v680 = _v675 || _v20;
+  const _v681 = _v676 !== null ? _v676 : _v19;
+  const _v682 = _v677 || _v81;
+  const _v683 = _v677 ? true : _v82;
+  const _v684 = _v639(_v670);
+  async function _v685(_v686, _v687, _v688 = false) {
+    const _v689 = _v688 ? await _v690(_v667, _v686, _v687, _v682) : await _v691(_v686, _v687, _v678, _v92);
+    const _v692 = _v689.writable.getWriter();
+    if (_v684.byteLength) await _v692.write(_v684);
     return {
-      remoteSock: 远程值375,
-      writer: 写入器374
+      remoteSock: _v689,
+      writer: _v692
     };
   }
-  function 处理值值当前(远程值373, 写入器372) {
-    if (远程连接值.socket !== 远程值373) return;
+  function _v693(_v694, _v695) {
+    if (_v673.socket !== _v694) return;
     try {
-      写入器372?.releaseLock();
-    } catch (忽略值371) {}
-    远程连接值.socket = null;
-    远程连接值.writer = null;
+      _v695?.releaseLock();
+    } catch (_v696) {}
+    _v673.socket = null;
+    _v673.writer = null;
   }
-  function 处理值远程(远程值370, 写入器369, 重试值368) {
+  function _v697(_v698, _v699, _v700) {
     try {
-      if (远程连接值.writer && 远程连接值.writer !== 写入器369) {
-        远程连接值.writer.releaseLock();
+      if (_v673.writer && _v673.writer !== _v699) {
+        _v673.writer.releaseLock();
       }
-    } catch (忽略值367) {}
-    远程连接值.socket = 远程值370;
-    远程连接值.writer = 写入器369;
-    远程连接值.drainUpload?.();
-    远程值370.closed.catch(() => {}).finally(() => {
-      if (远程连接值.socket === 远程值370) 关闭套接字值(网页套接字382);
+    } catch (_v701) {}
+    _v673.socket = _v698;
+    _v673.writer = _v699;
+    _v673.drainUpload?.();
+    _v698.closed.catch(() => {}).finally(() => {
+      if (_v673.socket === _v698) _v635(_v671);
     });
-    连接值279(远程值370, 网页套接字382, 值头部381, 重试值368).finally(() => {
-      if (远程连接值.socket === 远程值370) {
+    _v702(_v698, _v671, _v672, _v700).finally(() => {
+      if (_v673.socket === _v698) {
         try {
-          写入器369.releaseLock();
-        } catch (忽略值366) {}
-        远程连接值.writer = null;
+          _v699.releaseLock();
+        } catch (_v703) {}
+        _v673.writer = null;
       }
     });
   }
-  async function 处理重试连接() {
-    if (启用代理降级 && 实际代理已启用) {
+  async function _v704() {
+    if (_v16 && _v683) {
       try {
         const {
-          remoteSock: 代理套接字,
-          writer: 代理写入器
-        } = await 连接值发送(主机, 端口数字, true);
-        处理值远程(代理套接字, 代理写入器, null);
+          remoteSock: _v705,
+          writer: _v706
+        } = await _v685(_v668, _v669, true);
+        _v697(_v705, _v706, null);
         return;
-      } catch (代理错误) {
-        let 备用主机365, 备用端口364;
-        if (实际回退 && 实际回退.trim()) {
-          const 已解析363 = 解析地址值端口(实际回退);
-          备用主机365 = 已解析363.address;
-          备用端口364 = 已解析363.port || 端口数字;
+      } catch (_v707) {
+        let _v708, _v709;
+        if (_v679 && _v679.trim()) {
+          const _v710 = _v194(_v679);
+          _v708 = _v710.address;
+          _v709 = _v710.port || _v669;
         } else {
-          const 值备用地址362 = await 获取值备用地址(实际地区, 实际地区匹配);
-          备用主机365 = 值备用地址362 ? 值备用地址362.domain : 主机;
-          备用端口364 = 值备用地址362 ? 值备用地址362.port : 端口数字;
+          const _v711 = await _v169(_v680, _v681);
+          _v708 = _v711 ? _v711.domain : _v668;
+          _v709 = _v711 ? _v711.port : _v669;
         }
         try {
           const {
-            remoteSock: 回退套接字361,
-            writer: 回退写入器360
-          } = await 连接值发送(备用主机365, 备用端口364, false);
-          处理值远程(回退套接字361, 回退写入器360, null);
-        } catch (回退错误359) {
-          关闭套接字值(网页套接字382);
+            remoteSock: _v712,
+            writer: _v713
+          } = await _v685(_v708, _v709, false);
+          _v697(_v712, _v713, null);
+        } catch (_v714) {
+          _v635(_v671);
         }
       }
     } else {
-      let 备用主机, 备用端口;
-      if (实际回退 && 实际回退.trim()) {
-        const 已解析 = 解析地址值端口(实际回退);
-        备用主机 = 已解析.address;
-        备用端口 = 已解析.port || 端口数字;
+      let _v715, _v716;
+      if (_v679 && _v679.trim()) {
+        const _v717 = _v194(_v679);
+        _v715 = _v717.address;
+        _v716 = _v717.port || _v669;
       } else {
-        const 值备用地址 = await 获取值备用地址(实际地区, 实际地区匹配);
-        备用主机 = 值备用地址 ? 值备用地址.domain : 主机;
-        备用端口 = 值备用地址 ? 值备用地址.port : 端口数字;
+        const _v718 = await _v169(_v680, _v681);
+        _v715 = _v718 ? _v718.domain : _v668;
+        _v716 = _v718 ? _v718.port : _v669;
       }
       try {
         const {
-          remoteSock: 回退套接字,
-          writer: 回退写入器
-        } = await 连接值发送(备用主机, 备用端口, 实际代理已启用);
-        处理值远程(回退套接字, 回退写入器, null);
-      } catch (回退错误) {
-        关闭套接字值(网页套接字382);
+          remoteSock: _v719,
+          writer: _v720
+        } = await _v685(_v715, _v716, _v683);
+        _v697(_v719, _v720, null);
+      } catch (_v721) {
+        _v635(_v671);
       }
     }
   }
   try {
     const {
-      remoteSock: 值套接字358,
-      writer: 值写入器
-    } = await 连接值发送(主机, 端口数字, 启用代理降级 ? false : 实际代理已启用);
-    处理值远程(值套接字358, 值写入器, () => {
-      处理值值当前(值套接字358, 值写入器);
-      处理重试连接();
+      remoteSock: _v722,
+      writer: _v723
+    } = await _v685(_v668, _v669, _v16 ? false : _v683);
+    _v697(_v722, _v723, () => {
+      _v693(_v722, _v723);
+      _v704();
     });
-  } catch (错误357) {
-    await 处理重试连接();
+  } catch (_v724) {
+    await _v704();
   }
 }
-function 处理值值8数组(块356) {
-  if (块356 instanceof Uint8Array) return 块356;
-  if (块356 instanceof ArrayBuffer) return new Uint8Array(块356);
-  if (ArrayBuffer.isView(块356)) return new Uint8Array(块356.buffer, 块356.byteOffset, 块356.byteLength);
-  return new Uint8Array(块356);
+function _v639(_v725) {
+  if (_v725 instanceof Uint8Array) return _v725;
+  if (_v725 instanceof ArrayBuffer) return new Uint8Array(_v725);
+  if (ArrayBuffer.isView(_v725)) return new Uint8Array(_v725.buffer, _v725.byteOffset, _v725.byteLength);
+  return new Uint8Array(_v725);
 }
-function 拼接值8数组(头部355, 主体354) {
-  const 头值353 = 处理值值8数组(头部355);
-  const 乙值352 = 处理值值8数组(主体354);
-  const 输出351 = new Uint8Array(头值353.byteLength + 乙值352.byteLength);
-  输出351.set(头值353);
-  输出351.set(乙值352, 头值353.byteLength);
-  return 输出351;
+function _v726(_v727, _v728) {
+  const _v729 = _v639(_v727);
+  const _v730 = _v639(_v728);
+  const _v731 = new Uint8Array(_v729.byteLength + _v730.byteLength);
+  _v731.set(_v729);
+  _v731.set(_v730, _v729.byteLength);
+  return _v731;
 }
-function 创建块队列(本地值350, 值值349 = 本地值350, 项目列表上限 = Math.max(1, 值值349 >> 8)) {
-  let 队列 = [];
-  let 头部348 = 0;
-  let 值字节347 = 0;
-  let 值缓冲346 = null;
-  function 处理本地值345() {
-    if (头部348 > 32 && 头部348 * 2 >= 队列.length) {
-      队列 = 队列.slice(头部348);
-      头部348 = 0;
+function _v629(_v732, _v733 = _v732, _v734 = Math.max(1, _v733 >> 8)) {
+  let _v735 = [];
+  let _v736 = 0;
+  let _v737 = 0;
+  let _v738 = null;
+  function _v739() {
+    if (_v736 > 32 && _v736 * 2 >= _v735.length) {
+      _v735 = _v735.slice(_v736);
+      _v736 = 0;
     }
   }
-  function 处理本地值344() {
-    if (头部348 >= 队列.length) return null;
-    const 数据343 = 队列[头部348];
-    队列[头部348++] = undefined;
-    值字节347 -= 数据343.byteLength;
-    处理本地值345();
-    return 数据343;
+  function _v740() {
+    if (_v736 >= _v735.length) return null;
+    const _v741 = _v735[_v736];
+    _v735[_v736++] = undefined;
+    _v737 -= _v741.byteLength;
+    _v739();
+    return _v741;
   }
   return {
     get empty() {
-      return 头部348 >= 队列.length;
+      return _v736 >= _v735.length;
     },
     clear() {
-      队列 = [];
-      头部348 = 0;
-      值字节347 = 0;
+      _v735 = [];
+      _v736 = 0;
+      _v737 = 0;
     },
-    sow(数据342) {
-      const 数量值 = 数据342?.byteLength || 0;
-      if (!数量值) return true;
-      if (值字节347 + 数量值 > 值值349 || 队列.length - 头部348 >= 项目列表上限) return false;
-      队列.push(数据342);
-      值字节347 += 数量值;
+    sow(_v742) {
+      const _v743 = _v742?.byteLength || 0;
+      if (!_v743) return true;
+      if (_v737 + _v743 > _v733 || _v735.length - _v736 >= _v734) return false;
+      _v735.push(_v742);
+      _v737 += _v743;
       return true;
     },
-    bundle(数据341 = null) {
-      数据341 ||= 处理本地值344();
-      if (!数据341 || 头部348 >= 队列.length || 数据341.byteLength >= 本地值350) return [数据341, false];
-      let 本地值340 = 数据341.byteLength;
-      let 结束 = 头部348;
-      while (结束 < 队列.length) {
-        const 本地值339 = 队列[结束];
-        const 值值338 = 本地值340 + 本地值339.byteLength;
-        if (值值338 > 本地值350) break;
-        本地值340 = 值值338;
-        结束++;
+    bundle(_v744 = null) {
+      _v744 ||= _v740();
+      if (!_v744 || _v736 >= _v735.length || _v744.byteLength >= _v732) return [_v744, false];
+      let _v745 = _v744.byteLength;
+      let _v746 = _v736;
+      while (_v746 < _v735.length) {
+        const _v747 = _v735[_v746];
+        const _v748 = _v745 + _v747.byteLength;
+        if (_v748 > _v732) break;
+        _v745 = _v748;
+        _v746++;
       }
-      if (结束 === 头部348) return [数据341, false];
-      const 输出 = 值缓冲346 ||= new Uint8Array(本地值350);
-      输出.set(数据341);
-      let 偏移337 = 数据341.byteLength;
-      while (头部348 < 结束) {
-        const 本地值336 = 队列[头部348];
-        队列[头部348++] = undefined;
-        值字节347 -= 本地值336.byteLength;
-        输出.set(本地值336, 偏移337);
-        偏移337 += 本地值336.byteLength;
+      if (_v746 === _v736) return [_v744, false];
+      const _v749 = _v738 ||= new Uint8Array(_v732);
+      _v749.set(_v744);
+      let _v750 = _v744.byteLength;
+      while (_v736 < _v746) {
+        const _v751 = _v735[_v736];
+        _v735[_v736++] = undefined;
+        _v737 -= _v751.byteLength;
+        _v749.set(_v751, _v750);
+        _v750 += _v751.byteLength;
       }
-      处理本地值345();
-      return [输出.subarray(0, 本地值340), true];
+      _v739();
+      return [_v749.subarray(0, _v745), true];
     }
   };
 }
-function 创建值值(网页套接字335) {
-  const 本地值334 = 传输下载包大小;
-  const 尾部 = 传输下载尾部;
-  const 值值333 = Math.max(4096, 尾部 << 3);
-  let 本地值332 = new Uint8Array(本地值334);
-  let 值字节 = 0;
-  let 计时器 = 0;
-  let 值值331 = false;
-  let 本地值330 = 0;
-  let 值键 = 0;
-  let 值值329 = 0;
-  function 刷新() {
-    if (计时器) clearTimeout(计时器);
-    计时器 = 0;
-    值值331 = false;
-    if (!值字节) return;
-    if (网页套接字335.readyState === 1) 网页套接字335.send(本地值332.subarray(0, 值字节).slice());
-    本地值332 = new Uint8Array(本地值334);
-    值字节 = 0;
-    值值329 = 0;
+function _v752(_v753) {
+  const _v754 = _v87;
+  const _v755 = _v88;
+  const _v756 = Math.max(4096, _v755 << 3);
+  let _v757 = new Uint8Array(_v754);
+  let _v758 = 0;
+  let _v759 = 0;
+  let _v760 = false;
+  let _v761 = 0;
+  let _v762 = 0;
+  let _v763 = 0;
+  function _v764() {
+    if (_v759) clearTimeout(_v759);
+    _v759 = 0;
+    _v760 = false;
+    if (!_v758) return;
+    if (_v753.readyState === 1) _v753.send(_v757.subarray(0, _v758).slice());
+    _v757 = new Uint8Array(_v754);
+    _v758 = 0;
+    _v763 = 0;
   }
-  function 处理本地值() {
-    if (计时器 || 值值331) return;
-    值值331 = true;
-    值键 = 本地值330;
+  function _v765() {
+    if (_v759 || _v760) return;
+    _v760 = true;
+    _v762 = _v761;
     queueMicrotask(() => {
-      值值331 = false;
-      if (!值字节 || 计时器) return;
-      if (本地值334 - 值字节 < 尾部) return 刷新();
-      计时器 = setTimeout(() => {
-        计时器 = 0;
-        if (!值字节) return;
-        if (本地值334 - 值字节 < 尾部) return 刷新();
-        if (值值329 < 2 && (本地值330 !== 值键 || 值字节 < 值值333)) {
-          值值329++;
-          值键 = 本地值330;
-          return 处理本地值();
+      _v760 = false;
+      if (!_v758 || _v759) return;
+      if (_v754 - _v758 < _v755) return _v764();
+      _v759 = setTimeout(() => {
+        _v759 = 0;
+        if (!_v758) return;
+        if (_v754 - _v758 < _v755) return _v764();
+        if (_v763 < 2 && (_v761 !== _v762 || _v758 < _v756)) {
+          _v763++;
+          _v762 = _v761;
+          return _v765();
         }
-        刷新();
-      }, Math.max(传输下载延迟, 1));
+        _v764();
+      }, Math.max(_v89, 1));
     });
   }
   return {
-    send(块328) {
-      const 数据327 = 处理值值8数组(块328);
-      let 偏移326 = 0;
-      const 本地值325 = 数据327.byteLength;
-      if (!本地值325) return;
-      while (偏移326 < 本地值325) {
-        if (!值字节 && 本地值325 - 偏移326 >= 本地值334) {
-          const 大小324 = Math.min(本地值334, 本地值325 - 偏移326);
-          if (网页套接字335.readyState === 1) 网页套接字335.send(偏移326 || 大小324 !== 本地值325 ? 数据327.subarray(偏移326, 偏移326 + 大小324) : 数据327);
-          偏移326 += 大小324;
+    send(_v766) {
+      const _v767 = _v639(_v766);
+      let _v768 = 0;
+      const _v769 = _v767.byteLength;
+      if (!_v769) return;
+      while (_v768 < _v769) {
+        if (!_v758 && _v769 - _v768 >= _v754) {
+          const _v770 = Math.min(_v754, _v769 - _v768);
+          if (_v753.readyState === 1) _v753.send(_v768 || _v770 !== _v769 ? _v767.subarray(_v768, _v768 + _v770) : _v767);
+          _v768 += _v770;
           continue;
         }
-        const 大小323 = Math.min(本地值334 - 值字节, 本地值325 - 偏移326);
-        本地值332.set(数据327.subarray(偏移326, 偏移326 + 大小323), 值字节);
-        值字节 += 大小323;
-        偏移326 += 大小323;
-        本地值330++;
-        if (值字节 === 本地值334 || 本地值334 - 值字节 < 尾部) 刷新();else 处理本地值();
+        const _v771 = Math.min(_v754 - _v758, _v769 - _v768);
+        _v757.set(_v767.subarray(_v768, _v768 + _v771), _v758);
+        _v758 += _v771;
+        _v768 += _v771;
+        _v761++;
+        if (_v758 === _v754 || _v754 - _v758 < _v755) _v764();else _v765();
       }
     },
-    flush: 刷新
+    flush: _v764
   };
 }
-function 处理打开值套接字(地址322, 端口321, 请求值320 = null) {
-  const 目标 = {
-    hostname: 地址322,
-    port: 端口321
+function _v772(_v773, _v774, _v775 = null) {
+  const _v776 = {
+    hostname: _v773,
+    port: _v774
   };
-  if (请求值320 && typeof 请求值320.connect === 'function') return 请求值320.connect(目标);
-  return 连接(目标);
+  if (_v775 && typeof _v775.connect === 'function') return _v775.connect(_v776);
+  return _v1(_v776);
 }
-async function 处理打开值套接字值(地址319, 端口318, 请求值317 = null) {
+async function _v777(_v778, _v779, _v780 = null) {
   try {
-    const 套接字316 = 处理打开值套接字(地址319, 端口318, 请求值317);
-    if (套接字316?.opened) await 套接字316.opened;
-    return 套接字316;
-  } catch (错误315) {
-    if (!请求值317) throw 错误315;
-    const 套接字314 = 连接({
-      hostname: 地址319,
-      port: 端口318
+    const _v781 = _v772(_v778, _v779, _v780);
+    if (_v781?.opened) await _v781.opened;
+    return _v781;
+  } catch (_v782) {
+    if (!_v780) throw _v782;
+    const _v783 = _v1({
+      hostname: _v778,
+      port: _v779
     });
-    if (套接字314?.opened) await 套接字314.opened;
-    return 套接字314;
+    if (_v783?.opened) await _v783.opened;
+    return _v783;
   }
 }
-async function 连接值套接字(地址313, 端口312, 请求值311 = null, 竞速数量 = 1) {
-  const 数量 = Math.max(1, 竞速数量 | 0);
-  if (数量 <= 1) return 处理打开值套接字值(地址313, 端口312, 请求值311);
-  const 本地值310 = Array.from({
-    length: 数量
-  }, () => 处理打开值套接字值(地址313, 端口312, 请求值311));
-  const 本地值309 = await Promise.any(本地值310);
-  本地值310.forEach(本地值308 => {
-    本地值308.then(套接字307 => {
-      if (套接字307 !== 本地值309) {
+async function _v691(_v784, _v785, _v786 = null, _v787 = 1) {
+  const _v788 = Math.max(1, _v787 | 0);
+  if (_v788 <= 1) return _v777(_v784, _v785, _v786);
+  const _v789 = Array.from({
+    length: _v788
+  }, () => _v777(_v784, _v785, _v786));
+  const _v790 = await Promise.any(_v789);
+  _v789.forEach(_v791 => {
+    _v791.then(_v792 => {
+      if (_v792 !== _v790) {
         try {
-          套接字307.close();
-        } catch (忽略值306) {}
+          _v792.close();
+        } catch (_v793) {}
       }
     }, () => {});
   });
-  return 本地值309;
+  return _v790;
 }
-function 获取唯一标识字节(令牌305) {
-  if (唯一标识字节缓存.has(令牌305)) return 唯一标识字节缓存.get(令牌305);
-  const 十六进制 = String(令牌305 || '').replace(/-/g, '');
-  if (十六进制.length !== 32) return null;
-  const 字节304 = new Uint8Array(16);
-  for (let 索引值303 = 0; 索引值303 < 16; 索引值303++) {
-    const 值302 = Number.parseInt(十六进制.slice(索引值303 * 2, 索引值303 * 2 + 2), 16);
-    if (Number.isNaN(值302)) return null;
-    字节304[索引值303] = 值302;
+function _v794(_v795) {
+  if (_v95.has(_v795)) return _v95.get(_v795);
+  const _v796 = String(_v795 || '').replace(/-/g, '');
+  if (_v796.length !== 32) return null;
+  const _v797 = new Uint8Array(16);
+  for (let _v798 = 0; _v798 < 16; _v798++) {
+    const _v799 = Number.parseInt(_v796.slice(_v798 * 2, _v798 * 2 + 2), 16);
+    if (Number.isNaN(_v799)) return null;
+    _v797[_v798] = _v799;
   }
-  if (唯一标识字节缓存.size > 16) 唯一标识字节缓存.clear();
-  唯一标识字节缓存.set(令牌305, 字节304);
-  return 字节304;
+  if (_v95.size > 16) _v95.clear();
+  _v95.set(_v795, _v797);
+  return _v797;
 }
-function 处理值唯一标识(字节301, 偏移300, 令牌299) {
-  const 标识298 = 获取唯一标识字节(令牌299);
-  return !!标识298 && 字节301[偏移300] === 标识298[0] && 字节301[偏移300 + 1] === 标识298[1] && 字节301[偏移300 + 2] === 标识298[2] && 字节301[偏移300 + 3] === 标识298[3] && 字节301[偏移300 + 4] === 标识298[4] && 字节301[偏移300 + 5] === 标识298[5] && 字节301[偏移300 + 6] === 标识298[6] && 字节301[偏移300 + 7] === 标识298[7] && 字节301[偏移300 + 8] === 标识298[8] && 字节301[偏移300 + 9] === 标识298[9] && 字节301[偏移300 + 10] === 标识298[10] && 字节301[偏移300 + 11] === 标识298[11] && 字节301[偏移300 + 12] === 标识298[12] && 字节301[偏移300 + 13] === 标识298[13] && 字节301[偏移300 + 14] === 标识298[14] && 字节301[偏移300 + 15] === 标识298[15];
+function _v800(_v801, _v802, _v803) {
+  const _v804 = _v794(_v803);
+  return !!_v804 && _v801[_v802] === _v804[0] && _v801[_v802 + 1] === _v804[1] && _v801[_v802 + 2] === _v804[2] && _v801[_v802 + 3] === _v804[3] && _v801[_v802 + 4] === _v804[4] && _v801[_v802 + 5] === _v804[5] && _v801[_v802 + 6] === _v804[6] && _v801[_v802 + 7] === _v804[7] && _v801[_v802 + 8] === _v804[8] && _v801[_v802 + 9] === _v804[9] && _v801[_v802 + 10] === _v804[10] && _v801[_v802 + 11] === _v804[11] && _v801[_v802 + 12] === _v804[12] && _v801[_v802 + 13] === _v804[13] && _v801[_v802 + 14] === _v804[14] && _v801[_v802 + 15] === _v804[15];
 }
-function 解析网页套接字值头部(块297, 令牌) {
-  const 字节296 = 处理值值8数组(块297);
-  if (字节296.byteLength < 24) return {
+function _v650(_v805, _v806) {
+  const _v807 = _v639(_v805);
+  if (_v807.byteLength < 24) return {
     hasError: true,
-    message: 错误_无效数据
+    message: _v68
   };
-  const 本地值295 = 字节296.subarray(0, 1);
-  if (!处理值唯一标识(字节296, 1, 令牌)) return {
+  const _v808 = _v807.subarray(0, 1);
+  if (!_v800(_v807, 1, _v806)) return {
     hasError: true,
-    message: 错误_无效用户
+    message: _v69
   };
-  const 值长度294 = 字节296[17];
-  const 命令索引 = 18 + 值长度294;
-  if (字节296.byteLength < 命令索引 + 5) return {
+  const _v809 = _v807[17];
+  const _v810 = 18 + _v809;
+  if (_v807.byteLength < _v810 + 5) return {
     hasError: true,
-    message: 错误_无效数据
+    message: _v68
   };
-  const 命令293 = 字节296[命令索引];
-  let 是否用户数据报 = false;
-  if (命令293 === 1) {} else if (命令293 === 2) {
-    是否用户数据报 = true;
+  const _v811 = _v807[_v810];
+  let _v812 = false;
+  if (_v811 === 1) {} else if (_v811 === 2) {
+    _v812 = true;
   } else {
     return {
       hasError: true,
-      message: 错误_不支持命令
+      message: _v70
     };
   }
-  const 端口索引292 = 19 + 值长度294;
-  const 端口291 = 字节296[端口索引292] << 8 | 字节296[端口索引292 + 1];
-  let 地址索引290 = 端口索引292 + 2,
-    地址长度289 = 0,
-    地址值索引 = 地址索引290 + 1,
-    主机名288 = '';
-  const 地址类型287 = 字节296[地址索引290];
-  switch (地址类型287) {
-    case 地址类型_四版:
-      地址长度289 = 4;
-      if (字节296.byteLength < 地址值索引 + 地址长度289) return {
+  const _v813 = 19 + _v809;
+  const _v814 = _v807[_v813] << 8 | _v807[_v813 + 1];
+  let _v815 = _v813 + 2,
+    _v816 = 0,
+    _v817 = _v815 + 1,
+    _v818 = '';
+  const _v819 = _v807[_v815];
+  switch (_v819) {
+    case _v83:
+      _v816 = 4;
+      if (_v807.byteLength < _v817 + _v816) return {
         hasError: true,
-        message: 错误_无效数据
+        message: _v68
       };
-      主机名288 = `${字节296[地址值索引]}.${字节296[地址值索引 + 1]}.${字节296[地址值索引 + 2]}.${字节296[地址值索引 + 3]}`;
+      _v818 = `${_v807[_v817]}.${_v807[_v817 + 1]}.${_v807[_v817 + 2]}.${_v807[_v817 + 3]}`;
       break;
-    case 地址类型_网址:
-      if (字节296.byteLength < 地址值索引 + 1) return {
+    case _v84:
+      if (_v807.byteLength < _v817 + 1) return {
         hasError: true,
-        message: 错误_无效数据
+        message: _v68
       };
-      地址长度289 = 字节296[地址值索引++];
-      if (字节296.byteLength < 地址值索引 + 地址长度289) return {
+      _v816 = _v807[_v817++];
+      if (_v807.byteLength < _v817 + _v816) return {
         hasError: true,
-        message: 错误_无效数据
+        message: _v68
       };
-      主机名288 = 共享解码器.decode(字节296.subarray(地址值索引, 地址值索引 + 地址长度289));
+      _v818 = _v94.decode(_v807.subarray(_v817, _v817 + _v816));
       break;
-    case 地址类型_六版:
-      地址长度289 = 16;
-      if (字节296.byteLength < 地址值索引 + 地址长度289) return {
+    case _v85:
+      _v816 = 16;
+      if (_v807.byteLength < _v817 + _v816) return {
         hasError: true,
-        message: 错误_无效数据
+        message: _v68
       };
-      const 值6286 = [];
-      const 值6视图 = new DataView(字节296.buffer, 字节296.byteOffset + 地址值索引, 地址长度289);
-      for (let 索引值285 = 0; 索引值285 < 8; 索引值285++) 值6286.push(值6视图.getUint16(索引值285 * 2).toString(16));
-      主机名288 = 值6286.join(':');
+      const _v820 = [];
+      const _v821 = new DataView(_v807.buffer, _v807.byteOffset + _v817, _v816);
+      for (let _v822 = 0; _v822 < 8; _v822++) _v820.push(_v821.getUint16(_v822 * 2).toString(16));
+      _v818 = _v820.join(':');
       break;
     default:
       return {
         hasError: true,
-        message: `${错误_无效地址类型}: ${地址类型287}`
+        message: `${_v72}: ${_v819}`
       };
   }
-  if (!主机名288) return {
+  if (!_v818) return {
     hasError: true,
-    message: `${错误_空地址}: ${地址类型287}`
+    message: `${_v73}: ${_v819}`
   };
   return {
     hasError: false,
-    addressType: 地址类型287,
-    port: 端口291,
-    hostname: 主机名288,
-    isUDP: 是否用户数据报,
-    rawIndex: 地址值索引 + 地址长度289,
-    version: 本地值295
+    addressType: _v819,
+    port: _v814,
+    hostname: _v818,
+    isUDP: _v812,
+    rawIndex: _v817 + _v816,
+    version: _v808
   };
 }
-function 制作值流(套接字284, 值数据头部) {
-  let 本地值283 = false;
+function _v645(_v823, _v824) {
+  let _v825 = false;
   return new ReadableStream({
-    start(控制器282) {
-      套接字284.addEventListener('message', 事件 => {
-        if (!本地值283) 控制器282.enqueue(处理值值8数组(事件.data));
+    start(_v826) {
+      _v823.addEventListener('message', _v827 => {
+        if (!_v825) _v826.enqueue(_v639(_v827.data));
       });
-      套接字284.addEventListener('close', () => {
-        if (!本地值283) {
-          关闭套接字值(套接字284);
-          控制器282.close();
+      _v823.addEventListener('close', () => {
+        if (!_v825) {
+          _v635(_v823);
+          _v826.close();
         }
       });
-      套接字284.addEventListener('error', 错误281 => 控制器282.error(错误281));
+      _v823.addEventListener('error', _v828 => _v826.error(_v828));
       const {
-        earlyData: 值数据,
-        error: 错误280
-      } = 处理基础64值数组(值数据头部);
-      if (错误280) 控制器282.error(错误280);else if (值数据) 控制器282.enqueue(处理值值8数组(值数据));
+        earlyData: _v829,
+        error: _v830
+      } = _v831(_v824);
+      if (_v830) _v826.error(_v830);else if (_v829) _v826.enqueue(_v639(_v829));
     },
     cancel() {
-      本地值283 = true;
-      关闭套接字值(套接字284);
+      _v825 = true;
+      _v635(_v823);
     }
   });
 }
-async function 连接值279(远程套接字, 网页套接字278, 头部数据, 重试值) {
-  let 头部277 = 头部数据,
-    是否有数据 = false,
-    本地值276 = false;
-
-  // 关键：直连有时握手成功但远端长时间无数据，需要超时触发降级
-  let 首次字节计时器 = null;
-  if (重试值) {
-    首次字节计时器 = setTimeout(() => {
-      if (!是否有数据 && !本地值276) {
-        本地值276 = true;
+async function _v702(_v832, _v833, _v834, _v835) {
+  let _v836 = _v834,
+    _v837 = false,
+    _v838 = false;
+  let _v839 = null;
+  if (_v835) {
+    _v839 = setTimeout(() => {
+      if (!_v837 && !_v838) {
+        _v838 = true;
         try {
-          远程套接字.close && 远程套接字.close();
-        } catch (忽略值275) {}
-        重试值();
+          _v832.close && _v832.close();
+        } catch (_v840) {}
+        _v835();
       }
-    }, 首字节超时);
+    }, _v93);
   }
-  const 本地值274 = 创建值值(网页套接字278);
-  let 读取器273 = null;
-  let 本地值272 = true;
-  let 缓冲271 = new ArrayBuffer(传输块大小);
+  const _v841 = _v752(_v833);
+  let _v842 = null;
+  let _v843 = true;
+  let _v844 = new ArrayBuffer(_v86);
   try {
     try {
-      读取器273 = 远程套接字.readable.getReader({
+      _v842 = _v832.readable.getReader({
         mode: 'byob'
       });
-    } catch (忽略值270) {
-      本地值272 = false;
-      读取器273 = 远程套接字.readable.getReader();
+    } catch (_v845) {
+      _v843 = false;
+      _v842 = _v832.readable.getReader();
     }
     for (;;) {
-      const 结果269 = 本地值272 ? await 读取器273.read(new Uint8Array(缓冲271, 0, 传输块大小)) : await 读取器273.read();
-      if (结果269.done) break;
-      const 读取值 = 结果269.value;
-      let 块268 = 处理值值8数组(读取值);
-      const 值缓冲 = 本地值272 && 读取值?.buffer instanceof ArrayBuffer && 读取值.buffer.byteLength >= 传输块大小 ? 读取值.buffer : new ArrayBuffer(传输块大小);
-      if (!块268.byteLength) continue;
-      if (!是否有数据) {
-        是否有数据 = true;
-        if (首次字节计时器) {
-          clearTimeout(首次字节计时器);
-          首次字节计时器 = null;
+      const _v846 = _v843 ? await _v842.read(new Uint8Array(_v844, 0, _v86)) : await _v842.read();
+      if (_v846.done) break;
+      const _v847 = _v846.value;
+      let _v848 = _v639(_v847);
+      const _v849 = _v843 && _v847?.buffer instanceof ArrayBuffer && _v847.buffer.byteLength >= _v86 ? _v847.buffer : new ArrayBuffer(_v86);
+      if (!_v848.byteLength) continue;
+      if (!_v837) {
+        _v837 = true;
+        if (_v839) {
+          clearTimeout(_v839);
+          _v839 = null;
         }
       }
-      if (网页套接字278.readyState !== 1) throw new Error(错误_网页套接字未打开);
-      if (头部277) {
-        块268 = 拼接值8数组(头部277, 块268);
-        头部277 = null;
+      if (_v833.readyState !== 1) throw new Error(_v74);
+      if (_v836) {
+        _v848 = _v726(_v836, _v848);
+        _v836 = null;
       }
-      if (块268.byteLength >= 传输块大小 >> 1) {
-        本地值274.flush();
-        网页套接字278.send(块268);
-        if (本地值272) 缓冲271 = new ArrayBuffer(传输块大小);
+      if (_v848.byteLength >= _v86 >> 1) {
+        _v841.flush();
+        _v833.send(_v848);
+        if (_v843) _v844 = new ArrayBuffer(_v86);
       } else {
-        本地值274.send(块268.slice());
-        if (本地值272) 缓冲271 = 值缓冲;
+        _v841.send(_v848.slice());
+        if (_v843) _v844 = _v849;
       }
     }
-    本地值274.flush();
-  } catch (错误267) {
-    // 已经触发 retry 时不要关闭 WS（retry 会重新挂载新 socket）
-    if (!本地值276) 关闭套接字值(网页套接字278);
+    _v841.flush();
+  } catch (_v850) {
+    if (!_v838) _v635(_v833);
   } finally {
     try {
-      本地值274.flush();
-    } catch (忽略值266) {}
+      _v841.flush();
+    } catch (_v851) {}
     try {
-      读取器273?.releaseLock();
-    } catch (忽略值265) {}
+      _v842?.releaseLock();
+    } catch (_v852) {}
   }
-  if (首次字节计时器) {
-    clearTimeout(首次字节计时器);
-    首次字节计时器 = null;
+  if (_v839) {
+    clearTimeout(_v839);
+    _v839 = null;
   }
-  if (!是否有数据 && !本地值276 && 重试值) 重试值();
+  if (!_v837 && !_v838 && _v835) _v835();
 }
-async function 处理值用户数据报(用户数据报块, 网页套接字, 值头部, 请求值 = null) {
+async function _v648(_v853, _v854, _v855, _v856 = null) {
   try {
-    const 值套接字 = await 连接值套接字('8.8.4.4', 53, 请求值, 1);
-    let 头部 = 值头部;
-    const 写入器264 = 值套接字.writable.getWriter();
-    await 写入器264.write(用户数据报块);
-    写入器264.releaseLock();
-    await 连接值279(值套接字, 网页套接字, 头部, null);
-  } catch (错误263) {}
+    const _v857 = await _v691('8.8.4.4', 53, _v856, 1);
+    let _v858 = _v855;
+    const _v859 = _v857.writable.getWriter();
+    await _v859.write(_v853);
+    _v859.releaseLock();
+    await _v702(_v857, _v854, _v858, null);
+  } catch (_v860) {}
 }
-async function 处理值代理连接(地址类型, 地址262, 端口261, 代理配置 = 已解析代理5配置) {
+async function _v690(_v861, _v862, _v863, _v864 = _v81) {
   const {
-    username: 本地值260,
-    password: 密码259,
-    hostname: 主机名258,
-    socksPort: 代理端口257
-  } = 代理配置;
-  const 套接字256 = 连接({
-    hostname: 主机名258,
-    port: 代理端口257
+    username: _v865,
+    password: _v866,
+    hostname: _v867,
+    socksPort: _v868
+  } = _v864;
+  const _v869 = _v1({
+    hostname: _v867,
+    port: _v868
   });
-  const 写入器255 = 套接字256.writable.getWriter();
-  await 写入器255.write(new Uint8Array(本地值260 ? [5, 2, 0, 2] : [5, 1, 0]));
-  const 读取器254 = 套接字256.readable.getReader();
-  let 本地值253 = (await 读取器254.read()).value;
-  if (本地值253[0] !== 5 || 本地值253[1] === 255) throw new Error(错误_代理无可用方法);
-  if (本地值253[1] === 2) {
-    if (!本地值260 || !密码259) throw new Error(错误_代理需要认证);
-    const 编码器252 = new TextEncoder();
-    const 认证请求 = new Uint8Array([1, 本地值260.length, ...编码器252.encode(本地值260), 密码259.length, ...编码器252.encode(密码259)]);
-    await 写入器255.write(认证请求);
-    本地值253 = (await 读取器254.read()).value;
-    if (本地值253[0] !== 1 || 本地值253[1] !== 0) throw new Error(错误_代理认证失败);
+  const _v870 = _v869.writable.getWriter();
+  await _v870.write(new Uint8Array(_v865 ? [5, 2, 0, 2] : [5, 1, 0]));
+  const _v871 = _v869.readable.getReader();
+  let _v872 = (await _v871.read()).value;
+  if (_v872[0] !== 5 || _v872[1] === 255) throw new Error(_v77);
+  if (_v872[1] === 2) {
+    if (!_v865 || !_v866) throw new Error(_v78);
+    const _v873 = new TextEncoder();
+    const _v874 = new Uint8Array([1, _v865.length, ..._v873.encode(_v865), _v866.length, ..._v873.encode(_v866)]);
+    await _v870.write(_v874);
+    _v872 = (await _v871.read()).value;
+    if (_v872[0] !== 1 || _v872[1] !== 0) throw new Error(_v79);
   }
-  const 编码器251 = new TextEncoder();
-  let 本地值250;
-  switch (地址类型) {
-    case 地址类型_四版:
-      本地值250 = new Uint8Array([1, ...地址262.split('.').map(Number)]);
+  const _v875 = new TextEncoder();
+  let _v876;
+  switch (_v861) {
+    case _v83:
+      _v876 = new Uint8Array([1, ..._v862.split('.').map(Number)]);
       break;
-    case 地址类型_网址:
-      本地值250 = new Uint8Array([3, 地址262.length, ...编码器251.encode(地址262)]);
+    case _v84:
+      _v876 = new Uint8Array([3, _v862.length, ..._v875.encode(_v862)]);
       break;
-    case 地址类型_六版:
-      本地值250 = new Uint8Array([4, ...地址262.split(':').flatMap(横值 => [parseInt(横值.slice(0, 2), 16), parseInt(横值.slice(2), 16)])]);
+    case _v85:
+      _v876 = new Uint8Array([4, ..._v862.split(':').flatMap(_v877 => [parseInt(_v877.slice(0, 2), 16), parseInt(_v877.slice(2), 16)])]);
       break;
     default:
-      throw new Error(错误_无效地址类型);
+      throw new Error(_v72);
   }
-  await 写入器255.write(new Uint8Array([5, 1, 0, ...本地值250, 端口261 >> 8, 端口261 & 255]));
-  本地值253 = (await 读取器254.read()).value;
-  if (本地值253[1] !== 0) throw new Error(错误_代理连接失败);
-  写入器255.releaseLock();
-  读取器254.releaseLock();
-  return 套接字256;
+  await _v870.write(new Uint8Array([5, 1, 0, ..._v876, _v863 >> 8, _v863 & 255]));
+  _v872 = (await _v871.read()).value;
+  if (_v872[1] !== 0) throw new Error(_v80);
+  _v870.releaseLock();
+  _v871.releaseLock();
+  return _v869;
 }
-function 解析代理配置(地址249) {
-  let [本地值248, 本地值247] = 地址249.split("@").reverse();
-  let 本地值246, 密码245, 主机名244, 代理端口;
-  if (本地值247) {
-    const 本地值243 = 本地值247.split(":");
-    if (本地值243.length !== 2) throw new Error(错误_无效代理地址);
-    [本地值246, 密码245] = 本地值243;
+function _v219(_v878) {
+  let [_v879, _v880] = _v878.split("@").reverse();
+  let _v881, _v882, _v883, _v884;
+  if (_v880) {
+    const _v885 = _v880.split(":");
+    if (_v885.length !== 2) throw new Error(_v76);
+    [_v881, _v882] = _v885;
   }
-  const 本地值242 = 本地值248.split(":");
-  代理端口 = Number(本地值242.pop());
-  if (isNaN(代理端口)) throw new Error(错误_无效代理地址);
-  主机名244 = 本地值242.join(":");
-  if (主机名244.includes(":") && !/^\[.*\]$/.test(主机名244)) throw new Error(错误_无效代理地址);
+  const _v886 = _v879.split(":");
+  _v884 = Number(_v886.pop());
+  if (isNaN(_v884)) throw new Error(_v76);
+  _v883 = _v886.join(":");
+  if (_v883.includes(":") && !/^\[.*\]$/.test(_v883)) throw new Error(_v76);
   return {
-    username: 本地值246,
-    password: 密码245,
-    hostname: 主机名244,
-    socksPort: 代理端口
+    username: _v881,
+    password: _v882,
+    hostname: _v883,
+    socksPort: _v884
   };
 }
-async function 处理订阅值(请求241, 用户240 = null) {
-  if (!用户240) 用户240 = 认证令牌;
-  const 网址239 = new URL(请求241.url);
-  // 优先检查Cookie中的语言设置
-  const 凭据头部 = 请求241.headers.get('Cookie') || '';
-  let 语言来源凭据 = null;
-  if (凭据头部) {
-    const 本地值238 = 凭据头部.split(';').map(丙值237 => 丙值237.trim());
-    for (const 凭据 of 本地值238) {
-      if (凭据.startsWith('preferredLanguage=')) {
-        语言来源凭据 = 凭据.split('=')[1];
+async function _v287(_v887, _v888 = null) {
+  if (!_v888) _v888 = _v11;
+  const _v889 = new URL(_v887.url);
+  const _v890 = _v887.headers.get('Cookie') || '';
+  let _v891 = null;
+  if (_v890) {
+    const _v892 = _v890.split(';').map(_v893 => _v893.trim());
+    for (const _v894 of _v892) {
+      if (_v894.startsWith('preferredLanguage=')) {
+        _v891 = _v894.split('=')[1];
         break;
       }
     }
   }
-  let 是否值236 = false;
-  if (语言来源凭据 === 'fa' || 语言来源凭据 === 'fa-IR') {
-    是否值236 = true;
-  } else if (语言来源凭据 === 'zh' || 语言来源凭据 === 'zh-CN') {
-    是否值236 = false;
+  let _v895 = false;
+  if (_v891 === 'fa' || _v891 === 'fa-IR') {
+    _v895 = true;
+  } else if (_v891 === 'zh' || _v891 === 'zh-CN') {
+    _v895 = false;
   } else {
-    // 如果没有Cookie，使用浏览器语言检测
-    const 接受语言 = 请求241.headers.get('Accept-Language') || '';
-    const 浏览器语言 = 接受语言.split(',')[0].split('-')[0].toLowerCase();
-    是否值236 = 浏览器语言 === 'fa' || 接受语言.includes('fa-IR') || 接受语言.includes('fa');
+    const _v896 = _v887.headers.get('Accept-Language') || '';
+    const _v897 = _v896.split(',')[0].split('-')[0].toLowerCase();
+    _v895 = _v897 === 'fa' || _v896.includes('fa-IR') || _v896.includes('fa');
   }
-  const 语言值 = 是否值236 ? 'fa-IR' : 'zh-CN';
-  const 本地值235 = {
+  const _v898 = _v895 ? 'fa-IR' : 'zh-CN';
+  const _v899 = {
     zh: {
-      title: 解码64('6K6i6ZiF5Lit5b+D'),
-      subtitle: '多客户端支持 • 智能优选 • 一键生成',
-      selectClient: '[ 选择客户端 ]',
-      systemStatus: '[ 系统状态 ]',
-      configManagement: '[ 配置管理 ]',
-      relatedLinks: '[ 相关链接 ]',
-      checking: '检测中...',
-      workerRegion: 'Worker地区: ',
-      detectionMethod: '检测方式: ',
-      pipStatus: 解码64('UHJveHlJUOeKtuaAgTog'),
-      currentIP: '当前使用IP: ',
-      regionMatch: '地区匹配: ',
-      selectionLogic: '选择逻辑: ',
-      kvStatusChecking: '检测KV状态中...',
-      kvEnabled: '✅ KV存储已启用，可以使用配置管理功能',
-      kvDisabled: '⚠️ KV存储未启用或未配置',
-      specifyRegion: '指定地区 (wk):',
-      autoDetect: '自动检测',
-      saveRegion: '保存地区配置',
-      protocolSelection: 解码64('5Y2P6K6u6YCJ5oupOg=='),
-      evLabel: 解码64('5ZCv55SoIFZMRVNTIOWNj+iurg=='),
-      etLabel: 解码64('5ZCv55SoIFRyb2phbiDljY/orq4='),
-      enableXhttp: 解码64('5ZCv55SoIHhodHRwIOWNj+iurg=='),
-      tpLabel: 解码64('VHJvamFuIOWvhueggSAo5Y+v6YCJKTo='),
-      customPath: '自定义路径 (d):',
-      customIP: 解码64('6Ieq5a6a5LmJUHJveHlJUCAocCk6'),
-      preferredIPs: '优选IP列表 (yx):',
-      preferredIPsURL: '优选IP来源URL (yxURL):',
-      latencyTest: '延迟测试',
-      latencyTestIP: '测试IP/域名:',
-      latencyTestIPPlaceholder: '输入IP或域名，多个用逗号分隔',
-      latencyTestPort: '端口:',
-      startTest: '开始测试',
-      stopTest: '停止测试',
-      testResult: '测试结果:',
-      addToYx: '添加到优选列表',
-      addSelectedToYx: '添加选中项到优选列表',
-      selectAll: '全选',
-      deselectAll: '取消全选',
-      testingInProgress: '测试中...',
-      testComplete: '测试完成',
-      latencyMs: '延迟',
-      timeout: '超时',
-      ipSource: 'IP来源:',
-      manualInput: '手动输入',
-      cfRandomIP: 'CF随机IP',
-      urlFetch: 'URL获取',
-      randomCount: '生成数量:',
-      fetchURL: '获取URL:',
-      fetchURLPlaceholder: '输入优选IP的URL地址',
-      generateIP: '生成IP',
-      fetchIP: '获取IP',
-      s5Label: 解码64('U09DS1M16YWN572uIChzKTo='),
-      customHomepage: '自定义首页URL (homepage):',
-      customHomepagePlaceholder: '例如: https://example.com',
-      customHomepageHint: '设置自定义URL作为首页。访问根路径 / 时将显示该URL的内容。',
-      saveConfig: '保存配置',
-      advancedControl: '高级控制',
-      subscriptionConverter: 解码64('6K6i6ZiF6L2s5o2i5Zyw5Z2AOg=='),
-      builtinPreferred: '内置优选类型:',
-      enablePreferredDomain: '启用优选域名',
-      enablePreferredIP: '启用优选 IP',
-      enableNativeAddress: '启用原生地址',
-      enableGitHubPreferred: '启用自定义优选',
-      allowAPIManagement: '允许API管理 (ae):',
-      regionMatching: '地区匹配 (rm):',
-      downgradeControl: '降级控制 (qj):',
-      tlsControl: 'TLS控制 (dkby):',
-      preferredControl: '优选控制 (yxby):',
-      saveAdvanced: '保存高级配置',
-      loading: '加载中...',
-      currentConfig: '📍 当前路径配置',
-      refreshConfig: '刷新配置',
-      resetConfig: '重置配置',
-      subscriptionCopied: 解码64('6K6i6ZiF6ZO+5o6l5bey5aSN5Yi2'),
-      autoSubscriptionCopied: 解码64('6Ieq5Yqo6K+G5Yir6K6i6ZiF6ZO+5o6l5bey5aSN5Yi277yM5a6i5oi356uv6K6/6Zeu5pe25Lya5qC55o2uVXNlci1BZ2VudOiHquWKqOivhuWIq+W5tui/lOWbnuWvueW6lOagvOW8jw=='),
-      tpPlaceholder: '留空则自动使用 UUID',
-      tpHint: 解码64('6K6+572u6Ieq5a6a5LmJIFRyb2phbiDlr4bnoIHjgILnlZnnqbrliJnkvb/nlKggVVVJROOAguWuouaIt+err+S8muiHquWKqOWvueWvhueggei/m+ihjCBTSEEyMjQg5ZOI5biM44CC'),
-      protocolHint: 解码64('5Y+v5Lul5ZCM5pe25ZCv55So5aSa5Liq5Y2P6K6u44CC6K6i6ZiF5bCG55Sf5oiQ6YCJ5Lit5Y2P6K6u55qE6IqC54K544CCPGJyPuKAoiBWTEVTUyBXUzog5Z+65LqOIFdlYlNvY2tldCDnmoTmoIflh4bljY/orq48YnI+4oCiIFRyb2phbjog5L2/55SoIFNIQTIyNCDlr4bnoIHorqTor4E8YnI+4oCiIHhodHRwOiDln7rkuo4gSFRUUCBQT1NUIOeahOS8quijheWNj+iuru+8iOmcgOimgee7keWumuiHquWumuS5ieWfn+WQjeW5tuW8gOWQryBnUlBD77yJ'),
-      enableECH: '启用 ECH (Encrypted Client Hello)',
-      enableECHHint: 解码64('5ZCv55So5ZCO77yM5q+P5qyh5Yi35paw6K6i6ZiF5pe25Lya6Ieq5Yqo5LuOIERvSCDojrflj5bmnIDmlrDnmoQgRUNIIOmFjee9ruW5tua3u+WKoOWIsOmTvuaOpeS4rQ=='),
-      customDNS: '自定义 DNS 服务器',
-      customDNSPlaceholder: '例如: https://223.5.5.5/dns-query',
-      customDNSHint: '用于ECH配置查询的DNS服务器地址（DoH格式）',
-      customECHDomain: '自定义 ECH 域名',
-      customECHDomainPlaceholder: '例如: cloudflare-ech.com',
-      customECHDomainHint: 'ECH配置中使用的域名，留空则使用默认值',
+      title: _v4('6K6i6ZiF5Lit5b+D'),
+      subtitle: _d64("AeWkmuWuouaIt+err+aUr+aMgSDigKIg5pm66IO95LyY6YCJIOKAoiDkuIDplK7nlJ/miJA="),
+      selectClient: _d64("AVsg6YCJ5oup5a6i5oi356uvIF0="),
+      systemStatus: _d64("AVsg57O757uf54q25oCBIF0="),
+      configManagement: _d64("AVsg6YWN572u566h55CGIF0="),
+      relatedLinks: _d64("AVsg55u45YWz6ZO+5o6lIF0="),
+      checking: _d64("AeajgOa1i+S4rS4uLg=="),
+      workerRegion: _d64("AVdvcmtlcuWcsOWMujog"),
+      detectionMethod: _d64("AeajgOa1i+aWueW8jzog"),
+      pipStatus: _v4('UHJveHlJUOeKtuaAgTog'),
+      currentIP: _d64("AeW9k+WJjeS9v+eUqElQOiA="),
+      regionMatch: _d64("AeWcsOWMuuWMuemFjTog"),
+      selectionLogic: _d64("AemAieaLqemAu+i+kTog"),
+      kvStatusChecking: _d64("AeajgOa1i0tW54q25oCB5LitLi4u"),
+      kvEnabled: _d64("AeKchSBLVuWtmOWCqOW3suWQr+eUqO+8jOWPr+S7peS9v+eUqOmFjee9rueuoeeQhuWKn+iDvQ=="),
+      kvDisabled: _d64("AeKaoO+4jyBLVuWtmOWCqOacquWQr+eUqOaIluacqumFjee9rg=="),
+      specifyRegion: _d64("AeaMh+WumuWcsOWMuiAod2spOg=="),
+      autoDetect: _d64("AeiHquWKqOajgOa1iw=="),
+      saveRegion: _d64("AeS/neWtmOWcsOWMuumFjee9rg=="),
+      protocolSelection: _v4('5Y2P6K6u6YCJ5oupOg=='),
+      evLabel: _v4('5ZCv55SoIFZMRVNTIOWNj+iurg=='),
+      etLabel: _v4('5ZCv55SoIFRyb2phbiDljY/orq4='),
+      enableXhttp: _v4('5ZCv55SoIHhodHRwIOWNj+iurg=='),
+      tpLabel: _v4('VHJvamFuIOWvhueggSAo5Y+v6YCJKTo='),
+      customPath: _d64("AeiHquWumuS5iei3r+W+hCAoZCk6"),
+      customIP: _v4('6Ieq5a6a5LmJUHJveHlJUCAocCk6'),
+      preferredIPs: _d64("AeS8mOmAiUlQ5YiX6KGoICh5eCk6"),
+      preferredIPsURL: _d64("AeS8mOmAiUlQ5p2l5rqQVVJMICh5eFVSTCk6"),
+      latencyTest: _d64("AeW7tui/n+a1i+ivlQ=="),
+      latencyTestIP: _d64("Aea1i+ivlUlQL+Wfn+WQjTo="),
+      latencyTestIPPlaceholder: _d64("Aei+k+WFpUlQ5oiW5Z+f5ZCN77yM5aSa5Liq55So6YCX5Y+35YiG6ZqU"),
+      latencyTestPort: _d64("Aeerr+WPozo="),
+      startTest: _d64("AeW8gOWni+a1i+ivlQ=="),
+      stopTest: _d64("AeWBnOatoua1i+ivlQ=="),
+      testResult: _d64("Aea1i+ivlee7k+aenDo="),
+      addToYx: _d64("Aea3u+WKoOWIsOS8mOmAieWIl+ihqA=="),
+      addSelectedToYx: _d64("Aea3u+WKoOmAieS4remhueWIsOS8mOmAieWIl+ihqA=="),
+      selectAll: _d64("AeWFqOmAiQ=="),
+      deselectAll: _d64("AeWPlua2iOWFqOmAiQ=="),
+      testingInProgress: _d64("Aea1i+ivleS4rS4uLg=="),
+      testComplete: _d64("Aea1i+ivleWujOaIkA=="),
+      latencyMs: _d64("AeW7tui/nw=="),
+      timeout: _d64("Aei2heaXtg=="),
+      ipSource: _d64("AUlQ5p2l5rqQOg=="),
+      manualInput: _d64("AeaJi+WKqOi+k+WFpQ=="),
+      cfRandomIP: _d64("AUNG6ZqP5py6SVA="),
+      urlFetch: _d64("AVVSTOiOt+WPlg=="),
+      randomCount: _d64("AeeUn+aIkOaVsOmHjzo="),
+      fetchURL: _d64("AeiOt+WPllVSTDo="),
+      fetchURLPlaceholder: _d64("Aei+k+WFpeS8mOmAiUlQ55qEVVJM5Zyw5Z2A"),
+      generateIP: _d64("AeeUn+aIkElQ"),
+      fetchIP: _d64("AeiOt+WPlklQ"),
+      s5Label: _v4('U09DS1M16YWN572uIChzKTo='),
+      customHomepage: _d64("AeiHquWumuS5iemmlumhtVVSTCAoaG9tZXBhZ2UpOg=="),
+      customHomepagePlaceholder: _d64("AeS+i+WmgjogaHR0cHM6Ly9leGFtcGxlLmNvbQ=="),
+      customHomepageHint: _d64("Aeiuvue9ruiHquWumuS5iVVSTOS9nOS4uummlumhteOAguiuv+mXruaguei3r+W+hCAvIOaXtuWwhuaYvuekuuivpVVSTOeahOWGheWuueOAgg=="),
+      saveConfig: _d64("AeS/neWtmOmFjee9rg=="),
+      advancedControl: _d64("AemrmOe6p+aOp+WItg=="),
+      subscriptionConverter: _v4('6K6i6ZiF6L2s5o2i5Zyw5Z2AOg=='),
+      builtinPreferred: _d64("AeWGhee9ruS8mOmAieexu+Weizo="),
+      enablePreferredDomain: _d64("AeWQr+eUqOS8mOmAieWfn+WQjQ=="),
+      enablePreferredIP: _d64("AeWQr+eUqOS8mOmAiSBJUA=="),
+      enableNativeAddress: _d64("AeWQr+eUqOWOn+eUn+WcsOWdgA=="),
+      enableGitHubPreferred: _d64("AeWQr+eUqOiHquWumuS5ieS8mOmAiQ=="),
+      allowAPIManagement: _d64("AeWFgeiuuEFQSeeuoeeQhiAoYWUpOg=="),
+      regionMatching: _d64("AeWcsOWMuuWMuemFjSAocm0pOg=="),
+      downgradeControl: _d64("AemZjee6p+aOp+WItiAocWopOg=="),
+      tlsControl: _d64("AVRMU+aOp+WItiAoZGtieSk6"),
+      preferredControl: _d64("AeS8mOmAieaOp+WItiAoeXhieSk6"),
+      saveAdvanced: _d64("AeS/neWtmOmrmOe6p+mFjee9rg=="),
+      loading: _d64("AeWKoOi9veS4rS4uLg=="),
+      currentConfig: _d64("AfCfk40g5b2T5YmN6Lev5b6E6YWN572u"),
+      refreshConfig: _d64("AeWIt+aWsOmFjee9rg=="),
+      resetConfig: _d64("AemHjee9rumFjee9rg=="),
+      subscriptionCopied: _v4('6K6i6ZiF6ZO+5o6l5bey5aSN5Yi2'),
+      autoSubscriptionCopied: _v4('6Ieq5Yqo6K+G5Yir6K6i6ZiF6ZO+5o6l5bey5aSN5Yi277yM5a6i5oi356uv6K6/6Zeu5pe25Lya5qC55o2uVXNlci1BZ2VudOiHquWKqOivhuWIq+W5tui/lOWbnuWvueW6lOagvOW8jw=='),
+      tpPlaceholder: _d64("AeeVmeepuuWImeiHquWKqOS9v+eUqCBVVUlE"),
+      tpHint: _v4('6K6+572u6Ieq5a6a5LmJIFRyb2phbiDlr4bnoIHjgILnlZnnqbrliJnkvb/nlKggVVVJROOAguWuouaIt+err+S8muiHquWKqOWvueWvhueggei/m+ihjCBTSEEyMjQg5ZOI5biM44CC'),
+      protocolHint: _v4('5Y+v5Lul5ZCM5pe25ZCv55So5aSa5Liq5Y2P6K6u44CC6K6i6ZiF5bCG55Sf5oiQ6YCJ5Lit5Y2P6K6u55qE6IqC54K544CCPGJyPuKAoiBWTEVTUyBXUzog5Z+65LqOIFdlYlNvY2tldCDnmoTmoIflh4bljY/orq48YnI+4oCiIFRyb2phbjog5L2/55SoIFNIQTIyNCDlr4bnoIHorqTor4E8YnI+4oCiIHhodHRwOiDln7rkuo4gSFRUUCBQT1NUIOeahOS8quijheWNj+iuru+8iOmcgOimgee7keWumuiHquWumuS5ieWfn+WQjeW5tuW8gOWQryBnUlBD77yJ'),
+      enableECH: _d64("AeWQr+eUqCBFQ0ggKEVuY3J5cHRlZCBDbGllbnQgSGVsbG8p"),
+      enableECHHint: _v4('5ZCv55So5ZCO77yM5q+P5qyh5Yi35paw6K6i6ZiF5pe25Lya6Ieq5Yqo5LuOIERvSCDojrflj5bmnIDmlrDnmoQgRUNIIOmFjee9ruW5tua3u+WKoOWIsOmTvuaOpeS4rQ=='),
+      customDNS: _d64("AeiHquWumuS5iSBETlMg5pyN5Yqh5Zmo"),
+      customDNSPlaceholder: _d64("AeS+i+WmgjogaHR0cHM6Ly8yMjMuNS41LjUvZG5zLXF1ZXJ5"),
+      customDNSHint: _d64("AeeUqOS6jkVDSOmFjee9ruafpeivoueahEROU+acjeWKoeWZqOWcsOWdgO+8iERvSOagvOW8j++8iQ=="),
+      customECHDomain: _d64("AeiHquWumuS5iSBFQ0gg5Z+f5ZCN"),
+      customECHDomainPlaceholder: _d64("AeS+i+WmgjogY2xvdWRmbGFyZS1lY2guY29t"),
+      customECHDomainHint: _d64("AUVDSOmFjee9ruS4reS9v+eUqOeahOWfn+WQje+8jOeVmeepuuWImeS9v+eUqOm7mOiupOWAvA=="),
       alpn: 'TLS ALPN',
-      alpnDefault: '默认（留空，由客户端协商）',
-      alpnHint: '仅添加到 TLS 节点链接参数；留空则不写 alpn。',
-      saveProtocol: 解码64('5L+d5a2Y5Y2P6K6u6YWN572u'),
-      subscriptionConverterPlaceholder: '默认: https://url.v1.mk/sub',
-      subscriptionConverterHint: 解码64('6K6i6ZiF6L2s5o2i5bey5YaF6YOo5a6e546w77yM5peg6ZyA5aSW6YOoIEFQSeOAguatpOmhueS7heS9nOWFvOWuueS/neeVme+8jOWPr+eVmeepuuOAgg=='),
-      builtinPreferredHint: 解码64('5o6n5Yi26K6i6ZiF5Lit5YyF5ZCr5ZOq5Lqb5YaF572u5LyY6YCJ6IqC54K544CC6buY6K6k5YWo6YOo5ZCv55So44CC'),
-      apiEnabledDefault: '默认（关闭API）',
-      apiEnabledYes: '开启API管理',
-      apiEnabledHint: '⚠️ 安全提醒：开启后允许通过API动态添加优选IP。建议仅在需要时开启。',
-      regionMatchingDefault: '默认（启用地区匹配）',
-      regionMatchingNo: '关闭地区匹配',
-      regionMatchingHint: '设置为"关闭"时不进行地区智能匹配',
-      downgradeControlDefault: '默认（不启用降级）',
-      downgradeControlNo: '启用降级模式',
-      downgradeControlHint: 解码64('6K6+572u5Li6IuWQr+eUqCLml7bvvJpDRuebtOi/nuWksei0peKGklNPQ0tTNei/nuaOpeKGkmZhbGxiYWNr5Zyw5Z2A'),
-      tlsControlDefault: '默认（保留所有节点）',
-      tlsControlYes: '仅TLS节点',
-      tlsControlHint: '设置为"仅TLS节点"时只生成带TLS的节点，不生成非TLS节点（如80端口）',
-      preferredControlDefault: '默认（启用优选）',
-      preferredControlYes: '关闭优选',
-      preferredControlHint: '设置为"关闭优选"时只使用原生地址，不生成优选IP和域名节点',
+      alpnDefault: _d64("Aem7mOiupO+8iOeVmeepuu+8jOeUseWuouaIt+err+WNj+WVhu+8iQ=="),
+      alpnHint: _d64("AeS7hea3u+WKoOWIsCBUTFMg6IqC54K56ZO+5o6l5Y+C5pWw77yb55WZ56m65YiZ5LiN5YaZIGFscG7jgII="),
+      saveProtocol: _v4('5L+d5a2Y5Y2P6K6u6YWN572u'),
+      subscriptionConverterPlaceholder: _d64("Aem7mOiupDogaHR0cHM6Ly91cmwudjEubWsvc3Vi"),
+      subscriptionConverterHint: _v4('6K6i6ZiF6L2s5o2i5bey5YaF6YOo5a6e546w77yM5peg6ZyA5aSW6YOoIEFQSeOAguatpOmhueS7heS9nOWFvOWuueS/neeVme+8jOWPr+eVmeepuuOAgg=='),
+      builtinPreferredHint: _v4('5o6n5Yi26K6i6ZiF5Lit5YyF5ZCr5ZOq5Lqb5YaF572u5LyY6YCJ6IqC54K544CC6buY6K6k5YWo6YOo5ZCv55So44CC'),
+      apiEnabledDefault: _d64("Aem7mOiupO+8iOWFs+mXrUFQSe+8iQ=="),
+      apiEnabledYes: _d64("AeW8gOWQr0FQSeeuoeeQhg=="),
+      apiEnabledHint: _d64("AeKaoO+4jyDlronlhajmj5DphpLvvJrlvIDlkK/lkI7lhYHorrjpgJrov4dBUEnliqjmgIHmt7vliqDkvJjpgIlJUOOAguW7uuiuruS7heWcqOmcgOimgeaXtuW8gOWQr+OAgg=="),
+      regionMatchingDefault: _d64("Aem7mOiupO+8iOWQr+eUqOWcsOWMuuWMuemFje+8iQ=="),
+      regionMatchingNo: _d64("AeWFs+mXreWcsOWMuuWMuemFjQ=="),
+      regionMatchingHint: _d64("Aeiuvue9ruS4uiLlhbPpl60i5pe25LiN6L+b6KGM5Zyw5Yy65pm66IO95Yy56YWN"),
+      downgradeControlDefault: _d64("Aem7mOiupO+8iOS4jeWQr+eUqOmZjee6p++8iQ=="),
+      downgradeControlNo: _d64("AeWQr+eUqOmZjee6p+aooeW8jw=="),
+      downgradeControlHint: _v4('6K6+572u5Li6IuWQr+eUqCLml7bvvJpDRuebtOi/nuWksei0peKGklNPQ0tTNei/nuaOpeKGkmZhbGxiYWNr5Zyw5Z2A'),
+      tlsControlDefault: _d64("Aem7mOiupO+8iOS/neeVmeaJgOacieiKgueCue+8iQ=="),
+      tlsControlYes: _d64("AeS7hVRMU+iKgueCuQ=="),
+      tlsControlHint: _d64("Aeiuvue9ruS4uiLku4VUTFPoioLngrki5pe25Y+q55Sf5oiQ5bimVExT55qE6IqC54K577yM5LiN55Sf5oiQ6Z2eVExT6IqC54K577yI5aaCODDnq6/lj6PvvIk="),
+      preferredControlDefault: _d64("Aem7mOiupO+8iOWQr+eUqOS8mOmAie+8iQ=="),
+      preferredControlYes: _d64("AeWFs+mXreS8mOmAiQ=="),
+      preferredControlHint: _d64("Aeiuvue9ruS4uiLlhbPpl63kvJjpgIki5pe25Y+q5L2/55So5Y6f55Sf5Zyw5Z2A77yM5LiN55Sf5oiQ5LyY6YCJSVDlkozln5/lkI3oioLngrk="),
       regionNames: {
-        HK: '🇭🇰 香港',
-        US: '🇺🇸 美国',
-        SG: '🇸🇬 新加坡',
-        JP: '🇯🇵 日本',
-        KR: '🇰🇷 韩国',
-        DE: '🇩🇪 德国',
-        SE: '🇸🇪 瑞典',
-        NL: '🇳🇱 荷兰',
-        FI: '🇫🇮 芬兰',
-        GB: '🇬🇧 英国'
+        HK: _d64("AfCfh63wn4ewIOmmmea4rw=="),
+        US: _d64("AfCfh7rwn4e4IOe+juWbvQ=="),
+        SG: _d64("AfCfh7jwn4esIOaWsOWKoOWdoQ=="),
+        JP: _d64("AfCfh6/wn4e1IOaXpeacrA=="),
+        KR: _d64("AfCfh7Dwn4e3IOmfqeWbvQ=="),
+        DE: _d64("AfCfh6nwn4eqIOW+t+WbvQ=="),
+        SE: _d64("AfCfh7jwn4eqIOeRnuWFuA=="),
+        NL: _d64("AfCfh7Pwn4exIOiNt+WFsA=="),
+        FI: _d64("AfCfh6vwn4euIOiKrOWFsA=="),
+        GB: _d64("AfCfh6zwn4enIOiLseWbvQ==")
       },
       terminal: 'Edge Gateway',
-      githubProject: 'GitHub 项目',
-      优选工具: '优选工具',
-      autoDetectClient: '自动识别',
-      selectionLogicText: '同地区 → 邻近地区 → 其他地区',
-      customIPDisabledHint: 解码64('5L2/55So6Ieq5a6a5LmJUHJveHlJUOaXtu+8jOWcsOWMuumAieaLqeW3suemgeeUqA=='),
-      customIPMode: 解码64('6Ieq5a6a5LmJUHJveHlJUOaooeW8jyAocOWPmOmHj+WQr+eUqCk='),
-      customIPModeDesc: '自定义IP模式 (已禁用地区匹配)',
-      customPipLabel: 解码64('5L2/55So6Ieq5a6a5LmJUHJveHlJUDog'),
-      customIPConfig: ' (p变量配置)',
-      customIPModeDisabled: '自定义IP模式，地区选择已禁用',
-      manualRegion: '手动指定地区',
-      manualRegionDesc: ' (手动指定)',
-      pipAvailLabel: 解码64('MTAvMTAg5Y+v55SoIChQcm94eUlQ5Z+f5ZCN6aKE6K6+5Y+v55SoKQ=='),
-      smartSelection: '智能就近选择中',
-      sameRegionIP: '同地区IP可用 (1个)',
-      cloudflareDetection: 'Cloudflare内置检测',
-      detectionFailed: '检测失败',
-      apiTestResult: 'API检测结果: ',
-      apiTestTime: '检测时间: ',
-      apiTestFailed: 'API检测失败: ',
-      unknownError: '未知错误',
-      apiTestError: 'API测试失败: ',
-      kvNotConfigured: 'KV存储未配置，无法使用配置管理功能。\\n\\n请在Cloudflare Workers中:\\n1. 创建KV命名空间\\n2. 绑定环境变量 C\\n3. 重新部署代码',
-      kvNotEnabled: 'KV存储未配置',
-      kvCheckFailed: 'KV存储检测失败: 响应格式错误',
-      kvCheckFailedStatus: 'KV存储检测失败 - 状态码: ',
-      kvCheckFailedError: 'KV存储检测失败 - 错误: '
+      githubProject: _d64("AUdpdEh1YiDpobnnm64="),
+      [_d64("AeS8mOmAieW3peWFtw==")]: _d64("AeS8mOmAieW3peWFtw=="),
+      autoDetectClient: _d64("AeiHquWKqOivhuWIqw=="),
+      selectionLogicText: _d64("AeWQjOWcsOWMuiDihpIg6YK76L+R5Zyw5Yy6IOKGkiDlhbbku5blnLDljLo="),
+      customIPDisabledHint: _v4('5L2/55So6Ieq5a6a5LmJUHJveHlJUOaXtu+8jOWcsOWMuumAieaLqeW3suemgeeUqA=='),
+      customIPMode: _v4('6Ieq5a6a5LmJUHJveHlJUOaooeW8jyAocOWPmOmHj+WQr+eUqCk='),
+      customIPModeDesc: _d64("AeiHquWumuS5iUlQ5qih5byPICjlt7LnpoHnlKjlnLDljLrljLnphY0p"),
+      customPipLabel: _v4('5L2/55So6Ieq5a6a5LmJUHJveHlJUDog'),
+      customIPConfig: _d64("ASAocOWPmOmHj+mFjee9rik="),
+      customIPModeDisabled: _d64("AeiHquWumuS5iUlQ5qih5byP77yM5Zyw5Yy66YCJ5oup5bey56aB55So"),
+      manualRegion: _d64("AeaJi+WKqOaMh+WumuWcsOWMug=="),
+      manualRegionDesc: _d64("ASAo5omL5Yqo5oyH5a6aKQ=="),
+      pipAvailLabel: _v4('MTAvMTAg5Y+v55SoIChQcm94eUlQ5Z+f5ZCN6aKE6K6+5Y+v55SoKQ=='),
+      smartSelection: _d64("AeaZuuiDveWwsei/kemAieaLqeS4rQ=="),
+      sameRegionIP: _d64("AeWQjOWcsOWMuklQ5Y+v55SoICgx5LiqKQ=="),
+      cloudflareDetection: _d64("AUNsb3VkZmxhcmXlhoXnva7mo4DmtYs="),
+      detectionFailed: _d64("AeajgOa1i+Wksei0pQ=="),
+      apiTestResult: _d64("AUFQSeajgOa1i+e7k+aenDog"),
+      apiTestTime: _d64("AeajgOa1i+aXtumXtDog"),
+      apiTestFailed: _d64("AUFQSeajgOa1i+Wksei0pTog"),
+      unknownError: _d64("AeacquefpemUmeivrw=="),
+      apiTestError: _d64("AUFQSea1i+ivleWksei0pTog"),
+      kvNotConfigured: _d64("AUtW5a2Y5YKo5pyq6YWN572u77yM5peg5rOV5L2/55So6YWN572u566h55CG5Yqf6IO944CCXG5cbuivt+WcqENsb3VkZmxhcmUgV29ya2Vyc+S4rTpcbjEuIOWIm+W7uktW5ZG95ZCN56m66Ze0XG4yLiDnu5Hlrprnjq/looPlj5jph48gQ1xuMy4g6YeN5paw6YOo572y5Luj56CB"),
+      kvNotEnabled: _d64("AUtW5a2Y5YKo5pyq6YWN572u"),
+      kvCheckFailed: _d64("AUtW5a2Y5YKo5qOA5rWL5aSx6LSlOiDlk43lupTmoLzlvI/plJnor68="),
+      kvCheckFailedStatus: _d64("AUtW5a2Y5YKo5qOA5rWL5aSx6LSlIC0g54q25oCB56CBOiA="),
+      kvCheckFailedError: _d64("AUtW5a2Y5YKo5qOA5rWL5aSx6LSlIC0g6ZSZ6K+vOiA=")
     },
     fa: {
       title: 'مرکز اشتراک',
@@ -3921,7 +3332,7 @@ async function 处理订阅值(请求241, 用户240 = null) {
       checking: 'در حال بررسی...',
       workerRegion: 'منطقه Worker: ',
       detectionMethod: 'روش تشخیص: ',
-      pipStatus: 解码64('2YjYtti524zYqiBQcm94eUlQOiA='),
+      pipStatus: _v4('2YjYtti524zYqiBQcm94eUlQOiA='),
       currentIP: 'IP فعلی: ',
       regionMatch: 'تطبیق منطقه: ',
       selectionLogic: 'منطق انتخاب: ',
@@ -3932,8 +3343,8 @@ async function 处理订阅值(请求241, 用户240 = null) {
       autoDetect: 'تشخیص خودکار',
       saveRegion: 'ذخیره تنظیمات منطقه',
       protocolSelection: 'انتخاب پروتکل:',
-      evLabel: 解码64('2YHYudin2YTigIzYs9in2LLbjCDZvtix2YjYqtqp2YQgVkxFU1M='),
-      etLabel: 解码64('2YHYudin2YTigIzYs9in2LLbjCDZvtix2YjYqtqp2YQgVHJvamFu'),
+      evLabel: _v4('2YHYudin2YTigIzYs9in2LLbjCDZvtix2YjYqtqp2YQgVkxFU1M='),
+      etLabel: _v4('2YHYudin2YTigIzYs9in2LLbjCDZvtix2YjYqtqp2YQgVHJvamFu'),
       enableXhttp: 'فعال‌سازی پروتکل xhttp',
       enableECH: 'فعال‌سازی ECH (Encrypted Client Hello)',
       enableECHHint: 'پس از فعال‌سازی، در هر بار تازه‌سازی اشتراک، پیکربندی ECH به‌روز به‌طور خودکار از DoH دریافت شده و به لینک‌ها اضافه می‌شود',
@@ -3943,9 +3354,9 @@ async function 处理订阅值(请求241, 用户240 = null) {
       customECHDomain: 'دامنه ECH سفارشی',
       customECHDomainPlaceholder: 'مثال: cloudflare-ech.com',
       customECHDomainHint: 'دامنه استفاده شده در پیکربندی ECH، خالی بگذارید تا از مقدار پیش‌فرض استفاده شود',
-      tpLabel: 解码64('2LHZhdiyINi52KjZiNixIFRyb2phbiAo2KfYrtiq24zYp9ix24wpOg=='),
+      tpLabel: _v4('2LHZhdiyINi52KjZiNixIFRyb2phbiAo2KfYrtiq24zYp9ix24wpOg=='),
       customPath: 'مسیر سفارشی (d):',
-      customIP: 解码64('UHJveHlJUCDYs9mB2KfYsdi024wgKHApOg=='),
+      customIP: _v4('UHJveHlJUCDYs9mB2KfYsdi024wgKHApOg=='),
       preferredIPs: 'لیست IP ترجیحی (yx):',
       preferredIPsURL: 'URL منبع IP ترجیحی (yxURL):',
       latencyTest: 'تست تاخیر',
@@ -3972,7 +3383,7 @@ async function 处理订阅值(请求241, 用户240 = null) {
       fetchURLPlaceholder: 'آدرس URL لیست IP را وارد کنید',
       generateIP: 'تولید IP',
       fetchIP: 'دریافت IP',
-      s5Label: 解码64('2KrZhti424zZhdin2KogU09DS1M1IChzKTo='),
+      s5Label: _v4('2KrZhti424zZhdin2KogU09DS1M1IChzKTo='),
       customHomepage: 'URL صفحه اصلی سفارشی (homepage):',
       customHomepagePlaceholder: 'مثال: https://example.com',
       customHomepageHint: 'تنظیم URL سفارشی به عنوان استتار صفحه اصلی. هنگام دسترسی به مسیر اصلی / محتوای این URL نمایش داده می‌شود. اگر خالی بگذارید صفحه ترمینال پیش‌فرض نمایش داده می‌شود.',
@@ -3997,8 +3408,8 @@ async function 处理订阅值(请求241, 用户240 = null) {
       subscriptionCopied: 'لینک اشتراک کپی شد',
       autoSubscriptionCopied: 'لینک اشتراک تشخیص خودکار کپی شد، کلاینت هنگام دسترسی بر اساس User-Agent به طور خودکار تشخیص داده و قالب مربوطه را برمی‌گرداند',
       tpPlaceholder: 'خالی بگذارید تا از UUID استفاده شود',
-      tpHint: 解码64('2LHZhdiyINi52KjZiNixIFRyb2phbiDYs9mB2KfYsdi024wg2LHYpyDYqtmG2LjbjNmFINqp2YbbjNivLiDYp9qv2LEg2K7Yp9mE24wg2Kjar9iw2KfYsduM2K8g2KfYsiBVVUlEINin2LPYqtmB2KfYr9mHINmF24zigIzYtNmI2K8uINqp2YTYp9uM2YbYqiDYqNmHINi32YjYsSDYrtmI2K/aqdin2LEg2LHZhdiyINi52KjZiNixINix2Kcg2KjYpyBTSEEyMjQg2YfYtCDZhduM4oCM2qnZhtivLg=='),
-      protocolHint: 解码64('2YXbjOKAjNiq2YjYp9mG24zYryDahtmG2K/bjNmGINm+2LHZiNiq2qnZhCDYsdinINmH2YXYstmF2KfZhiDZgdi52KfZhCDaqdmG24zYry4g2KfYtNiq2LHYp9qpINqv2LHZh+KAjNmH2KfbjCDZvtix2YjYqtqp2YTigIzZh9in24wg2KfZhtiq2K7Yp9ioINi02K/ZhyDYsdinINiq2YjZhNuM2K8g2YXbjOKAjNqp2YbYry48YnI+4oCiIFZMRVNTIFdTOiDZvtix2YjYqtqp2YQg2KfYs9iq2KfZhtiv2KfYsdivINmF2KjYqtmG24wg2KjYsSBXZWJTb2NrZXQ8YnI+4oCiIFRyb2phbjog2KfYrdix2KfYsiDZh9mI24zYqiDYqNinINix2YXYsiDYudio2YjYsSBTSEEyMjQ8YnI+4oCiIHhodHRwOiDZvtix2YjYqtqp2YQg2KfYs9iq2KrYp9ixINmF2KjYqtmG24wg2KjYsSBIVFRQIFBPU1QgKNmG24zYp9iyINio2Ycg2KfYqti12KfZhCDYr9in2YXZhtmHINiz2YHYp9ix2LTbjCDZiCDZgdi52KfZhOKAjNiz2KfYstuMIGdSUEMg2K/Yp9ix2K8p'),
+      tpHint: _v4('2LHZhdiyINi52KjZiNixIFRyb2phbiDYs9mB2KfYsdi024wg2LHYpyDYqtmG2LjbjNmFINqp2YbbjNivLiDYp9qv2LEg2K7Yp9mE24wg2Kjar9iw2KfYsduM2K8g2KfYsiBVVUlEINin2LPYqtmB2KfYr9mHINmF24zigIzYtNmI2K8uINqp2YTYp9uM2YbYqiDYqNmHINi32YjYsSDYrtmI2K/aqdin2LEg2LHZhdiyINi52KjZiNixINix2Kcg2KjYpyBTSEEyMjQg2YfYtCDZhduM4oCM2qnZhtivLg=='),
+      protocolHint: _v4('2YXbjOKAjNiq2YjYp9mG24zYryDahtmG2K/bjNmGINm+2LHZiNiq2qnZhCDYsdinINmH2YXYstmF2KfZhiDZgdi52KfZhCDaqdmG24zYry4g2KfYtNiq2LHYp9qpINqv2LHZh+KAjNmH2KfbjCDZvtix2YjYqtqp2YTigIzZh9in24wg2KfZhtiq2K7Yp9ioINi02K/ZhyDYsdinINiq2YjZhNuM2K8g2YXbjOKAjNqp2YbYry48YnI+4oCiIFZMRVNTIFdTOiDZvtix2YjYqtqp2YQg2KfYs9iq2KfZhtiv2KfYsdivINmF2KjYqtmG24wg2KjYsSBXZWJTb2NrZXQ8YnI+4oCiIFRyb2phbjog2KfYrdix2KfYsiDZh9mI24zYqiDYqNinINix2YXYsiDYudio2YjYsSBTSEEyMjQ8YnI+4oCiIHhodHRwOiDZvtix2YjYqtqp2YQg2KfYs9iq2KrYp9ixINmF2KjYqtmG24wg2KjYsSBIVFRQIFBPU1QgKNmG24zYp9iyINio2Ycg2KfYqti12KfZhCDYr9in2YXZhtmHINiz2YHYp9ix2LTbjCDZiCDZgdi52KfZhOKAjNiz2KfYstuMIGdSUEMg2K/Yp9ix2K8p'),
       alpn: 'TLS ALPN',
       alpnDefault: 'پیش‌فرض (خالی، مذاکره توسط کلاینت)',
       alpnHint: 'فقط به لینک‌های TLS اضافه می‌شود؛ اگر خالی باشد alpn نوشته نمی‌شود.',
@@ -4014,7 +3425,7 @@ async function 处理订阅值(请求241, 用户240 = null) {
       regionMatchingHint: 'وقتی "بستن" تنظیم شود، تطبیق هوشمند منطقه انجام نمی‌شود',
       downgradeControlDefault: 'پیش‌فرض (عدم فعال‌سازی کاهش سطح)',
       downgradeControlNo: 'فعال‌سازی حالت کاهش سطح',
-      downgradeControlHint: 解码64('2YjZgtiq24wgItmB2LnYp9mEIiDYqtmG2LjbjNmFINi02YjYrzog2KfYqti12KfZhCDZhdiz2KrZgtuM2YUgQ0Yg2YbYp9mF2YjZgdmCIOKGkiDYp9iq2LXYp9mEIFNPQ0tTNSDihpIg2KLYr9ix2LMgZmFsbGJhY2s='),
+      downgradeControlHint: _v4('2YjZgtiq24wgItmB2LnYp9mEIiDYqtmG2LjbjNmFINi02YjYrzog2KfYqti12KfZhCDZhdiz2KrZgtuM2YUgQ0Yg2YbYp9mF2YjZgdmCIOKGkiDYp9iq2LXYp9mEIFNPQ0tTNSDihpIg2KLYr9ix2LMgZmFsbGJhY2s='),
       tlsControlDefault: 'پیش‌فرض (حفظ همه گره‌ها)',
       tlsControlYes: 'فقط گره‌های TLS',
       tlsControlHint: 'وقتی "فقط گره‌های TLS" تنظیم شود، فقط گره‌های با TLS تولید می‌شوند، گره‌های غیر TLS (مانند پورت 80) تولید نمی‌شوند',
@@ -4035,18 +3446,18 @@ async function 处理订阅值(请求241, 用户240 = null) {
       },
       terminal: 'ترمینال v2.9.8c',
       githubProject: 'پروژه GitHub',
-      优选工具: 'ابزار ترجیح IP',
+      [_d64("AeS8mOmAieW3peWFtw==")]: 'ابزار ترجیح IP',
       autoDetectClient: 'تشخیص خودکار',
       selectionLogicText: 'هم‌منطقه → منطقه مجاور → سایر مناطق',
-      customIPDisabledHint: 解码64('2YfZhtqv2KfZhSDYp9iz2KrZgdin2K/ZhyDYp9iyIFByb3h5SVAg2LPZgdin2LHYtNuM2Iwg2KfZhtiq2K7Yp9ioINmF2YbYt9mC2Ycg2LrbjNix2YHYudin2YQg2KfYs9iq'),
-      customIPMode: 解码64('2K3Yp9mE2KogUHJveHlJUCDYs9mB2KfYsdi024wgKNmF2KrYutuM2LEgcCDZgdi52KfZhCDYp9iz2Kop'),
+      customIPDisabledHint: _v4('2YfZhtqv2KfZhSDYp9iz2KrZgdin2K/ZhyDYp9iyIFByb3h5SVAg2LPZgdin2LHYtNuM2Iwg2KfZhtiq2K7Yp9ioINmF2YbYt9mC2Ycg2LrbjNix2YHYudin2YQg2KfYs9iq'),
+      customIPMode: _v4('2K3Yp9mE2KogUHJveHlJUCDYs9mB2KfYsdi024wgKNmF2KrYutuM2LEgcCDZgdi52KfZhCDYp9iz2Kop'),
       customIPModeDesc: 'حالت IP سفارشی (تطبیق منطقه غیرفعال است)',
-      customPipLabel: 解码64('2KfYs9iq2YHYp9iv2Ycg2KfYsiBQcm94eUlQINiz2YHYp9ix2LTbjDog'),
+      customPipLabel: _v4('2KfYs9iq2YHYp9iv2Ycg2KfYsiBQcm94eUlQINiz2YHYp9ix2LTbjDog'),
       customIPConfig: ' (پیکربندی متغیر p)',
       customIPModeDisabled: 'حالت IP سفارشی، انتخاب منطقه غیرفعال است',
       manualRegion: 'تعیین منطقه دستی',
       manualRegionDesc: ' (تعیین دستی)',
-      pipAvailLabel: 解码64('MTAvMTAg2K/YsSDYr9iz2KrYsdizICjYr9in2YXZhtmHINm+24zYtOKAjNmB2LHYtiBQcm94eUlQINiv2LEg2K/Ys9iq2LHYsyDYp9iz2Kop'),
+      pipAvailLabel: _v4('MTAvMTAg2K/YsSDYr9iz2KrYsdizICjYr9in2YXZhtmHINm+24zYtOKAjNmB2LHYtiBQcm94eUlQINiv2LEg2K/Ys9iq2LHYsyDYp9iz2Kop'),
       smartSelection: 'انتخاب هوشمند نزدیک در حال انجام است',
       sameRegionIP: 'IP هم‌منطقه در دسترس است (1)',
       cloudflareDetection: 'تشخیص داخلی Cloudflare',
@@ -4063,3546 +3474,176 @@ async function 处理订阅值(请求241, 用户240 = null) {
       kvCheckFailedError: 'بررسی ذخیره‌سازی KV ناموفق - خطا: '
     }
   };
-  const 翻译值 = 本地值235[是否值236 ? 'fa' : 'zh'];
-  const 值页面 = `<!DOCTYPE html>
-    <html lang="${语言值}" dir="${是否值236 ? 'rtl' : 'ltr'}">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>${翻译值.title}</title>
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Vazirmatn:wght@400;500;600;700&display=swap');
-            :root {
-                --md-bg: #080a0e;
-                --md-bg-2: #0b0e14;
-                --md-surface: #10141c;
-                --md-surface-2: #141a24;
-                --md-surface-3: #1b2230;
-                --md-primary: #c8f135;
-                --md-primary-d: #a6cf1d;
-                --md-on-primary: #0a0f05;
-                --md-secondary: #5b8cff;
-                --md-secondary-d: #3f5fb0;
-                --md-tertiary: #ffb454;
-                --md-yellow: #ffb454;
-                --md-success: #3ddc84;
-                --md-error: #ff5d73;
-                --md-warning: #ffb454;
-                --md-text: #eef2f7;
-                --md-text-dim: #9aa6b8;
-                --md-outline: rgba(238,242,247,0.14);
-                --md-outline-strong: rgba(238,242,247,0.28);
-                --md-r-sm: 12px;
-                --md-r-md: 16px;
-                --md-r-lg: 24px;
-                --md-r-xl: 28px;
-                --md-elev-1: 0 1px 3px rgba(0,0,0,0.35), 0 1px 2px rgba(0,0,0,0.3);
-                --md-elev-2: 0 3px 8px rgba(0,0,0,0.4), 0 1px 3px rgba(0,0,0,0.3);
-                --md-elev-3: 0 8px 22px rgba(0,0,0,0.45), 0 2px 6px rgba(0,0,0,0.3);
-                --md-font: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-                --md-disp: 'Bricolage Grotesque', 'Vazirmatn', sans-serif;
-                --md-shadow: 0 26px 60px -26px rgba(0,0,0,.8);
-                --md-line: rgba(255,255,255,.075);
-                --md-line2: rgba(255,255,255,.15);
-                --cp-bg: var(--md-bg);
-                --cp-bg-2: var(--md-bg-2);
-                --cp-bg-3: var(--md-surface);
-                --cp-cyan: var(--md-primary);
-                --cp-cyan-d: var(--md-primary-d);
-                --cp-pink: var(--md-secondary);
-                --cp-pink-d: var(--md-secondary-d);
-                --cp-purple: var(--md-tertiary);
-                --cp-yellow: var(--md-yellow);
-                --cp-mint: var(--md-success);
-                --cp-amber: var(--md-warning);
-                --cp-red: var(--md-error);
-                --cp-text: var(--md-text);
-                --cp-text-dim: var(--md-text-dim);
-                --cp-border: var(--md-outline);
-                --cp-border-pink: var(--md-outline);
-                --cp-grid: transparent;
-            }
-            * { margin: 0; padding: 0; box-sizing: border-box; }
-            html, body { min-height: 100%; }
-
-            /* ===== Top bar — matches wizard ===== */
-            .cp-bar{position:sticky;top:0;z-index:80;display:flex;align-items:center;gap:14px;
-                padding:12px clamp(14px,3.5vw,30px);background:linear-gradient(180deg,var(--md-surface-2),var(--md-surface));
-                border-bottom:1px solid var(--md-line);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
-            .cp-bar::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;
-                background:linear-gradient(90deg,transparent,var(--md-primary),var(--md-secondary),transparent);
-                background-size:200% 100%;animation:cp-sheen 7s linear infinite;opacity:.5}
-            @keyframes cp-sheen{to{background-position:200% 0}}
-            .cp-brand{display:flex;align-items:center;gap:11px}
-            .cp-brand .cp-mk{width:30px;height:30px;flex:none;position:relative;border-radius:8px;
-                background:conic-gradient(from 200deg,var(--md-primary),var(--md-secondary),var(--md-primary));box-shadow:0 0 16px rgba(200,241,53,.13)}
-            .cp-brand .cp-mk::after{content:"";position:absolute;inset:5px;border-radius:5px;background:var(--md-surface)}
-            .cp-brand .cp-mk::before{content:"";position:absolute;inset:11px;border-radius:2px;background:var(--md-primary);box-shadow:0 0 9px var(--md-primary);z-index:1;transform:rotate(45deg)}
-            .cp-brand b{font-family:var(--md-disp);font-weight:800;font-size:15px;letter-spacing:.04em;color:var(--md-text)}
-            .cp-brand small{display:block;font-size:9.5px;color:var(--md-text-dim);letter-spacing:.22em;font-weight:700;text-transform:uppercase}
-            .cp-spacer{flex:1}
-            .cp-sig{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:99px;
-                font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.04em;
-                background:var(--md-surface);border:1px solid var(--md-line);color:var(--md-text-dim)}
-            .cp-sig .cp-sig-d{width:7px;height:7px;border-radius:50%;background:var(--md-success);box-shadow:0 0 9px var(--md-success)}
-            .cp-sel{position:relative}
-            .cp-sel select{appearance:none;-webkit-appearance:none;background:var(--md-surface);border:1px solid var(--md-line);
-                color:var(--md-text-dim);border-radius:9px;font-family:var(--md-font);font-size:12px;font-weight:600;cursor:pointer;
-                padding:8px 30px 8px 12px;outline:none;transition:.2s}
-            .cp-sel::after{content:"▾";position:absolute;inset-inline-end:10px;top:50%;transform:translateY(-50%);color:var(--md-text-dim);pointer-events:none;font-size:10px}
-            .cp-sel select option{background:var(--md-surface-2);color:var(--md-text)}
-            .cp-ib{width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;
-                background:var(--md-surface);border:1px solid var(--md-line);color:var(--md-text-dim);border-radius:9px;
-                font-family:var(--md-font);font-weight:600;cursor:pointer;transition:.2s}
-            .cp-ib:hover{border-color:var(--md-line2);color:var(--md-text);transform:translateY(-1px)}
-            .cp-prog{height:2px;background:var(--md-line);position:relative}
-            .cp-prog i{position:absolute;inset-inline-start:0;top:0;bottom:0;width:100%;background:linear-gradient(90deg,var(--md-primary),var(--md-secondary));box-shadow:0 0 10px rgba(200,241,53,.13)}
-            body {
-                font-family: var(--md-font);
-                background:
-                    radial-gradient(circle at 12% 8%, rgba(200,241,53,0.14) 0%, transparent 38%),
-                    radial-gradient(circle at 88% 92%, rgba(91,140,255,0.12) 0%, transparent 40%),
-                    radial-gradient(circle at 90% 5%, rgba(255,180,84,0.10) 0%, transparent 35%),
-                    var(--md-bg);
-                color: var(--md-text);
-                min-height: 100vh;
-                overflow-x: hidden;
-                position: relative;
-            }
-            body::before { content: none; }
-            body::after { content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
-                background-image:radial-gradient(var(--md-line) 1px,transparent 1px);background-size:30px 30px;
-                -webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 8%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 8%,transparent 80%);opacity:.6; }
-            .matrix-bg, .matrix-code-rain, .matrix-column, .matrix-rain { display: none !important; }
-
-            ::selection { background: var(--md-primary); color: var(--md-on-primary); }
-
-            .container {
-                max-width: 900px;
-                margin: 0 auto;
-                padding: 28px 20px 120px;
-                position: relative;
-                z-index: 1;
-            }
-            .header {
-                text-align: start;
-                margin-bottom: 24px;
-                padding: clamp(18px,3vw,28px);
-                position: relative;
-                border: 1px solid var(--md-line);
-                background: linear-gradient(135deg, var(--md-surface), var(--md-surface-2));
-                border-radius: var(--md-r-lg);
-                box-shadow: var(--md-shadow);
-                overflow: hidden;
-            }
-            .header::before { content:"";position:absolute;top:8px;inset-inline-start:8px;width:13px;height:13px;
-                border-top:1.5px solid var(--md-primary);border-inline-start:1.5px solid var(--md-primary);opacity:.7 }
-            .header::after { content:"";position:absolute;bottom:8px;inset-inline-end:8px;width:13px;height:13px;
-                border-bottom:1.5px solid var(--md-secondary);border-inline-end:1.5px solid var(--md-secondary);opacity:.7 }
-            .title {
-                font-family: var(--md-disp);
-                font-size: clamp(1.7rem, 4.2vw, 2.4rem);
-                font-weight: 800;
-                margin: 0 0 8px;
-                color: var(--md-text);
-                letter-spacing: -.01em;
-                text-transform: none;
-                position: relative;
-                animation: none;
-            }
-            .subtitle {
-                color: var(--md-text-dim);
-                margin-bottom: 0;
-                font-size: 13.5px;
-                max-width: 54ch;
-                letter-spacing: 0;
-                text-transform: none;
-                line-height: 1.55;
-            }
-            .subtitle::before { content: none; }
-
-            .card {
-                background: var(--md-surface);
-                border: 1px solid var(--md-line);
-                border-radius: var(--md-r-lg);
-                padding: clamp(18px,3vw,28px);
-                margin-bottom: 18px;
-                position: relative;
-                width: 100%;
-                box-shadow: var(--md-shadow);
-                overflow: hidden;
-            }
-            .card::before { content:"";position:absolute;top:8px;inset-inline-start:8px;width:13px;height:13px;
-                border-top:1.5px solid var(--md-primary);border-inline-start:1.5px solid var(--md-primary);opacity:.7;pointer-events:none }
-            .card::after { content:"";position:absolute;bottom:8px;inset-inline-end:8px;width:13px;height:13px;
-                border-bottom:1.5px solid var(--md-secondary);border-inline-end:1.5px solid var(--md-secondary);opacity:.7;pointer-events:none }
-            .card-title {
-                font-family: var(--md-disp);
-                font-size: clamp(1.1rem,2.5vw,1.35rem);
-                margin: 0 0 18px;
-                color: var(--md-text);
-                letter-spacing: -.01em;
-                text-transform: none;
-                display: flex; align-items: center; gap: 10px;
-                font-weight: 800;
-            }
-            .card-title::before {
-                content: ""; display: inline-block;
-                width: 16px; height: 2px; flex: none;
-                background: var(--md-primary);
-                box-shadow: 0 0 8px var(--md-primary);
-            }
-            .card-title::after { content: none; }
-            h3, h4 {
-                color: var(--md-text);
-                letter-spacing: 0;
-                text-transform: none;
-                font-weight: 700;
-            }
-
-            .client-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-                gap: 10px;
-                margin: 4px 0 16px;
-            }
-            .client-btn {
-                background: var(--md-surface-2);
-                border: 1px solid var(--md-outline);
-                border-radius: var(--md-r-md);
-                padding: 14px 16px;
-                color: var(--md-text);
-                font-family: inherit;
-                font-weight: 500;
-                font-size: 0.86rem;
-                letter-spacing: 0;
-                text-transform: none;
-                cursor: pointer;
-                transition: all 0.18s ease;
-                text-align: center;
-                position: relative;
-                overflow: hidden;
-            }
-            .client-btn::before { content: none; }
-            .client-btn:hover {
-                color: var(--md-on-primary);
-                border-color: var(--md-primary);
-                background: var(--md-primary);
-                box-shadow: var(--md-elev-1);
-                transform: translateY(-1px);
-            }
-
-            #clientSubscriptionUrl,
-            .subscription-url,
-            [class*='subscription-url'],
-            [class*='c3Vic2NyaXB0aW9u'] {
-                background: var(--md-surface-2) !important;
-                border: 1px solid var(--md-outline) !important;
-                border-radius: var(--md-r-md) !important;
-                padding: 14px 16px !important;
-                word-break: break-all;
-                font-family: 'JetBrains Mono', monospace;
-                color: var(--md-primary) !important;
-                margin-top: 14px;
-                box-shadow: none !important;
-                position: relative;
-                overflow-wrap: break-word;
-                overflow-x: auto;
-                max-width: 100%;
-                font-size: 0.85rem;
-                line-height: 1.6;
-            }
-            #clientSubscriptionUrl:empty { display: none !important; }
-
-            .cp-hud { display: none; }
-            .cp-lang-wrapper {
-                position: fixed; top: 18px; left: 18px; z-index: 1000;
-                display: flex; align-items: center; gap: 8px;
-            }
-            .cp-lang-tag { display: none; }
-            #languageSelector {
-                background: var(--md-surface-2);
-                border: 1px solid var(--md-outline);
-                border-radius: 20px;
-                color: var(--md-text);
-                padding: 8px 16px;
-                font-family: inherit;
-                font-size: 12.5px;
-                cursor: pointer;
-                box-shadow: var(--md-elev-1);
-            }
-            #languageSelector option { background: var(--md-surface-2); color: var(--md-text); }
-
-            /* FX toggle */
-            .cp-fx-toggle {
-                position: fixed; top: 18px; right: 18px; z-index: 1001;
-                background: var(--md-surface-2);
-                border: 1px solid var(--md-outline);
-                border-radius: 20px;
-                color: var(--md-text-dim);
-                padding: 8px 16px;
-                font-family: inherit;
-                font-size: 11.5px;
-                letter-spacing: 0;
-                text-transform: none;
-                cursor: pointer;
-                box-shadow: var(--md-elev-1);
-                transition: all 0.2s ease;
-                display: inline-flex; align-items: center; gap: 8px;
-            }
-            .cp-fx-toggle:hover { color: var(--md-primary); border-color: var(--md-primary); }
-            .cp-fx-toggle .cp-fx-dot { width: 8px; height: 8px; background: var(--md-success); border-radius: 50%; box-shadow: none; transition: all 0.2s; }
-            body.fx-off .cp-fx-toggle { color: var(--md-text-dim); border-color: var(--md-outline); box-shadow: none; }
-            body.fx-off .cp-fx-toggle .cp-fx-dot { background: transparent; border: 1px solid var(--md-text-dim); box-shadow: none; }
-            body.fx-off .matrix-bg,
-            body.fx-off .matrix-code-rain,
-            body.fx-off .matrix-column { display: none !important; }
-            body.fx-off::before, body.fx-off::after { display: none !important; content: none !important; }
-            body.fx-off { background: var(--md-bg) !important; }
-            body.fx-off * {
-                animation: none !important;
-                transition: color 0.15s, background-color 0.15s, border-color 0.15s, box-shadow 0.15s !important;
-            }
-            body.fx-off .cp-glitch::before,
-            body.fx-off .cp-glitch::after { display: none !important; }
-            body.fx-off .terminal-cursor::after,
-            body.fx-off .cp-fab-save .cp-fab-dot { animation: none !important; }
-            body.fx-off .cp-fab-save:hover { transform: none !important; }
-            body.fx-off .cp-action-bar.cp-dirty::before { animation: none !important; }
-            body.fx-off .header::before { display: none !important; }
-            body.fx-off .card { backdrop-filter: none !important; }
-            body.fx-off select, body.fx-off input, body.fx-off textarea { backdrop-filter: none !important; }
-
-            /* Status panel inside card */
-            #systemStatus {
-                background: var(--md-surface-2) !important;
-                border: 1px solid var(--md-outline) !important;
-                border-radius: var(--md-r-md) !important;
-                padding: 16px 18px !important;
-                margin: 12px 0 0 !important;
-                box-shadow: none !important;
-                position: relative;
-            }
-            #systemStatus > div {
-                color: var(--md-text) !important;
-                font-family: inherit !important;
-                margin: 6px 0 !important;
-                font-size: 0.85rem !important;
-                letter-spacing: 0;
-            }
-            #systemStatus > div:first-child {
-                color: var(--md-primary) !important;
-                font-weight: 700 !important;
-                letter-spacing: 0 !important;
-                margin-bottom: 12px !important;
-                text-transform: none;
-            }
-
-            /* Force inputs / selects — Material outlined fields */
-            input[type="text"], input[type="number"], input[type="password"],
-            select, textarea {
-                background: var(--md-surface-2) !important;
-                border: 1.5px solid var(--md-outline) !important;
-                border-radius: var(--md-r-sm) !important;
-                color: var(--md-text) !important;
-                font-family: inherit !important;
-                font-size: 13.5px !important;
-                padding: 12px 14px !important;
-                outline: none;
-                transition: border-color 0.2s, box-shadow 0.2s;
-                box-shadow: none !important;
-                letter-spacing: 0;
-            }
-            input::placeholder { color: var(--md-text-dim) !important; opacity: 0.7; }
-            input:focus, select:focus, textarea:focus {
-                border-color: var(--md-primary) !important;
-                box-shadow: 0 0 0 3px rgba(200,241,53,0.18) !important;
-            }
-            select option { background: var(--md-surface-2); color: var(--md-text); }
-            input[type="checkbox"], input[type="radio"] {
-                accent-color: var(--md-primary);
-                width: 18px; height: 18px;
-            }
-
-            label {
-                color: var(--md-text) !important;
-                letter-spacing: 0;
-            }
-            label[style*="font-weight"], label[style*="bold"] {
-                font-weight: 700 !important;
-                color: var(--md-text) !important;
-                letter-spacing: 0 !important;
-                text-transform: none;
-                font-size: 0.85rem !important;
-            }
-            small {
-                color: var(--md-text-dim) !important;
-                font-size: 0.78rem !important;
-                letter-spacing: 0;
-                line-height: 1.5;
-            }
-
-            /* Buttons — Material filled/tonal pill buttons */
-            button, input[type="submit"] {
-                background: var(--md-surface-3) !important;
-                border: 1px solid var(--md-outline) !important;
-                border-radius: 20px !important;
-                color: var(--md-text) !important;
-                font-family: inherit !important;
-                font-weight: 500 !important;
-                cursor: pointer;
-                padding: 10px 20px !important;
-                letter-spacing: 0 !important;
-                text-transform: none;
-                font-size: 0.82rem !important;
-                transition: all 0.2s ease;
-                box-shadow: none;
-            }
-            button:hover, input[type="submit"]:hover {
-                color: var(--md-on-primary) !important;
-                border-color: var(--md-primary) !important;
-                background: var(--md-primary) !important;
-                box-shadow: var(--md-elev-1) !important;
-                transform: translateY(-1px);
-            }
-            button[id*="Reset"], button[onclick*="reset"], button[style*="ff0000"] {
-                color: var(--md-error) !important;
-                border-color: var(--md-error) !important;
-                background: var(--md-surface-3) !important;
-            }
-            button[id*="Reset"]:hover, button[onclick*="reset"]:hover, button[style*="ff0000"]:hover {
-                background: var(--md-error) !important;
-                color: var(--md-on-primary) !important;
-                box-shadow: var(--md-elev-1) !important;
-            }
-            button[id="stopLatencyTest"] {
-                color: var(--md-error) !important;
-                border-color: var(--md-error) !important;
-            }
-
-            /* Form sub-cards */
-            .card form > div[style*="background: rgba(15, 3, 40"],
-            .card form > div[style*="background: rgba(20, 5, 50"],
-            div[style*="background: rgba(15, 3, 40"],
-            div[style*="background: rgba(20, 5, 50"] {
-                background: var(--md-bg-2) !important;
-                border: 1px solid var(--md-outline) !important;
-                box-shadow: none !important;
-                border-radius: var(--md-r-md) !important;
-            }
-
-            /* kvStatus / statusMessage / currentConfig / pathTypeInfo */
-            #kvStatus, #statusMessage, #currentConfig, #pathTypeInfo {
-                background: var(--md-surface-2) !important;
-                border: 1px solid var(--md-outline) !important;
-                border-radius: var(--md-r-md) !important;
-                color: var(--md-text) !important;
-                font-family: inherit !important;
-                box-shadow: none !important;
-                padding: 12px 16px !important;
-                font-size: 0.85rem !important;
-                letter-spacing: 0;
-            }
-            #pathTypeInfo div:first-child {
-                color: var(--md-primary) !important;
-                letter-spacing: 0 !important;
-            }
-
-            /* Latency Result list */
-            #latencyResultsList {
-                background: var(--md-surface-2) !important;
-                border: 1px solid var(--md-outline) !important;
-                border-radius: var(--md-r-md) !important;
-            }
-            #latencyResultsList > div {
-                border-bottom: 1px solid var(--md-outline) !important;
-            }
-            #cityFilterContainer {
-                background: var(--md-surface-2) !important;
-                border: 1px solid var(--md-outline) !important;
-                border-radius: var(--md-r-md) !important;
-            }
-
-            /* Related links area */
-            .card a {
-                color: var(--md-primary) !important;
-                text-decoration: none;
-                letter-spacing: 0;
-                text-transform: none;
-                font-size: 0.9rem;
-                padding: 4px 0;
-                border-bottom: 1px solid transparent;
-                transition: all 0.2s;
-            }
-            .card a:hover {
-                border-bottom-color: var(--md-primary);
-            }
-
-            /* Scrollbars */
-            ::-webkit-scrollbar { width: 8px; height: 8px; }
-            ::-webkit-scrollbar-track { background: transparent; }
-            ::-webkit-scrollbar-thumb {
-                background: var(--md-outline-strong);
-                border-radius: 4px;
-            }
-
-            .cp-glitch { position: relative; display: inline-block; }
-
-            /* Floating action dock - bottom-right anchored FAB cluster */
-            .cp-action-bar {
-                position: fixed;
-                right: 20px;
-                bottom: 20px;
-                z-index: 99999;
-                isolation: isolate;
-                display: flex;
-                flex-direction: row-reverse;
-                align-items: center;
-                gap: 10px;
-                padding: 0;
-                background: transparent;
-                border: 0;
-                box-shadow: none;
-                max-width: calc(100vw - 32px);
-                pointer-events: auto;
-            }
-            /* Primary SAVE FAB — Material extended FAB */
-            .cp-fab-save {
-                position: relative;
-                min-width: 170px;
-                padding: 16px 24px !important;
-                font-size: 0.88rem !important;
-                font-weight: 700 !important;
-                letter-spacing: 0 !important;
-                text-transform: none;
-                color: var(--md-on-primary) !important;
-                background: var(--md-primary) !important;
-                border: none !important;
-                border-radius: 28px !important;
-                box-shadow: var(--md-elev-3) !important;
-                cursor: pointer;
-                transition: transform 0.18s ease, box-shadow 0.25s ease;
-                display: inline-flex; align-items: center; gap: 10px;
-                white-space: nowrap;
-                font-family: inherit !important;
-                animation: none;
-            }
-            .cp-fab-save:hover {
-                transform: translateY(-2px);
-                box-shadow: var(--md-elev-3), 0 0 0 4px rgba(200,241,53,0.15) !important;
-                color: var(--md-on-primary) !important;
-            }
-            .cp-fab-save .cp-fab-icon {
-                font-size: 1.1em;
-                line-height: 1;
-                color: var(--md-on-primary);
-            }
-            .cp-fab-save .cp-fab-dot {
-                width: 8px; height: 8px; border-radius: 50%;
-                background: var(--md-on-primary);
-                transform: none;
-                margin-left: 2px;
-                opacity: 0.4;
-                transition: all 0.2s;
-            }
-            .cp-action-bar.cp-dirty .cp-fab-save {
-                animation: cp-fab-dirty-pulse 1.6s ease-in-out infinite;
-                color: var(--md-on-primary) !important;
-            }
-            .cp-action-bar.cp-dirty .cp-fab-save .cp-fab-dot { opacity: 1; }
-            @keyframes cp-fab-dirty-pulse {
-                0%, 100% { box-shadow: var(--md-elev-3); }
-                50%      { box-shadow: var(--md-elev-3), 0 0 0 6px rgba(200,241,53,0.22); }
-            }
-            /* Secondary mini buttons — Material tonal icon buttons */
-            .cp-action-btn {
-                background: var(--md-surface-3) !important;
-                border: 1px solid var(--md-outline) !important;
-                border-radius: 50% !important;
-                color: var(--md-text) !important;
-                font-family: inherit !important;
-                font-weight: 500 !important;
-                cursor: pointer;
-                width: 46px; height: 46px;
-                padding: 0 !important;
-                letter-spacing: 0 !important;
-                font-size: 1.05rem !important;
-                transition: all 0.2s ease;
-                box-shadow: var(--md-elev-1);
-                display: inline-flex; align-items: center; justify-content: center;
-                white-space: nowrap;
-                position: relative;
-            }
-            .cp-action-btn .cp-btn-label { display: none; }
-            .cp-action-btn::after {
-                content: attr(data-tip);
-                position: absolute;
-                bottom: 100%; right: 50%;
-                transform: translate(50%, -8px);
-                background: var(--md-surface-3);
-                color: var(--md-text);
-                font-size: 10.5px;
-                letter-spacing: 0;
-                text-transform: none;
-                padding: 5px 10px;
-                border: 1px solid var(--md-outline);
-                border-radius: 8px;
-                opacity: 0; pointer-events: none;
-                transition: opacity 0.2s;
-                white-space: nowrap;
-                box-shadow: var(--md-elev-1);
-            }
-            .cp-action-btn:hover::after { opacity: 1; }
-            .cp-action-btn:hover {
-                color: var(--md-on-primary) !important;
-                border-color: var(--md-primary) !important;
-                background: var(--md-primary) !important;
-                box-shadow: var(--md-elev-2) !important;
-                transform: translateY(-2px);
-            }
-            .cp-action-btn-danger {
-                color: var(--md-error) !important;
-                border-color: var(--md-error) !important;
-                box-shadow: var(--md-elev-1) !important;
-            }
-            .cp-action-btn-danger:hover {
-                background: var(--md-error) !important;
-                color: var(--md-on-primary) !important;
-                box-shadow: var(--md-elev-2) !important;
-            }
-            .cp-action-btn-saving,
-            .cp-fab-save.cp-action-btn-saving {
-                opacity: 0.7;
-                pointer-events: none;
-                animation: cp-pulse-soft 0.9s ease-in-out infinite !important;
-            }
-            @keyframes cp-pulse-soft {
-                0%, 100% { box-shadow: var(--md-elev-1); }
-                50%      { box-shadow: var(--md-elev-3); }
-            }
-            .container { padding-bottom: 120px; }
-            .cp-action-status {
-                position: fixed;
-                right: 20px;
-                bottom: 84px;
-                z-index: 99998;
-                padding: 10px 16px;
-                background: var(--md-surface-3);
-                border: 1px solid var(--md-outline);
-                border-radius: 20px;
-                color: var(--md-success);
-                font-size: 0.78rem;
-                letter-spacing: 0;
-                text-transform: none;
-                box-shadow: var(--md-elev-2);
-                opacity: 0;
-                transform: translateY(8px);
-                transition: opacity 0.25s, transform 0.25s;
-                pointer-events: none;
-                white-space: nowrap;
-                max-width: calc(100vw - 44px);
-                overflow: hidden; text-overflow: ellipsis;
-            }
-            .cp-action-status.cp-show { opacity: 1; transform: translateY(0); }
-            .cp-action-status.cp-err {
-                border-color: var(--md-error);
-                color: var(--md-error);
-                box-shadow: var(--md-elev-2);
-            }
-            /* Toast notification stack (top-right) — Material snackbars */
-            .cp-toast-stack {
-                position: fixed;
-                top: 84px;
-                right: 20px;
-                z-index: 100000;
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-                max-width: min(400px, calc(100vw - 32px));
-                pointer-events: none;
-            }
-            .cp-toast {
-                position: relative;
-                display: flex;
-                align-items: flex-start;
-                gap: 12px;
-                padding: 14px 16px;
-                background: var(--md-surface-3);
-                border: 1px solid var(--md-outline);
-                border-radius: var(--md-r-md);
-                color: var(--md-text);
-                font-size: 0.85rem;
-                line-height: 1.45;
-                letter-spacing: 0;
-                box-shadow: var(--md-elev-3);
-                transform: translateX(120%);
-                opacity: 0;
-                transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s;
-                pointer-events: auto;
-                overflow: hidden;
-                word-break: break-all;
-            }
-            .cp-toast.cp-show { transform: translateX(0); opacity: 1; }
-            .cp-toast.cp-hide { transform: translateX(120%); opacity: 0; }
-            .cp-toast::before {
-                content: "";
-                position: absolute;
-                left: 0; top: 0; bottom: 0;
-                width: 4px;
-                background: var(--md-text-dim);
-                border-radius: 4px 0 0 4px;
-            }
-            .cp-toast-icon {
-                font-size: 1.1rem;
-                line-height: 1;
-                margin-top: 1px;
-                flex-shrink: 0;
-                color: var(--md-text);
-            }
-            .cp-toast-body { flex: 1; min-width: 0; }
-            .cp-toast-title {
-                font-size: 0.7rem;
-                font-weight: 700;
-                letter-spacing: 0.04em;
-                text-transform: uppercase;
-                opacity: 0.7;
-                margin-bottom: 2px;
-            }
-            .cp-toast-msg { white-space: pre-wrap; }
-            .cp-toast-close {
-                position: absolute;
-                top: 8px; right: 10px;
-                background: transparent;
-                border: 0;
-                color: inherit;
-                font-size: 14px;
-                cursor: pointer;
-                opacity: 0.55;
-                padding: 2px 4px;
-                line-height: 1;
-                transition: opacity 0.2s;
-            }
-            .cp-toast-close:hover { opacity: 1; }
-            .cp-toast::after { content: none; }
-            .cp-toast.cp-toast-success { border-color: var(--md-success); color: var(--md-success); }
-            .cp-toast.cp-toast-success::before { background: var(--md-success); }
-            .cp-toast.cp-toast-success .cp-toast-icon { color: var(--md-success); }
-            .cp-toast.cp-toast-info { border-color: var(--md-primary); color: var(--md-primary); }
-            .cp-toast.cp-toast-info::before { background: var(--md-primary); }
-            .cp-toast.cp-toast-info .cp-toast-icon { color: var(--md-primary); }
-            .cp-toast.cp-toast-warn { border-color: var(--md-warning); color: var(--md-warning); }
-            .cp-toast.cp-toast-warn::before { background: var(--md-warning); }
-            .cp-toast.cp-toast-warn .cp-toast-icon { color: var(--md-warning); }
-            .cp-toast.cp-toast-error { border-color: var(--md-error); color: var(--md-error); }
-            .cp-toast.cp-toast-error::before { background: var(--md-error); }
-            .cp-toast.cp-toast-error .cp-toast-icon { color: var(--md-error); }
-
-            /* Tiny floating "unsaved" badge on the FAB */
-            .cp-action-bar.cp-dirty::before {
-                content: "● UNSAVED";
-                position: absolute;
-                top: -24px; right: 6px;
-                font-size: 9px;
-                letter-spacing: 0.15em;
-                color: var(--md-text-dim);
-                background: var(--md-surface-3);
-                padding: 3px 10px;
-                border-radius: 10px;
-                border: 1px solid var(--md-outline);
-                box-shadow: var(--md-elev-1);
-                animation: none;
-            }
-
-            @media (max-width: 720px) {
-                .container { padding: 20px 14px 140px; }
-                .card { padding: 20px 16px; border-radius: var(--md-r-md); }
-                .header { padding: 22px 18px; border-radius: var(--md-r-md); }
-                .title { font-size: 1.5rem; }
-                .cp-hud { font-size: 9px; }
-                .cp-action-bar {
-                    right: 50%;
-                    bottom: 14px;
-                    transform: translateX(50%);
-                    gap: 8px;
-                }
-                .cp-fab-save {
-                    min-width: 0;
-                    padding: 13px 18px !important;
-                    font-size: 0.8rem !important;
-                    letter-spacing: 0 !important;
-                }
-                .cp-action-btn { width: 42px; height: 42px; }
-                .cp-action-status { right: 50%; transform: translate(50%, 8px); }
-                .cp-action-status.cp-show { transform: translate(50%, 0); }
-            }
-        </style>
-    </head>
-    <body>
-        <div class="matrix-bg"></div>
-        <div class="matrix-code-rain" id="matrixCodeRain"></div>
-            <header class="cp-bar">
-                <div class="cp-brand"><span class="cp-mk"></span><span><b>miliconfig</b><small>${翻译值.terminal}</small></span></div>
-                <span class="cp-spacer"></span>
-                <span class="cp-sig"><span class="cp-sig-d"></span><span>${是否值236 ? 'آنلاین' : 'ONLINE'}</span></span>
-                <div class="cp-sel"><select id="languageSelector" onchange="切换语言(this.value)"><option value="zh" ${!是否值236 ? 'selected' : ''}>🇨🇳 中文</option><option value="fa" ${是否值236 ? 'selected' : ''}>🇮🇷 فارسی</option></select></div>
-                <button type="button" id="cpFxToggle" class="cp-ib" onclick="window.切换页面特效()" title="${是否值236 ? 'افکت' : 'FX'}" aria-label="FX"><span id="cpFxLabel">FX</span></button>
-            </header>
-            <div class="cp-prog"><i></i></div>
-        <div class="container">
-            <div class="header">
-                    <h1 class="title cp-glitch" data-text="${翻译值.title}">${翻译值.title}</h1>
-                    <p class="subtitle">${翻译值.subtitle}</p>
-            </div>
-            <div class="card">
-                    <h2 class="card-title">${翻译值.selectClient}</h2>
-                <div class="client-grid">
-                    <button class="client-btn" onclick="生成客户端链接('${解码64('Y2xhc2g=')}', '${解码64('Q0xBU0g=')}')">${解码64('Q0xBU0g=')}</button>
-                    <button class="client-btn" onclick="生成客户端链接('${解码64('Y2xhc2g=')}', '${解码64('U1RBU0g=')}')">${解码64('U1RBU0g=')}</button>
-                    <button class="client-btn" onclick="生成客户端链接('${解码64('c3VyZ2U=')}', '${解码64('U1VSR0U=')}')">${解码64('U1VSR0U=')}</button>
-                    <button class="client-btn" onclick="生成客户端链接('${解码64('c2luZ2JveA==')}', '${解码64('U0lORy1CT1g=')}')">${解码64('U0lORy1CT1g=')}</button>
-                    <button class="client-btn" onclick="生成客户端链接('${解码64('bG9vbg==')}', '${解码64('TE9PTg==')}')">${解码64('TE9PTg==')}</button>
-                    <button class="client-btn" onclick="生成客户端链接('${解码64('cXVhbng=')}', '${解码64('UVVBTlRVTVVMVCBY')}')">${解码64('UVVBTlRVTVVMVCBY')}</button>
-                    <button class="client-btn" onclick="生成客户端链接('${解码64('djJyYXk=')}', '${解码64('VjJSQVk=')}')">${解码64('VjJSQVk=')}</button>
-                    <button class="client-btn" onclick="生成客户端链接('${解码64('djJyYXk=')}', '${解码64('VjJSQVlORw==')}')">${解码64('VjJSQVlORw==')}</button>
-                    <button class="client-btn" onclick="生成客户端链接('${解码64('djJyYXk=')}', '${解码64('TkVLT1JBWQ==')}')">${解码64('TkVLT1JBWQ==')}</button>
-                    <button class="client-btn" onclick="生成客户端链接('${解码64('djJyYXk=')}', '${解码64('U2hhZG93cm9ja2V0')}')">${解码64('U2hhZG93cm9ja2V0')}</button>
-                </div>
-                <div class="subscription-url" id="clientSubscriptionUrl"></div>
-            </div>
-            <div class="card">
-                    <h2 class="card-title">${翻译值.systemStatus}</h2>
-                <div id="systemStatus" style="margin: 20px 0; padding: 15px; background: rgba(8,10,14,0.8); border: 2px solid #c8f135; box-shadow: 0 0 20px rgba(200,241,53,0.3), inset 0 0 15px rgba(200,241,53,0.1); position: relative; overflow: hidden;">
-                        <div style="color: #c8f135; margin-bottom: 15px; font-weight: bold; ">[ ${翻译值.checking} ]</div>
-                        <div id="regionStatus" style="margin: 8px 0; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; ">${翻译值.workerRegion}${翻译值.checking}</div>
-                        <div id="geoInfo" style="margin: 8px 0; color: #9aa6b8; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 0.9rem; ">${翻译值.detectionMethod}${翻译值.checking}</div>
-                        <div id="backupStatus" style="margin: 8px 0; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; ">${翻译值.pipStatus}${翻译值.checking}</div>
-                        <div id="currentIP" style="margin: 8px 0; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; ">${翻译值.currentIP}${翻译值.checking}</div>
-                        <div id="echStatus" style="margin: 8px 0; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;  font-size: 0.9rem;">ECH状态: ${翻译值.checking}</div>
-                        <div id="regionMatch" style="margin: 8px 0; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; ">${翻译值.regionMatch}${翻译值.checking}</div>
-                        <div id="selectionLogic" style="margin: 8px 0; color: #9aa6b8; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 0.9rem; ">${翻译值.selectionLogic}${翻译值.selectionLogicText}</div>
-                </div>
-            </div>
-            <div class="card" id="configCard" style="display: none;">
-                    <h2 class="card-title">${翻译值.configManagement}</h2>
-                <div id="kvStatus" style="margin-bottom: 20px; padding: 10px; background: rgba(8,10,14,0.8); border: 1px solid #c8f135; color: #c8f135;">
-                    ${翻译值.kvStatusChecking}
-                </div>
-                <div id="configContent" style="display: none;">
-                    <form id="regionForm" style="margin-bottom: 20px;">
-                        <div style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; ">${翻译值.specifyRegion}</label>
-                            <select id="wkRegion" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;">
-                                    <option value="">${翻译值.autoDetect}</option>
-                                    <option value="HK">${翻译值.regionNames.HK}</option>
-                                    <option value="US">${翻译值.regionNames.US}</option>
-                                    <option value="SG">${翻译值.regionNames.SG}</option>
-                                    <option value="JP">${翻译值.regionNames.JP}</option>
-                                    <option value="KR">${翻译值.regionNames.KR}</option>
-                                    <option value="DE">${翻译值.regionNames.DE}</option>
-                                    <option value="SE">${翻译值.regionNames.SE}</option>
-                                    <option value="NL">${翻译值.regionNames.NL}</option>
-                                    <option value="FI">${翻译值.regionNames.FI}</option>
-                                    <option value="GB">${翻译值.regionNames.GB}</option>
-                            </select>
-                                <small id="wkRegionHint" style="color: #9aa6b8; font-size: 0.85rem; display: none;">⚠️ ${翻译值.customIPDisabledHint}</small>
-                        </div>
-                    </form>
-                    <form id="otherConfigForm" style="margin-bottom: 20px;">
-                        <div style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; ">${翻译值.protocolSelection}</label>
-                            <div style="padding: 15px; background: rgba(11,14,20,0.6); border: 1px solid #c8f135; border-radius: 5px;">
-                                <div style="margin-bottom: 10px;">
-                                    <label style="display: inline-flex; align-items: center; cursor: pointer; color: #c8f135;">
-                                        <input type="checkbox" id="ev" checked style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
-                                            <span style="font-size: 1.1rem;">${翻译值.evLabel}</span>
-                                    </label>
-                                </div>
-                                <div style="margin-bottom: 10px;">
-                                    <label style="display: inline-flex; align-items: center; cursor: pointer; color: #c8f135;">
-                                        <input type="checkbox" id="et" style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
-                                            <span style="font-size: 1.1rem;">${翻译值.etLabel}</span>
-                                    </label>
-                                </div>
-                                <div style="margin-bottom: 10px;">
-                                    <label style="display: inline-flex; align-items: center; cursor: pointer; color: #c8f135;">
-                                        <input type="checkbox" id="ex" style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
-                                            <span style="font-size: 1.1rem;">${翻译值.enableXhttp}</span>
-                                    </label>
-                                </div>
-                                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(200,241,53,0.3);">
-                                    <div style="margin-bottom: 10px;">
-                                        <label style="display: inline-flex; align-items: center; cursor: pointer; color: #c8f135;">
-                                            <input type="checkbox" id="ech" style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
-                                                <span style="font-size: 1.1rem;">${翻译值.enableECH}</span>
-                                        </label>
-                                        <small style="color: #9aa6b8; font-size: 0.8rem; display: block; margin-top: 5px; margin-left: 26px;">${翻译值.enableECHHint}</small>
-                                    </div>
-                                    <div style="margin-top: 15px; margin-bottom: 10px;">
-                                        <label style="display: block; margin-bottom: 8px; color: #c8f135; font-size: 0.95rem;">${翻译值.customDNS}</label>
-                                        <input type="text" id="customDNS" placeholder="${翻译值.customDNSPlaceholder}" style="width: 100%; padding: 10px; background: rgba(0, 0, 0, 0.8); border: 1px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px;">
-                                        <small style="color: #9aa6b8; font-size: 0.8rem; display: block; margin-top: 5px;">${翻译值.customDNSHint}</small>
-                                    </div>
-                                    <div style="margin-bottom: 10px;">
-                                        <label style="display: block; margin-bottom: 8px; color: #c8f135; font-size: 0.95rem;">${翻译值.customECHDomain}</label>
-                                        <input type="text" id="customECHDomain" placeholder="${翻译值.customECHDomainPlaceholder}" style="width: 100%; padding: 10px; background: rgba(0, 0, 0, 0.8); border: 1px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px;">
-                                        <small style="color: #9aa6b8; font-size: 0.8rem; display: block; margin-top: 5px;">${翻译值.customECHDomainHint}</small>
-                                    </div>
-                                    <div style="margin-bottom: 10px;">
-                                        <label style="display: block; margin-bottom: 8px; color: #c8f135; font-size: 0.95rem;">${翻译值.alpn}</label>
-                                        <select id="alpn" style="width: 100%; padding: 10px; background: rgba(0, 0, 0, 0.8); border: 1px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px;">
-                                            <option value="">${翻译值.alpnDefault}</option>
-                                            <option value="h3">h3</option>
-                                            <option value="h2">h2</option>
-                                            <option value="http/1.1">http/1.1</option>
-                                            <option value="h3,h2">h3,h2</option>
-                                            <option value="h2,http/1.1">h2,http/1.1</option>
-                                            <option value="h3,h2,http/1.1">h3,h2,http/1.1</option>
-                                        </select>
-                                        <small style="color: #9aa6b8; font-size: 0.8rem; display: block; margin-top: 5px;">${翻译值.alpnHint}</small>
-                                    </div>
-                                </div>
-                                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(200,241,53,0.3);">
-                                        <label style="display: block; margin-bottom: 8px; color: #c8f135; font-size: 0.95rem;">${翻译值.tpLabel}</label>
-                                        <input type="text" id="tp" placeholder="${翻译值.tpPlaceholder}" style="width: 100%; padding: 10px; background: rgba(0, 0, 0, 0.8); border: 1px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px;">
-                                        <small style="color: #9aa6b8; font-size: 0.8rem; display: block; margin-top: 5px;">${翻译值.tpHint}</small>
-                                </div>
-                                    <small style="color: #9aa6b8; font-size: 0.85rem; display: block; margin-top: 10px;">${翻译值.protocolHint}</small>
-                            </div>
-                        </div>
-                        <div style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; ">${翻译值.customHomepage}</label>
-                                <input type="text" id="customHomepage" placeholder="${翻译值.customHomepagePlaceholder}" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;">
-                                <small style="color: #9aa6b8; font-size: 0.85rem;">${翻译值.customHomepageHint}</small>
-                        </div>
-                        <div style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; ">${翻译值.customPath}</label>
-                                <input type="text" id="customPath" placeholder="${是否值236 ? 'مثال: /mypath یا خالی بگذارید تا از UUID استفاده شود' : '例如: /mypath 或留空使用 UUID'}" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;">
-                                <small style="color: #9aa6b8; font-size: 0.85rem;">${是否值236 ? 解码64('2YXYs9uM2LEg2KfYtNiq2LHYp9qpINiz2YHYp9ix2LTbjC4g2Kfar9ixINiu2KfZhNuMINio2q/YsNin2LHbjNivINin2LIgVVVJRCDYqNmHINi52YbZiNin2YYg2YXYs9uM2LEg2KfYs9iq2YHYp9iv2Ycg2YXbjOKAjNi02YjYry4=') : 解码64('6Ieq5a6a5LmJ6K6i6ZiF6Lev5b6E44CC55WZ56m65YiZ5L2/55SoIFVVSUQg5L2c5Li66Lev5b6E44CC')}</small>
-                        </div>
-                        <div style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; ">${翻译值.customIP}</label>
-                                <input type="text" id="customIP" placeholder="${是否值236 ? 'مثال: 1.2.3.4:443' : '例如: 1.2.3.4:443'}" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;">
-                                <small style="color: #9aa6b8; font-size: 0.85rem;">${是否值236 ? 解码64('2KLYr9ix2LMg2Ygg2b7ZiNix2KogUHJveHlJUCDYs9mB2KfYsdi024w=') : 解码64('6Ieq5a6a5LmJUHJveHlJUOWcsOWdgOWSjOerr+WPow==')}</small>
-                        </div>
-                        <div style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; ">${翻译值.preferredIPs}</label>
-                                <input type="text" id="yx" placeholder="${是否值236 ? 'مثال: 1.2.3.4:443#گره هنگ‌کنگ,5.6.7.8:80#گره آمریکا,example.com:8443#گره سنگاپور' : '例如: 1.2.3.4:443#日本节点,5.6.7.8:80#美国节点,example.com:8443#新加坡节点'}" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;">
-                                <small style="color: #9aa6b8; font-size: 0.85rem;">${是否值236 ? 'فرمت: IP:پورت#نام گره یا IP:پورت (بدون # از نام پیش‌فرض استفاده می‌شود). پشتیبانی از چندین مورد، با کاما جدا می‌شوند. <span style="color: #ffb454;">IP های اضافه شده از طریق API به طور خودکار در اینجا نمایش داده می‌شوند.</span>' : '格式: IP:端口#节点名称 或 IP:端口 (无#则使用默认名称)。支持多个，用逗号分隔。<span style="color: #ffb454;">API添加的IP会自动显示在这里。</span>'}</small>
-                        </div>
-                        <div style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; ">${翻译值.preferredIPsURL}</label>
-                                <input type="text" id="yxURL" placeholder="${是否值236 ? 'URL منبع لیست IP ترجیحی را وارد کنید' : '输入优选IP列表来源URL'}" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;">
-                                <small style="color: #9aa6b8; font-size: 0.85rem;">${是否值236 ? 'URL منبع لیست IP ترجیحی سفارشی، اگر خالی بگذارید از آدرس پیش‌فرض استفاده می‌شود' : '自定义优选IP列表来源URL，留空则使用默认地址'}</small>
-                        </div>
-                        
-                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(11,14,20,0.6); border: 2px solid #9aa6b8; border-radius: 8px;">
-                            <h4 style="color: #c8f135; margin: 0 0 15px 0; font-size: 1.1rem; ">⚡ ${翻译值.latencyTest}</h4>
-                            <div style="display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; align-items: center;">
-                                <div style="min-width: 120px;">
-                                    <label style="display: block; margin-bottom: 5px; color: #c8f135; font-size: 0.9rem;">${翻译值.ipSource}</label>
-                                    <select id="ipSourceSelect" style="width: 100%; padding: 10px; background: rgba(0, 0, 0, 0.8); border: 1px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px; cursor: pointer;">
-                                        <option value="manual">${翻译值.manualInput}</option>
-                                        <option value="cfRandom">${翻译值.cfRandomIP}</option>
-                                        <option value="urlFetch">${翻译值.urlFetch}</option>
-                                    </select>
-                                </div>
-                                <div style="width: 100px;">
-                                    <label style="display: block; margin-bottom: 5px; color: #c8f135; font-size: 0.9rem;">${翻译值.latencyTestPort}</label>
-                                    <input type="number" id="latencyTestPort" value="443" min="1" max="65535" style="width: 100%; padding: 10px; background: rgba(0, 0, 0, 0.8); border: 1px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px;">
-                                </div>
-                                <div id="randomCountDiv" style="width: 100px; display: none;">
-                                    <label style="display: block; margin-bottom: 5px; color: #c8f135; font-size: 0.9rem;">${翻译值.randomCount}</label>
-                                    <input type="number" id="randomIPCount" value="20" min="1" max="100" style="width: 100%; padding: 10px; background: rgba(0, 0, 0, 0.8); border: 1px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px;">
-                                </div>
-                                <div style="width: 80px;">
-                                    <label style="display: block; margin-bottom: 5px; color: #c8f135; font-size: 0.9rem;">${是否值236 ? 'رشته‌ها' : '线程'}</label>
-                                    <input type="number" id="testThreads" value="5" min="1" max="50" style="width: 100%; padding: 10px; background: rgba(0, 0, 0, 0.8); border: 1px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px;">
-                                </div>
-                            </div>
-                            <div id="manualInputDiv" style="margin-bottom: 10px;">
-                                <label style="display: block; margin-bottom: 5px; color: #c8f135; font-size: 0.9rem;">${翻译值.latencyTestIP}</label>
-                                <input type="text" id="latencyTestInput" placeholder="${翻译值.latencyTestIPPlaceholder}" style="width: 100%; padding: 10px; background: rgba(0, 0, 0, 0.8); border: 1px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px;">
-                            </div>
-                            <div id="urlFetchDiv" style="margin-bottom: 10px; display: none;">
-                                <label style="display: block; margin-bottom: 5px; color: #c8f135; font-size: 0.9rem;">${翻译值.fetchURL}</label>
-                                <div style="display: flex; gap: 8px;">
-                                    <input type="text" id="fetchURLInput" placeholder="${翻译值.fetchURLPlaceholder}" style="flex: 1; padding: 10px; background: rgba(0, 0, 0, 0.8); border: 1px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px;">
-                                    <button type="button" id="fetchIPBtn" style="background: rgba(200,241,53,0.2); border: 1px solid #5b8cff; padding: 8px 16px; color: #5b8cff; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; cursor: pointer; white-space: nowrap;">⬇ ${翻译值.fetchIP}</button>
-                                </div>
-                            </div>
-                            <div id="cfRandomDiv" style="margin-bottom: 10px; display: none;">
-                                <button type="button" id="generateCFIPBtn" style="background: rgba(200,241,53,0.15); border: 1px solid #c8f135; padding: 10px 20px; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; cursor: pointer; width: 100%; transition: all 0.3s;">🎲 ${翻译值.generateIP}</button>
-                            </div>
-                            <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                                <button type="button" id="startLatencyTest" style="background: rgba(200,241,53,0.2); border: 1px solid #c8f135; padding: 8px 16px; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; cursor: pointer; transition: all 0.3s;">▶ ${翻译值.startTest}</button>
-                                <button type="button" id="stopLatencyTest" style="background: rgba(255,93,115,0.2); border: 1px solid #ff5d73; padding: 8px 16px; color: #ff5d73; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; cursor: pointer; display: none; transition: all 0.3s;">⏹ ${翻译值.stopTest}</button>
-                            </div>
-                            <div id="latencyTestStatus" style="color: #9aa6b8; font-size: 0.9rem; margin-bottom: 10px; display: none;"></div>
-                            <div id="latencyTestResults" style="max-height: 250px; overflow-y: auto; display: none;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                    <span style="color: #c8f135; font-weight: bold;">${翻译值.testResult}</span>
-                                    <div style="display: flex; gap: 8px;">
-                                        <button type="button" id="selectAllResults" style="background: transparent; border: 1px solid #9aa6b8; padding: 4px 10px; color: #9aa6b8; font-size: 0.8rem; cursor: pointer;">${翻译值.selectAll}</button>
-                                        <button type="button" id="deselectAllResults" style="background: transparent; border: 1px solid #9aa6b8; padding: 4px 10px; color: #9aa6b8; font-size: 0.8rem; cursor: pointer;">${翻译值.deselectAll}</button>
-                                    </div>
-                                </div>
-                                <div id="cityFilterContainer" style="margin-bottom: 10px; padding: 10px; background: rgba(11,14,20,0.6); border: 1px solid #9aa6b8; border-radius: 4px; display: none;">
-                                    <div style="margin-bottom: 8px;">
-                                        <label style="display: inline-flex; align-items: center; cursor: pointer; color: #c8f135; font-size: 0.9rem;">
-                                            <input type="radio" name="cityFilterMode" value="all" checked style="margin-right: 6px; width: 16px; height: 16px; cursor: pointer;">
-                                            <span>${是否值236 ? '全部城市' : '全部城市'}</span>
-                                        </label>
-                                        <label style="display: inline-flex; align-items: center; cursor: pointer; color: #c8f135; font-size: 0.9rem; margin-left: 15px;">
-                                            <input type="radio" name="cityFilterMode" value="fastest10" style="margin-right: 6px; width: 16px; height: 16px; cursor: pointer;">
-                                            <span>${是否值236 ? '只选择最快的10个' : '只选择最快的10个'}</span>
-                                        </label>
-                                    </div>
-                                    <div id="cityCheckboxesContainer" style="display: flex; flex-wrap: wrap; gap: 8px; max-height: 80px; overflow-y: auto; padding: 5px;"></div>
-                                </div>
-                                <div id="latencyResultsList" style="background: rgba(0, 0, 0, 0.5); border: 1px solid #0b1a08; border-radius: 4px; padding: 10px;"></div>
-                                <div style="margin-top: 10px; display: flex; gap: 10px;">
-                                    <button type="button" id="overwriteSelectedToYx" style="flex: 1; background: rgba(61,220,132,0.3); border: 1px solid #c8f135; padding: 10px 20px; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-weight: bold; cursor: pointer; transition: all 0.3s;">${是否值236 ? '覆盖添加' : '覆盖添加'}</button>
-                                    <button type="button" id="appendSelectedToYx" style="flex: 1; background: rgba(61,220,132,0.18); border: 1px solid #9aa6b8; padding: 10px 20px; color: #9aa6b8; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-weight: bold; cursor: pointer; transition: all 0.3s;">${是否值236 ? '追加添加' : '追加添加'}</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; ">${翻译值.s5Label}</label>
-                                <input type="text" id="socksConfig" placeholder="${是否值236 ? 'مثال: user:pass@host:port یا host:port' : '例如: user:pass@host:port 或 host:port'}" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;">
-                                <small style="color: #9aa6b8; font-size: 0.85rem;">${是否值236 ? 解码64('2KLYr9ix2LMg2b7YsdmI2qnYs9uMIFNPQ0tTNdiMINio2LHYp9uMINin2YbYqtmC2KfZhCDYqtmF2KfZhSDYqtix2KfZgduM2qkg2K7YsdmI2KzbjCDYp9iz2KrZgdin2K/ZhyDZhduM4oCM2LTZiNiv') : 解码64('U09DS1M15Luj55CG5Zyw5Z2A77yM55So5LqO6L2s5Y+R5omA5pyJ5Ye656uZ5rWB6YeP')}</small>
-                        </div>
-                    </form>
-
-                    <h3 style="color: #c8f135; margin: 20px 0 15px 0; font-size: 1.2rem;">${翻译值.advancedControl}</h3>
-                    <form id="advancedConfigForm" style="margin-bottom: 20px;">
-                        <div style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; ">${翻译值.subscriptionConverter}</label>
-                                <input type="text" id="scu" placeholder="${翻译值.subscriptionConverterPlaceholder}" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;">
-                                <small style="color: #9aa6b8; font-size: 0.85rem;">${翻译值.subscriptionConverterHint}</small>
-                        </div>
-                        <div style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; ">${翻译值.builtinPreferred}</label>
-                            <div style="padding: 15px; background: rgba(11,14,20,0.6); border: 1px solid #c8f135; border-radius: 5px;">
-                                <div style="margin-bottom: 10px;">
-                                    <label style="display: inline-flex; align-items: center; cursor: pointer; color: #c8f135;">
-                                        <input type="checkbox" id="ena" style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
-                                            <span style="font-size: 1.1rem;">${翻译值.enableNativeAddress}</span>
-                                    </label>
-                                </div>
-                                <div style="margin-bottom: 10px;">
-                                    <label style="display: inline-flex; align-items: center; cursor: pointer; color: #c8f135;">
-                                        <input type="checkbox" id="epd" checked style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
-                                            <span style="font-size: 1.1rem;">${翻译值.enablePreferredDomain}</span>
-                                    </label>
-                                </div>
-                                <div style="margin-bottom: 10px;">
-                                    <label style="display: inline-flex; align-items: center; cursor: pointer; color: #c8f135;">
-                                        <input type="checkbox" id="epi" checked style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
-                                            <span style="font-size: 1.1rem;">${翻译值.enablePreferredIP}</span>
-                                    </label>
-                                </div>
-                                <div style="margin-bottom: 10px;">
-                                    <label style="display: inline-flex; align-items: center; cursor: pointer; color: #c8f135;">
-                                        <input type="checkbox" id="egi" checked style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
-                                            <span style="font-size: 1.1rem;">${翻译值.enableGitHubPreferred}</span>
-                                    </label>
-                                </div>
-                                    <small style="color: #9aa6b8; font-size: 0.85rem; display: block; margin-top: 10px;">${翻译值.builtinPreferredHint}</small>
-                            </div>
-                        </div>
-                        <div style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; ">优选IP筛选设置</label>
-                            <div style="padding: 15px; background: rgba(11,14,20,0.6); border: 1px solid #c8f135; border-radius: 5px;">
-                                <div style="margin-bottom: 15px;">
-                                    <label style="display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; ">IP版本选择</label>
-                                    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-                                        <label style="display: inline-flex; align-items: center; cursor: pointer; color: #c8f135;">
-                                            <input type="checkbox" id="ipv4Enabled" checked style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
-                                            <span style="font-size: 1rem;">IPv4</span>
-                                        </label>
-                                        <label style="display: inline-flex; align-items: center; cursor: pointer; color: #c8f135;">
-                                            <input type="checkbox" id="ipv6Enabled" checked style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
-                                            <span style="font-size: 1rem;">IPv6</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div style="margin-bottom: 10px;">
-                                    <label style="display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; ">运营商选择</label>
-                                    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-                                        <label style="display: inline-flex; align-items: center; cursor: pointer; color: #c8f135;">
-                                            <input type="checkbox" id="ispMobile" checked style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
-                                            <span style="font-size: 1rem;">移动</span>
-                                        </label>
-                                        <label style="display: inline-flex; align-items: center; cursor: pointer; color: #c8f135;">
-                                            <input type="checkbox" id="ispUnicom" checked style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
-                                            <span style="font-size: 1rem;">联通</span>
-                                        </label>
-                                        <label style="display: inline-flex; align-items: center; cursor: pointer; color: #c8f135;">
-                                            <input type="checkbox" id="ispTelecom" checked style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
-                                            <span style="font-size: 1rem;">电信</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                    <small style="color: #9aa6b8; font-size: 0.85rem; display: block; margin-top: 10px;">选择要使用的IP版本和运营商，未选中的将被过滤</small>
-                            </div>
-                        </div>
-                        <div style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; ">${翻译值.allowAPIManagement}</label>
-                            <select id="apiEnabled" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;">
-                                    <option value="">${翻译值.apiEnabledDefault}</option>
-                                    <option value="yes">${翻译值.apiEnabledYes}</option>
-                            </select>
-                                <small style="color: #ffb454; font-size: 0.85rem;">${翻译值.apiEnabledHint}</small>
-                        </div>
-                        <div style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; ">${翻译值.regionMatching}</label>
-                            <select id="regionMatching" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;">
-                                    <option value="">${翻译值.regionMatchingDefault}</option>
-                                    <option value="no">${翻译值.regionMatchingNo}</option>
-                            </select>
-                                <small style="color: #9aa6b8; font-size: 0.85rem;">${翻译值.regionMatchingHint}</small>
-                        </div>
-                        <div style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; ">${翻译值.downgradeControl}</label>
-                            <select id="downgradeControl" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;">
-                                    <option value="">${翻译值.downgradeControlDefault}</option>
-                                    <option value="no">${翻译值.downgradeControlNo}</option>
-                            </select>
-                                <small style="color: #9aa6b8; font-size: 0.85rem;">${翻译值.downgradeControlHint}</small>
-                        </div>
-                        <div style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; ">${翻译值.tlsControl}</label>
-                            <select id="portControl" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;">
-                                    <option value="">${翻译值.tlsControlDefault}</option>
-                                    <option value="yes">${翻译值.tlsControlYes}</option>
-                            </select>
-                                <small style="color: #9aa6b8; font-size: 0.85rem;">${翻译值.tlsControlHint}</small>
-                        </div>
-                        <div style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; ">${翻译值.preferredControl}</label>
-                            <select id="preferredControl" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;">
-                                    <option value="">${翻译值.preferredControlDefault}</option>
-                                    <option value="yes">${翻译值.preferredControlYes}</option>
-                            </select>
-                                <small style="color: #9aa6b8; font-size: 0.85rem;">${翻译值.preferredControlHint}</small>
-                        </div>
-                    </form>
-                    <div id="currentConfig" style="background: rgba(0, 0, 0, 0.9); border: 1px solid #c8f135; padding: 15px; margin: 10px 0; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #c8f135;">
-                            ${翻译值.loading}
-                    </div>
-                    <div id="pathTypeInfo" style="background: rgba(11,14,20,0.7); border: 1px solid #c8f135; padding: 15px; margin: 10px 0; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #c8f135;">
-                            <div style="font-weight: bold; margin-bottom: 8px; color: #3ddc84; ">${翻译值.currentConfig}</div>
-                            <div id="pathTypeStatus">${翻译值.checking}</div>
-                    </div>
-                </div>
-                <div id="statusMessage" style="display: none; padding: 10px; margin: 10px 0; border: 1px solid #c8f135; background: rgba(8,10,14,0.8); color: #c8f135; "></div>
-            </div>
-
-            <div class="card">
-                <h2 class="card-title">${是否值236 ? 'به‌روزرسانی پنل' : '面板更新'}</h2>
-                <div style="margin-bottom:14px;color:#9aa6b8;font-size:0.85rem;">
-                    ${是否值236 ? 'نسخه فعلی: ' : '当前版本: '}<b style="color:#c8f135;">${面板版本}</b>
-                    &nbsp;·&nbsp;<span id="updLatestLabel">${是否值236 ? 'نسخه‌ی جدید هنوز بررسی نشده' : '尚未检查最新版本'}</span>
-                </div>
-                <div style="display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:14px;">
-                    <input type="text" id="updVerUrl" placeholder="${是否值236 ? 'آدرس فایل VERSION (raw) برای بررسی نسخه جدید' : 'VERSION 文件的 raw 地址'}" style="width:100%;padding:10px;background:rgba(0,0,0,0.8);border:1px solid #c8f135;color:#c8f135;font-family:'JetBrains Mono',monospace;font-size:13px;">
-                    <input type="text" id="updSrcUrl" placeholder="${是否值236 ? 'آدرس worker-source.js جدید (raw)' : '最新 worker-source.js 的 raw 地址'}" style="width:100%;padding:10px;background:rgba(0,0,0,0.8);border:1px solid #c8f135;color:#c8f135;font-family:'JetBrains Mono',monospace;font-size:13px;">
-                    <input type="password" id="cfToken" placeholder="${是否值236 ? 'توکن API کلادفلر (فقط Workers Scripts:Edit)' : 'Cloudflare API Token（仅需 Workers Scripts:Edit）'}" style="width:100%;padding:10px;background:rgba(0,0,0,0.8);border:1px solid #c8f135;color:#c8f135;font-family:'JetBrains Mono',monospace;font-size:13px;">
-                    <input type="text" id="cfAccountId" placeholder="${是否值236 ? 'شناسه اکانت کلادفلر (Account ID)' : 'Cloudflare Account ID'}" style="width:100%;padding:10px;background:rgba(0,0,0,0.8);border:1px solid #c8f135;color:#c8f135;font-family:'JetBrains Mono',monospace;font-size:13px;">
-                    <input type="text" id="cfScriptName" placeholder="${是否值236 ? 'نام اسکریپت ورکر روی کلادفلر' : 'Worker 脚本名称'}" style="width:100%;padding:10px;background:rgba(0,0,0,0.8);border:1px solid #c8f135;color:#c8f135;font-family:'JetBrains Mono',monospace;font-size:13px;">
-                </div>
-                <div style="display:flex;gap:10px;flex-wrap:wrap;">
-                    <button type="button" id="updSaveBtn" style="background:rgba(200,241,53,0.15);border:1px solid #c8f135;padding:10px 18px;color:#c8f135;font-family:'Manrope',sans-serif;cursor:pointer;">${是否值236 ? 'ذخیره تنظیمات' : '保存设置'}</button>
-                    <button type="button" id="updCheckBtn" style="background:rgba(91,140,255,0.15);border:1px solid #5b8cff;padding:10px 18px;color:#5b8cff;font-family:'Manrope',sans-serif;cursor:pointer;">${是否值236 ? 'بررسی به‌روزرسانی' : '检查更新'}</button>
-                    <button type="button" id="updApplyBtn" style="background:rgba(61,220,132,0.15);border:1px solid #3ddc84;padding:10px 18px;color:#3ddc84;font-family:'Manrope',sans-serif;cursor:pointer;display:none;">${是否值236 ? 'دریافت و اعمال به‌روزرسانی' : '获取并应用更新'}</button>
-                </div>
-                <div id="updStatus" style="display:none;margin-top:12px;padding:10px;border:1px solid #c8f135;background:rgba(8,10,14,0.8);color:#c8f135;font-size:0.85rem;"></div>
-                <div style="margin-top:10px;color:#9aa6b8;font-size:0.75rem;">
-                    ${是否值236
-                      ? 'توکن فقط با اجازه‌ی «Workers Scripts:Edit» بساز، نه دسترسی کامل اکانت. این توکن در KV همین ورکر ذخیره می‌شود و هرگز جای دیگری فرستاده نمی‌شود.'
-                      : '请仅使用具有 "Workers Scripts:Edit" 权限的 Token，不要使用完整账户权限。该 Token 仅保存在本 Worker 的 KV 中，不会发送到任何其他地方。'}
-                </div>
-            </div>
-
-            <div class="card">
-                    <h2 class="card-title">${翻译值.relatedLinks}</h2>
-                <div style="text-align: center; margin: 20px 0;">
-                        <a href="${解码64('aHR0cHM6Ly9naXRodWIuY29tL2J5Sm9leS9jZm5ldw==')}" target="_blank" style="color: #c8f135; text-decoration: none; margin: 0 20px; font-size: 1.2rem; ">${翻译值.githubProject}</a>
-                        <a href="${解码64('aHR0cHM6Ly9naXRodWIuY29tL2J5Sm9leS95eC10b29scy9yZWxlYXNlcy8=')}" target="_blank" rel="noopener noreferrer" style="color: #c8f135; text-decoration: none; margin: 0 20px; font-size: 1.2rem; ">${翻译值.优选工具}</a>
-                    <a href="https://www.youtube.com/@joeyblog" target="_blank" style="color: #c8f135; text-decoration: none; margin: 0 20px; font-size: 1.2rem; ">YouTube @joeyblog</a>
-                </div>
-            </div>
-        </div>
-        <div id="cpToastStack" class="cp-toast-stack" aria-live="polite" aria-atomic="false"></div>
-        <div id="cpActionStatus" class="cp-action-status" role="status" aria-live="polite"></div>
-        <div id="cpActionBar" class="cp-action-bar" role="toolbar" aria-label="${翻译值.configManagement}">
-            <button type="button" id="cpBtnSaveAll" class="cp-fab-save" title="${是否值236 ? 'ذخیره همه تنظیمات' : '保存所有配置 (Ctrl+S)'}">
-                <span class="cp-fab-icon">▣</span>
-                <span>${是否值236 ? 'ذخیره همه' : '保 存 全 部'}</span>
-                <span class="cp-fab-dot" aria-hidden="true"></span>
-            </button>
-            <button type="button" id="cpBtnRefresh" class="cp-action-btn" data-tip="${翻译值.refreshConfig}" aria-label="${翻译值.refreshConfig}">
-                <span aria-hidden="true">↻</span>
-                <span class="cp-btn-label">${翻译值.refreshConfig}</span>
-            </button>
-            <button type="button" id="cpBtnReset" class="cp-action-btn cp-action-btn-danger" data-tip="${翻译值.resetConfig}" aria-label="${翻译值.resetConfig}">
-                <span aria-hidden="true">⌫</span>
-                <span class="cp-btn-label">${翻译值.resetConfig}</span>
-            </button>
-        </div>
-        <script>
-// 地址从服务器配置注入
-var 订阅转换网址 = "${订阅转换接口}";
-// 远程配置URL（硬编码）
-var 远程配置网址 = "${远程配置网址}";
-
-// 翻译对象
-const 本地值20215 = {
-  zh: {
-    subscriptionCopied: '${解码64('6K6i6ZiF6ZO+5o6l5bey5aSN5Yi2')}',
-    autoSubscriptionCopied: '${解码64('6Ieq5Yqo6K+G5Yir6K6i6ZiF6ZO+5o6l5bey5aSN5Yi277yM5a6i5oi356uv6K6/6Zeu5pe25Lya5qC55o2uVXNlci1BZ2VudOiHquWKqOivhuWIq+W5tui/lOWbnuWvueW6lOagvOW8jw==')}'
-  },
-  fa: {
-    subscriptionCopied: 'لینک اشتراک کپی شد',
-    autoSubscriptionCopied: 'لینک اشتراک تشخیص خودکار کپی شد، کلاینت هنگام دسترسی بر اساس User-Agent به طور خودکار تشخیص داده و قالب مربوطه را برمی‌گرداند'
-  }
-};
-function 获取凭据20214(名称20213) {
-  const 值20212 = '; ' + document.cookie;
-  const 部分列表20211 = 值20212.split('; ' + 名称20213 + '=');
-  if (部分列表20211.length === 2) return 部分列表20211.pop().split(';').shift();
-  return null;
-}
-const 浏览器语言20210 = navigator.language || navigator.userLanguage || '';
-const 已保存语言20209 = localStorage.getItem('preferredLanguage') || 获取凭据20214('preferredLanguage');
-let 是否值20208 = false;
-if (已保存语言20209 === 'fa' || 已保存语言20209 === 'fa-IR') {
-  是否值20208 = true;
-} else if (已保存语言20209 === 'zh' || 已保存语言20209 === 'zh-CN') {
-  是否值20208 = false;
-} else {
-  是否值20208 = 浏览器语言20210.includes('fa') || 浏览器语言20210.includes('fa-IR');
-}
-const 翻译值20207 = 本地值20215[是否值20208 ? 'fa' : 'zh'];
-function 切换语言(语言) {
-  localStorage.setItem('preferredLanguage', 语言);
-  // 设置Cookie（有效期1年）
-  const 过期日期20206 = new Date();
-  过期日期20206.setFullYear(过期日期20206.getFullYear() + 1);
-  document.cookie = 'preferredLanguage=' + 语言 + '; path=/; expires=' + 过期日期20206.toUTCString() + '; SameSite=Lax';
-  // 刷新页面，不使用URL参数
-  window.location.reload();
-}
-
-// 页面加载时检查 localStorage 和 Cookie，并清理URL参数
-window.addEventListener('DOMContentLoaded', function () {
-  const 已保存语言20205 = localStorage.getItem('preferredLanguage') || 获取凭据20214('preferredLanguage');
-  const 网址参数 = new URLSearchParams(window.location.search);
-  const 网址语言 = 网址参数.get('lang');
-
-  // 如果URL中有语言参数，移除它并设置Cookie
-  if (网址语言) {
-    const 当前网址20204 = new URL(window.location.href);
-    当前网址20204.searchParams.delete('lang');
-    const 新网址 = 当前网址20204.toString();
-
-    // 设置Cookie
-    const 过期日期20203 = new Date();
-    过期日期20203.setFullYear(过期日期20203.getFullYear() + 1);
-    document.cookie = 'preferredLanguage=' + 网址语言 + '; path=/; expires=' + 过期日期20203.toUTCString() + '; SameSite=Lax';
-    localStorage.setItem('preferredLanguage', 网址语言);
-
-    // 使用history API移除URL参数，不刷新页面
-    window.history.replaceState({}, '', 新网址);
-  } else if (已保存语言20205) {
-    // 如果localStorage中有但Cookie中没有，同步到Cookie
-    const 过期日期 = new Date();
-    过期日期.setFullYear(过期日期.getFullYear() + 1);
-    document.cookie = 'preferredLanguage=' + 已保存语言20205 + '; path=/; expires=' + 过期日期.toUTCString() + '; SameSite=Lax';
-  }
-});
-
-// 赛博朋克风 toast 通知 (替代 alert)
-window.显示提示 = function (消息20202, 类型20201, 本地值20200) {
-  本地值20200 = 本地值20200 || {};
-  var 堆栈 = document.getElementById('cpToastStack');
-  if (!堆栈) return;
-  var 类型映射 = {
-    success: '✓',
-    info: '⌬',
-    warn: '⚠',
-    error: '✕'
-  };
-  var 标题映射 = {
-    success: 'SUCCESS',
-    info: 'INFO',
-    warn: 'WARN',
-    error: 'ERROR'
-  };
-  类型20201 = 类型映射[类型20201] ? 类型20201 : 'success';
-  var 持续时间 = 本地值20200.duration || 3200;
-  var 提示 = document.createElement('div');
-  提示.className = 'cp-toast cp-toast-' + 类型20201;
-  提示.style.setProperty('--cp-toast-dur', 持续时间 + 'ms');
-  var 图标 = document.createElement('span');
-  图标.className = 'cp-toast-icon';
-  图标.textContent = 类型映射[类型20201];
-  var 主体 = document.createElement('div');
-  主体.className = 'cp-toast-body';
-  var 标题 = document.createElement('div');
-  标题.className = 'cp-toast-title';
-  标题.textContent = 本地值20200.title || 标题映射[类型20201];
-  var 消息20199 = document.createElement('div');
-  消息20199.className = 'cp-toast-msg';
-  消息20199.textContent = String(消息20202 == null ? '' : 消息20202);
-  主体.appendChild(标题);
-  主体.appendChild(消息20199);
-  var 关闭 = document.createElement('button');
-  关闭.type = 'button';
-  关闭.className = 'cp-toast-close';
-  关闭.setAttribute('aria-label', 'close');
-  关闭.textContent = '✕';
-  提示.appendChild(图标);
-  提示.appendChild(主体);
-  提示.appendChild(关闭);
-  堆栈.appendChild(提示);
-  requestAnimationFrame(function () {
-    提示.classList.add('cp-show');
-  });
-  var 本地值20198 = false;
-  function 关闭提示() {
-    if (本地值20198) return;
-    本地值20198 = true;
-    提示.classList.remove('cp-show');
-    提示.classList.add('cp-hide');
-    setTimeout(function () {
-      if (提示.parentNode) 提示.parentNode.removeChild(提示);
-    }, 400);
-  }
-  关闭.addEventListener('click', 关闭提示);
-  var 计时器 = setTimeout(关闭提示, 持续时间);
-  提示.addEventListener('mouseenter', function () {
-    clearTimeout(计时器);
-  });
-  提示.addEventListener('mouseleave', function () {
-    计时器 = setTimeout(关闭提示, 1200);
-  });
-  return {
-    dismiss: 关闭提示,
-    element: 提示
-  };
-};
-function 尝试打开应用(方案网址20197, 回退回调, 超时20196) {
-  超时20196 = 超时20196 || 2500;
-  var 应用已打开 = false;
-  var 回调已执行 = false;
-  var 开始值 = Date.now();
-  var 值值20195 = function () {
-    var 耗时20194 = Date.now() - 开始值;
-    if (耗时20194 < 3000 && !回调已执行) {
-      应用已打开 = true;
-    }
-  };
-  window.addEventListener('blur', 值值20195);
-  var 值值20193 = function () {
-    var 耗时 = Date.now() - 开始值;
-    if (耗时 < 3000 && !回调已执行) {
-      应用已打开 = true;
-    }
-  };
-  document.addEventListener('visibilitychange', 值值20193);
-  var 内嵌框架 = document.createElement('iframe');
-  内嵌框架.style.display = 'none';
-  内嵌框架.style.width = '1px';
-  内嵌框架.style.height = '1px';
-  内嵌框架.src = 方案网址20197;
-  document.body.appendChild(内嵌框架);
-  setTimeout(function () {
-    内嵌框架.parentNode && 内嵌框架.parentNode.removeChild(内嵌框架);
-    window.removeEventListener('blur', 值值20195);
-    document.removeEventListener('visibilitychange', 值值20193);
-    if (!回调已执行) {
-      回调已执行 = true;
-      if (!应用已打开 && 回退回调) {
-        回退回调();
-      }
-    }
-  }, 超时20196);
-}
-function 生成客户端链接(客户端类型, 客户端名称) {
-  var 当前网址20192 = window.location.href;
-  var 订阅网址20191 = 当前网址20192 + "/sub";
-  var 方案网址 = '';
-  var 显示名称 = 客户端名称 || '';
-  var 最终网址 = 订阅网址20191;
-  if (客户端类型 === '${解码64('djJyYXk=')}') {
-    最终网址 = 订阅网址20191;
-    var 网址值20190 = document.getElementById("clientSubscriptionUrl");
-    网址值20190.textContent = 最终网址;
-    网址值20190.style.display = "block";
-    网址值20190.style.overflowWrap = "break-word";
-    网址值20190.style.wordBreak = "break-all";
-    网址值20190.style.overflowX = "auto";
-    网址值20190.style.maxWidth = "100%";
-    网址值20190.style.boxSizing = "border-box";
-    if (客户端名称 === '${解码64('VjJSQVk=')}') {
-      navigator.clipboard.writeText(最终网址).then(function () {
-        显示提示(显示名称 + " " + 翻译值20207.subscriptionCopied, 'success');
-      });
-    } else if (客户端名称 === '${解码64('U2hhZG93cm9ja2V0')}') {
-      方案网址 = '${解码64('c2hhZG93cm9ja2V0Oi8vYWRkLw==')}' + encodeURIComponent(最终网址);
-      尝试打开应用(方案网址, function () {
-        navigator.clipboard.writeText(最终网址).then(function () {
-          显示提示(显示名称 + " " + 翻译值20207.subscriptionCopied, 'success');
-        });
-      });
-    } else if (客户端名称 === '${解码64('VjJSQVlORw==')}') {
-      方案网址 = '${解码64('djJyYXluZzovL2luc3RhbGw/dXJsPQ==')}' + encodeURIComponent(最终网址);
-      尝试打开应用(方案网址, function () {
-        navigator.clipboard.writeText(最终网址).then(function () {
-          显示提示(显示名称 + " " + 翻译值20207.subscriptionCopied, 'success');
-        });
-      });
-    } else if (客户端名称 === '${解码64('TkVLT1JBWQ==')}') {
-      方案网址 = '${解码64('bmVrb3JheTovL2luc3RhbGwtY29uZmlnP3VybD0=')}' + encodeURIComponent(最终网址);
-      尝试打开应用(方案网址, function () {
-        navigator.clipboard.writeText(最终网址).then(function () {
-          显示提示(显示名称 + " " + 翻译值20207.subscriptionCopied, 'success');
-        });
-      });
-    }
-  } else {
-    // 统一走内部格式转换
-    最终网址 = 订阅网址20191 + (订阅网址20191.includes('?') ? '&' : '?') + "target=" + 客户端类型;
-    var 网址值20190 = document.getElementById("clientSubscriptionUrl");
-    网址值20190.textContent = 最终网址;
-    网址值20190.style.display = "block";
-    网址值20190.style.overflowWrap = "break-word";
-    网址值20190.style.wordBreak = "break-all";
-    网址值20190.style.overflowX = "auto";
-    网址值20190.style.maxWidth = "100%";
-    网址值20190.style.boxSizing = "border-box";
-    if (客户端类型 === '${解码64('Y2xhc2g=')}') {
-      if (客户端名称 === '${解码64('U1RBU0g=')}') {
-        方案网址 = '${解码64('c3Rhc2g6Ly9pbnN0YWxsP3VybD0=')}' + encodeURIComponent(最终网址);
-        显示名称 = '${解码64('U1RBU0g=')}';
-      } else {
-        方案网址 = '${解码64('Y2xhc2g6Ly9pbnN0YWxsLWNvbmZpZz91cmw9')}' + encodeURIComponent(最终网址);
-        显示名称 = '${解码64('Q0xBU0g=')}';
-      }
-    } else if (客户端类型 === '${解码64('c3VyZ2U=')}') {
-      方案网址 = '${解码64('c3VyZ2U6Ly8vaW5zdGFsbC1jb25maWc/dXJsPQ==')}' + encodeURIComponent(最终网址);
-      显示名称 = '${解码64('U1VSR0U=')}';
-    } else if (客户端类型 === '${解码64('c2luZ2JveA==')}') {
-      方案网址 = '${解码64('c2luZy1ib3g6Ly9pbnN0YWxsLWNvbmZpZz91cmw9')}' + encodeURIComponent(最终网址);
-      显示名称 = '${解码64('U0lORy1CT1g=')}';
-    } else if (客户端类型 === '${解码64('bG9vbg==')}') {
-      方案网址 = '${解码64('bG9vbjovL2luc3RhbGw/dXJsPQ==')}' + encodeURIComponent(最终网址);
-      显示名称 = '${解码64('TE9PTg==')}';
-    } else if (客户端类型 === '${解码64('cXVhbng=')}') {
-      方案网址 = '${解码64('cXVhbnR1bXVsdC14Oi8vaW5zdGFsbC1jb25maWc/dXJsPQ==')}' + encodeURIComponent(最终网址);
-      显示名称 = '${解码64('UVVBTlRVTVVMVCBY')}';
-    }
-    if (方案网址) {
-      尝试打开应用(方案网址, function () {
-        navigator.clipboard.writeText(最终网址).then(function () {
-          显示提示(显示名称 + " " + 翻译值20207.subscriptionCopied, 'success');
-        });
-      });
-    } else {
-      navigator.clipboard.writeText(最终网址).then(function () {
-        显示提示(显示名称 + " " + 翻译值20207.subscriptionCopied, 'success');
-      });
-    }
-  }
-}
-
-// 页面特效图形化开关 (localStorage 持久化)
-window.应用页面特效 = function () {
-  var 本地值20189 = localStorage.getItem('cp-fx-off') === '1';
-  document.body.classList.toggle('fx-off', 本地值20189);
-  var 本地值20188 = document.getElementById('cpFxLabel');
-  if (本地值20188) 本地值20188.textContent = 本地值20189 ? 'FX: OFF' : 'FX: ON';
-  if (本地值20189) {
-    var 本地值20187 = document.getElementById('matrixCodeRain');
-    if (本地值20187) 本地值20187.innerHTML = '';
-  } else if (typeof 创建矩阵雨 === 'function') {
-    var 结果值 = document.getElementById('matrixCodeRain');
-    if (结果值 && !结果值.firstChild) 创建矩阵雨();
-  }
-};
-window.切换页面特效 = function () {
-  var 本地值20186 = localStorage.getItem('cp-fx-off') === '1';
-  localStorage.setItem('cp-fx-off', 本地值20186 ? '0' : '1');
-  window.应用页面特效();
-};
-(function () {
-  if (localStorage.getItem('cp-fx-off') === '1') {
-    document.addEventListener('DOMContentLoaded', function () {
-      document.body.classList.add('fx-off');
-      var 本地值20185 = document.getElementById('cpFxLabel');
-      if (本地值20185) 本地值20185.textContent = 'FX: OFF';
-    });
-  }
-})();
-function 创建矩阵雨() {
-  if (document.body && document.body.classList.contains('fx-off')) return;
-  const 矩阵值 = document.getElementById('matrixCodeRain');
-  if (!矩阵值) return;
-  const 赛博字符列表 = '01アイウエオカキクケコサシスセソタチツテトナニヌネノ$%#@!?<>+=ABCDEF';
-  const 调色板 = ['#c8f135', '#5b8cff', '#ffb454', '#3ddc84'];
-  const 列数 = Math.floor(window.innerWidth / 20);
-  for (let 索引值20184 = 0; 索引值20184 < 列数; 索引值20184++) {
-    const 列20183 = document.createElement('div');
-    列20183.className = 'matrix-column';
-    列20183.style.left = 索引值20184 * 20 + 'px';
-    列20183.style.animationDelay = -Math.random() * 15 + 's';
-    列20183.style.animationDuration = Math.random() * 14 + 8 + 's';
-    列20183.style.fontSize = Math.random() * 4 + 12 + 'px';
-    列20183.style.opacity = (Math.random() * 0.7 + 0.3).toFixed(2);
-    let 文本20182 = '';
-    const 字符数量 = Math.floor(Math.random() * 30 + 18);
-    for (let 次索引值 = 0; 次索引值 < 字符数量; 次索引值++) {
-      const 字符 = 赛博字符列表[Math.floor(Math.random() * 赛博字符列表.length)];
-      const 值强调 = Math.random() > 0.85;
-      const 颜色 = 值强调 ? 调色板[Math.floor(Math.random() * 调色板.length)] : '';
-      文本20182 += 颜色 ? '<span style="color:' + 颜色 + ';">' + 字符 + '</span><br>' : '<span>' + 字符 + '</span><br>';
-    }
-    列20183.innerHTML = 文本20182;
-    矩阵值.appendChild(列20183);
-  }
-  setInterval(function () {
-    const 列列表 = 矩阵值.querySelectorAll('.matrix-column');
-    列列表.forEach(function (列) {
-      if (Math.random() > 0.94) {
-        const 字符列表 = 列.querySelectorAll('span');
-        if (字符列表.length > 0) {
-          const 目标20181 = 字符列表[Math.floor(Math.random() * 字符列表.length)];
-          const 本地值20180 = 目标20181.style.color;
-          目标20181.style.color = '#ffffff';
-          目标20181.style.textShadow = '0 0 10px #ffffff, 0 0 18px #c8f135';
-          setTimeout(function () {
-            目标20181.style.color = 本地值20180;
-            目标20181.style.textShadow = '';
-          }, 200);
-        }
-      }
-    });
-  }, 110);
-}
-async function 检查系统状态() {
-  try {
-    const 云墙状态 = document.getElementById('cfStatus');
-    const 地区状态 = document.getElementById('regionStatus');
-    const 值值20179 = document.getElementById('geoInfo');
-    const 备用状态 = document.getElementById('backupStatus');
-    const 当前地址 = document.getElementById('currentIP');
-    const 地区值 = document.getElementById('regionMatch');
-
-    // 获取当前语言设置（优先从Cookie/localStorage读取）
-    function 获取凭据20178(名称20177) {
-      const 值20176 = '; ' + document.cookie;
-      const 部分列表20175 = 值20176.split('; ' + 名称20177 + '=');
-      if (部分列表20175.length === 2) return 部分列表20175.pop().split(';').shift();
-      return null;
-    }
-    const 浏览器语言20174 = navigator.language || navigator.userLanguage || '';
-    const 已保存语言20173 = localStorage.getItem('preferredLanguage') || 获取凭据20178('preferredLanguage');
-    let 是否值20172 = false;
-    if (已保存语言20173 === 'fa' || 已保存语言20173 === 'fa-IR') {
-      是否值20172 = true;
-    } else if (已保存语言20173 === 'zh' || 已保存语言20173 === 'zh-CN') {
-      是否值20172 = false;
-    } else {
-      是否值20172 = 浏览器语言20174.includes('fa') || 浏览器语言20174.includes('fa-IR');
-    }
-    const 本地值20171 = {
-      zh: {
-        workerRegion: 'Worker地区: ',
-        detectionMethod: '检测方式: ',
-        pipStatus: '${解码64('UHJveHlJUOeKtuaAgTog')}',
-        currentIP: '当前使用IP: ',
-        regionMatch: '地区匹配: ',
-        regionNames: {
-          'HK': '🇭🇰 香港',
-          'US': '🇺🇸 美国',
-          'SG': '🇸🇬 新加坡',
-          'JP': '🇯🇵 日本',
-          'KR': '🇰🇷 韩国',
-          'DE': '🇩🇪 德国',
-          'SE': '🇸🇪 瑞典',
-          'NL': '🇳🇱 荷兰',
-          'FI': '🇫🇮 芬兰',
-          'GB': '🇬🇧 英国'
-        },
-        customIPMode: '${解码64('6Ieq5a6a5LmJUHJveHlJUOaooeW8jyAocOWPmOmHj+WQr+eUqCk=')}',
-        customIPModeDesc: '自定义IP模式 (已禁用地区匹配)',
-        customPipLabel: '${解码64('5L2/55So6Ieq5a6a5LmJUHJveHlJUDog')}',
-        customIPConfig: ' (p变量配置)',
-        customIPModeDisabled: '自定义IP模式，地区选择已禁用',
-        manualRegion: '手动指定地区',
-        manualRegionDesc: ' (手动指定)',
-        pipAvailLabel: '${解码64('MTAvMTAg5Y+v55SoIChQcm94eUlQ5Z+f5ZCN6aKE6K6+5Y+v55SoKQ==')}',
-        smartSelection: '智能就近选择中',
-        sameRegionIP: '同地区IP可用 (1个)',
-        cloudflareDetection: 'Cloudflare内置检测',
-        detectionFailed: '检测失败',
-        unknown: '未知'
-      },
-      fa: {
-        workerRegion: 'منطقه Worker: ',
-        detectionMethod: 'روش تشخیص: ',
-        pipStatus: '${解码64('2YjYtti524zYqiBQcm94eUlQOiA=')}',
-        currentIP: 'IP فعلی: ',
-        regionMatch: 'تطبیق منطقه: ',
-        regionNames: {
-          'HK': '🇭🇰 هنگ کنگ',
-          'US': '🇺🇸 آمریکا',
-          'SG': '🇸🇬 سنگاپور',
-          'JP': '🇯🇵 ژاپن',
-          'KR': '🇰🇷 کره جنوبی',
-          'DE': '🇩🇪 آلمان',
-          'SE': '🇸🇪 سوئد',
-          'NL': '🇳🇱 هلند',
-          'FI': '🇫🇮 فنلاند',
-          'GB': '🇬🇧 بریتانیا'
-        },
-        customIPMode: '${解码64('2K3Yp9mE2KogUHJveHlJUCDYs9mB2KfYsdi024wgKNmF2KrYutuM2LEgcCDZgdi52KfZhCDYp9iz2Kop')}',
-        customIPModeDesc: 'حالت IP سفارشی (تطبیق منطقه غیرفعال است)',
-        customPipLabel: '${解码64('2KfYs9iq2YHYp9iv2Ycg2KfYsiBQcm94eUlQINiz2YHYp9ix2LTbjDog')}',
-        customIPConfig: ' (پیکربندی متغیر p)',
-        customIPModeDisabled: 'حالت IP سفارشی، انتخاب منطقه غیرفعال است',
-        manualRegion: 'تعیین منطقه دستی',
-        manualRegionDesc: ' (تعیین دستی)',
-        pipAvailLabel: '${解码64('MTAvMTAg2K/YsSDYr9iz2KrYsdizICjYr9in2YXZhtmHINm+24zYtOKAjNmB2LHYtiBQcm94eUlQINiv2LEg2K/Ys9iq2LHYsyDYp9iz2Kop')}',
-        smartSelection: 'انتخاب هوشمند نزدیک در حال انجام است',
-        sameRegionIP: 'IP هم‌منطقه در دسترس است (1)',
-        cloudflareDetection: 'تشخیص داخلی Cloudflare',
-        detectionFailed: 'تشخیص ناموفق',
-        unknown: 'ناشناخته'
-      }
-    };
-    const 翻译值20170 = 本地值20171[是否值20172 ? 'fa' : 'zh'];
-    let 值地区20169 = 'US'; // 默认值
-    let 是否自定义地址值 = false;
-    let 是否手动地区值 = false;
-    try {
-      const 响应20168 = await fetch(window.location.pathname + '/region');
-      const 数据20167 = await 响应20168.json();
-      if (数据20167.region === 'CUSTOM') {
-        是否自定义地址值 = true;
-        值地区20169 = 'CUSTOM';
-
-        // 获取自定义IP的详细信息
-        const 自定义地址值 = 数据20167.ci || 翻译值20170.unknown;
-        值值20179.innerHTML = 翻译值20170.detectionMethod + '<span style="color: #ffb454;">⚙️ ' + 翻译值20170.customIPMode + '</span>';
-        地区状态.innerHTML = 翻译值20170.workerRegion + '<span style="color: #ffb454;">🔧 ' + 翻译值20170.customIPModeDesc + '</span>';
-
-        // 显示自定义IP配置状态，包含具体IP
-        if (备用状态) 备用状态.innerHTML = 翻译值20170.pipStatus + '<span style="color: #ffb454;">🔧 ' + 翻译值20170.customPipLabel + 自定义地址值 + '</span>';
-        if (当前地址) 当前地址.innerHTML = 翻译值20170.currentIP + '<span style="color: #ffb454;">✅ ' + 自定义地址值 + 翻译值20170.customIPConfig + '</span>';
-        if (地区值) 地区值.innerHTML = 翻译值20170.regionMatch + '<span style="color: #ffb454;">⚠️ ' + 翻译值20170.customIPModeDisabled + '</span>';
-        return; // 提前返回，不执行后续的地区匹配逻辑
-      } else if (数据20167.detectionMethod === '手动指定地区' || 数据20167.detectionMethod === 'تعیین منطقه دستی') {
-        是否手动地区值 = true;
-        值地区20169 = 数据20167.region;
-        值值20179.innerHTML = 翻译值20170.detectionMethod + '<span style="color: #3ddc84;">' + 翻译值20170.manualRegion + '</span>';
-        地区状态.innerHTML = 翻译值20170.workerRegion + '<span style="color: #3ddc84;">🎯 ' + 翻译值20170.regionNames[值地区20169] + 翻译值20170.manualRegionDesc + '</span>';
-
-        // 显示配置状态而不是检测状态
-        if (备用状态) 备用状态.innerHTML = 翻译值20170.pipStatus + '<span style="color: #3ddc84;">✅ ' + 翻译值20170.pipAvailLabel + '</span>';
-        if (当前地址) 当前地址.innerHTML = 翻译值20170.currentIP + '<span style="color: #3ddc84;">✅ ' + 翻译值20170.smartSelection + '</span>';
-        if (地区值) 地区值.innerHTML = 翻译值20170.regionMatch + '<span style="color: #3ddc84;">✅ ' + 翻译值20170.sameRegionIP + '</span>';
-        return; // 提前返回，不执行后续的地区匹配逻辑
-      } else if (数据20167.region && 翻译值20170.regionNames[数据20167.region]) {
-        值地区20169 = 数据20167.region;
-      }
-      值值20179.innerHTML = 翻译值20170.detectionMethod + '<span style="color: #3ddc84;">' + 翻译值20170.cloudflareDetection + '</span>';
-    } catch (事件值20166) {
-      值值20179.innerHTML = 翻译值20170.detectionMethod + '<span style="color: #ff5d73;">' + 翻译值20170.detectionFailed + '</span>';
-    }
-    地区状态.innerHTML = 翻译值20170.workerRegion + '<span style="color: #3ddc84;">✅ ' + 翻译值20170.regionNames[值地区20169] + '</span>';
-
-    // 直接显示配置状态，不再进行检测
-    if (备用状态) {
-      备用状态.innerHTML = 翻译值20170.pipStatus + '<span style="color: #3ddc84;">✅ ' + 翻译值20170.pipAvailLabel + '</span>';
-    }
-    if (当前地址) {
-      当前地址.innerHTML = 翻译值20170.currentIP + '<span style="color: #3ddc84;">✅ ' + 翻译值20170.smartSelection + '</span>';
-    }
-    if (地区值) {
-      地区值.innerHTML = 翻译值20170.regionMatch + '<span style="color: #3ddc84;">✅ ' + 翻译值20170.sameRegionIP + '</span>';
-    }
-  } catch (错误20165) {
-    function 获取凭据20164(名称20163) {
-      const 值20162 = '; ' + document.cookie;
-      const 部分列表20161 = 值20162.split('; ' + 名称20163 + '=');
-      if (部分列表20161.length === 2) return 部分列表20161.pop().split(';').shift();
-      return null;
-    }
-    const 浏览器语言20160 = navigator.language || navigator.userLanguage || '';
-    const 已保存语言20159 = localStorage.getItem('preferredLanguage') || 获取凭据20164('preferredLanguage');
-    let 是否值20158 = false;
-    if (已保存语言20159 === 'fa' || 已保存语言20159 === 'fa-IR') {
-      是否值20158 = true;
-    } else {
-      是否值20158 = 浏览器语言20160.includes('fa') || 浏览器语言20160.includes('fa-IR');
-    }
-    const 本地值20157 = {
-      zh: {
-        workerRegion: 'Worker地区: ',
-        detectionMethod: '检测方式: ',
-        pipStatus: '${解码64('UHJveHlJUOeKtuaAgTog')}',
-        currentIP: '当前使用IP: ',
-        regionMatch: '地区匹配: ',
-        detectionFailed: '检测失败'
-      },
-      fa: {
-        workerRegion: 'منطقه Worker: ',
-        detectionMethod: 'روش تشخیص: ',
-        pipStatus: '${解码64('2YjYtti524zYqiBQcm94eUlQOiA=')}',
-        currentIP: 'IP فعلی: ',
-        regionMatch: 'تطبیق منطقه: ',
-        detectionFailed: 'تشخیص ناموفق'
-      }
-    };
-    const 翻译值20156 = 本地值20157[是否值20158 ? 'fa' : 'zh'];
-    document.getElementById('regionStatus').innerHTML = 翻译值20156.workerRegion + '<span style="color: #ff5d73;">❌ ' + 翻译值20156.detectionFailed + '</span>';
-    document.getElementById('geoInfo').innerHTML = 翻译值20156.detectionMethod + '<span style="color: #ff5d73;">❌ ' + 翻译值20156.detectionFailed + '</span>';
-    document.getElementById('backupStatus').innerHTML = 翻译值20156.pipStatus + '<span style="color: #ff5d73;">❌ ' + 翻译值20156.detectionFailed + '</span>';
-    document.getElementById('currentIP').innerHTML = 翻译值20156.currentIP + '<span style="color: #ff5d73;">❌ ' + 翻译值20156.detectionFailed + '</span>';
-    document.getElementById('regionMatch').innerHTML = 翻译值20156.regionMatch + '<span style="color: #ff5d73;">❌ ' + 翻译值20156.detectionFailed + '</span>';
-  }
-}
-async function 测试接口() {
-  try {
-    function 获取凭据20155(名称20154) {
-      const 值20153 = '; ' + document.cookie;
-      const 部分列表20152 = 值20153.split('; ' + 名称20154 + '=');
-      if (部分列表20152.length === 2) return 部分列表20152.pop().split(';').shift();
-      return null;
-    }
-    const 浏览器语言20151 = navigator.language || navigator.userLanguage || '';
-    const 已保存语言20150 = localStorage.getItem('preferredLanguage') || 获取凭据20155('preferredLanguage');
-    let 是否值20149 = false;
-    if (已保存语言20150 === 'fa' || 已保存语言20150 === 'fa-IR') {
-      是否值20149 = true;
-    } else {
-      是否值20149 = 浏览器语言20151.includes('fa') || 浏览器语言20151.includes('fa-IR');
-    }
-    const 本地值20148 = {
-      zh: {
-        apiTestResult: 'API检测结果: ',
-        apiTestTime: '检测时间: ',
-        apiTestFailed: 'API检测失败: ',
-        unknownError: '未知错误',
-        apiTestError: 'API测试失败: '
-      },
-      fa: {
-        apiTestResult: 'نتیجه تشخیص API: ',
-        apiTestTime: 'زمان تشخیص: ',
-        apiTestFailed: 'تشخیص API ناموفق: ',
-        unknownError: 'خطای ناشناخته',
-        apiTestError: 'تست API ناموفق: '
-      }
-    };
-    const 翻译值20147 = 本地值20148[是否值20149 ? 'fa' : 'zh'];
-    const 响应20146 = await fetch(window.location.pathname + '/test-api');
-    const 数据20145 = await 响应20146.json();
-    if (数据20145.detectedRegion) {
-      显示提示(翻译值20147.apiTestResult + 数据20145.detectedRegion + '\\n' + 翻译值20147.apiTestTime + 数据20145.timestamp, 'info', {
-        duration: 5000
-      });
-    } else {
-      显示提示(翻译值20147.apiTestFailed + (数据20145.error || 翻译值20147.unknownError), 'error', {
-        duration: 4500
-      });
-    }
-  } catch (错误20144) {
-    function 获取凭据20143(名称20142) {
-      const 值20141 = '; ' + document.cookie;
-      const 部分列表20140 = 值20141.split('; ' + 名称20142 + '=');
-      if (部分列表20140.length === 2) return 部分列表20140.pop().split(';').shift();
-      return null;
-    }
-    const 浏览器语言20139 = navigator.language || navigator.userLanguage || '';
-    const 已保存语言20138 = localStorage.getItem('preferredLanguage') || 获取凭据20143('preferredLanguage');
-    let 是否值20137 = false;
-    if (已保存语言20138 === 'fa' || 已保存语言20138 === 'fa-IR') {
-      是否值20137 = true;
-    } else {
-      是否值20137 = 浏览器语言20139.includes('fa') || 浏览器语言20139.includes('fa-IR');
-    }
-    const 本地值20136 = {
-      zh: {
-        apiTestError: 'API测试失败: '
-      },
-      fa: {
-        apiTestError: 'تست API ناموفق: '
-      }
-    };
-    const 翻译值20135 = 本地值20136[是否值20137 ? 'fa' : 'zh'];
-    显示提示(翻译值20135.apiTestError + 错误20144.message, 'error', {
-      duration: 4500
-    });
-  }
-}
-
-// 配置管理相关函数
-async function 检查键值状态() {
-  const 接口网址20134 = window.location.pathname + '/api/config';
-  try {
-    const 响应20133 = await fetch(接口网址20134);
-    function 获取凭据20132(名称20131) {
-      const 值20130 = '; ' + document.cookie;
-      const 部分列表20129 = 值20130.split('; ' + 名称20131 + '=');
-      if (部分列表20129.length === 2) return 部分列表20129.pop().split(';').shift();
-      return null;
-    }
-    const 浏览器语言20128 = navigator.language || navigator.userLanguage || '';
-    const 已保存语言20127 = localStorage.getItem('preferredLanguage') || 获取凭据20132('preferredLanguage');
-    let 是否值20126 = false;
-    if (已保存语言20127 === 'fa' || 已保存语言20127 === 'fa-IR') {
-      是否值20126 = true;
-    } else {
-      是否值20126 = 浏览器语言20128.includes('fa') || 浏览器语言20128.includes('fa-IR');
-    }
-    const 本地值20125 = {
-      zh: {
-        kvDisabled: '⚠️ KV存储未启用或未配置',
-        kvNotConfigured: 'KV存储未配置，无法使用配置管理功能。\\n\\n请在Cloudflare Workers中:\\n1. 创建KV命名空间\\n2. 绑定环境变量 C\\n3. 重新部署代码',
-        kvNotEnabled: 'KV存储未配置',
-        kvEnabled: '✅ KV存储已启用，可以使用配置管理功能',
-        kvCheckFailed: '⚠️ KV存储检测失败',
-        kvCheckFailedFormat: 'KV存储检测失败: 响应格式错误',
-        kvCheckFailedStatus: 'KV存储检测失败 - 状态码: ',
-        kvCheckFailedError: 'KV存储检测失败 - 错误: '
-      },
-      fa: {
-        kvDisabled: '⚠️ ذخیره‌سازی KV فعال نیست یا پیکربندی نشده است',
-        kvNotConfigured: 'ذخیره‌سازی KV پیکربندی نشده است، نمی‌توانید از عملکرد مدیریت تنظیمات استفاده کنید.\\n\\nلطفا در Cloudflare Workers:\\n1. فضای نام KV ایجاد کنید\\n2. متغیر محیطی C را پیوند دهید\\n3. کد را دوباره مستقر کنید',
-        kvNotEnabled: 'ذخیره‌سازی KV پیکربندی نشده است',
-        kvEnabled: '✅ ذخیره‌سازی KV فعال است، می‌توانید از مدیریت تنظیمات استفاده کنید',
-        kvCheckFailed: '⚠️ بررسی ذخیره‌سازی KV ناموفق',
-        kvCheckFailedFormat: 'بررسی ذخیره‌سازی KV ناموفق: خطای فرمت پاسخ',
-        kvCheckFailedStatus: 'بررسی ذخیره‌سازی KV ناموفق - کد وضعیت: ',
-        kvCheckFailedError: 'بررسی ذخیره‌سازی KV ناموفق - خطا: '
-      }
-    };
-    const 翻译值20124 = 本地值20125[是否值20126 ? 'fa' : 'zh'];
-    if (响应20133.status === 503) {
-      // KV未配置
-      document.getElementById('kvStatus').innerHTML = '<span style="color: #ffb454;">' + 翻译值20124.kvDisabled + '</span>';
-      document.getElementById('configCard').style.display = 'block';
-      document.getElementById('currentConfig').textContent = 翻译值20124.kvNotConfigured;
-    } else if (响应20133.ok) {
-      try {
-        const 数据20123 = await 响应20133.json();
-
-        // 检查响应是否包含KV配置信息
-        if (数据20123 && 数据20123.kvEnabled === true) {
-          document.getElementById('kvStatus').innerHTML = '<span style="color: #3ddc84;">' + 翻译值20124.kvEnabled + '</span>';
-          document.getElementById('configContent').style.display = 'block';
-          document.getElementById('configCard').style.display = 'block';
-          await 加载当前配置();
-        } else {
-          document.getElementById('kvStatus').innerHTML = '<span style="color: #ffb454;">' + 翻译值20124.kvDisabled + '</span>';
-          document.getElementById('configCard').style.display = 'block';
-          document.getElementById('currentConfig').textContent = 翻译值20124.kvNotEnabled;
-        }
-      } catch (数据对象错误) {
-        document.getElementById('kvStatus').innerHTML = '<span style="color: #ffb454;">' + 翻译值20124.kvCheckFailed + '</span>';
-        document.getElementById('configCard').style.display = 'block';
-        document.getElementById('currentConfig').textContent = 翻译值20124.kvCheckFailedFormat;
-      }
-    } else {
-      document.getElementById('kvStatus').innerHTML = '<span style="color: #ffb454;">' + 翻译值20124.kvDisabled + '</span>';
-      document.getElementById('configCard').style.display = 'block';
-      document.getElementById('currentConfig').textContent = 翻译值20124.kvCheckFailedStatus + 响应20133.status;
-    }
-  } catch (错误20122) {
-    function 获取凭据(名称) {
-      const 值20121 = '; ' + document.cookie;
-      const 部分列表20120 = 值20121.split('; ' + 名称 + '=');
-      if (部分列表20120.length === 2) return 部分列表20120.pop().split(';').shift();
-      return null;
-    }
-    const 浏览器语言 = navigator.language || navigator.userLanguage || '';
-    const 已保存语言 = localStorage.getItem('preferredLanguage') || 获取凭据('preferredLanguage');
-    let 是否值 = false;
-    if (已保存语言 === 'fa' || 已保存语言 === 'fa-IR') {
-      是否值 = true;
-    } else {
-      是否值 = 浏览器语言.includes('fa') || 浏览器语言.includes('fa-IR');
-    }
-    const 本地值20119 = {
-      zh: {
-        kvDisabled: '⚠️ KV存储未启用或未配置',
-        kvCheckFailedError: 'KV存储检测失败 - 错误: '
-      },
-      fa: {
-        kvDisabled: '⚠️ ذخیره‌سازی KV فعال نیست یا پیکربندی نشده است',
-        kvCheckFailedError: 'بررسی ذخیره‌سازی KV ناموفق - خطا: '
-      }
-    };
-    const 翻译值20118 = 本地值20119[是否值 ? 'fa' : 'zh'];
-    document.getElementById('kvStatus').innerHTML = '<span style="color: #ffb454;">' + 翻译值20118.kvDisabled + '</span>';
-    document.getElementById('configCard').style.display = 'block';
-    document.getElementById('currentConfig').textContent = 翻译值20118.kvCheckFailedError + 错误20122.message;
-  }
-}
-function 读取字段值(标识) {
-  const 元素 = document.getElementById(标识);
-  return 元素 ? 元素.value : '';
-}
-
-function 写入字段值(标识, 值 = '') {
-  const 元素 = document.getElementById(标识);
-  if (元素) 元素.value = 值 || '';
-}
-
-function 是否开关启用(值, 默认启用 = false) {
-  if (值 === undefined || 值 === null || 值 === '') return 默认启用;
-  if (值 === true || 值 === false) return 值;
-  const 文本 = String(值).trim().toLowerCase();
-  if (文本 === 'yes' || 文本 === 'true' || 文本 === '1' || 文本 === 'on') return true;
-  if (文本 === 'no' || 文本 === 'false' || 文本 === '0' || 文本 === 'off') return false;
-  return 默认启用;
-}
-
-function 写入开关值(标识, 值, 默认启用 = false) {
-  const 元素 = document.getElementById(标识);
-  if (元素) 元素.checked = 是否开关启用(值, 默认启用);
-}
-
-function 读取开关值(标识, 默认启用 = false) {
-  const 元素 = document.getElementById(标识);
-  if (!元素) return 默认启用 ? 'yes' : 'no';
-  return 元素.checked ? 'yes' : 'no';
-}
-
-function 同步协议界面状态() {
-  const 明文开关 = document.getElementById('ev');
-  const 木马开关 = document.getElementById('et');
-  const 扩展开关 = document.getElementById('ex');
-  if (明文开关 && 木马开关 && 扩展开关 && !明文开关.checked && !木马开关.checked && !扩展开关.checked) {
-    明文开关.checked = true;
-  }
-}
-
-function 同步联动界面状态() {
-  同步协议界面状态();
-  const 加密客户端问候复选框 = document.getElementById('ech');
-  const 端口控制 = document.getElementById('portControl');
-  if (加密客户端问候复选框 && 端口控制 && 加密客户端问候复选框.checked) {
-    端口控制.value = 'yes';
-  }
-  更新路径类型状态(读取字段值('customPath'));
-  更新工作器地区状态();
-}
-
-function 应用配置到界面(配置) {
-  写入字段值('wkRegion', 配置.wk);
-  写入开关值('ev', 配置.ev, true);
-  写入开关值('et', 配置.et, false);
-  写入开关值('ex', 配置.ex, false);
-  写入开关值('ech', 配置.ech, false);
-  写入字段值('tp', 配置.tp);
-  写入字段值('customDNS', 配置.customDNS);
-  写入字段值('customECHDomain', 配置.customECHDomain);
-  写入字段值('alpn', 配置.alpn);
-  写入字段值('scu', 配置.scu);
-  写入开关值('ena', 配置.ena, false);
-  写入开关值('epd', 配置.epd, true);
-  写入开关值('epi', 配置.epi, true);
-  写入开关值('egi', 配置.egi, true);
-  写入开关值('ipv4Enabled', 配置.ipv4, true);
-  写入开关值('ipv6Enabled', 配置.ipv6, true);
-  写入开关值('ispMobile', 配置.ispMobile, true);
-  写入开关值('ispUnicom', 配置.ispUnicom, true);
-  写入开关值('ispTelecom', 配置.ispTelecom, true);
-  写入字段值('customPath', 配置.d);
-  写入字段值('customIP', 配置.p);
-  写入字段值('yx', 配置.yx);
-  写入字段值('yxURL', 配置.yxURL);
-  写入字段值('socksConfig', 配置.s);
-  写入字段值('customHomepage', 配置.homepage);
-  写入字段值('apiEnabled', 配置.ae);
-  写入字段值('regionMatching', 配置.rm);
-  写入字段值('downgradeControl', 配置.qj);
-  写入字段值('portControl', 配置.dkby);
-  写入字段值('preferredControl', 配置.yxby);
-  写入字段值('updVerUrl', 配置.updVerUrl);
-  写入字段值('updSrcUrl', 配置.updSrcUrl);
-  写入字段值('cfToken', 配置.cfToken);
-  写入字段值('cfAccountId', 配置.cfAccountId);
-  写入字段值('cfScriptName', 配置.cfScriptName);
-  同步联动界面状态();
-}
-
-function 收集界面配置() {
-  const 配置 = {
-    wk: 读取字段值('wkRegion'),
-    ev: 读取开关值('ev', true),
-    et: 读取开关值('et', false),
-    ex: 读取开关值('ex', false),
-    ech: 读取开关值('ech', false),
-    tp: 读取字段值('tp'),
-    customDNS: 读取字段值('customDNS'),
-    customECHDomain: 读取字段值('customECHDomain'),
-    alpn: 读取字段值('alpn'),
-    d: 读取字段值('customPath'),
-    p: 读取字段值('customIP'),
-    yx: 读取字段值('yx'),
-    yxURL: 读取字段值('yxURL'),
-    s: 读取字段值('socksConfig'),
-    homepage: 读取字段值('customHomepage'),
-    scu: 读取字段值('scu'),
-    ena: 读取开关值('ena', false),
-    epd: 读取开关值('epd', true),
-    epi: 读取开关值('epi', true),
-    egi: 读取开关值('egi', true),
-    ae: 读取字段值('apiEnabled'),
-    rm: 读取字段值('regionMatching'),
-    qj: 读取字段值('downgradeControl'),
-    dkby: 读取字段值('portControl'),
-    yxby: 读取字段值('preferredControl'),
-    ipv4: 读取开关值('ipv4Enabled', true),
-    ipv6: 读取开关值('ipv6Enabled', true),
-    ispMobile: 读取开关值('ispMobile', true),
-    ispUnicom: 读取开关值('ispUnicom', true),
-    ispTelecom: 读取开关值('ispTelecom', true),
-    updVerUrl: 读取字段值('updVerUrl'),
-    updSrcUrl: 读取字段值('updSrcUrl'),
-    cfToken: 读取字段值('cfToken'),
-    cfAccountId: 读取字段值('cfAccountId'),
-    cfScriptName: 读取字段值('cfScriptName')
-  };
-  if (配置.ev === 'no' && 配置.et === 'no' && 配置.ex === 'no') {
-    配置.ev = 'yes';
-    写入开关值('ev', 'yes', true);
-  }
-  if (配置.ech === 'yes') {
-    配置.dkby = 'yes';
-    写入字段值('portControl', 'yes');
-  }
-  return 配置;
-}
-
-async function 加载当前配置() {
-  const 接口网址20117 = window.location.pathname + '/api/config';
-  try {
-    const 响应20116 = await fetch(接口网址20117);
-    if (响应20116.status === 503) {
-      document.getElementById('currentConfig').textContent = 'KV存储未配置，无法加载配置';
-      return;
-    }
-    if (!响应20116.ok) {
-      const 错误文本20115 = await 响应20116.text();
-      document.getElementById('currentConfig').textContent = '加载配置失败: ' + 错误文本20115;
-      return;
-    }
-    const 配置 = await 响应20116.json();
-
-    // 过滤掉内部字段 kvEnabled
-    const 显示配置 = {};
-    for (const [键20114, 值20113] of Object.entries(配置)) {
-      if (键20114 !== 'kvEnabled') {
-        显示配置[键20114] = 值20113;
-      }
-    }
-    let 配置文本 = '当前配置:\\n';
-    if (Object.keys(显示配置).length === 0) {
-      配置文本 += '(暂无配置)';
-    } else {
-      for (const [键, 值20112] of Object.entries(显示配置)) {
-        配置文本 += 键 + ': ' + (值20112 || '(未设置)') + '\\n';
-      }
-    }
-    document.getElementById('currentConfig').textContent = 配置文本;
-
-    应用配置到界面(配置);
-  } catch (错误20111) {
-    document.getElementById('currentConfig').textContent = '加载配置失败: ' + 错误20111.message;
-  }
-}
-
-// 更新路径类型显示
-function 更新路径类型状态(自定义路径) {
-  const 路径类型状态 = document.getElementById('pathTypeStatus');
-  const 当前网址20110 = window.location.href;
-  const 路径部分列表 = window.location.pathname.split('/').filter(参数值20109 => 参数值20109);
-  const 当前路径 = 路径部分列表.length > 0 ? 路径部分列表[0] : '';
-  if (自定义路径 && 自定义路径.trim()) {
-    // 使用自定义路径 (d)
-    路径类型状态.innerHTML = '<div style="color: #3ddc84;">使用类型: <strong>自定义路径 (d)</strong></div>' + '<div style="margin-top: 5px; color: #c8f135;">当前路径: <span style="color: #ffb454;">' + 自定义路径 + '</span></div>' + '<div style="margin-top: 5px; font-size: 0.9rem; color: #9aa6b8;">访问地址: ' + (当前网址20110.split('/')[0] + '//' + 当前网址20110.split('/')[2]) + 自定义路径 + '/sub</div>';
-  } else {
-    // 使用 UUID (u)
-    路径类型状态.innerHTML = '<div style="color: #3ddc84;">使用类型: <strong>UUID 路径 (u)</strong></div>' + '<div style="margin-top: 5px; color: #c8f135;">当前路径: <span style="color: #ffb454;">' + (当前路径 || '(UUID)') + '</span></div>' + '<div style="margin-top: 5px; font-size: 0.9rem; color: #9aa6b8;">访问地址: ' + 当前网址20110.split('/sub')[0] + '/sub</div>';
-  }
-}
-
-// 更新wk地区选择的启用/禁用状态
-function 更新工作器地区状态() {
-  const 自定义地址输入20108 = document.getElementById('customIP');
-  const 值地区 = document.getElementById('wkRegion');
-  const 值地区值 = document.getElementById('wkRegionHint');
-  if (自定义地址输入20108 && 值地区) {
-    const 是否有自定义地址 = 自定义地址输入20108.value.trim() !== '';
-    值地区.disabled = 是否有自定义地址;
-
-    // 添加视觉反馈
-    if (是否有自定义地址) {
-      值地区.style.opacity = '0.5';
-      值地区.style.cursor = 'not-allowed';
-      值地区.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-      // 显示提示信息
-      if (值地区值) {
-        值地区值.style.display = 'block';
-        值地区值.style.color = '#ffb454';
-      }
-    } else {
-      值地区.style.opacity = '1';
-      值地区.style.cursor = 'pointer';
-      值地区.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-      // 隐藏提示信息
-      if (值地区值) {
-        值地区值.style.display = 'none';
-      }
-    }
-  }
-}
-async function 保存配置(配置数据20107) {
-  const 接口网址 = window.location.pathname + '/api/config';
-  try {
-    const 响应20106 = await fetch(接口网址, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(配置数据20107)
-    });
-    if (响应20106.status === 503) {
-      显示状态('KV存储未配置，无法保存配置。请先在Cloudflare Workers中配置KV存储。', 'error');
-      return;
-    }
-    if (!响应20106.ok) {
-      const 错误文本20105 = await 响应20106.text();
-
-      // 尝试解析 JSON 错误信息
-      try {
-        const 错误数据20104 = JSON.parse(错误文本20105);
-        显示状态(错误数据20104.message || '保存失败', 'error');
-      } catch (解析错误20103) {
-        // 如果不是 JSON，直接显示文本
-        显示状态('保存失败: ' + 错误文本20105, 'error');
-      }
-      return;
-    }
-    const 结果20102 = await 响应20106.json();
-    显示状态(结果20102.message, 结果20102.success ? 'success' : 'error');
-    if (结果20102.success) {
-      await 加载当前配置();
-      // 更新wk地区选择状态
-      更新工作器地区状态();
-      // 保存成功后刷新页面以更新系统状态
-      setTimeout(function () {
-        window.location.reload();
-      }, 1500);
-    } else {}
-  } catch (错误20101) {
-    显示状态('保存失败: ' + 错误20101.message, 'error');
-  }
-}
-function 显示状态(消息20100, 类型20099) {
-  const 状态值 = document.getElementById('statusMessage');
-  if (状态值) {
-    状态值.textContent = 消息20100;
-    状态值.style.display = 'block';
-    状态值.style.color = 类型20099 === 'success' ? '#c8f135' : '#ff5d73';
-    状态值.style.borderColor = 类型20099 === 'success' ? '#c8f135' : '#ff5d73';
-    setTimeout(function () {
-      状态值.style.display = 'none';
-    }, 3000);
-  }
-  // 同步在底部操作条上方弹出霓虹反馈
-  if (typeof window.显示操作状态 === 'function') {
-    window.显示操作状态(消息20100, 类型20099 === 'success' ? 'ok' : 'err');
-  }
-}
-async function 重置全部配置() {
-  if (confirm('确定要重置所有配置吗？这将清空所有KV配置，恢复为环境变量设置。')) {
-    try {
-      const 响应20098 = await fetch(window.location.pathname + '/api/config', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          wk: '',
-          d: '',
-          p: '',
-          yx: '',
-          yxURL: '',
-          s: '',
-          ae: '',
-          rm: '',
-          qj: '',
-          dkby: '',
-          yxby: '',
-          ev: '',
-          et: '',
-          ex: '',
-          ech: '',
-          tp: '',
-          customDNS: '',
-          customECHDomain: '',
-          scu: '',
-          epd: '',
-          epi: '',
-          egi: '',
-          ipv4: '',
-          ipv6: '',
-          ispMobile: '',
-          ispUnicom: '',
-          ispTelecom: '',
-          homepage: '',
-          alpn: ''
-        })
-      });
-      if (响应20098.status === 503) {
-        显示状态('KV存储未配置，无法重置配置。', 'error');
-        return;
-      }
-      if (!响应20098.ok) {
-        const 错误文本 = await 响应20098.text();
-
-        // 尝试解析 JSON 错误信息
-        try {
-          const 错误数据 = JSON.parse(错误文本);
-          显示状态(错误数据.message || '重置失败', 'error');
-        } catch (解析错误) {
-          // 如果不是 JSON，直接显示文本
-          显示状态('重置失败: ' + 错误文本, 'error');
-        }
-        return;
-      }
-      const 结果20097 = await 响应20098.json();
-      显示状态(结果20097.message || '配置已重置', 结果20097.success ? 'success' : 'error');
-      if (结果20097.success) {
-        await 加载当前配置();
-        // 更新wk地区选择状态
-        更新工作器地区状态();
-        // 刷新页面以更新系统状态
-        setTimeout(function () {
-          window.location.reload();
-        }, 1500);
-      }
-    } catch (错误20096) {
-      显示状态('重置失败: ' + 错误20096.message, 'error');
-    }
-  }
-}
-
-/* ---- self-update: save settings / check for update / pull & apply update ---- */
-function 显示更新状态(消息, 类型) {
-  const 元素 = document.getElementById('updStatus');
-  if (!元素) return;
-  元素.style.display = 'block';
-  元素.textContent = 消息;
-  元素.style.color = 类型 === 'error' ? '#ff5d73' : (类型 === 'ok' ? '#3ddc84' : '#c8f135');
-  元素.style.borderColor = 元素.style.color;
-}
-
-async function 保存更新设置() {
-  try {
-    const 响应 = await fetch(window.location.pathname + '/api/config', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        updVerUrl: document.getElementById('updVerUrl').value.trim(),
-        updSrcUrl: document.getElementById('updSrcUrl').value.trim(),
-        cfToken: document.getElementById('cfToken').value.trim(),
-        cfAccountId: document.getElementById('cfAccountId').value.trim(),
-        cfScriptName: document.getElementById('cfScriptName').value.trim()
-      })
-    });
-    const 结果 = await 响应.json().catch(() => ({}));
-    显示更新状态(结果.message || (响应.ok ? 'تنظیمات ذخیره شد' : 'ذخیره ناموفق بود'), 响应.ok ? 'ok' : 'error');
-  } catch (خطا) {
-    显示更新状态('ذخیره ناموفق: ' + خطا.message, 'error');
-  }
-}
-
-async function بررسی_به_روزرسانی() {
-  显示更新状态('در حال بررسی نسخه جدید…', 'info');
-  try {
-    const 响应 = await fetch(window.location.pathname + '/api/update');
-    const نتیجه = await 响应.json();
-    const برچسب = document.getElementById('updLatestLabel');
-    const دکمهاعمال = document.getElementById('updApplyBtn');
-    if (نتیجه.error) {
-      显示更新状态(نتیجه.error, 'error');
-      return;
-    }
-    if (برچسب) برچسب.textContent = 'آخرین نسخه: ' + (نتیجه.latest || '—');
-    if (نتیجه.hasUpdate) {
-      显示更新状态('نسخه جدید موجود است: ' + نتیجه.latest, 'ok');
-      if (دکمهاعمال) دکمهاعمال.style.display = 'inline-block';
-    } else {
-      显示更新状态('پنل شما به‌روز است (نسخه ' + نتیجه.current + ')', 'info');
-      if (دکمهاعمال) دکمهاعمال.style.display = 'none';
-    }
-  } catch (خطا) {
-    显示更新状态('بررسی نسخه ناموفق: ' + خطا.message, 'error');
-  }
-}
-
-async function اعمال_به_روزرسانی() {
-  if (!confirm('آیا مطمئنی؟ کد فعلی ورکر با نسخه جدید جایگزین می‌شود.')) return;
-  显示更新状态('در حال دریافت و اعمال به‌روزرسانی… چند ثانیه صبر کن', 'info');
-  try {
-    const 响应 = await fetch(window.location.pathname + '/api/update', { method: 'POST' });
-    const 结果 = await 响应.json();
-    显示更新状态(结果.message, 结果.success ? 'ok' : 'error');
-    if (结果.success) {
-      setTimeout(function () { window.location.reload(); }, 2000);
-    }
-  } catch (خطا) {
-    显示更新状态('به‌روزرسانی ناموفق: ' + خطا.message, 'error');
-  }
-}
-
-async function 检查加密问候状态() {
-  const 加密客户端问候状态值 = document.getElementById('echStatus');
-  if (!加密客户端问候状态值) return;
-  try {
-    const 当前网址 = window.location.href;
-    const 订阅网址 = 当前网址 + '/sub';
-    加密客户端问候状态值.innerHTML = 'ECH状态: <span style="color: #ffb454;">检测中...</span>';
-    const 响应20095 = await fetch(订阅网址, {
-      method: 'GET',
-      headers: {
-        'Accept': 'text/plain'
-      }
-    });
-    const 加密客户端问候状态头部 = 响应20095.headers.get('X-ECH-Status');
-    const 加密客户端问候配置长度 = 响应20095.headers.get('X-ECH-Config-Length');
-    if (加密客户端问候状态头部 === 'ENABLED') {
-      加密客户端问候状态值.innerHTML = 'ECH状态: <span style="color: #3ddc84;">✅ 已启用' + (加密客户端问候配置长度 ? ' (配置长度: ' + 加密客户端问候配置长度 + ')' : '') + '</span>';
-    } else {
-      加密客户端问候状态值.innerHTML = 'ECH状态: <span style="color: #ffb454;">⚠️ 未启用</span>';
-    }
-  } catch (错误20094) {
-    加密客户端问候状态值.innerHTML = 'ECH状态: <span style="color: #ff5d73;">❌ 检测失败: ' + 错误20094.message + '</span>';
-  }
-}
-document.addEventListener('DOMContentLoaded', function () {
-  创建矩阵雨();
-  检查系统状态();
-  检查键值状态();
-  检查加密问候状态();
-
-  // ECH 开启时自动联动开启仅TLS
-  const 加密客户端问候复选框 = document.getElementById('ech');
-  const 端口控制 = document.getElementById('portControl');
-  if (加密客户端问候复选框 && 端口控制) {
-    加密客户端问候复选框.addEventListener('change', function () {
-      if (this.checked) {
-        // ECH 开启时，自动设置仅TLS为 yes
-        端口控制.value = 'yes';
-      }
-      同步联动界面状态();
-    });
-
-    // 页面加载时，如果 ECH 已勾选，也自动设置仅TLS
-    if (加密客户端问候复选框.checked) {
-      端口控制.value = 'yes';
-    }
-  }
-
-  // 监听customIP输入框变化，实时更新wk地区选择状态
-  const 自定义地址输入 = document.getElementById('customIP');
-  if (自定义地址输入) {
-    自定义地址输入.addEventListener('input', function () {
-      同步联动界面状态();
-    });
-  }
-
-  const 自定义路径输入 = document.getElementById('customPath');
-  if (自定义路径输入) {
-    自定义路径输入.addEventListener('input', function () {
-      同步联动界面状态();
-    });
-  }
-
-  ['ev', 'et', 'ex'].forEach(function (协议标识) {
-    const 协议开关 = document.getElementById(协议标识);
-    if (协议开关) {
-      协议开关.addEventListener('change', function () {
-        同步联动界面状态();
-      });
-    }
-  });
-
-  // 阻止表单默认提交（保存按钮已统一到底部操作条）
-  ['regionForm', 'otherConfigForm', 'advancedConfigForm'].forEach(function (本地值20093) {
-    const 表单值 = document.getElementById(本地值20093);
-    if (表单值) 表单值.addEventListener('submit', function (事件值20092) {
-      事件值20092.preventDefault();
-    });
-  });
-
-  // 在任意输入框按下回车，触发统一保存
-  document.querySelectorAll('#configContent input[type="text"], #configContent input[type="number"]').forEach(function (本地值20091) {
-    本地值20091.addEventListener('keydown', function (事件值20090) {
-      if (事件值20090.key === 'Enter') {
-        事件值20090.preventDefault();
-        保存全部配置();
-      }
-    });
-  });
-
-  // 统一保存：一次性收齐所有字段
-  function 收集全部配置() {
-    return 收集界面配置();
-  }
-  async function 保存全部配置() {
-    // 至少启用一个通道
-    const 值值20085 = document.getElementById('ev'),
-      值值20084 = document.getElementById('et'),
-      值值20083 = document.getElementById('ex');
-    if (值值20085 && 值值20084 && 值值20083 && !值值20085.checked && !值值20084.checked && !值值20083.checked) {
-      显示操作状态('${是否值236 ? 解码64('2K3Yr9in2YLZhCDbjNqpINm+2LHZiNiq2qnZhCDYsdinINmB2LnYp9mEINqp2YbbjNivIQ==') : 解码64('6Iez5bCR6ZyA6KaB5ZCv55So5LiA5Liq5Y2P6K6u77yB')}', 'err');
-      显示提示('${是否值236 ? 解码64('2K3Yr9in2YLZhCDbjNqpINm+2LHZiNiq2qnZhCDYsdinINmB2LnYp9mEINqp2YbbjNivIQ==') : 解码64('6Iez5bCR6ZyA6KaB5ZCv55So5LiA5Liq5Y2P6K6u77yB')}', 'warn');
-      return;
-    }
-    const 本地值20082 = document.getElementById('cpBtnSaveAll');
-    if (本地值20082) {
-      本地值20082.classList.add('cp-action-btn-saving');
-      本地值20082.disabled = true;
-    }
-    try {
-      await 保存配置(收集全部配置());
-    } finally {
-      if (本地值20082) {
-        本地值20082.classList.remove('cp-action-btn-saving');
-        本地值20082.disabled = false;
-      }
-    }
-  }
-  window.保存全部配置 = 保存全部配置;
-  function 显示操作状态(消息, 类型) {
-    const 本地值20081 = document.getElementById('cpActionStatus');
-    if (!本地值20081) return;
-    本地值20081.textContent = 消息;
-    本地值20081.classList.toggle('cp-err', 类型 === 'err');
-    本地值20081.classList.add('cp-show');
-    clearTimeout(显示操作状态._t);
-    显示操作状态._t = setTimeout(function () {
-      本地值20081.classList.remove('cp-show');
-    }, 2400);
-  }
-  window.显示操作状态 = 显示操作状态;
-
-  // 绑定底部统一操作条
-  const 值操作值 = document.getElementById('cpActionBar');
-  const 值值保存值 = document.getElementById('cpBtnSaveAll');
-  if (值值保存值) 值值保存值.addEventListener('click', async function () {
-    值值保存值.classList.add('cp-action-btn-saving');
-    try {
-      await 保存全部配置();
-      if (值操作值) 值操作值.classList.remove('cp-dirty');
-    } finally {
-      值值保存值.classList.remove('cp-action-btn-saving');
-    }
-  });
-  const 值值值20080 = document.getElementById('cpBtnRefresh');
-  if (值值值20080) 值值值20080.addEventListener('click', async function () {
-    值值值20080.classList.add('cp-action-btn-saving');
-    try {
-      await 加载当前配置();
-      if (值操作值) 值操作值.classList.remove('cp-dirty');
-      显示操作状态('${是否值236 ? 'تنظیمات تازه‌سازی شد' : '配置已刷新'}');
-    } finally {
-      值值值20080.classList.remove('cp-action-btn-saving');
-    }
-  });
-  const 值值重置 = document.getElementById('cpBtnReset');
-  if (值值重置) 值值重置.addEventListener('click', 重置全部配置);
-  const 值值更新保存 = document.getElementById('updSaveBtn'); if (值值更新保存) 值值更新保存.addEventListener('click', 保存更新设置);
-  const 值值更新检查 = document.getElementById('updCheckBtn'); if (值值更新检查) 值值更新检查.addEventListener('click', بررسی_به_روزرسانی);
-  const 值值更新应用 = document.getElementById('updApplyBtn'); if (值值更新应用) 值值更新应用.addEventListener('click', اعمال_به_روزرسانی);
-
-  // 修改字段时把 FAB 标记为 "未保存"
-  function 标记已修改() {
-    if (值操作值) 值操作值.classList.add('cp-dirty');
-  }
-  const 已修改范围 = document.getElementById('configContent') || document;
-  ['input', 'change'].forEach(function (本地值20079) {
-    已修改范围.addEventListener(本地值20079, function (事件值20078) {
-      const 本地值20077 = 事件值20078.target;
-      if (!本地值20077 || !本地值20077.tagName) return;
-      const 本地值20076 = 本地值20077.tagName.toLowerCase();
-      if (本地值20076 === 'input' || 本地值20076 === 'select' || 本地值20076 === 'textarea') {
-        // 跳过延迟测试相关输入，避免误触
-        if (本地值20077.id && /^(latencyTestInput|fetchURLInput|latencyTestPort|randomIPCount|testThreads|ipSourceSelect)$/.test(本地值20077.id)) return;
-        标记已修改();
-      }
-    });
-  });
-
-  // Ctrl+S / Cmd+S 触发保存
-  window.addEventListener('keydown', function (事件值20075) {
-    if ((事件值20075.ctrlKey || 事件值20075.metaKey) && (事件值20075.key === 's' || 事件值20075.key === 'S')) {
-      事件值20075.preventDefault();
-      if (值值保存值 && !值值保存值.classList.contains('cp-action-btn-saving')) {
-        值值保存值.click();
-      }
-    }
-  });
-  let 测试值控制器 = null;
-  let 测试结果列表 = [];
-  const 开始测试值 = document.getElementById('startLatencyTest');
-  const 值测试值 = document.getElementById('stopLatencyTest');
-  const 测试状态 = document.getElementById('latencyTestStatus');
-  const 测试结果列表值 = document.getElementById('latencyTestResults');
-  const 结果列表列表 = document.getElementById('latencyResultsList');
-  const 覆盖已选值 = document.getElementById('overwriteSelectedToYx');
-  const 追加已选值 = document.getElementById('appendSelectedToYx');
-  const 选择值值 = document.getElementById('selectAllResults');
-  const 值值值 = document.getElementById('deselectAllResults');
-  const 地址源选择 = document.getElementById('ipSourceSelect');
-  const 手动输入值 = document.getElementById('manualInputDiv');
-  const 网址获取值 = document.getElementById('urlFetchDiv');
-  const 延迟测试输入 = document.getElementById('latencyTestInput');
-  const 获取网址输入 = document.getElementById('fetchURLInput');
-  const 延迟测试端口 = document.getElementById('latencyTestPort');
-  const 随机地址数量 = document.getElementById('randomIPCount');
-  const 云墙随机值 = document.getElementById('cfRandomDiv');
-  const 随机数量值 = document.getElementById('randomCountDiv');
-  const 生成云墙地址值 = document.getElementById('generateCFIPBtn');
-  const 获取地址值 = document.getElementById('fetchIPBtn');
-  if (延迟测试输入) {
-    const 已保存测试输入 = localStorage.getItem('latencyTestInput');
-    if (已保存测试输入) 延迟测试输入.value = 已保存测试输入;
-    延迟测试输入.addEventListener('input', function () {
-      localStorage.setItem('latencyTestInput', this.value);
-    });
-  }
-  if (获取网址输入) {
-    const 已保存获取网址 = localStorage.getItem('fetchURLInput');
-    if (已保存获取网址) 获取网址输入.value = 已保存获取网址;
-    获取网址输入.addEventListener('input', function () {
-      localStorage.setItem('fetchURLInput', this.value);
-    });
-  }
-  if (延迟测试端口) {
-    const 已保存端口 = localStorage.getItem('latencyTestPort');
-    if (已保存端口) 延迟测试端口.value = 已保存端口;
-    延迟测试端口.addEventListener('input', function () {
-      localStorage.setItem('latencyTestPort', this.value);
-    });
-  }
-  if (随机地址数量) {
-    const 已保存数量 = localStorage.getItem('randomIPCount');
-    if (已保存数量) 随机地址数量.value = 已保存数量;
-    随机地址数量.addEventListener('input', function () {
-      localStorage.setItem('randomIPCount', this.value);
-    });
-    // 初始化时，如果默认是隐藏的，则禁用输入框
-    if (随机数量值 && 随机数量值.style.display === 'none') {
-      随机地址数量.disabled = true;
-    }
-  }
-  const 测试线程数输入 = document.getElementById('testThreads');
-  if (测试线程数输入) {
-    const 已保存线程数 = localStorage.getItem('testThreads');
-    if (已保存线程数) 测试线程数输入.value = 已保存线程数;
-    测试线程数输入.addEventListener('input', function () {
-      localStorage.setItem('testThreads', this.value);
-    });
-  }
-  if (地址源选择) {
-    const 已保存源 = localStorage.getItem('ipSourceSelect');
-    const 当前源 = 已保存源 || 地址源选择.value || 'manual';
-    if (已保存源) {
-      地址源选择.value = 已保存源;
-    }
-    手动输入值.style.display = 当前源 === 'manual' ? 'block' : 'none';
-    网址获取值.style.display = 当前源 === 'urlFetch' ? 'block' : 'none';
-    云墙随机值.style.display = 当前源 === 'cfRandom' ? 'block' : 'none';
-    随机数量值.style.display = 当前源 === 'cfRandom' ? 'block' : 'none';
-    // 当隐藏时禁用输入框，避免表单验证错误
-    if (随机地址数量) {
-      随机地址数量.disabled = 当前源 !== 'cfRandom';
-    }
-  }
-  const 云墙网段列表 = ['173.245.48.0/20', '103.21.244.0/22', '103.22.200.0/22', '103.31.4.0/22', '141.101.64.0/18', '108.162.192.0/18', '190.93.240.0/20', '188.114.96.0/20', '197.234.240.0/22', '198.41.128.0/17', '162.158.0.0/15', '104.16.0.0/13', '104.24.0.0/14', '172.64.0.0/13', '131.0.72.0/22'];
-  function 从网段生成随机地址(网段20074) {
-    const [基础地址, 前缀长度] = 网段20074.split('/');
-    const 前缀 = parseInt(前缀长度);
-    const 主机值 = 32 - 前缀;
-    const 地址部分列表 = 基础地址.split('.').map(参数值20073 => parseInt(参数值20073));
-    const 地址值 = 地址部分列表[0] << 24 | 地址部分列表[1] << 16 | 地址部分列表[2] << 8 | 地址部分列表[3];
-    const 随机偏移 = Math.floor(Math.random() * Math.pow(2, 主机值));
-    const 掩码 = 0xFFFFFFFF << 主机值 >>> 0;
-    const 随机地址 = ((地址值 & 掩码) >>> 0) + 随机偏移 >>> 0;
-    return [随机地址 >>> 24 & 0xFF, 随机地址 >>> 16 & 0xFF, 随机地址 >>> 8 & 0xFF, 随机地址 & 0xFF].join('.');
-  }
-  function 生成云墙随机地址(数量20072, 端口20071) {
-    const 地址列表20070 = [];
-    for (let 索引值20069 = 0; 索引值20069 < 数量20072; 索引值20069++) {
-      const 网段 = 云墙网段列表[Math.floor(Math.random() * 云墙网段列表.length)];
-      const 地址20068 = 从网段生成随机地址(网段);
-      地址列表20070.push(地址20068 + ':' + 端口20071);
-    }
-    return 地址列表20070;
-  }
-  if (地址源选择) {
-    地址源选择.addEventListener('change', function () {
-      const 值 = this.value;
-      localStorage.setItem('ipSourceSelect', 值);
-      手动输入值.style.display = 值 === 'manual' ? 'block' : 'none';
-      网址获取值.style.display = 值 === 'urlFetch' ? 'block' : 'none';
-      云墙随机值.style.display = 值 === 'cfRandom' ? 'block' : 'none';
-      随机数量值.style.display = 值 === 'cfRandom' ? 'block' : 'none';
-      // 当隐藏时禁用输入框，避免表单验证错误
-      if (随机地址数量) {
-        随机地址数量.disabled = 值 !== 'cfRandom';
-      }
-    });
-  }
-  if (生成云墙地址值) {
-    生成云墙地址值.addEventListener('click', function () {
-      const 数量 = parseInt(document.getElementById('randomIPCount').value) || 20;
-      const 端口20067 = document.getElementById('latencyTestPort').value || '443';
-      const 地址列表 = 生成云墙随机地址(数量, 端口20067);
-      document.getElementById('latencyTestInput').value = 地址列表.join(',');
-      手动输入值.style.display = 'block';
-      显示状态('${是否值236 ? 'تولید شد' : '已生成'} ' + 数量 + ' ${是否值236 ? 'IP تصادفی CF' : '个CF随机IP'}', 'success');
-    });
-  }
-  if (获取地址值) {
-    获取地址值.addEventListener('click', async function () {
-      const 网址输入 = document.getElementById('fetchURLInput');
-      const 获取网址 = 网址输入.value.trim();
-      if (!获取网址) {
-        显示提示('${是否值236 ? 'لطفا URL را وارد کنید' : '请输入URL'}', 'warn');
-        return;
-      }
-      获取地址值.disabled = true;
-      获取地址值.textContent = '${是否值236 ? 'در حال دریافت...' : '获取中...'}';
-      try {
-        // 支持多个 URL（逗号分隔）以及返回内容中逗号分隔的多个 IP/节点
-        const 网址列表 = Array.from(new Set(获取网址.split(',').map(网址值20066 => 网址值20066.trim()).filter(网址值20065 => 网址值20065)));
-        const 值项目列表 = [];
-        for (const 网址值 of 网址列表) {
-          const 响应 = await fetch(网址值);
-          if (!响应.ok) {
-            throw new Error('HTTP ' + 响应.status + ' @ ' + 网址值);
-          }
-          const 文本20064 = await 响应.text();
-
-          // 先按行分割，再在每行内按逗号分割，兼容“多行 + 逗号分隔”两种格式
-          const 值网址项目列表 = 文本20064.split(/\\r?\\n/).map(行值20063 => 行值20063.trim()).filter(行值20062 => 行值20062 && !行值20062.startsWith('#')).flatMap(行值 => 行值.split(',').map(参数值20061 => 参数值20061.trim()).filter(参数值 => 参数值));
-          值项目列表.push(...值网址项目列表);
-        }
-        if (值项目列表.length > 0) {
-          document.getElementById('latencyTestInput').value = 值项目列表.join(',');
-          手动输入值.style.display = 'block';
-          显示状态('${是否值236 ? 'دریافت شد' : '已获取'} ' + 值项目列表.length + ' ${是否值236 ? 'IP' : '个IP'}', 'success');
-        } else {
-          显示状态('${是否值236 ? 'داده‌ای یافت نشد' : '未获取到数据'}', 'error');
-        }
-      } catch (错误20060) {
-        显示状态('${是否值236 ? 'خطا در دریافت' : '获取失败'}: ' + 错误20060.message, 'error');
-      } finally {
-        获取地址值.disabled = false;
-        获取地址值.textContent = '⬇ ${是否值236 ? 'دریافت IP' : '获取IP'}';
-      }
-    });
-  }
-  if (开始测试值) {
-    开始测试值.addEventListener('click', async function () {
-      const 输入值20059 = document.getElementById('latencyTestInput');
-      const 端口值 = document.getElementById('latencyTestPort');
-      const 线程数值 = document.getElementById('testThreads');
-      const 输入值 = 输入值20059.value.trim();
-      const 默认端口 = 端口值.value || '443';
-      const 线程数 = parseInt(线程数值.value) || 5;
-      if (!输入值) {
-        显示状态('${是否值236 ? 'لطفا IP یا دامنه وارد کنید' : '请输入IP或域名'}', 'error');
-        return;
-      }
-      const 本地值20058 = 输入值.split(',').map(翻译值20057 => 翻译值20057.trim()).filter(翻译值20056 => 翻译值20056);
-      if (本地值20058.length === 0) return;
-      开始测试值.style.display = 'none';
-      值测试值.style.display = 'inline-block';
-      测试状态.style.display = 'block';
-      测试结果列表值.style.display = 'block';
-      结果列表列表.innerHTML = '';
-      测试结果列表 = [];
-      if (城市筛选值) {
-        城市筛选值.style.display = 'none';
-      }
-      测试值控制器 = new AbortController();
-      let 本地值20055 = 0;
-      const 本地值20054 = 本地值20058.length;
-      function 解析目标(目标20053) {
-        let 主机20052 = 目标20053;
-        let 端口20051 = 默认端口;
-        let 节点名称20050 = '';
-        if (目标20053.includes('#')) {
-          const 部分列表20049 = 目标20053.split('#');
-          节点名称20050 = 部分列表20049[1] || '';
-          主机20052 = 部分列表20049[0];
-        }
-        if (主机20052.includes(':') && !主机20052.startsWith('[')) {
-          const 值值20048 = 主机20052.lastIndexOf(':');
-          const 值端口 = 主机20052.substring(值值20048 + 1);
-          if (/^[0-9]+$/.test(值端口)) {
-            端口20051 = 值端口;
-            主机20052 = 主机20052.substring(0, 值值20048);
-          }
-        } else if (主机20052.includes(']:')) {
-          const 部分列表20047 = 主机20052.split(']:');
-          主机20052 = 部分列表20047[0] + ']';
-          端口20051 = 部分列表20047[1];
-        }
-        return {
-          host: 主机20052,
-          port: 端口20051,
-          nodeName: 节点名称20050
-        };
-      }
-      function 渲染结果(结果20046, 索引20045, 值值20044 = true) {
-        // 只展示在线优选成功的结果，失败/超时的不再显示
-        if (!结果20046.success) {
-          return null;
-        }
-        const 结果项目 = document.createElement('div');
-        结果项目.style.cssText = 'display: flex; align-items: center; padding: 8px; border-bottom: 1px solid #08130a; gap: 10px;';
-        结果项目.dataset.index = 索引20045;
-        结果项目.dataset.colo = 结果20046.colo || '';
-        if (!值值20044) {
-          结果项目.style.display = 'none';
-        }
-        const 复选框20043 = document.createElement('input');
-        复选框20043.type = 'checkbox';
-        复选框20043.checked = true;
-        复选框20043.disabled = false;
-        复选框20043.dataset.index = 索引20045;
-        复选框20043.style.cssText = 'width: 18px; height: 18px; cursor: pointer;';
-        const 本地值20042 = document.createElement('div');
-        本地值20042.style.cssText = 'flex: 1; font-family: monospace; font-size: 13px;';
-        const 机房名称20041 = 结果20046.colo ? 获取机房名称(结果20046.colo) : '';
-        const 机房显示 = 机房名称20041 ? ' <span style="color: #5b8cff;">[' + 机房名称20041 + ']</span>' : '';
-        本地值20042.innerHTML = '<span style="color: #c8f135;">' + 结果20046.host + ':' + 结果20046.port + '</span>' + 机房显示 + ' <span style="color: #ffb454;">' + 结果20046.latency + 'ms</span>';
-        结果项目.appendChild(复选框20043);
-        结果项目.appendChild(本地值20042);
-        结果列表列表.appendChild(结果项目);
-        return 结果项目;
-      }
-      async function 测试单项(目标) {
-        if (测试值控制器.signal.aborted) return null;
-        const {
-          host: 主机20040,
-          port: 端口20039,
-          nodeName: 节点名称
-        } = 解析目标(目标);
-        const 结果20038 = await 测试延迟(主机20040, 端口20039, 测试值控制器.signal);
-        结果20038.host = 主机20040;
-        结果20038.port = 端口20039;
-        结果20038.nodeName = 结果20038.success && 结果20038.colo ? 节点名称 || 'CF-' + 结果20038.colo : 节点名称 || 主机20040;
-        return 结果20038;
-      }
-      for (let 索引值20037 = 0; 索引值20037 < 本地值20054; 索引值20037 += 线程数) {
-        if (测试值控制器.signal.aborted) break;
-        const 本地值20036 = 本地值20058.slice(索引值20037, Math.min(索引值20037 + 线程数, 本地值20054));
-        测试状态.textContent = '${是否值236 ? 'در حال تست' : '测试中'}: ' + (索引值20037 + 1) + '-' + Math.min(索引值20037 + 线程数, 本地值20054) + '/' + 本地值20054 + ' (${是否值236 ? 'رشته‌ها' : '线程'}: ' + 线程数 + ')';
-        const 结果列表 = await Promise.all(本地值20036.map(翻译值 => 测试单项(翻译值)));
-        for (const 结果20035 of 结果列表) {
-          if (结果20035) {
-            const 索引20034 = 测试结果列表.length;
-            测试结果列表.push(结果20035);
-            渲染结果(结果20035, 索引20034);
-            本地值20055++;
-          }
-        }
-      }
-      测试状态.textContent = '${是否值236 ? 'تست کامل شد' : '测试完成'}: ' + 本地值20055 + '/' + 本地值20054;
-      开始测试值.style.display = 'inline-block';
-      值测试值.style.display = 'none';
-
-      // 更新城市选择器
-      更新城市筛选();
-    });
-  }
-  if (值测试值) {
-    值测试值.addEventListener('click', function () {
-      if (测试值控制器) {
-        测试值控制器.abort();
-      }
-      开始测试值.style.display = 'inline-block';
-      值测试值.style.display = 'none';
-      测试状态.textContent = '${是否值236 ? 'تست متوقف شد' : '测试已停止'}';
-    });
-  }
-  if (选择值值) {
-    选择值值.addEventListener('click', function () {
-      const 本地值20033 = 结果列表列表.querySelectorAll('input[type="checkbox"]:not(:disabled)');
-      本地值20033.forEach(本地值20032 => 本地值20032.checked = true);
-    });
-  }
-  if (值值值) {
-    值值值.addEventListener('click', function () {
-      const 本地值20031 = 结果列表列表.querySelectorAll('input[type="checkbox"]');
-      本地值20031.forEach(本地值20030 => 本地值20030.checked = false);
-    });
-  }
-
-  // 获取选中项的通用函数
-  function 获取已选项目() {
-    const 本地值20029 = 结果列表列表.querySelectorAll('input[type="checkbox"]:checked');
-    if (本地值20029.length === 0) {
-      显示状态('${是否值236 ? 'لطفا حداقل یک مورد انتخاب کنید' : '请至少选择一项'}', 'error');
-      return null;
-    }
-    const 已选项目列表20028 = [];
-    本地值20029.forEach(本地值20027 => {
-      const 索引20026 = parseInt(本地值20027.dataset.index);
-      const 结果20025 = 测试结果列表[索引20026];
-      if (结果20025 && 结果20025.success) {
-        const 机房名称 = 结果20025.colo ? 获取机房名称(结果20025.colo) : 结果20025.nodeName;
-        const 项目字符串 = 结果20025.host + ':' + 结果20025.port + '#' + 机房名称;
-        已选项目列表20028.push(项目字符串);
-      }
-    });
-    return 已选项目列表20028;
-  }
-
-  // 覆盖添加
-  if (覆盖已选值) {
-    覆盖已选值.addEventListener('click', async function () {
-      const 已选项目列表20024 = 获取已选项目();
-      if (!已选项目列表20024 || 已选项目列表20024.length === 0) return;
-      const 值输入20023 = document.getElementById('yx');
-      const 新值20022 = 已选项目列表20024.join(',');
-      值输入20023.value = 新值20022;
-      覆盖已选值.disabled = true;
-      追加已选值.disabled = true;
-      覆盖已选值.textContent = '${是否值236 ? 'در حال ذخیره...' : '保存中...'}';
-      try {
-        const 配置数据20021 = {
-          customIP: document.getElementById('customIP').value,
-          yx: 新值20022,
-          yxURL: document.getElementById('yxURL').value,
-          s: document.getElementById('socksConfig').value
-        };
-        await 保存配置(配置数据20021);
-        显示状态('${是否值236 ? 'موفقیت‌آمیز بود' : '已覆盖'} ' + 已选项目列表20024.length + ' ${是否值236 ? 'مورد و ذخیره شد' : '项并已保存'}', 'success');
-      } catch (错误20020) {
-        显示状态('${是否值236 ? 'خطا در ذخیره' : '保存失败'}: ' + 错误20020.message, 'error');
-      } finally {
-        覆盖已选值.disabled = false;
-        追加已选值.disabled = false;
-        覆盖已选值.textContent = '${是否值236 ? '覆盖添加' : '覆盖添加'}';
-      }
-    });
-  }
-
-  // 追加添加
-  if (追加已选值) {
-    追加已选值.addEventListener('click', async function () {
-      const 已选项目列表 = 获取已选项目();
-      if (!已选项目列表 || 已选项目列表.length === 0) return;
-      const 值输入 = document.getElementById('yx');
-      const 当前值 = 值输入.value.trim();
-      const 新项目列表 = 已选项目列表.join(',');
-      const 新值 = 当前值 ? 当前值 + ',' + 新项目列表 : 新项目列表;
-      值输入.value = 新值;
-      覆盖已选值.disabled = true;
-      追加已选值.disabled = true;
-      追加已选值.textContent = '${是否值236 ? 'در حال ذخیره...' : '保存中...'}';
-      try {
-        const 配置数据 = {
-          customIP: document.getElementById('customIP').value,
-          yx: 新值,
-          yxURL: document.getElementById('yxURL').value,
-          s: document.getElementById('socksConfig').value
-        };
-        await 保存配置(配置数据);
-        显示状态('${是否值236 ? 'موفقیت‌آمیز بود' : '已追加'} ' + 已选项目列表.length + ' ${是否值236 ? 'مورد و ذخیره شد' : '项并已保存'}', 'success');
-      } catch (错误20019) {
-        显示状态('${是否值236 ? 'خطا در ذخیره' : '保存失败'}: ' + 错误20019.message, 'error');
-      } finally {
-        覆盖已选值.disabled = false;
-        追加已选值.disabled = false;
-        追加已选值.textContent = '${是否值236 ? '追加添加' : '追加添加'}';
-      }
-    });
-  }
-  function 地址转十六进制(地址) {
-    const 部分列表 = 地址.split('.');
-    if (部分列表.length !== 4) return null;
-    let 十六进制 = '';
-    for (let 索引值 = 0; 索引值 < 4; 索引值++) {
-      const 数字 = parseInt(部分列表[索引值]);
-      if (isNaN(数字) || 数字 < 0 || 数字 > 255) return null;
-      十六进制 += 数字.toString(16).padStart(2, '0');
-    }
-    return 十六进制;
-  }
-  const 机房映射 = {
-    'SJC': '🇺🇸 圣何塞',
-    'LAX': '🇺🇸 洛杉矶',
-    'SEA': '🇺🇸 西雅图',
-    'SFO': '🇺🇸 旧金山',
-    'DFW': '🇺🇸 达拉斯',
-    'ORD': '🇺🇸 芝加哥',
-    'IAD': '🇺🇸 华盛顿',
-    'ATL': '🇺🇸 亚特兰大',
-    'MIA': '🇺🇸 迈阿密',
-    'DEN': '🇺🇸 丹佛',
-    'PHX': '🇺🇸 凤凰城',
-    'BOS': '🇺🇸 波士顿',
-    'EWR': '🇺🇸 纽瓦克',
-    'JFK': '🇺🇸 纽约',
-    'LAS': '🇺🇸 拉斯维加斯',
-    'MSP': '🇺🇸 明尼阿波利斯',
-    'DTW': '🇺🇸 底特律',
-    'PHL': '🇺🇸 费城',
-    'CLT': '🇺🇸 夏洛特',
-    'SLC': '🇺🇸 盐湖城',
-    'PDX': '🇺🇸 波特兰',
-    'SAN': '🇺🇸 圣地亚哥',
-    'TPA': '🇺🇸 坦帕',
-    'IAH': '🇺🇸 休斯顿',
-    'MCO': '🇺🇸 奥兰多',
-    'AUS': '🇺🇸 奥斯汀',
-    'BNA': '🇺🇸 纳什维尔',
-    'RDU': '🇺🇸 罗利',
-    'IND': '🇺🇸 印第安纳波利斯',
-    'CMH': '🇺🇸 哥伦布',
-    'MCI': '🇺🇸 堪萨斯城',
-    'OMA': '🇺🇸 奥马哈',
-    'ABQ': '🇺🇸 阿尔伯克基',
-    'OKC': '🇺🇸 俄克拉荷马城',
-    'MEM': '🇺🇸 孟菲斯',
-    'JAX': '🇺🇸 杰克逊维尔',
-    'RIC': '🇺🇸 里士满',
-    'BUF': '🇺🇸 布法罗',
-    'PIT': '🇺🇸 匹兹堡',
-    'CLE': '🇺🇸 克利夫兰',
-    'CVG': '🇺🇸 辛辛那提',
-    'MKE': '🇺🇸 密尔沃基',
-    'STL': '🇺🇸 圣路易斯',
-    'SAT': '🇺🇸 圣安东尼奥',
-    'HNL': '🇺🇸 檀香山',
-    'ANC': '🇺🇸 安克雷奇',
-    'SMF': '🇺🇸 萨克拉门托',
-    'ONT': '🇺🇸 安大略',
-    'OAK': '🇺🇸 奥克兰',
-    'HKG': '🇭🇰 香港',
-    'TPE': '🇹🇼 台北',
-    'TSA': '🇹🇼 台北松山',
-    'KHH': '🇹🇼 高雄',
-    'NRT': '🇯🇵 东京成田',
-    'HND': '🇯🇵 东京羽田',
-    'KIX': '🇯🇵 大阪关西',
-    'ITM': '🇯🇵 大阪伊丹',
-    'NGO': '🇯🇵 名古屋',
-    'FUK': '🇯🇵 福冈',
-    'CTS': '🇯🇵 札幌',
-    'OKA': '🇯🇵 冲绳',
-    'ICN': '🇰🇷 首尔仁川',
-    'GMP': '🇰🇷 首尔金浦',
-    'PUS': '🇰🇷 釜山',
-    'SIN': '🇸🇬 新加坡',
-    'BKK': '🇹🇭 曼谷',
-    'DMK': '🇹🇭 曼谷廊曼',
-    'KUL': '🇲🇾 吉隆坡',
-    'CGK': '🇮🇩 雅加达',
-    'MNL': '🇵🇭 马尼拉',
-    'CEB': '🇵🇭 宿务',
-    'HAN': '🇻🇳 河内',
-    'SGN': '🇻🇳 胡志明',
-    'DAD': '🇻🇳 岘港',
-    'RGN': '🇲🇲 仰光',
-    'PNH': '🇰🇭 金边',
-    'REP': '🇰🇭 暹粒',
-    'VTE': '🇱🇦 万象',
-    'BOM': '🇮🇳 孟买',
-    'DEL': '🇮🇳 新德里',
-    'MAA': '🇮🇳 金奈',
-    'BLR': '🇮🇳 班加罗尔',
-    'CCU': '🇮🇳 加尔各答',
-    'HYD': '🇮🇳 海得拉巴',
-    'AMD': '🇮🇳 艾哈迈达巴德',
-    'COK': '🇮🇳 科钦',
-    'PNQ': '🇮🇳 浦那',
-    'GOI': '🇮🇳 果阿',
-    'CMB': '🇱🇰 科伦坡',
-    'DAC': '🇧🇩 达卡',
-    'KTM': '🇳🇵 加德满都',
-    'ISB': '🇵🇰 伊斯兰堡',
-    'KHI': '🇵🇰 卡拉奇',
-    'LHE': '🇵🇰 拉合尔',
-    'LHR': '🇬🇧 伦敦希思罗',
-    'LGW': '🇬🇧 伦敦盖特威克',
-    'STN': '🇬🇧 伦敦斯坦斯特德',
-    'LTN': '🇬🇧 伦敦卢顿',
-    'MAN': '🇬🇧 曼彻斯特',
-    'EDI': '🇬🇧 爱丁堡',
-    'BHX': '🇬🇧 伯明翰',
-    'CDG': '🇫🇷 巴黎戴高乐',
-    'ORY': '🇫🇷 巴黎奥利',
-    'MRS': '🇫🇷 马赛',
-    'LYS': '🇫🇷 里昂',
-    'NCE': '🇫🇷 尼斯',
-    'FRA': '🇩🇪 法兰克福',
-    'MUC': '🇩🇪 慕尼黑',
-    'TXL': '🇩🇪 柏林',
-    'BER': '🇩🇪 柏林勃兰登堡',
-    'HAM': '🇩🇪 汉堡',
-    'DUS': '🇩🇪 杜塞尔多夫',
-    'CGN': '🇩🇪 科隆',
-    'STR': '🇩🇪 斯图加特',
-    'AMS': '🇳🇱 阿姆斯特丹',
-    'BRU': '🇧🇪 布鲁塞尔',
-    'LUX': '🇱🇺 卢森堡',
-    'ZRH': '🇨🇭 苏黎世',
-    'GVA': '🇨🇭 日内瓦',
-    'BSL': '🇨🇭 巴塞尔',
-    'VIE': '🇦🇹 维也纳',
-    'PRG': '🇨🇿 布拉格',
-    'BUD': '🇭🇺 布达佩斯',
-    'WAW': '🇵🇱 华沙',
-    'KRK': '🇵🇱 克拉科夫',
-    'MXP': '🇮🇹 米兰马尔彭萨',
-    'LIN': '🇮🇹 米兰利纳特',
-    'FCO': '🇮🇹 罗马',
-    'VCE': '🇮🇹 威尼斯',
-    'NAP': '🇮🇹 那不勒斯',
-    'FLR': '🇮🇹 佛罗伦萨',
-    'BGY': '🇮🇹 贝加莫',
-    'MAD': '🇪🇸 马德里',
-    'BCN': '🇪🇸 巴塞罗那',
-    'PMI': '🇪🇸 帕尔马',
-    'AGP': '🇪🇸 马拉加',
-    'VLC': '🇪🇸 瓦伦西亚',
-    'SVQ': '🇪🇸 塞维利亚',
-    'BIO': '🇪🇸 毕尔巴鄂',
-    'LIS': '🇵🇹 里斯本',
-    'OPO': '🇵🇹 波尔图',
-    'FAO': '🇵🇹 法鲁',
-    'DUB': '🇮🇪 都柏林',
-    'CPH': '🇩🇰 哥本哈根',
-    'ARN': '🇸🇪 斯德哥尔摩',
-    'GOT': '🇸🇪 哥德堡',
-    'OSL': '🇳🇴 奥斯陆',
-    'BGO': '🇳🇴 卑尔根',
-    'HEL': '🇫🇮 赫尔辛基',
-    'RIX': '🇱🇻 里加',
-    'TLL': '🇪🇪 塔林',
-    'VNO': '🇱🇹 维尔纽斯',
-    'ATH': '🇬🇷 雅典',
-    'SKG': '🇬🇷 塞萨洛尼基',
-    'SOF': '🇧🇬 索非亚',
-    'OTP': '🇷🇴 布加勒斯特',
-    'BEG': '🇷🇸 贝尔格莱德',
-    'ZAG': '🇭🇷 萨格勒布',
-    'LJU': '🇸🇮 卢布尔雅那',
-    'KBP': '🇺🇦 基辅',
-    'IEV': '🇺🇦 基辅茹良尼',
-    'ODS': '🇺🇦 敖德萨',
-    'SVO': '🇷🇺 莫斯科谢列梅捷沃',
-    'DME': '🇷🇺 莫斯科多莫杰多沃',
-    'VKO': '🇷🇺 莫斯科伏努科沃',
-    'LED': '🇷🇺 圣彼得堡',
-    'IST': '🇹🇷 伊斯坦布尔',
-    'SAW': '🇹🇷 伊斯坦布尔萨比哈',
-    'ESB': '🇹🇷 安卡拉',
-    'AYT': '🇹🇷 安塔利亚',
-    'ADB': '🇹🇷 伊兹密尔',
-    'TLV': '🇮🇱 特拉维夫',
-    'AMM': '🇯🇴 安曼',
-    'BEY': '🇱🇧 贝鲁特',
-    'BAH': '🇧🇭 巴林',
-    'KWI': '🇰🇼 科威特',
-    'DXB': '🇦🇪 迪拜',
-    'AUH': '🇦🇪 阿布扎比',
-    'SHJ': '🇦🇪 沙迦',
-    'DOH': '🇶🇦 多哈',
-    'MCT': '🇴🇲 马斯喀特',
-    'RUH': '🇸🇦 利雅得',
-    'JED': '🇸🇦 吉达',
-    'DMM': '🇸🇦 达曼',
-    'CAI': '🇪🇬 开罗',
-    'HBE': '🇪🇬 亚历山大',
-    'SSH': '🇪🇬 沙姆沙伊赫',
-    'CMN': '🇲🇦 卡萨布兰卡',
-    'RAK': '🇲🇦 马拉喀什',
-    'TUN': '🇹🇳 突尼斯',
-    'ALG': '🇩🇿 阿尔及尔',
-    'LOS': '🇳🇬 拉各斯',
-    'ABV': '🇳🇬 阿布贾',
-    'ACC': '🇬🇭 阿克拉',
-    'NBO': '🇰🇪 内罗毕',
-    'MBA': '🇰🇪 蒙巴萨',
-    'ADD': '🇪🇹 亚的斯亚贝巴',
-    'DAR': '🇹🇿 达累斯萨拉姆',
-    'JNB': '🇿🇦 约翰内斯堡',
-    'CPT': '🇿🇦 开普敦',
-    'DUR': '🇿🇦 德班',
-    'HRE': '🇿🇼 哈拉雷',
-    'LUN': '🇿🇲 卢萨卡',
-    'MRU': '🇲🇺 毛里求斯',
-    'SEZ': '🇸🇨 塞舌尔',
-    'SYD': '🇦🇺 悉尼',
-    'MEL': '🇦🇺 墨尔本',
-    'BNE': '🇦🇺 布里斯班',
-    'PER': '🇦🇺 珀斯',
-    'ADL': '🇦🇺 阿德莱德',
-    'CBR': '🇦🇺 堪培拉',
-    'OOL': '🇦🇺 黄金海岸',
-    'CNS': '🇦🇺 凯恩斯',
-    'AKL': '🇳🇿 奥克兰',
-    'WLG': '🇳🇿 惠灵顿',
-    'CHC': '🇳🇿 基督城',
-    'ZQN': '🇳🇿 皇后镇',
-    'NAN': '🇫🇯 楠迪',
-    'PPT': '🇵🇫 帕皮提',
-    'GUM': '🇬🇺 关岛',
-    'GRU': '🇧🇷 圣保罗瓜鲁柳斯',
-    'CGH': '🇧🇷 圣保罗孔戈尼亚斯',
-    'GIG': '🇧🇷 里约热内卢',
-    'BSB': '🇧🇷 巴西利亚',
-    'CNF': '🇧🇷 贝洛奥里藏特',
-    'POA': '🇧🇷 阿雷格里港',
-    'CWB': '🇧🇷 库里蒂巴',
-    'FOR': '🇧🇷 福塔莱萨',
-    'REC': '🇧🇷 累西腓',
-    'SSA': '🇧🇷 萨尔瓦多',
-    'EZE': '🇦🇷 布宜诺斯艾利斯',
-    'AEP': '🇦🇷 布宜诺斯艾利斯城',
-    'COR': '🇦🇷 科尔多瓦',
-    'MDZ': '🇦🇷 门多萨',
-    'SCL': '🇨🇱 圣地亚哥',
-    'LIM': '🇵🇪 利马',
-    'BOG': '🇨🇴 波哥大',
-    'MDE': '🇨🇴 麦德林',
-    'CLO': '🇨🇴 卡利',
-    'UIO': '🇪🇨 基多',
-    'GYE': '🇪🇨 瓜亚基尔',
-    'CCS': '🇻🇪 加拉加斯',
-    'MVD': '🇺🇾 蒙得维的亚',
-    'ASU': '🇵🇾 亚松森',
-    'PTY': '🇵🇦 巴拿马城',
-    'SJO': '🇨🇷 圣何塞',
-    'GUA': '🇬🇹 危地马拉城',
-    'SAL': '🇸🇻 圣萨尔瓦多',
-    'TGU': '🇭🇳 特古西加尔巴',
-    'MGA': '🇳🇮 马那瓜',
-    'BZE': '🇧🇿 伯利兹城',
-    'MEX': '🇲🇽 墨西哥城',
-    'GDL': '🇲🇽 瓜达拉哈拉',
-    'MTY': '🇲🇽 蒙特雷',
-    'CUN': '🇲🇽 坎昆',
-    'TIJ': '🇲🇽 蒂华纳',
-    'SJD': '🇲🇽 圣何塞德尔卡沃',
-    'YYZ': '🇨🇦 多伦多',
-    'YVR': '🇨🇦 温哥华',
-    'YUL': '🇨🇦 蒙特利尔',
-    'YYC': '🇨🇦 卡尔加里',
-    'YEG': '🇨🇦 埃德蒙顿',
-    'YOW': '🇨🇦 渥太华',
-    'YWG': '🇨🇦 温尼伯',
-    'YHZ': '🇨🇦 哈利法克斯',
-    'HAV': '🇨🇺 哈瓦那',
-    'SJU': '🇵🇷 圣胡安',
-    'SDQ': '🇩🇴 圣多明各',
-    'PAP': '🇭🇹 太子港',
-    'KIN': '🇯🇲 金斯顿',
-    'NAS': '🇧🇸 拿骚',
-    'MBJ': '🇯🇲 蒙特哥贝'
-  };
-  function 获取机房名称(机房20018) {
-    return 机房映射[机房20018] || 机房20018;
-  }
-
-  // 城市筛选相关函数
-  const 城市筛选值 = document.getElementById('cityFilterContainer');
-  const 城市值值 = document.getElementById('cityCheckboxesContainer');
-  function 更新城市筛选() {
-    if (!城市筛选值 || !城市值值) return;
-
-    // 从测试结果中提取所有可用的城市
-    const 城市映射 = new Map();
-    测试结果列表.forEach((结果20017, 索引20016) => {
-      if (结果20017.success && 结果20017.colo) {
-        const 机房20015 = 结果20017.colo;
-        if (!城市映射.has(机房20015)) {
-          城市映射.set(机房20015, {
-            colo: 机房20015,
-            name: 获取机房名称(机房20015),
-            count: 0
-          });
-        }
-        城市映射.get(机房20015).count++;
-      }
-    });
-    if (城市映射.size === 0) {
-      城市筛选值.style.display = 'none';
-      return;
-    }
-    城市筛选值.style.display = 'block';
-    城市值值.innerHTML = '';
-
-    // 按城市名称排序
-    const 城市列表 = Array.from(城市映射.values()).sort((甲值20014, 乙值20013) => 甲值20014.name.localeCompare(乙值20013.name));
-    城市列表.forEach(城市 => {
-      const 标签 = document.createElement('label');
-      标签.style.cssText = 'display: inline-flex; align-items: center; cursor: pointer; color: #c8f135; font-size: 0.85rem; padding: 4px 8px; background: rgba(11,14,20,0.4); border: 1px solid #9aa6b8; border-radius: 4px;';
-      const 复选框20012 = document.createElement('input');
-      复选框20012.type = 'checkbox';
-      复选框20012.value = 城市.colo;
-      复选框20012.checked = true;
-      复选框20012.dataset.colo = 城市.colo;
-      复选框20012.style.cssText = 'margin-right: 6px; width: 16px; height: 16px; cursor: pointer;';
-      const 本地值20011 = document.createElement('span');
-      本地值20011.textContent = 城市.name + ' (' + 城市.count + ')';
-      标签.appendChild(复选框20012);
-      标签.appendChild(本地值20011);
-      城市值值.appendChild(标签);
-      复选框20012.addEventListener('change', 按城市筛选结果);
-    });
-
-    // 监听筛选模式变化
-    const 筛选值值 = document.querySelectorAll('input[name="cityFilterMode"]');
-    筛选值值.forEach(单选框 => {
-      单选框.addEventListener('change', function () {
-        if (this.value === 'all') {
-          // 切换到"全部城市"模式时，自动选中所有城市复选框
-          const 城市值20010 = 城市值值.querySelectorAll('input[type="checkbox"]');
-          城市值20010.forEach(本地值20009 => {
-            本地值20009.checked = true;
-            本地值20009.disabled = false;
-          });
-        }
-        按城市筛选结果();
-      });
-    });
-  }
-  function 按城市筛选结果() {
-    if (!结果列表列表 || !城市值值) return;
-    const 筛选值 = document.querySelector('input[name="cityFilterMode"]:checked')?.value || 'all';
-    const 结果项目列表 = 结果列表列表.querySelectorAll('[data-index]');
-    const 城市值 = 城市值值.querySelectorAll('input[type="checkbox"]');
-    if (筛选值 === 'fastest10') {
-      // 只选择最快的10个
-      const 值结果列表 = 测试结果列表.map((结果, 索引20008) => ({
-        result: 结果,
-        index: 索引20008
-      })).filter(项目20007 => 项目20007.result.success).sort((甲值, 乙值) => 甲值.result.latency - 乙值.result.latency).slice(0, 10);
-      const 最快索引集合 = new Set(值结果列表.map(项目20006 => 项目20006.index));
-      结果项目列表.forEach(项目20005 => {
-        const 索引 = parseInt(项目20005.dataset.index);
-        const 复选框20004 = 项目20005.querySelector('input[type="checkbox"]');
-        if (最快索引集合.has(索引)) {
-          项目20005.style.display = 'flex';
-          if (复选框20004) 复选框20004.checked = true;
-        } else {
-          项目20005.style.display = 'none';
-          if (复选框20004) 复选框20004.checked = false;
-        }
-      });
-
-      // 禁用城市复选框
-      城市值.forEach(本地值20003 => 本地值20003.disabled = true);
-    } else {
-      // 根据选中的城市筛选
-      const 已选城市列表 = new Set();
-      城市值.forEach(本地值20002 => {
-        if (本地值20002.checked) {
-          已选城市列表.add(本地值20002.value);
-        }
-      });
-
-      // 如果所有城市都被选中（或没有选中任何城市），显示所有结果
-      const 值值20001 = 城市值.length > 0 && 已选城市列表.size === 城市值.length;
-      const 值值 = 已选城市列表.size === 0;
-      结果项目列表.forEach(项目 => {
-        const 机房20000 = 项目.dataset.colo || '';
-        const 复选框 = 项目.querySelector('input[type="checkbox"]');
-        if (值值20001 || 值值 || 已选城市列表.has(机房20000)) {
-          项目.style.display = 'flex';
-          // 同步更新结果项复选框的选中状态
-          if (复选框) {
-            if (值值20001) {
-              // 所有城市都选中时，所有结果项复选框都选中
-              复选框.checked = true;
-            } else if (值值) {
-              // 没有选中任何城市时，所有结果项复选框都取消选中
-              复选框.checked = false;
-            } else {
-              // 根据城市选择状态同步复选框
-              复选框.checked = 已选城市列表.has(机房20000);
-            }
-          }
-        } else {
-          项目.style.display = 'none';
-          // 取消选中隐藏的结果项复选框
-          if (复选框) {
-            复选框.checked = false;
-          }
-        }
-      });
-
-      // 启用城市复选框
-      城市值.forEach(本地值 => 本地值.disabled = false);
-    }
-  }
-  async function 测试延迟(主机, 端口, 信号) {
-    const 超时 = 8000;
-    let 机房 = '';
-    let 测试网址 = '';
-    try {
-      const 控制器 = new AbortController();
-      const 超时标识 = setTimeout(() => 控制器.abort(), 超时);
-      if (信号) {
-        信号.addEventListener('abort', () => 控制器.abort());
-      }
-      const 清理主机 = 主机.replace(/^\\[|\\]$/g, '');
-      const 十六进制地址 = 地址转十六进制(清理主机);
-      const 测试域名 = 十六进制地址 ? 十六进制地址 + '.nip.lfree.org' : 清理主机 + '.nip.lfree.org';
-      测试网址 = 'https://' + 测试域名 + ':' + 端口 + '/';
-      console.log('[LatencyTest] Testing:', 测试网址, 'Original:', 主机 + ':' + 端口, 'HexIP:', 十六进制地址);
-      const 首次开始 = Date.now();
-      const 响应1 = await fetch(测试网址, {
-        signal: 控制器.signal
-      });
-      const 首次值 = Date.now() - 首次开始;
-      if (!响应1.ok) {
-        clearTimeout(超时标识);
-        return {
-          success: false,
-          latency: 首次值,
-          error: 'HTTP ' + 响应1.status + ' ' + 响应1.statusText,
-          colo: '',
-          testUrl: 测试网址
-        };
-      }
-      try {
-        const 文本 = await 响应1.text();
-        console.log('[LatencyTest] Response body:', 文本.substring(0, 200));
-        const 数据 = JSON.parse(文本);
-        if (数据.colo) {
-          机房 = 数据.colo;
-        }
-      } catch (事件值) {
-        console.log('[LatencyTest] Parse error:', 事件值.message);
-      }
-      const 值开始 = Date.now();
-      const 响应2 = await fetch(测试网址, {
-        signal: 控制器.signal
-      });
-      await 响应2.text();
-      const 延迟 = Date.now() - 值开始;
-      clearTimeout(超时标识);
-      console.log('[LatencyTest] First:', 首次值 + 'ms (DNS+TLS+RTT)', 'Second:', 延迟 + 'ms (RTT only)');
-      return {
-        success: true,
-        latency: 延迟,
-        colo: 机房,
-        testUrl: 测试网址
-      };
-    } catch (错误) {
-      const 错误消息 = 错误.name === 'AbortError' ? '${是否值236 ? 'زمان تمام شد' : '超时'}' : 错误.message;
-      console.log('[LatencyTest] Error:', 错误消息, 'URL:', 测试网址);
-      return {
-        success: false,
-        latency: -1,
-        error: 错误消息,
-        colo: '',
-        testUrl: 测试网址
-      };
-    }
-  }
-});
-</script>
-    </body>
-    </html>`;
-  return new Response(值页面, {
+  const _v900 = _v899[_v895 ? 'fa' : 'zh'];
+  const _v901 = "<!DOCTYPE html>\n    <html lang=\"" + String(_v898) + "\" dir=\"" + String(_v895 ? 'rtl' : 'ltr') + "\">\n    <head>\n        <meta charset=\"UTF-8\">\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n            <title>" + String(_v900.title) + "</title>\n        <style>\n            @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Vazirmatn:wght@400;500;600;700&display=swap');\n            :root {\n                --md-bg: #080a0e;\n                --md-bg-2: #0b0e14;\n                --md-surface: #10141c;\n                --md-surface-2: #141a24;\n                --md-surface-3: #1b2230;\n                --md-primary: #c8f135;\n                --md-primary-d: #a6cf1d;\n                --md-on-primary: #0a0f05;\n                --md-secondary: #5b8cff;\n                --md-secondary-d: #3f5fb0;\n                --md-tertiary: #ffb454;\n                --md-yellow: #ffb454;\n                --md-success: #3ddc84;\n                --md-error: #ff5d73;\n                --md-warning: #ffb454;\n                --md-text: #eef2f7;\n                --md-text-dim: #9aa6b8;\n                --md-outline: rgba(238,242,247,0.14);\n                --md-outline-strong: rgba(238,242,247,0.28);\n                --md-r-sm: 12px;\n                --md-r-md: 16px;\n                --md-r-lg: 24px;\n                --md-r-xl: 28px;\n                --md-elev-1: 0 1px 3px rgba(0,0,0,0.35), 0 1px 2px rgba(0,0,0,0.3);\n                --md-elev-2: 0 3px 8px rgba(0,0,0,0.4), 0 1px 3px rgba(0,0,0,0.3);\n                --md-elev-3: 0 8px 22px rgba(0,0,0,0.45), 0 2px 6px rgba(0,0,0,0.3);\n                --md-font: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;\n                --md-disp: 'Bricolage Grotesque', 'Vazirmatn', sans-serif;\n                --md-shadow: 0 26px 60px -26px rgba(0,0,0,.8);\n                --md-line: rgba(255,255,255,.075);\n                --md-line2: rgba(255,255,255,.15);\n                --cp-bg: var(--md-bg);\n                --cp-bg-2: var(--md-bg-2);\n                --cp-bg-3: var(--md-surface);\n                --cp-cyan: var(--md-primary);\n                --cp-cyan-d: var(--md-primary-d);\n                --cp-pink: var(--md-secondary);\n                --cp-pink-d: var(--md-secondary-d);\n                --cp-purple: var(--md-tertiary);\n                --cp-yellow: var(--md-yellow);\n                --cp-mint: var(--md-success);\n                --cp-amber: var(--md-warning);\n                --cp-red: var(--md-error);\n                --cp-text: var(--md-text);\n                --cp-text-dim: var(--md-text-dim);\n                --cp-border: var(--md-outline);\n                --cp-border-pink: var(--md-outline);\n                --cp-grid: transparent;\n            }\n            * { margin: 0; padding: 0; box-sizing: border-box; }\n            html, body { min-height: 100%; }\n\n            /* ===== Top bar — matches wizard ===== */\n            .cp-bar{position:sticky;top:0;z-index:80;display:flex;align-items:center;gap:14px;\n                padding:12px clamp(14px,3.5vw,30px);background:linear-gradient(180deg,var(--md-surface-2),var(--md-surface));\n                border-bottom:1px solid var(--md-line);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}\n            .cp-bar::after{content:\"\";position:absolute;left:0;right:0;bottom:-1px;height:1px;\n                background:linear-gradient(90deg,transparent,var(--md-primary),var(--md-secondary),transparent);\n                background-size:200% 100%;animation:cp-sheen 7s linear infinite;opacity:.5}\n            @keyframes cp-sheen{to{background-position:200% 0}}\n            .cp-brand{display:flex;align-items:center;gap:11px}\n            .cp-brand .cp-mk{width:30px;height:30px;flex:none;position:relative;border-radius:8px;\n                background:conic-gradient(from 200deg,var(--md-primary),var(--md-secondary),var(--md-primary));box-shadow:0 0 16px rgba(200,241,53,.13)}\n            .cp-brand .cp-mk::after{content:\"\";position:absolute;inset:5px;border-radius:5px;background:var(--md-surface)}\n            .cp-brand .cp-mk::before{content:\"\";position:absolute;inset:11px;border-radius:2px;background:var(--md-primary);box-shadow:0 0 9px var(--md-primary);z-index:1;transform:rotate(45deg)}\n            .cp-brand b{font-family:var(--md-disp);font-weight:800;font-size:15px;letter-spacing:.04em;color:var(--md-text)}\n            .cp-brand small{display:block;font-size:9.5px;color:var(--md-text-dim);letter-spacing:.22em;font-weight:700;text-transform:uppercase}\n            .cp-spacer{flex:1}\n            .cp-sig{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:99px;\n                font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.04em;\n                background:var(--md-surface);border:1px solid var(--md-line);color:var(--md-text-dim)}\n            .cp-sig .cp-sig-d{width:7px;height:7px;border-radius:50%;background:var(--md-success);box-shadow:0 0 9px var(--md-success)}\n            .cp-sel{position:relative}\n            .cp-sel select{appearance:none;-webkit-appearance:none;background:var(--md-surface);border:1px solid var(--md-line);\n                color:var(--md-text-dim);border-radius:9px;font-family:var(--md-font);font-size:12px;font-weight:600;cursor:pointer;\n                padding:8px 30px 8px 12px;outline:none;transition:.2s}\n            .cp-sel::after{content:\"▾\";position:absolute;inset-inline-end:10px;top:50%;transform:translateY(-50%);color:var(--md-text-dim);pointer-events:none;font-size:10px}\n            .cp-sel select option{background:var(--md-surface-2);color:var(--md-text)}\n            .cp-ib{width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;\n                background:var(--md-surface);border:1px solid var(--md-line);color:var(--md-text-dim);border-radius:9px;\n                font-family:var(--md-font);font-weight:600;cursor:pointer;transition:.2s}\n            .cp-ib:hover{border-color:var(--md-line2);color:var(--md-text);transform:translateY(-1px)}\n            .cp-prog{height:2px;background:var(--md-line);position:relative}\n            .cp-prog i{position:absolute;inset-inline-start:0;top:0;bottom:0;width:100%;background:linear-gradient(90deg,var(--md-primary),var(--md-secondary));box-shadow:0 0 10px rgba(200,241,53,.13)}\n            body {\n                font-family: var(--md-font);\n                background:\n                    radial-gradient(circle at 12% 8%, rgba(200,241,53,0.14) 0%, transparent 38%),\n                    radial-gradient(circle at 88% 92%, rgba(91,140,255,0.12) 0%, transparent 40%),\n                    radial-gradient(circle at 90% 5%, rgba(255,180,84,0.10) 0%, transparent 35%),\n                    var(--md-bg);\n                color: var(--md-text);\n                min-height: 100vh;\n                overflow-x: hidden;\n                position: relative;\n            }\n            body::before { content: none; }\n            body::after { content:\"\";position:fixed;inset:0;z-index:-2;pointer-events:none;\n                background-image:radial-gradient(var(--md-line) 1px,transparent 1px);background-size:30px 30px;\n                -webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 8%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 8%,transparent 80%);opacity:.6; }\n            .matrix-bg, .matrix-code-rain, .matrix-column, .matrix-rain { display: none !important; }\n\n            ::selection { background: var(--md-primary); color: var(--md-on-primary); }\n\n            .container {\n                max-width: 900px;\n                margin: 0 auto;\n                padding: 28px 20px 120px;\n                position: relative;\n                z-index: 1;\n            }\n            .header {\n                text-align: start;\n                margin-bottom: 24px;\n                padding: clamp(18px,3vw,28px);\n                position: relative;\n                border: 1px solid var(--md-line);\n                background: linear-gradient(135deg, var(--md-surface), var(--md-surface-2));\n                border-radius: var(--md-r-lg);\n                box-shadow: var(--md-shadow);\n                overflow: hidden;\n            }\n            .header::before { content:\"\";position:absolute;top:8px;inset-inline-start:8px;width:13px;height:13px;\n                border-top:1.5px solid var(--md-primary);border-inline-start:1.5px solid var(--md-primary);opacity:.7 }\n            .header::after { content:\"\";position:absolute;bottom:8px;inset-inline-end:8px;width:13px;height:13px;\n                border-bottom:1.5px solid var(--md-secondary);border-inline-end:1.5px solid var(--md-secondary);opacity:.7 }\n            .title {\n                font-family: var(--md-disp);\n                font-size: clamp(1.7rem, 4.2vw, 2.4rem);\n                font-weight: 800;\n                margin: 0 0 8px;\n                color: var(--md-text);\n                letter-spacing: -.01em;\n                text-transform: none;\n                position: relative;\n                animation: none;\n            }\n            .subtitle {\n                color: var(--md-text-dim);\n                margin-bottom: 0;\n                font-size: 13.5px;\n                max-width: 54ch;\n                letter-spacing: 0;\n                text-transform: none;\n                line-height: 1.55;\n            }\n            .subtitle::before { content: none; }\n\n            .card {\n                background: var(--md-surface);\n                border: 1px solid var(--md-line);\n                border-radius: var(--md-r-lg);\n                padding: clamp(18px,3vw,28px);\n                margin-bottom: 18px;\n                position: relative;\n                width: 100%;\n                box-shadow: var(--md-shadow);\n                overflow: hidden;\n            }\n            .card::before { content:\"\";position:absolute;top:8px;inset-inline-start:8px;width:13px;height:13px;\n                border-top:1.5px solid var(--md-primary);border-inline-start:1.5px solid var(--md-primary);opacity:.7;pointer-events:none }\n            .card::after { content:\"\";position:absolute;bottom:8px;inset-inline-end:8px;width:13px;height:13px;\n                border-bottom:1.5px solid var(--md-secondary);border-inline-end:1.5px solid var(--md-secondary);opacity:.7;pointer-events:none }\n            .card-title {\n                font-family: var(--md-disp);\n                font-size: clamp(1.1rem,2.5vw,1.35rem);\n                margin: 0 0 18px;\n                color: var(--md-text);\n                letter-spacing: -.01em;\n                text-transform: none;\n                display: flex; align-items: center; gap: 10px;\n                font-weight: 800;\n            }\n            .card-title::before {\n                content: \"\"; display: inline-block;\n                width: 16px; height: 2px; flex: none;\n                background: var(--md-primary);\n                box-shadow: 0 0 8px var(--md-primary);\n            }\n            .card-title::after { content: none; }\n            h3, h4 {\n                color: var(--md-text);\n                letter-spacing: 0;\n                text-transform: none;\n                font-weight: 700;\n            }\n\n            .client-grid {\n                display: grid;\n                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));\n                gap: 10px;\n                margin: 4px 0 16px;\n            }\n            .client-btn {\n                background: var(--md-surface-2);\n                border: 1px solid var(--md-outline);\n                border-radius: var(--md-r-md);\n                padding: 14px 16px;\n                color: var(--md-text);\n                font-family: inherit;\n                font-weight: 500;\n                font-size: 0.86rem;\n                letter-spacing: 0;\n                text-transform: none;\n                cursor: pointer;\n                transition: all 0.18s ease;\n                text-align: center;\n                position: relative;\n                overflow: hidden;\n            }\n            .client-btn::before { content: none; }\n            .client-btn:hover {\n                color: var(--md-on-primary);\n                border-color: var(--md-primary);\n                background: var(--md-primary);\n                box-shadow: var(--md-elev-1);\n                transform: translateY(-1px);\n            }\n\n            #clientSubscriptionUrl,\n            .subscription-url,\n            [class*='subscription-url'],\n            [class*='c3Vic2NyaXB0aW9u'] {\n                background: var(--md-surface-2) !important;\n                border: 1px solid var(--md-outline) !important;\n                border-radius: var(--md-r-md) !important;\n                padding: 14px 16px !important;\n                word-break: break-all;\n                font-family: 'JetBrains Mono', monospace;\n                color: var(--md-primary) !important;\n                margin-top: 14px;\n                box-shadow: none !important;\n                position: relative;\n                overflow-wrap: break-word;\n                overflow-x: auto;\n                max-width: 100%;\n                font-size: 0.85rem;\n                line-height: 1.6;\n            }\n            #clientSubscriptionUrl:empty { display: none !important; }\n\n            .cp-hud { display: none; }\n            .cp-lang-wrapper {\n                position: fixed; top: 18px; left: 18px; z-index: 1000;\n                display: flex; align-items: center; gap: 8px;\n            }\n            .cp-lang-tag { display: none; }\n            #languageSelector {\n                background: var(--md-surface-2);\n                border: 1px solid var(--md-outline);\n                border-radius: 20px;\n                color: var(--md-text);\n                padding: 8px 16px;\n                font-family: inherit;\n                font-size: 12.5px;\n                cursor: pointer;\n                box-shadow: var(--md-elev-1);\n            }\n            #languageSelector option { background: var(--md-surface-2); color: var(--md-text); }\n\n            /* FX toggle */\n            .cp-fx-toggle {\n                position: fixed; top: 18px; right: 18px; z-index: 1001;\n                background: var(--md-surface-2);\n                border: 1px solid var(--md-outline);\n                border-radius: 20px;\n                color: var(--md-text-dim);\n                padding: 8px 16px;\n                font-family: inherit;\n                font-size: 11.5px;\n                letter-spacing: 0;\n                text-transform: none;\n                cursor: pointer;\n                box-shadow: var(--md-elev-1);\n                transition: all 0.2s ease;\n                display: inline-flex; align-items: center; gap: 8px;\n            }\n            .cp-fx-toggle:hover { color: var(--md-primary); border-color: var(--md-primary); }\n            .cp-fx-toggle .cp-fx-dot { width: 8px; height: 8px; background: var(--md-success); border-radius: 50%; box-shadow: none; transition: all 0.2s; }\n            body.fx-off .cp-fx-toggle { color: var(--md-text-dim); border-color: var(--md-outline); box-shadow: none; }\n            body.fx-off .cp-fx-toggle .cp-fx-dot { background: transparent; border: 1px solid var(--md-text-dim); box-shadow: none; }\n            body.fx-off .matrix-bg,\n            body.fx-off .matrix-code-rain,\n            body.fx-off .matrix-column { display: none !important; }\n            body.fx-off::before, body.fx-off::after { display: none !important; content: none !important; }\n            body.fx-off { background: var(--md-bg) !important; }\n            body.fx-off * {\n                animation: none !important;\n                transition: color 0.15s, background-color 0.15s, border-color 0.15s, box-shadow 0.15s !important;\n            }\n            body.fx-off .cp-glitch::before,\n            body.fx-off .cp-glitch::after { display: none !important; }\n            body.fx-off .terminal-cursor::after,\n            body.fx-off .cp-fab-save .cp-fab-dot { animation: none !important; }\n            body.fx-off .cp-fab-save:hover { transform: none !important; }\n            body.fx-off .cp-action-bar.cp-dirty::before { animation: none !important; }\n            body.fx-off .header::before { display: none !important; }\n            body.fx-off .card { backdrop-filter: none !important; }\n            body.fx-off select, body.fx-off input, body.fx-off textarea { backdrop-filter: none !important; }\n\n            /* Status panel inside card */\n            #systemStatus {\n                background: var(--md-surface-2) !important;\n                border: 1px solid var(--md-outline) !important;\n                border-radius: var(--md-r-md) !important;\n                padding: 16px 18px !important;\n                margin: 12px 0 0 !important;\n                box-shadow: none !important;\n                position: relative;\n            }\n            #systemStatus > div {\n                color: var(--md-text) !important;\n                font-family: inherit !important;\n                margin: 6px 0 !important;\n                font-size: 0.85rem !important;\n                letter-spacing: 0;\n            }\n            #systemStatus > div:first-child {\n                color: var(--md-primary) !important;\n                font-weight: 700 !important;\n                letter-spacing: 0 !important;\n                margin-bottom: 12px !important;\n                text-transform: none;\n            }\n\n            /* Force inputs / selects — Material outlined fields */\n            input[type=\"text\"], input[type=\"number\"], input[type=\"password\"],\n            select, textarea {\n                background: var(--md-surface-2) !important;\n                border: 1.5px solid var(--md-outline) !important;\n                border-radius: var(--md-r-sm) !important;\n                color: var(--md-text) !important;\n                font-family: inherit !important;\n                font-size: 13.5px !important;\n                padding: 12px 14px !important;\n                outline: none;\n                transition: border-color 0.2s, box-shadow 0.2s;\n                box-shadow: none !important;\n                letter-spacing: 0;\n            }\n            input::placeholder { color: var(--md-text-dim) !important; opacity: 0.7; }\n            input:focus, select:focus, textarea:focus {\n                border-color: var(--md-primary) !important;\n                box-shadow: 0 0 0 3px rgba(200,241,53,0.18) !important;\n            }\n            select option { background: var(--md-surface-2); color: var(--md-text); }\n            input[type=\"checkbox\"], input[type=\"radio\"] {\n                accent-color: var(--md-primary);\n                width: 18px; height: 18px;\n            }\n\n            label {\n                color: var(--md-text) !important;\n                letter-spacing: 0;\n            }\n            label[style*=\"font-weight\"], label[style*=\"bold\"] {\n                font-weight: 700 !important;\n                color: var(--md-text) !important;\n                letter-spacing: 0 !important;\n                text-transform: none;\n                font-size: 0.85rem !important;\n            }\n            small {\n                color: var(--md-text-dim) !important;\n                font-size: 0.78rem !important;\n                letter-spacing: 0;\n                line-height: 1.5;\n            }\n\n            /* Buttons — Material filled/tonal pill buttons */\n            button, input[type=\"submit\"] {\n                background: var(--md-surface-3) !important;\n                border: 1px solid var(--md-outline) !important;\n                border-radius: 20px !important;\n                color: var(--md-text) !important;\n                font-family: inherit !important;\n                font-weight: 500 !important;\n                cursor: pointer;\n                padding: 10px 20px !important;\n                letter-spacing: 0 !important;\n                text-transform: none;\n                font-size: 0.82rem !important;\n                transition: all 0.2s ease;\n                box-shadow: none;\n            }\n            button:hover, input[type=\"submit\"]:hover {\n                color: var(--md-on-primary) !important;\n                border-color: var(--md-primary) !important;\n                background: var(--md-primary) !important;\n                box-shadow: var(--md-elev-1) !important;\n                transform: translateY(-1px);\n            }\n            button[id*=\"Reset\"], button[onclick*=\"reset\"], button[style*=\"ff0000\"] {\n                color: var(--md-error) !important;\n                border-color: var(--md-error) !important;\n                background: var(--md-surface-3) !important;\n            }\n            button[id*=\"Reset\"]:hover, button[onclick*=\"reset\"]:hover, button[style*=\"ff0000\"]:hover {\n                background: var(--md-error) !important;\n                color: var(--md-on-primary) !important;\n                box-shadow: var(--md-elev-1) !important;\n            }\n            button[id=\"stopLatencyTest\"] {\n                color: var(--md-error) !important;\n                border-color: var(--md-error) !important;\n            }\n\n            /* Form sub-cards */\n            .card form > div[style*=\"background: rgba(15, 3, 40\"],\n            .card form > div[style*=\"background: rgba(20, 5, 50\"],\n            div[style*=\"background: rgba(15, 3, 40\"],\n            div[style*=\"background: rgba(20, 5, 50\"] {\n                background: var(--md-bg-2) !important;\n                border: 1px solid var(--md-outline) !important;\n                box-shadow: none !important;\n                border-radius: var(--md-r-md) !important;\n            }\n\n            /* kvStatus / statusMessage / currentConfig / pathTypeInfo */\n            #kvStatus, #statusMessage, #currentConfig, #pathTypeInfo {\n                background: var(--md-surface-2) !important;\n                border: 1px solid var(--md-outline) !important;\n                border-radius: var(--md-r-md) !important;\n                color: var(--md-text) !important;\n                font-family: inherit !important;\n                box-shadow: none !important;\n                padding: 12px 16px !important;\n                font-size: 0.85rem !important;\n                letter-spacing: 0;\n            }\n            #pathTypeInfo div:first-child {\n                color: var(--md-primary) !important;\n                letter-spacing: 0 !important;\n            }\n\n            /* Latency Result list */\n            #latencyResultsList {\n                background: var(--md-surface-2) !important;\n                border: 1px solid var(--md-outline) !important;\n                border-radius: var(--md-r-md) !important;\n            }\n            #latencyResultsList > div {\n                border-bottom: 1px solid var(--md-outline) !important;\n            }\n            #cityFilterContainer {\n                background: var(--md-surface-2) !important;\n                border: 1px solid var(--md-outline) !important;\n                border-radius: var(--md-r-md) !important;\n            }\n\n            /* Related links area */\n            .card a {\n                color: var(--md-primary) !important;\n                text-decoration: none;\n                letter-spacing: 0;\n                text-transform: none;\n                font-size: 0.9rem;\n                padding: 4px 0;\n                border-bottom: 1px solid transparent;\n                transition: all 0.2s;\n            }\n            .card a:hover {\n                border-bottom-color: var(--md-primary);\n            }\n\n            /* Scrollbars */\n            ::-webkit-scrollbar { width: 8px; height: 8px; }\n            ::-webkit-scrollbar-track { background: transparent; }\n            ::-webkit-scrollbar-thumb {\n                background: var(--md-outline-strong);\n                border-radius: 4px;\n            }\n\n            .cp-glitch { position: relative; display: inline-block; }\n\n            /* Floating action dock - bottom-right anchored FAB cluster */\n            .cp-action-bar {\n                position: fixed;\n                right: 20px;\n                bottom: 20px;\n                z-index: 99999;\n                isolation: isolate;\n                display: flex;\n                flex-direction: row-reverse;\n                align-items: center;\n                gap: 10px;\n                padding: 0;\n                background: transparent;\n                border: 0;\n                box-shadow: none;\n                max-width: calc(100vw - 32px);\n                pointer-events: auto;\n            }\n            /* Primary SAVE FAB — Material extended FAB */\n            .cp-fab-save {\n                position: relative;\n                min-width: 170px;\n                padding: 16px 24px !important;\n                font-size: 0.88rem !important;\n                font-weight: 700 !important;\n                letter-spacing: 0 !important;\n                text-transform: none;\n                color: var(--md-on-primary) !important;\n                background: var(--md-primary) !important;\n                border: none !important;\n                border-radius: 28px !important;\n                box-shadow: var(--md-elev-3) !important;\n                cursor: pointer;\n                transition: transform 0.18s ease, box-shadow 0.25s ease;\n                display: inline-flex; align-items: center; gap: 10px;\n                white-space: nowrap;\n                font-family: inherit !important;\n                animation: none;\n            }\n            .cp-fab-save:hover {\n                transform: translateY(-2px);\n                box-shadow: var(--md-elev-3), 0 0 0 4px rgba(200,241,53,0.15) !important;\n                color: var(--md-on-primary) !important;\n            }\n            .cp-fab-save .cp-fab-icon {\n                font-size: 1.1em;\n                line-height: 1;\n                color: var(--md-on-primary);\n            }\n            .cp-fab-save .cp-fab-dot {\n                width: 8px; height: 8px; border-radius: 50%;\n                background: var(--md-on-primary);\n                transform: none;\n                margin-left: 2px;\n                opacity: 0.4;\n                transition: all 0.2s;\n            }\n            .cp-action-bar.cp-dirty .cp-fab-save {\n                animation: cp-fab-dirty-pulse 1.6s ease-in-out infinite;\n                color: var(--md-on-primary) !important;\n            }\n            .cp-action-bar.cp-dirty .cp-fab-save .cp-fab-dot { opacity: 1; }\n            @keyframes cp-fab-dirty-pulse {\n                0%, 100% { box-shadow: var(--md-elev-3); }\n                50%      { box-shadow: var(--md-elev-3), 0 0 0 6px rgba(200,241,53,0.22); }\n            }\n            /* Secondary mini buttons — Material tonal icon buttons */\n            .cp-action-btn {\n                background: var(--md-surface-3) !important;\n                border: 1px solid var(--md-outline) !important;\n                border-radius: 50% !important;\n                color: var(--md-text) !important;\n                font-family: inherit !important;\n                font-weight: 500 !important;\n                cursor: pointer;\n                width: 46px; height: 46px;\n                padding: 0 !important;\n                letter-spacing: 0 !important;\n                font-size: 1.05rem !important;\n                transition: all 0.2s ease;\n                box-shadow: var(--md-elev-1);\n                display: inline-flex; align-items: center; justify-content: center;\n                white-space: nowrap;\n                position: relative;\n            }\n            .cp-action-btn .cp-btn-label { display: none; }\n            .cp-action-btn::after {\n                content: attr(data-tip);\n                position: absolute;\n                bottom: 100%; right: 50%;\n                transform: translate(50%, -8px);\n                background: var(--md-surface-3);\n                color: var(--md-text);\n                font-size: 10.5px;\n                letter-spacing: 0;\n                text-transform: none;\n                padding: 5px 10px;\n                border: 1px solid var(--md-outline);\n                border-radius: 8px;\n                opacity: 0; pointer-events: none;\n                transition: opacity 0.2s;\n                white-space: nowrap;\n                box-shadow: var(--md-elev-1);\n            }\n            .cp-action-btn:hover::after { opacity: 1; }\n            .cp-action-btn:hover {\n                color: var(--md-on-primary) !important;\n                border-color: var(--md-primary) !important;\n                background: var(--md-primary) !important;\n                box-shadow: var(--md-elev-2) !important;\n                transform: translateY(-2px);\n            }\n            .cp-action-btn-danger {\n                color: var(--md-error) !important;\n                border-color: var(--md-error) !important;\n                box-shadow: var(--md-elev-1) !important;\n            }\n            .cp-action-btn-danger:hover {\n                background: var(--md-error) !important;\n                color: var(--md-on-primary) !important;\n                box-shadow: var(--md-elev-2) !important;\n            }\n            .cp-action-btn-saving,\n            .cp-fab-save.cp-action-btn-saving {\n                opacity: 0.7;\n                pointer-events: none;\n                animation: cp-pulse-soft 0.9s ease-in-out infinite !important;\n            }\n            @keyframes cp-pulse-soft {\n                0%, 100% { box-shadow: var(--md-elev-1); }\n                50%      { box-shadow: var(--md-elev-3); }\n            }\n            .container { padding-bottom: 120px; }\n            .cp-action-status {\n                position: fixed;\n                right: 20px;\n                bottom: 84px;\n                z-index: 99998;\n                padding: 10px 16px;\n                background: var(--md-surface-3);\n                border: 1px solid var(--md-outline);\n                border-radius: 20px;\n                color: var(--md-success);\n                font-size: 0.78rem;\n                letter-spacing: 0;\n                text-transform: none;\n                box-shadow: var(--md-elev-2);\n                opacity: 0;\n                transform: translateY(8px);\n                transition: opacity 0.25s, transform 0.25s;\n                pointer-events: none;\n                white-space: nowrap;\n                max-width: calc(100vw - 44px);\n                overflow: hidden; text-overflow: ellipsis;\n            }\n            .cp-action-status.cp-show { opacity: 1; transform: translateY(0); }\n            .cp-action-status.cp-err {\n                border-color: var(--md-error);\n                color: var(--md-error);\n                box-shadow: var(--md-elev-2);\n            }\n            /* Toast notification stack (top-right) — Material snackbars */\n            .cp-toast-stack {\n                position: fixed;\n                top: 84px;\n                right: 20px;\n                z-index: 100000;\n                display: flex;\n                flex-direction: column;\n                gap: 10px;\n                max-width: min(400px, calc(100vw - 32px));\n                pointer-events: none;\n            }\n            .cp-toast {\n                position: relative;\n                display: flex;\n                align-items: flex-start;\n                gap: 12px;\n                padding: 14px 16px;\n                background: var(--md-surface-3);\n                border: 1px solid var(--md-outline);\n                border-radius: var(--md-r-md);\n                color: var(--md-text);\n                font-size: 0.85rem;\n                line-height: 1.45;\n                letter-spacing: 0;\n                box-shadow: var(--md-elev-3);\n                transform: translateX(120%);\n                opacity: 0;\n                transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s;\n                pointer-events: auto;\n                overflow: hidden;\n                word-break: break-all;\n            }\n            .cp-toast.cp-show { transform: translateX(0); opacity: 1; }\n            .cp-toast.cp-hide { transform: translateX(120%); opacity: 0; }\n            .cp-toast::before {\n                content: \"\";\n                position: absolute;\n                left: 0; top: 0; bottom: 0;\n                width: 4px;\n                background: var(--md-text-dim);\n                border-radius: 4px 0 0 4px;\n            }\n            .cp-toast-icon {\n                font-size: 1.1rem;\n                line-height: 1;\n                margin-top: 1px;\n                flex-shrink: 0;\n                color: var(--md-text);\n            }\n            .cp-toast-body { flex: 1; min-width: 0; }\n            .cp-toast-title {\n                font-size: 0.7rem;\n                font-weight: 700;\n                letter-spacing: 0.04em;\n                text-transform: uppercase;\n                opacity: 0.7;\n                margin-bottom: 2px;\n            }\n            .cp-toast-msg { white-space: pre-wrap; }\n            .cp-toast-close {\n                position: absolute;\n                top: 8px; right: 10px;\n                background: transparent;\n                border: 0;\n                color: inherit;\n                font-size: 14px;\n                cursor: pointer;\n                opacity: 0.55;\n                padding: 2px 4px;\n                line-height: 1;\n                transition: opacity 0.2s;\n            }\n            .cp-toast-close:hover { opacity: 1; }\n            .cp-toast::after { content: none; }\n            .cp-toast.cp-toast-success { border-color: var(--md-success); color: var(--md-success); }\n            .cp-toast.cp-toast-success::before { background: var(--md-success); }\n            .cp-toast.cp-toast-success .cp-toast-icon { color: var(--md-success); }\n            .cp-toast.cp-toast-info { border-color: var(--md-primary); color: var(--md-primary); }\n            .cp-toast.cp-toast-info::before { background: var(--md-primary); }\n            .cp-toast.cp-toast-info .cp-toast-icon { color: var(--md-primary); }\n            .cp-toast.cp-toast-warn { border-color: var(--md-warning); color: var(--md-warning); }\n            .cp-toast.cp-toast-warn::before { background: var(--md-warning); }\n            .cp-toast.cp-toast-warn .cp-toast-icon { color: var(--md-warning); }\n            .cp-toast.cp-toast-error { border-color: var(--md-error); color: var(--md-error); }\n            .cp-toast.cp-toast-error::before { background: var(--md-error); }\n            .cp-toast.cp-toast-error .cp-toast-icon { color: var(--md-error); }\n\n            /* Tiny floating \"unsaved\" badge on the FAB */\n            .cp-action-bar.cp-dirty::before {\n                content: \"● UNSAVED\";\n                position: absolute;\n                top: -24px; right: 6px;\n                font-size: 9px;\n                letter-spacing: 0.15em;\n                color: var(--md-text-dim);\n                background: var(--md-surface-3);\n                padding: 3px 10px;\n                border-radius: 10px;\n                border: 1px solid var(--md-outline);\n                box-shadow: var(--md-elev-1);\n                animation: none;\n            }\n\n            @media (max-width: 720px) {\n                .container { padding: 20px 14px 140px; }\n                .card { padding: 20px 16px; border-radius: var(--md-r-md); }\n                .header { padding: 22px 18px; border-radius: var(--md-r-md); }\n                .title { font-size: 1.5rem; }\n                .cp-hud { font-size: 9px; }\n                .cp-action-bar {\n                    right: 50%;\n                    bottom: 14px;\n                    transform: translateX(50%);\n                    gap: 8px;\n                }\n                .cp-fab-save {\n                    min-width: 0;\n                    padding: 13px 18px !important;\n                    font-size: 0.8rem !important;\n                    letter-spacing: 0 !important;\n                }\n                .cp-action-btn { width: 42px; height: 42px; }\n                .cp-action-status { right: 50%; transform: translate(50%, 8px); }\n                .cp-action-status.cp-show { transform: translate(50%, 0); }\n            }\n        </style>\n    </head>\n    <body>\n        <div class=\"matrix-bg\"></div>\n        <div class=\"matrix-code-rain\" id=\"matrixCodeRain\"></div>\n            <header class=\"cp-bar\">\n                <div class=\"cp-brand\"><span class=\"cp-mk\"></span><span><b>miliconfig</b><small>" + String(_v900.terminal) + "</small></span></div>\n                <span class=\"cp-spacer\"></span>\n                <span class=\"cp-sig\"><span class=\"cp-sig-d\"></span><span>" + String(_v895 ? 'آنلاین' : 'ONLINE') + _d64("ATwvc3Bhbj48L3NwYW4+CiAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzPSJjcC1zZWwiPjxzZWxlY3QgaWQ9Imxhbmd1YWdlU2VsZWN0b3IiIG9uY2hhbmdlPSLliIfmjaLor63oqIAodGhpcy52YWx1ZSkiPjxvcHRpb24gdmFsdWU9InpoIiA=") + String(!_v895 ? 'selected' : '') + _d64("AT7wn4eo8J+HsyDkuK3mloc8L29wdGlvbj48b3B0aW9uIHZhbHVlPSJmYSIg") + String(_v895 ? 'selected' : '') + _d64("AT7wn4eu8J+HtyDZgdin2LHYs9uMPC9vcHRpb24+PC9zZWxlY3Q+PC9kaXY+CiAgICAgICAgICAgICAgICA8YnV0dG9uIHR5cGU9ImJ1dHRvbiIgaWQ9ImNwRnhUb2dnbGUiIGNsYXNzPSJjcC1pYiIgb25jbGljaz0id2luZG93LuWIh+aNoumhtemdoueJueaViCgpIiB0aXRsZT0i") + String(_v895 ? 'افکت' : 'FX') + "\" aria-label=\"FX\"><span id=\"cpFxLabel\">FX</span></button>\n            </header>\n            <div class=\"cp-prog\"><i></i></div>\n        <div class=\"container\">\n            <div class=\"header\">\n                    <h1 class=\"title cp-glitch\" data-text=\"" + String(_v900.title) + "\">" + String(_v900.title) + "</h1>\n                    <p class=\"subtitle\">" + String(_v900.subtitle) + "</p>\n            </div>\n            <div class=\"card\">\n                    <h2 class=\"card-title\">" + String(_v900.selectClient) + _d64("ATwvaDI+CiAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzPSJjbGllbnQtZ3JpZCI+CiAgICAgICAgICAgICAgICAgICAgPGJ1dHRvbiBjbGFzcz0iY2xpZW50LWJ0biIgb25jbGljaz0i55Sf5oiQ5a6i5oi356uv6ZO+5o6lKCc=") + String(_v4('Y2xhc2g=')) + "', '" + String(_v4('Q0xBU0g=')) + "')\">" + String(_v4('Q0xBU0g=')) + _d64("ATwvYnV0dG9uPgogICAgICAgICAgICAgICAgICAgIDxidXR0b24gY2xhc3M9ImNsaWVudC1idG4iIG9uY2xpY2s9IueUn+aIkOWuouaIt+err+mTvuaOpSgn") + String(_v4('Y2xhc2g=')) + "', '" + String(_v4('U1RBU0g=')) + "')\">" + String(_v4('U1RBU0g=')) + _d64("ATwvYnV0dG9uPgogICAgICAgICAgICAgICAgICAgIDxidXR0b24gY2xhc3M9ImNsaWVudC1idG4iIG9uY2xpY2s9IueUn+aIkOWuouaIt+err+mTvuaOpSgn") + String(_v4('c3VyZ2U=')) + "', '" + String(_v4('U1VSR0U=')) + "')\">" + String(_v4('U1VSR0U=')) + _d64("ATwvYnV0dG9uPgogICAgICAgICAgICAgICAgICAgIDxidXR0b24gY2xhc3M9ImNsaWVudC1idG4iIG9uY2xpY2s9IueUn+aIkOWuouaIt+err+mTvuaOpSgn") + String(_v4('c2luZ2JveA==')) + "', '" + String(_v4('U0lORy1CT1g=')) + "')\">" + String(_v4('U0lORy1CT1g=')) + _d64("ATwvYnV0dG9uPgogICAgICAgICAgICAgICAgICAgIDxidXR0b24gY2xhc3M9ImNsaWVudC1idG4iIG9uY2xpY2s9IueUn+aIkOWuouaIt+err+mTvuaOpSgn") + String(_v4('bG9vbg==')) + "', '" + String(_v4('TE9PTg==')) + "')\">" + String(_v4('TE9PTg==')) + _d64("ATwvYnV0dG9uPgogICAgICAgICAgICAgICAgICAgIDxidXR0b24gY2xhc3M9ImNsaWVudC1idG4iIG9uY2xpY2s9IueUn+aIkOWuouaIt+err+mTvuaOpSgn") + String(_v4('cXVhbng=')) + "', '" + String(_v4('UVVBTlRVTVVMVCBY')) + "')\">" + String(_v4('UVVBTlRVTVVMVCBY')) + _d64("ATwvYnV0dG9uPgogICAgICAgICAgICAgICAgICAgIDxidXR0b24gY2xhc3M9ImNsaWVudC1idG4iIG9uY2xpY2s9IueUn+aIkOWuouaIt+err+mTvuaOpSgn") + String(_v4('djJyYXk=')) + "', '" + String(_v4('VjJSQVk=')) + "')\">" + String(_v4('VjJSQVk=')) + _d64("ATwvYnV0dG9uPgogICAgICAgICAgICAgICAgICAgIDxidXR0b24gY2xhc3M9ImNsaWVudC1idG4iIG9uY2xpY2s9IueUn+aIkOWuouaIt+err+mTvuaOpSgn") + String(_v4('djJyYXk=')) + "', '" + String(_v4('VjJSQVlORw==')) + "')\">" + String(_v4('VjJSQVlORw==')) + _d64("ATwvYnV0dG9uPgogICAgICAgICAgICAgICAgICAgIDxidXR0b24gY2xhc3M9ImNsaWVudC1idG4iIG9uY2xpY2s9IueUn+aIkOWuouaIt+err+mTvuaOpSgn") + String(_v4('djJyYXk=')) + "', '" + String(_v4('TkVLT1JBWQ==')) + "')\">" + String(_v4('TkVLT1JBWQ==')) + _d64("ATwvYnV0dG9uPgogICAgICAgICAgICAgICAgICAgIDxidXR0b24gY2xhc3M9ImNsaWVudC1idG4iIG9uY2xpY2s9IueUn+aIkOWuouaIt+err+mTvuaOpSgn") + String(_v4('djJyYXk=')) + "', '" + String(_v4('U2hhZG93cm9ja2V0')) + "')\">" + String(_v4('U2hhZG93cm9ja2V0')) + "</button>\n                </div>\n                <div class=\"subscription-url\" id=\"clientSubscriptionUrl\"></div>\n            </div>\n            <div class=\"card\">\n                    <h2 class=\"card-title\">" + String(_v900.systemStatus) + "</h2>\n                <div id=\"systemStatus\" style=\"margin: 20px 0; padding: 15px; background: rgba(8,10,14,0.8); border: 2px solid #c8f135; box-shadow: 0 0 20px rgba(200,241,53,0.3), inset 0 0 15px rgba(200,241,53,0.1); position: relative; overflow: hidden;\">\n                        <div style=\"color: #c8f135; margin-bottom: 15px; font-weight: bold; \">[ " + String(_v900.checking) + " ]</div>\n                        <div id=\"regionStatus\" style=\"margin: 8px 0; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; \">" + String(_v900.workerRegion) + String(_v900.checking) + "</div>\n                        <div id=\"geoInfo\" style=\"margin: 8px 0; color: #9aa6b8; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 0.9rem; \">" + String(_v900.detectionMethod) + String(_v900.checking) + "</div>\n                        <div id=\"backupStatus\" style=\"margin: 8px 0; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; \">" + String(_v900.pipStatus) + String(_v900.checking) + "</div>\n                        <div id=\"currentIP\" style=\"margin: 8px 0; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; \">" + String(_v900.currentIP) + String(_v900.checking) + _d64("ATwvZGl2PgogICAgICAgICAgICAgICAgICAgICAgICA8ZGl2IGlkPSJlY2hTdGF0dXMiIHN0eWxlPSJtYXJnaW46IDhweCAwOyBjb2xvcjogI2M4ZjEzNTsgZm9udC1mYW1pbHk6ICdNYW5yb3BlJywgJ1ZhemlybWF0bicsIC1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgJ1NlZ29lIFVJJywgc2Fucy1zZXJpZjsgIGZvbnQtc2l6ZTogMC45cmVtOyI+RUNI54q25oCBOiA=") + String(_v900.checking) + "</div>\n                        <div id=\"regionMatch\" style=\"margin: 8px 0; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; \">" + String(_v900.regionMatch) + String(_v900.checking) + "</div>\n                        <div id=\"selectionLogic\" style=\"margin: 8px 0; color: #9aa6b8; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 0.9rem; \">" + String(_v900.selectionLogic) + String(_v900.selectionLogicText) + "</div>\n                </div>\n            </div>\n            <div class=\"card\" id=\"configCard\" style=\"display: none;\">\n                    <h2 class=\"card-title\">" + String(_v900.configManagement) + "</h2>\n                <div id=\"kvStatus\" style=\"margin-bottom: 20px; padding: 10px; background: rgba(8,10,14,0.8); border: 1px solid #c8f135; color: #c8f135;\">\n                    " + String(_v900.kvStatusChecking) + "\n                </div>\n                <div id=\"configContent\" style=\"display: none;\">\n                    <form id=\"regionForm\" style=\"margin-bottom: 20px;\">\n                        <div style=\"margin-bottom: 15px;\">\n                                <label style=\"display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; \">" + String(_v900.specifyRegion) + "</label>\n                            <select id=\"wkRegion\" style=\"width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;\">\n                                    <option value=\"\">" + String(_v900.autoDetect) + "</option>\n                                    <option value=\"HK\">" + String(_v900.regionNames.HK) + "</option>\n                                    <option value=\"US\">" + String(_v900.regionNames.US) + "</option>\n                                    <option value=\"SG\">" + String(_v900.regionNames.SG) + "</option>\n                                    <option value=\"JP\">" + String(_v900.regionNames.JP) + "</option>\n                                    <option value=\"KR\">" + String(_v900.regionNames.KR) + "</option>\n                                    <option value=\"DE\">" + String(_v900.regionNames.DE) + "</option>\n                                    <option value=\"SE\">" + String(_v900.regionNames.SE) + "</option>\n                                    <option value=\"NL\">" + String(_v900.regionNames.NL) + "</option>\n                                    <option value=\"FI\">" + String(_v900.regionNames.FI) + "</option>\n                                    <option value=\"GB\">" + String(_v900.regionNames.GB) + "</option>\n                            </select>\n                                <small id=\"wkRegionHint\" style=\"color: #9aa6b8; font-size: 0.85rem; display: none;\">⚠️ " + String(_v900.customIPDisabledHint) + "</small>\n                        </div>\n                    </form>\n                    <form id=\"otherConfigForm\" style=\"margin-bottom: 20px;\">\n                        <div style=\"margin-bottom: 15px;\">\n                                <label style=\"display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; \">" + String(_v900.protocolSelection) + "</label>\n                            <div style=\"padding: 15px; background: rgba(11,14,20,0.6); border: 1px solid #c8f135; border-radius: 5px;\">\n                                <div style=\"margin-bottom: 10px;\">\n                                    <label style=\"display: inline-flex; align-items: center; cursor: pointer; color: #c8f135;\">\n                                        <input type=\"checkbox\" id=\"ev\" checked style=\"margin-right: 8px; width: 18px; height: 18px; cursor: pointer;\">\n                                            <span style=\"font-size: 1.1rem;\">" + String(_v900.evLabel) + "</span>\n                                    </label>\n                                </div>\n                                <div style=\"margin-bottom: 10px;\">\n                                    <label style=\"display: inline-flex; align-items: center; cursor: pointer; color: #c8f135;\">\n                                        <input type=\"checkbox\" id=\"et\" style=\"margin-right: 8px; width: 18px; height: 18px; cursor: pointer;\">\n                                            <span style=\"font-size: 1.1rem;\">" + String(_v900.etLabel) + "</span>\n                                    </label>\n                                </div>\n                                <div style=\"margin-bottom: 10px;\">\n                                    <label style=\"display: inline-flex; align-items: center; cursor: pointer; color: #c8f135;\">\n                                        <input type=\"checkbox\" id=\"ex\" style=\"margin-right: 8px; width: 18px; height: 18px; cursor: pointer;\">\n                                            <span style=\"font-size: 1.1rem;\">" + String(_v900.enableXhttp) + "</span>\n                                    </label>\n                                </div>\n                                <div style=\"margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(200,241,53,0.3);\">\n                                    <div style=\"margin-bottom: 10px;\">\n                                        <label style=\"display: inline-flex; align-items: center; cursor: pointer; color: #c8f135;\">\n                                            <input type=\"checkbox\" id=\"ech\" style=\"margin-right: 8px; width: 18px; height: 18px; cursor: pointer;\">\n                                                <span style=\"font-size: 1.1rem;\">" + String(_v900.enableECH) + "</span>\n                                        </label>\n                                        <small style=\"color: #9aa6b8; font-size: 0.8rem; display: block; margin-top: 5px; margin-left: 26px;\">" + String(_v900.enableECHHint) + "</small>\n                                    </div>\n                                    <div style=\"margin-top: 15px; margin-bottom: 10px;\">\n                                        <label style=\"display: block; margin-bottom: 8px; color: #c8f135; font-size: 0.95rem;\">" + String(_v900.customDNS) + "</label>\n                                        <input type=\"text\" id=\"customDNS\" placeholder=\"" + String(_v900.customDNSPlaceholder) + "\" style=\"width: 100%; padding: 10px; background: rgba(0, 0, 0, 0.8); border: 1px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px;\">\n                                        <small style=\"color: #9aa6b8; font-size: 0.8rem; display: block; margin-top: 5px;\">" + String(_v900.customDNSHint) + "</small>\n                                    </div>\n                                    <div style=\"margin-bottom: 10px;\">\n                                        <label style=\"display: block; margin-bottom: 8px; color: #c8f135; font-size: 0.95rem;\">" + String(_v900.customECHDomain) + "</label>\n                                        <input type=\"text\" id=\"customECHDomain\" placeholder=\"" + String(_v900.customECHDomainPlaceholder) + "\" style=\"width: 100%; padding: 10px; background: rgba(0, 0, 0, 0.8); border: 1px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px;\">\n                                        <small style=\"color: #9aa6b8; font-size: 0.8rem; display: block; margin-top: 5px;\">" + String(_v900.customECHDomainHint) + "</small>\n                                    </div>\n                                    <div style=\"margin-bottom: 10px;\">\n                                        <label style=\"display: block; margin-bottom: 8px; color: #c8f135; font-size: 0.95rem;\">" + String(_v900.alpn) + "</label>\n                                        <select id=\"alpn\" style=\"width: 100%; padding: 10px; background: rgba(0, 0, 0, 0.8); border: 1px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px;\">\n                                            <option value=\"\">" + String(_v900.alpnDefault) + "</option>\n                                            <option value=\"h3\">h3</option>\n                                            <option value=\"h2\">h2</option>\n                                            <option value=\"http/1.1\">http/1.1</option>\n                                            <option value=\"h3,h2\">h3,h2</option>\n                                            <option value=\"h2,http/1.1\">h2,http/1.1</option>\n                                            <option value=\"h3,h2,http/1.1\">h3,h2,http/1.1</option>\n                                        </select>\n                                        <small style=\"color: #9aa6b8; font-size: 0.8rem; display: block; margin-top: 5px;\">" + String(_v900.alpnHint) + "</small>\n                                    </div>\n                                </div>\n                                <div style=\"margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(200,241,53,0.3);\">\n                                        <label style=\"display: block; margin-bottom: 8px; color: #c8f135; font-size: 0.95rem;\">" + String(_v900.tpLabel) + "</label>\n                                        <input type=\"text\" id=\"tp\" placeholder=\"" + String(_v900.tpPlaceholder) + "\" style=\"width: 100%; padding: 10px; background: rgba(0, 0, 0, 0.8); border: 1px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px;\">\n                                        <small style=\"color: #9aa6b8; font-size: 0.8rem; display: block; margin-top: 5px;\">" + String(_v900.tpHint) + "</small>\n                                </div>\n                                    <small style=\"color: #9aa6b8; font-size: 0.85rem; display: block; margin-top: 10px;\">" + String(_v900.protocolHint) + "</small>\n                            </div>\n                        </div>\n                        <div style=\"margin-bottom: 15px;\">\n                                <label style=\"display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; \">" + String(_v900.customHomepage) + "</label>\n                                <input type=\"text\" id=\"customHomepage\" placeholder=\"" + String(_v900.customHomepagePlaceholder) + "\" style=\"width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;\">\n                                <small style=\"color: #9aa6b8; font-size: 0.85rem;\">" + String(_v900.customHomepageHint) + "</small>\n                        </div>\n                        <div style=\"margin-bottom: 15px;\">\n                                <label style=\"display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; \">" + String(_v900.customPath) + "</label>\n                                <input type=\"text\" id=\"customPath\" placeholder=\"" + String(_v895 ? 'مثال: /mypath یا خالی بگذارید تا از UUID استفاده شود' : _d64("AeS+i+WmgjogL215cGF0aCDmiJbnlZnnqbrkvb/nlKggVVVJRA==")) + "\" style=\"width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;\">\n                                <small style=\"color: #9aa6b8; font-size: 0.85rem;\">" + String(_v895 ? _v4('2YXYs9uM2LEg2KfYtNiq2LHYp9qpINiz2YHYp9ix2LTbjC4g2Kfar9ixINiu2KfZhNuMINio2q/YsNin2LHbjNivINin2LIgVVVJRCDYqNmHINi52YbZiNin2YYg2YXYs9uM2LEg2KfYs9iq2YHYp9iv2Ycg2YXbjOKAjNi02YjYry4=') : _v4('6Ieq5a6a5LmJ6K6i6ZiF6Lev5b6E44CC55WZ56m65YiZ5L2/55SoIFVVSUQg5L2c5Li66Lev5b6E44CC')) + "</small>\n                        </div>\n                        <div style=\"margin-bottom: 15px;\">\n                                <label style=\"display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; \">" + String(_v900.customIP) + "</label>\n                                <input type=\"text\" id=\"customIP\" placeholder=\"" + String(_v895 ? 'مثال: 1.2.3.4:443' : _d64("AeS+i+WmgjogMS4yLjMuNDo0NDM=")) + "\" style=\"width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;\">\n                                <small style=\"color: #9aa6b8; font-size: 0.85rem;\">" + String(_v895 ? _v4('2KLYr9ix2LMg2Ygg2b7ZiNix2KogUHJveHlJUCDYs9mB2KfYsdi024w=') : _v4('6Ieq5a6a5LmJUHJveHlJUOWcsOWdgOWSjOerr+WPow==')) + "</small>\n                        </div>\n                        <div style=\"margin-bottom: 15px;\">\n                                <label style=\"display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; \">" + String(_v900.preferredIPs) + "</label>\n                                <input type=\"text\" id=\"yx\" placeholder=\"" + String(_v895 ? 'مثال: 1.2.3.4:443#گره هنگ‌کنگ,5.6.7.8:80#گره آمریکا,example.com:8443#گره سنگاپور' : _d64("AeS+i+WmgjogMS4yLjMuNDo0NDMj5pel5pys6IqC54K5LDUuNi43Ljg6ODAj576O5Zu96IqC54K5LGV4YW1wbGUuY29tOjg0NDMj5paw5Yqg5Z2h6IqC54K5")) + "\" style=\"width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;\">\n                                <small style=\"color: #9aa6b8; font-size: 0.85rem;\">" + String(_v895 ? 'فرمت: IP:پورت#نام گره یا IP:پورت (بدون # از نام پیش‌فرض استفاده می‌شود). پشتیبانی از چندین مورد، با کاما جدا می‌شوند. <span style="color: #ffb454;">IP های اضافه شده از طریق API به طور خودکار در اینجا نمایش داده می‌شوند.</span>' : _d64("AeagvOW8jzogSVA656uv5Y+jI+iKgueCueWQjeensCDmiJYgSVA656uv5Y+jICjml6Aj5YiZ5L2/55So6buY6K6k5ZCN56ewKeOAguaUr+aMgeWkmuS4qu+8jOeUqOmAl+WPt+WIhumalOOAgjxzcGFuIHN0eWxlPSJjb2xvcjogI2ZmYjQ1NDsiPkFQSea3u+WKoOeahElQ5Lya6Ieq5Yqo5pi+56S65Zyo6L+Z6YeM44CCPC9zcGFuPg==")) + "</small>\n                        </div>\n                        <div style=\"margin-bottom: 15px;\">\n                                <label style=\"display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; \">" + String(_v900.preferredIPsURL) + "</label>\n                                <input type=\"text\" id=\"yxURL\" placeholder=\"" + String(_v895 ? 'URL منبع لیست IP ترجیحی را وارد کنید' : _d64("Aei+k+WFpeS8mOmAiUlQ5YiX6KGo5p2l5rqQVVJM")) + "\" style=\"width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;\">\n                                <small style=\"color: #9aa6b8; font-size: 0.85rem;\">" + String(_v895 ? 'URL منبع لیست IP ترجیحی سفارشی، اگر خالی بگذارید از آدرس پیش‌فرض استفاده می‌شود' : _d64("AeiHquWumuS5ieS8mOmAiUlQ5YiX6KGo5p2l5rqQVVJM77yM55WZ56m65YiZ5L2/55So6buY6K6k5Zyw5Z2A")) + "</small>\n                        </div>\n                        \n                        <div style=\"margin-bottom: 20px; padding: 15px; background: rgba(11,14,20,0.6); border: 2px solid #9aa6b8; border-radius: 8px;\">\n                            <h4 style=\"color: #c8f135; margin: 0 0 15px 0; font-size: 1.1rem; \">⚡ " + String(_v900.latencyTest) + "</h4>\n                            <div style=\"display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; align-items: center;\">\n                                <div style=\"min-width: 120px;\">\n                                    <label style=\"display: block; margin-bottom: 5px; color: #c8f135; font-size: 0.9rem;\">" + String(_v900.ipSource) + "</label>\n                                    <select id=\"ipSourceSelect\" style=\"width: 100%; padding: 10px; background: rgba(0, 0, 0, 0.8); border: 1px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px; cursor: pointer;\">\n                                        <option value=\"manual\">" + String(_v900.manualInput) + "</option>\n                                        <option value=\"cfRandom\">" + String(_v900.cfRandomIP) + "</option>\n                                        <option value=\"urlFetch\">" + String(_v900.urlFetch) + "</option>\n                                    </select>\n                                </div>\n                                <div style=\"width: 100px;\">\n                                    <label style=\"display: block; margin-bottom: 5px; color: #c8f135; font-size: 0.9rem;\">" + String(_v900.latencyTestPort) + "</label>\n                                    <input type=\"number\" id=\"latencyTestPort\" value=\"443\" min=\"1\" max=\"65535\" style=\"width: 100%; padding: 10px; background: rgba(0, 0, 0, 0.8); border: 1px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px;\">\n                                </div>\n                                <div id=\"randomCountDiv\" style=\"width: 100px; display: none;\">\n                                    <label style=\"display: block; margin-bottom: 5px; color: #c8f135; font-size: 0.9rem;\">" + String(_v900.randomCount) + "</label>\n                                    <input type=\"number\" id=\"randomIPCount\" value=\"20\" min=\"1\" max=\"100\" style=\"width: 100%; padding: 10px; background: rgba(0, 0, 0, 0.8); border: 1px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px;\">\n                                </div>\n                                <div style=\"width: 80px;\">\n                                    <label style=\"display: block; margin-bottom: 5px; color: #c8f135; font-size: 0.9rem;\">" + String(_v895 ? 'رشته‌ها' : _d64("Aee6v+eoiw==")) + "</label>\n                                    <input type=\"number\" id=\"testThreads\" value=\"5\" min=\"1\" max=\"50\" style=\"width: 100%; padding: 10px; background: rgba(0, 0, 0, 0.8); border: 1px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px;\">\n                                </div>\n                            </div>\n                            <div id=\"manualInputDiv\" style=\"margin-bottom: 10px;\">\n                                <label style=\"display: block; margin-bottom: 5px; color: #c8f135; font-size: 0.9rem;\">" + String(_v900.latencyTestIP) + "</label>\n                                <input type=\"text\" id=\"latencyTestInput\" placeholder=\"" + String(_v900.latencyTestIPPlaceholder) + "\" style=\"width: 100%; padding: 10px; background: rgba(0, 0, 0, 0.8); border: 1px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px;\">\n                            </div>\n                            <div id=\"urlFetchDiv\" style=\"margin-bottom: 10px; display: none;\">\n                                <label style=\"display: block; margin-bottom: 5px; color: #c8f135; font-size: 0.9rem;\">" + String(_v900.fetchURL) + "</label>\n                                <div style=\"display: flex; gap: 8px;\">\n                                    <input type=\"text\" id=\"fetchURLInput\" placeholder=\"" + String(_v900.fetchURLPlaceholder) + "\" style=\"flex: 1; padding: 10px; background: rgba(0, 0, 0, 0.8); border: 1px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px;\">\n                                    <button type=\"button\" id=\"fetchIPBtn\" style=\"background: rgba(200,241,53,0.2); border: 1px solid #5b8cff; padding: 8px 16px; color: #5b8cff; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; cursor: pointer; white-space: nowrap;\">⬇ " + String(_v900.fetchIP) + "</button>\n                                </div>\n                            </div>\n                            <div id=\"cfRandomDiv\" style=\"margin-bottom: 10px; display: none;\">\n                                <button type=\"button\" id=\"generateCFIPBtn\" style=\"background: rgba(200,241,53,0.15); border: 1px solid #c8f135; padding: 10px 20px; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; cursor: pointer; width: 100%; transition: all 0.3s;\">🎲 " + String(_v900.generateIP) + "</button>\n                            </div>\n                            <div style=\"display: flex; gap: 10px; margin-bottom: 15px;\">\n                                <button type=\"button\" id=\"startLatencyTest\" style=\"background: rgba(200,241,53,0.2); border: 1px solid #c8f135; padding: 8px 16px; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; cursor: pointer; transition: all 0.3s;\">▶ " + String(_v900.startTest) + "</button>\n                                <button type=\"button\" id=\"stopLatencyTest\" style=\"background: rgba(255,93,115,0.2); border: 1px solid #ff5d73; padding: 8px 16px; color: #ff5d73; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; cursor: pointer; display: none; transition: all 0.3s;\">⏹ " + String(_v900.stopTest) + "</button>\n                            </div>\n                            <div id=\"latencyTestStatus\" style=\"color: #9aa6b8; font-size: 0.9rem; margin-bottom: 10px; display: none;\"></div>\n                            <div id=\"latencyTestResults\" style=\"max-height: 250px; overflow-y: auto; display: none;\">\n                                <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;\">\n                                    <span style=\"color: #c8f135; font-weight: bold;\">" + String(_v900.testResult) + "</span>\n                                    <div style=\"display: flex; gap: 8px;\">\n                                        <button type=\"button\" id=\"selectAllResults\" style=\"background: transparent; border: 1px solid #9aa6b8; padding: 4px 10px; color: #9aa6b8; font-size: 0.8rem; cursor: pointer;\">" + String(_v900.selectAll) + "</button>\n                                        <button type=\"button\" id=\"deselectAllResults\" style=\"background: transparent; border: 1px solid #9aa6b8; padding: 4px 10px; color: #9aa6b8; font-size: 0.8rem; cursor: pointer;\">" + String(_v900.deselectAll) + "</button>\n                                    </div>\n                                </div>\n                                <div id=\"cityFilterContainer\" style=\"margin-bottom: 10px; padding: 10px; background: rgba(11,14,20,0.6); border: 1px solid #9aa6b8; border-radius: 4px; display: none;\">\n                                    <div style=\"margin-bottom: 8px;\">\n                                        <label style=\"display: inline-flex; align-items: center; cursor: pointer; color: #c8f135; font-size: 0.9rem;\">\n                                            <input type=\"radio\" name=\"cityFilterMode\" value=\"all\" checked style=\"margin-right: 6px; width: 16px; height: 16px; cursor: pointer;\">\n                                            <span>" + String(_v895 ? _d64("AeWFqOmDqOWfjuW4gg==") : _d64("AeWFqOmDqOWfjuW4gg==")) + "</span>\n                                        </label>\n                                        <label style=\"display: inline-flex; align-items: center; cursor: pointer; color: #c8f135; font-size: 0.9rem; margin-left: 15px;\">\n                                            <input type=\"radio\" name=\"cityFilterMode\" value=\"fastest10\" style=\"margin-right: 6px; width: 16px; height: 16px; cursor: pointer;\">\n                                            <span>" + String(_v895 ? _d64("AeWPqumAieaLqeacgOW/q+eahDEw5Liq") : _d64("AeWPqumAieaLqeacgOW/q+eahDEw5Liq")) + "</span>\n                                        </label>\n                                    </div>\n                                    <div id=\"cityCheckboxesContainer\" style=\"display: flex; flex-wrap: wrap; gap: 8px; max-height: 80px; overflow-y: auto; padding: 5px;\"></div>\n                                </div>\n                                <div id=\"latencyResultsList\" style=\"background: rgba(0, 0, 0, 0.5); border: 1px solid #0b1a08; border-radius: 4px; padding: 10px;\"></div>\n                                <div style=\"margin-top: 10px; display: flex; gap: 10px;\">\n                                    <button type=\"button\" id=\"overwriteSelectedToYx\" style=\"flex: 1; background: rgba(61,220,132,0.3); border: 1px solid #c8f135; padding: 10px 20px; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-weight: bold; cursor: pointer; transition: all 0.3s;\">" + String(_v895 ? _d64("Aeimhueblua3u+WKoA==") : _d64("Aeimhueblua3u+WKoA==")) + "</button>\n                                    <button type=\"button\" id=\"appendSelectedToYx\" style=\"flex: 1; background: rgba(61,220,132,0.18); border: 1px solid #9aa6b8; padding: 10px 20px; color: #9aa6b8; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-weight: bold; cursor: pointer; transition: all 0.3s;\">" + String(_v895 ? _d64("Aei/veWKoOa3u+WKoA==") : _d64("Aei/veWKoOa3u+WKoA==")) + "</button>\n                                </div>\n                            </div>\n                        </div>\n\n                        <div style=\"margin-bottom: 15px;\">\n                                <label style=\"display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; \">" + String(_v900.s5Label) + "</label>\n                                <input type=\"text\" id=\"socksConfig\" placeholder=\"" + String(_v895 ? 'مثال: user:pass@host:port یا host:port' : _d64("AeS+i+WmgjogdXNlcjpwYXNzQGhvc3Q6cG9ydCDmiJYgaG9zdDpwb3J0")) + "\" style=\"width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;\">\n                                <small style=\"color: #9aa6b8; font-size: 0.85rem;\">" + String(_v895 ? _v4('2KLYr9ix2LMg2b7YsdmI2qnYs9uMIFNPQ0tTNdiMINio2LHYp9uMINin2YbYqtmC2KfZhCDYqtmF2KfZhSDYqtix2KfZgduM2qkg2K7YsdmI2KzbjCDYp9iz2KrZgdin2K/ZhyDZhduM4oCM2LTZiNiv') : _v4('U09DS1M15Luj55CG5Zyw5Z2A77yM55So5LqO6L2s5Y+R5omA5pyJ5Ye656uZ5rWB6YeP')) + "</small>\n                        </div>\n                    </form>\n\n                    <h3 style=\"color: #c8f135; margin: 20px 0 15px 0; font-size: 1.2rem;\">" + String(_v900.advancedControl) + "</h3>\n                    <form id=\"advancedConfigForm\" style=\"margin-bottom: 20px;\">\n                        <div style=\"margin-bottom: 15px;\">\n                                <label style=\"display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; \">" + String(_v900.subscriptionConverter) + "</label>\n                                <input type=\"text\" id=\"scu\" placeholder=\"" + String(_v900.subscriptionConverterPlaceholder) + "\" style=\"width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;\">\n                                <small style=\"color: #9aa6b8; font-size: 0.85rem;\">" + String(_v900.subscriptionConverterHint) + "</small>\n                        </div>\n                        <div style=\"margin-bottom: 15px;\">\n                                <label style=\"display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; \">" + String(_v900.builtinPreferred) + "</label>\n                            <div style=\"padding: 15px; background: rgba(11,14,20,0.6); border: 1px solid #c8f135; border-radius: 5px;\">\n                                <div style=\"margin-bottom: 10px;\">\n                                    <label style=\"display: inline-flex; align-items: center; cursor: pointer; color: #c8f135;\">\n                                        <input type=\"checkbox\" id=\"ena\" style=\"margin-right: 8px; width: 18px; height: 18px; cursor: pointer;\">\n                                            <span style=\"font-size: 1.1rem;\">" + String(_v900.enableNativeAddress) + "</span>\n                                    </label>\n                                </div>\n                                <div style=\"margin-bottom: 10px;\">\n                                    <label style=\"display: inline-flex; align-items: center; cursor: pointer; color: #c8f135;\">\n                                        <input type=\"checkbox\" id=\"epd\" checked style=\"margin-right: 8px; width: 18px; height: 18px; cursor: pointer;\">\n                                            <span style=\"font-size: 1.1rem;\">" + String(_v900.enablePreferredDomain) + "</span>\n                                    </label>\n                                </div>\n                                <div style=\"margin-bottom: 10px;\">\n                                    <label style=\"display: inline-flex; align-items: center; cursor: pointer; color: #c8f135;\">\n                                        <input type=\"checkbox\" id=\"epi\" checked style=\"margin-right: 8px; width: 18px; height: 18px; cursor: pointer;\">\n                                            <span style=\"font-size: 1.1rem;\">" + String(_v900.enablePreferredIP) + "</span>\n                                    </label>\n                                </div>\n                                <div style=\"margin-bottom: 10px;\">\n                                    <label style=\"display: inline-flex; align-items: center; cursor: pointer; color: #c8f135;\">\n                                        <input type=\"checkbox\" id=\"egi\" checked style=\"margin-right: 8px; width: 18px; height: 18px; cursor: pointer;\">\n                                            <span style=\"font-size: 1.1rem;\">" + String(_v900.enableGitHubPreferred) + "</span>\n                                    </label>\n                                </div>\n                                    <small style=\"color: #9aa6b8; font-size: 0.85rem; display: block; margin-top: 10px;\">" + String(_v900.builtinPreferredHint) + _d64("ATwvc21hbGw+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICAgICAgICAgICAgICAgIDxkaXYgc3R5bGU9Im1hcmdpbi1ib3R0b206IDE1cHg7Ij4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8bGFiZWwgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyBtYXJnaW4tYm90dG9tOiA4cHg7IGNvbG9yOiAjYzhmMTM1OyBmb250LXdlaWdodDogYm9sZDsgIj7kvJjpgIlJUOetm+mAieiuvue9rjwvbGFiZWw+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8ZGl2IHN0eWxlPSJwYWRkaW5nOiAxNXB4OyBiYWNrZ3JvdW5kOiByZ2JhKDExLDE0LDIwLDAuNik7IGJvcmRlcjogMXB4IHNvbGlkICNjOGYxMzU7IGJvcmRlci1yYWRpdXM6IDVweDsiPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxkaXYgc3R5bGU9Im1hcmdpbi1ib3R0b206IDE1cHg7Ij4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGxhYmVsIHN0eWxlPSJkaXNwbGF5OiBibG9jazsgbWFyZ2luLWJvdHRvbTogOHB4OyBjb2xvcjogI2M4ZjEzNTsgZm9udC13ZWlnaHQ6IGJvbGQ7ICI+SVDniYjmnKzpgInmi6k8L2xhYmVsPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8ZGl2IHN0eWxlPSJkaXNwbGF5OiBmbGV4OyBnYXA6IDIwcHg7IGZsZXgtd3JhcDogd3JhcDsiPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGxhYmVsIHN0eWxlPSJkaXNwbGF5OiBpbmxpbmUtZmxleDsgYWxpZ24taXRlbXM6IGNlbnRlcjsgY3Vyc29yOiBwb2ludGVyOyBjb2xvcjogI2M4ZjEzNTsiPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxpbnB1dCB0eXBlPSJjaGVja2JveCIgaWQ9ImlwdjRFbmFibGVkIiBjaGVja2VkIHN0eWxlPSJtYXJnaW4tcmlnaHQ6IDhweDsgd2lkdGg6IDE4cHg7IGhlaWdodDogMThweDsgY3Vyc29yOiBwb2ludGVyOyI+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTogMXJlbTsiPklQdjQ8L3NwYW4+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2xhYmVsPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGxhYmVsIHN0eWxlPSJkaXNwbGF5OiBpbmxpbmUtZmxleDsgYWxpZ24taXRlbXM6IGNlbnRlcjsgY3Vyc29yOiBwb2ludGVyOyBjb2xvcjogI2M4ZjEzNTsiPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxpbnB1dCB0eXBlPSJjaGVja2JveCIgaWQ9ImlwdjZFbmFibGVkIiBjaGVja2VkIHN0eWxlPSJtYXJnaW4tcmlnaHQ6IDhweDsgd2lkdGg6IDE4cHg7IGhlaWdodDogMThweDsgY3Vyc29yOiBwb2ludGVyOyI+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTogMXJlbTsiPklQdjY8L3NwYW4+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2xhYmVsPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8ZGl2IHN0eWxlPSJtYXJnaW4tYm90dG9tOiAxMHB4OyI+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxsYWJlbCBzdHlsZT0iZGlzcGxheTogYmxvY2s7IG1hcmdpbi1ib3R0b206IDhweDsgY29sb3I6ICNjOGYxMzU7IGZvbnQtd2VpZ2h0OiBib2xkOyAiPui/kOiQpeWVhumAieaLqTwvbGFiZWw+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxkaXYgc3R5bGU9ImRpc3BsYXk6IGZsZXg7IGdhcDogMjBweDsgZmxleC13cmFwOiB3cmFwOyI+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8bGFiZWwgc3R5bGU9ImRpc3BsYXk6IGlubGluZS1mbGV4OyBhbGlnbi1pdGVtczogY2VudGVyOyBjdXJzb3I6IHBvaW50ZXI7IGNvbG9yOiAjYzhmMTM1OyI+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGlucHV0IHR5cGU9ImNoZWNrYm94IiBpZD0iaXNwTW9iaWxlIiBjaGVja2VkIHN0eWxlPSJtYXJnaW4tcmlnaHQ6IDhweDsgd2lkdGg6IDE4cHg7IGhlaWdodDogMThweDsgY3Vyc29yOiBwb2ludGVyOyI+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTogMXJlbTsiPuenu+WKqDwvc3Bhbj4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvbGFiZWw+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8bGFiZWwgc3R5bGU9ImRpc3BsYXk6IGlubGluZS1mbGV4OyBhbGlnbi1pdGVtczogY2VudGVyOyBjdXJzb3I6IHBvaW50ZXI7IGNvbG9yOiAjYzhmMTM1OyI+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGlucHV0IHR5cGU9ImNoZWNrYm94IiBpZD0iaXNwVW5pY29tIiBjaGVja2VkIHN0eWxlPSJtYXJnaW4tcmlnaHQ6IDhweDsgd2lkdGg6IDE4cHg7IGhlaWdodDogMThweDsgY3Vyc29yOiBwb2ludGVyOyI+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTogMXJlbTsiPuiBlOmAmjwvc3Bhbj4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvbGFiZWw+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8bGFiZWwgc3R5bGU9ImRpc3BsYXk6IGlubGluZS1mbGV4OyBhbGlnbi1pdGVtczogY2VudGVyOyBjdXJzb3I6IHBvaW50ZXI7IGNvbG9yOiAjYzhmMTM1OyI+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGlucHV0IHR5cGU9ImNoZWNrYm94IiBpZD0iaXNwVGVsZWNvbSIgY2hlY2tlZCBzdHlsZT0ibWFyZ2luLXJpZ2h0OiA4cHg7IHdpZHRoOiAxOHB4OyBoZWlnaHQ6IDE4cHg7IGN1cnNvcjogcG9pbnRlcjsiPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxzcGFuIHN0eWxlPSJmb250LXNpemU6IDFyZW07Ij7nlLXkv6E8L3NwYW4+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2xhYmVsPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPHNtYWxsIHN0eWxlPSJjb2xvcjogIzlhYTZiODsgZm9udC1zaXplOiAwLjg1cmVtOyBkaXNwbGF5OiBibG9jazsgbWFyZ2luLXRvcDogMTBweDsiPumAieaLqeimgeS9v+eUqOeahElQ54mI5pys5ZKM6L+Q6JCl5ZWG77yM5pyq6YCJ5Lit55qE5bCG6KKr6L+H5rukPC9zbWFsbD4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgICAgICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgICAgICAgICAgICAgPGRpdiBzdHlsZT0ibWFyZ2luLWJvdHRvbTogMTVweDsiPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxsYWJlbCBzdHlsZT0iZGlzcGxheTogYmxvY2s7IG1hcmdpbi1ib3R0b206IDhweDsgY29sb3I6ICNjOGYxMzU7IGZvbnQtd2VpZ2h0OiBib2xkOyAiPg==") + String(_v900.allowAPIManagement) + "</label>\n                            <select id=\"apiEnabled\" style=\"width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;\">\n                                    <option value=\"\">" + String(_v900.apiEnabledDefault) + "</option>\n                                    <option value=\"yes\">" + String(_v900.apiEnabledYes) + "</option>\n                            </select>\n                                <small style=\"color: #ffb454; font-size: 0.85rem;\">" + String(_v900.apiEnabledHint) + "</small>\n                        </div>\n                        <div style=\"margin-bottom: 15px;\">\n                                <label style=\"display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; \">" + String(_v900.regionMatching) + "</label>\n                            <select id=\"regionMatching\" style=\"width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;\">\n                                    <option value=\"\">" + String(_v900.regionMatchingDefault) + "</option>\n                                    <option value=\"no\">" + String(_v900.regionMatchingNo) + "</option>\n                            </select>\n                                <small style=\"color: #9aa6b8; font-size: 0.85rem;\">" + String(_v900.regionMatchingHint) + "</small>\n                        </div>\n                        <div style=\"margin-bottom: 15px;\">\n                                <label style=\"display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; \">" + String(_v900.downgradeControl) + "</label>\n                            <select id=\"downgradeControl\" style=\"width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;\">\n                                    <option value=\"\">" + String(_v900.downgradeControlDefault) + "</option>\n                                    <option value=\"no\">" + String(_v900.downgradeControlNo) + "</option>\n                            </select>\n                                <small style=\"color: #9aa6b8; font-size: 0.85rem;\">" + String(_v900.downgradeControlHint) + "</small>\n                        </div>\n                        <div style=\"margin-bottom: 15px;\">\n                                <label style=\"display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; \">" + String(_v900.tlsControl) + "</label>\n                            <select id=\"portControl\" style=\"width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;\">\n                                    <option value=\"\">" + String(_v900.tlsControlDefault) + "</option>\n                                    <option value=\"yes\">" + String(_v900.tlsControlYes) + "</option>\n                            </select>\n                                <small style=\"color: #9aa6b8; font-size: 0.85rem;\">" + String(_v900.tlsControlHint) + "</small>\n                        </div>\n                        <div style=\"margin-bottom: 15px;\">\n                                <label style=\"display: block; margin-bottom: 8px; color: #c8f135; font-weight: bold; \">" + String(_v900.preferredControl) + "</label>\n                            <select id=\"preferredControl\" style=\"width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.8); border: 2px solid #c8f135; color: #c8f135; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px;\">\n                                    <option value=\"\">" + String(_v900.preferredControlDefault) + "</option>\n                                    <option value=\"yes\">" + String(_v900.preferredControlYes) + "</option>\n                            </select>\n                                <small style=\"color: #9aa6b8; font-size: 0.85rem;\">" + String(_v900.preferredControlHint) + "</small>\n                        </div>\n                    </form>\n                    <div id=\"currentConfig\" style=\"background: rgba(0, 0, 0, 0.9); border: 1px solid #c8f135; padding: 15px; margin: 10px 0; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #c8f135;\">\n                            " + String(_v900.loading) + "\n                    </div>\n                    <div id=\"pathTypeInfo\" style=\"background: rgba(11,14,20,0.7); border: 1px solid #c8f135; padding: 15px; margin: 10px 0; font-family: 'Manrope', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #c8f135;\">\n                            <div style=\"font-weight: bold; margin-bottom: 8px; color: #3ddc84; \">" + String(_v900.currentConfig) + "</div>\n                            <div id=\"pathTypeStatus\">" + String(_v900.checking) + "</div>\n                    </div>\n                </div>\n                <div id=\"statusMessage\" style=\"display: none; padding: 10px; margin: 10px 0; border: 1px solid #c8f135; background: rgba(8,10,14,0.8); color: #c8f135; \"></div>\n            </div>\n\n            <div class=\"card\">\n                <h2 class=\"card-title\">" + String(_v895 ? 'به‌روزرسانی پنل' : _d64("Aemdouadv+abtOaWsA==")) + "</h2>\n                <div style=\"margin-bottom:14px;color:#9aa6b8;font-size:0.85rem;\">\n                    " + String(_v895 ? 'نسخه فعلی: ' : _d64("AeW9k+WJjeeJiOacrDog")) + "<b style=\"color:#c8f135;\">" + String(_v43) + "</b>\n                    &nbsp;·&nbsp;<span id=\"updLatestLabel\">" + String(_v895 ? 'نسخه‌ی جدید هنوز بررسی نشده' : _d64("AeWwmuacquajgOafpeacgOaWsOeJiOacrA==")) + "</span>\n                </div>\n                <div style=\"display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:14px;\">\n                    <input type=\"text\" id=\"updVerUrl\" placeholder=\"" + String(_v895 ? 'آدرس فایل VERSION (raw) برای بررسی نسخه جدید' : _d64("AVZFUlNJT04g5paH5Lu255qEIHJhdyDlnLDlnYA=")) + "\" style=\"width:100%;padding:10px;background:rgba(0,0,0,0.8);border:1px solid #c8f135;color:#c8f135;font-family:'JetBrains Mono',monospace;font-size:13px;\">\n                    <input type=\"text\" id=\"updSrcUrl\" placeholder=\"" + String(_v895 ? 'آدرس worker-source.js جدید (raw)' : _d64("AeacgOaWsCB3b3JrZXItc291cmNlLmpzIOeahCByYXcg5Zyw5Z2A")) + "\" style=\"width:100%;padding:10px;background:rgba(0,0,0,0.8);border:1px solid #c8f135;color:#c8f135;font-family:'JetBrains Mono',monospace;font-size:13px;\">\n                    <input type=\"password\" id=\"cfToken\" placeholder=\"" + String(_v895 ? 'توکن API کلادفلر (فقط Workers Scripts:Edit)' : _d64("AUNsb3VkZmxhcmUgQVBJIFRva2Vu77yI5LuF6ZyAIFdvcmtlcnMgU2NyaXB0czpFZGl077yJ")) + "\" style=\"width:100%;padding:10px;background:rgba(0,0,0,0.8);border:1px solid #c8f135;color:#c8f135;font-family:'JetBrains Mono',monospace;font-size:13px;\">\n                    <input type=\"text\" id=\"cfAccountId\" placeholder=\"" + String(_v895 ? 'شناسه اکانت کلادفلر (Account ID)' : 'Cloudflare Account ID') + "\" style=\"width:100%;padding:10px;background:rgba(0,0,0,0.8);border:1px solid #c8f135;color:#c8f135;font-family:'JetBrains Mono',monospace;font-size:13px;\">\n                    <input type=\"text\" id=\"cfScriptName\" placeholder=\"" + String(_v895 ? 'نام اسکریپت ورکر روی کلادفلر' : _d64("AVdvcmtlciDohJrmnKzlkI3np7A=")) + "\" style=\"width:100%;padding:10px;background:rgba(0,0,0,0.8);border:1px solid #c8f135;color:#c8f135;font-family:'JetBrains Mono',monospace;font-size:13px;\">\n                </div>\n                <div style=\"display:flex;gap:10px;flex-wrap:wrap;\">\n                    <button type=\"button\" id=\"updSaveBtn\" style=\"background:rgba(200,241,53,0.15);border:1px solid #c8f135;padding:10px 18px;color:#c8f135;font-family:'Manrope',sans-serif;cursor:pointer;\">" + String(_v895 ? 'ذخیره تنظیمات' : _d64("AeS/neWtmOiuvue9rg==")) + "</button>\n                    <button type=\"button\" id=\"updCheckBtn\" style=\"background:rgba(91,140,255,0.15);border:1px solid #5b8cff;padding:10px 18px;color:#5b8cff;font-family:'Manrope',sans-serif;cursor:pointer;\">" + String(_v895 ? 'بررسی به‌روزرسانی' : _d64("AeajgOafpeabtOaWsA==")) + "</button>\n                    <button type=\"button\" id=\"updApplyBtn\" style=\"background:rgba(61,220,132,0.15);border:1px solid #3ddc84;padding:10px 18px;color:#3ddc84;font-family:'Manrope',sans-serif;cursor:pointer;display:none;\">" + String(_v895 ? 'دریافت و اعمال به‌روزرسانی' : _d64("AeiOt+WPluW5tuW6lOeUqOabtOaWsA==")) + "</button>\n                </div>\n                <div id=\"updStatus\" style=\"display:none;margin-top:12px;padding:10px;border:1px solid #c8f135;background:rgba(8,10,14,0.8);color:#c8f135;font-size:0.85rem;\"></div>\n                <div style=\"margin-top:10px;color:#9aa6b8;font-size:0.75rem;\">\n                    " + String(_v895 ? 'توکن فقط با اجازه‌ی «Workers Scripts:Edit» بساز، نه دسترسی کامل اکانت. این توکن در KV همین ورکر ذخیره می‌شود و هرگز جای دیگری فرستاده نمی‌شود.' : _d64("Aeivt+S7heS9v+eUqOWFt+aciSAiV29ya2VycyBTY3JpcHRzOkVkaXQiIOadg+mZkOeahCBUb2tlbu+8jOS4jeimgeS9v+eUqOWujOaVtOi0puaIt+adg+mZkOOAguivpSBUb2tlbiDku4Xkv53lrZjlnKjmnKwgV29ya2VyIOeahCBLViDkuK3vvIzkuI3kvJrlj5HpgIHliLDku7vkvZXlhbbku5blnLDmlrnjgII=")) + "\n                </div>\n            </div>\n\n            <div class=\"card\">\n                    <h2 class=\"card-title\">" + String(_v900.relatedLinks) + "</h2>\n                <div style=\"text-align: center; margin: 20px 0;\">\n                        <a href=\"" + String(_v4('aHR0cHM6Ly9naXRodWIuY29tL2J5Sm9leS9jZm5ldw==')) + "\" target=\"_blank\" style=\"color: #c8f135; text-decoration: none; margin: 0 20px; font-size: 1.2rem; \">" + String(_v900.githubProject) + "</a>\n                        <a href=\"" + String(_v4('aHR0cHM6Ly9naXRodWIuY29tL2J5Sm9leS95eC10b29scy9yZWxlYXNlcy8=')) + "\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #c8f135; text-decoration: none; margin: 0 20px; font-size: 1.2rem; \">" + String(_v900[_d64("AeS8mOmAieW3peWFtw==")]) + "</a>\n                    <a href=\"https://www.youtube.com/@joeyblog\" target=\"_blank\" style=\"color: #c8f135; text-decoration: none; margin: 0 20px; font-size: 1.2rem; \">YouTube @joeyblog</a>\n                </div>\n            </div>\n        </div>\n        <div id=\"cpToastStack\" class=\"cp-toast-stack\" aria-live=\"polite\" aria-atomic=\"false\"></div>\n        <div id=\"cpActionStatus\" class=\"cp-action-status\" role=\"status\" aria-live=\"polite\"></div>\n        <div id=\"cpActionBar\" class=\"cp-action-bar\" role=\"toolbar\" aria-label=\"" + String(_v900.configManagement) + "\">\n            <button type=\"button\" id=\"cpBtnSaveAll\" class=\"cp-fab-save\" title=\"" + String(_v895 ? 'ذخیره همه تنظیمات' : _d64("AeS/neWtmOaJgOaciemFjee9riAoQ3RybCtTKQ==")) + "\">\n                <span class=\"cp-fab-icon\">▣</span>\n                <span>" + String(_v895 ? 'ذخیره همه' : _d64("AeS/nSDlrZgg5YWoIOmDqA==")) + "</span>\n                <span class=\"cp-fab-dot\" aria-hidden=\"true\"></span>\n            </button>\n            <button type=\"button\" id=\"cpBtnRefresh\" class=\"cp-action-btn\" data-tip=\"" + String(_v900.refreshConfig) + "\" aria-label=\"" + String(_v900.refreshConfig) + "\">\n                <span aria-hidden=\"true\">↻</span>\n                <span class=\"cp-btn-label\">" + String(_v900.refreshConfig) + "</span>\n            </button>\n            <button type=\"button\" id=\"cpBtnReset\" class=\"cp-action-btn cp-action-btn-danger\" data-tip=\"" + String(_v900.resetConfig) + "\" aria-label=\"" + String(_v900.resetConfig) + "\">\n                <span aria-hidden=\"true\">⌫</span>\n                <span class=\"cp-btn-label\">" + String(_v900.resetConfig) + _d64("ATwvc3Bhbj4KICAgICAgICAgICAgPC9idXR0b24+CiAgICAgICAgPC9kaXY+CiAgICAgICAgPHNjcmlwdD4KLy8g5Zyw5Z2A5LuO5pyN5Yqh5Zmo6YWN572u5rOo5YWlCnZhciDorqLpmIXovazmjaLnvZHlnYAgPSAi") + String(_v32) + _d64("ASI7Ci8vIOi/nOeoi+mFjee9rlVSTO+8iOehrOe8luegge+8iQp2YXIg6L+c56iL6YWN572u572R5Z2AID0gIg==") + String(_v33) + _d64("ASI7CgovLyDnv7vor5Hlr7nosaEKY29uc3Qg5pys5Zyw5YC8MjAyMTUgPSB7CiAgemg6IHsKICAgIHN1YnNjcmlwdGlvbkNvcGllZDogJw==") + String(_v4('6K6i6ZiF6ZO+5o6l5bey5aSN5Yi2')) + "',\n    autoSubscriptionCopied: '" + String(_v4('6Ieq5Yqo6K+G5Yir6K6i6ZiF6ZO+5o6l5bey5aSN5Yi277yM5a6i5oi356uv6K6/6Zeu5pe25Lya5qC55o2uVXNlci1BZ2VudOiHquWKqOivhuWIq+W5tui/lOWbnuWvueW6lOagvOW8jw==')) + _d64("AScKICB9LAogIGZhOiB7CiAgICBzdWJzY3JpcHRpb25Db3BpZWQ6ICfZhNuM2YbaqSDYp9i02KrYsdin2qkg2qnZvtuMINi02K8nLAogICAgYXV0b1N1YnNjcmlwdGlvbkNvcGllZDogJ9mE24zZhtqpINin2LTYqtix2KfaqSDYqti02K7bjNi1INiu2YjYr9qp2KfYsSDaqdm+24wg2LTYr9iMINqp2YTYp9uM2YbYqiDZh9mG2q/Yp9mFINiv2LPYqtix2LPbjCDYqNixINin2LPYp9izIFVzZXItQWdlbnQg2KjZhyDYt9mI2LEg2K7ZiNiv2qnYp9ixINiq2LTYrtuM2LUg2K/Yp9iv2Ycg2Ygg2YLYp9mE2Kgg2YXYsdio2YjYt9mHINix2Kcg2KjYsdmF24zigIzar9ix2K/Yp9mG2K8nCiAgfQp9OwpmdW5jdGlvbiDojrflj5blh63mja4yMDIxNCjlkI3np7AyMDIxMykgewogIGNvbnN0IOWAvDIwMjEyID0gJzsgJyArIGRvY3VtZW50LmNvb2tpZTsKICBjb25zdCDpg6jliIbliJfooagyMDIxMSA9IOWAvDIwMjEyLnNwbGl0KCc7ICcgKyDlkI3np7AyMDIxMyArICc9Jyk7CiAgaWYgKOmDqOWIhuWIl+ihqDIwMjExLmxlbmd0aCA9PT0gMikgcmV0dXJuIOmDqOWIhuWIl+ihqDIwMjExLnBvcCgpLnNwbGl0KCc7Jykuc2hpZnQoKTsKICByZXR1cm4gbnVsbDsKfQpjb25zdCDmtY/op4jlmajor63oqIAyMDIxMCA9IG5hdmlnYXRvci5sYW5ndWFnZSB8fCBuYXZpZ2F0b3IudXNlckxhbmd1YWdlIHx8ICcnOwpjb25zdCDlt7Lkv53lrZjor63oqIAyMDIwOSA9IGxvY2FsU3RvcmFnZS5nZXRJdGVtKCdwcmVmZXJyZWRMYW5ndWFnZScpIHx8IOiOt+WPluWHreaNrjIwMjE0KCdwcmVmZXJyZWRMYW5ndWFnZScpOwpsZXQg5piv5ZCm5YC8MjAyMDggPSBmYWxzZTsKaWYgKOW3suS/neWtmOivreiogDIwMjA5ID09PSAnZmEnIHx8IOW3suS/neWtmOivreiogDIwMjA5ID09PSAnZmEtSVInKSB7CiAg5piv5ZCm5YC8MjAyMDggPSB0cnVlOwp9IGVsc2UgaWYgKOW3suS/neWtmOivreiogDIwMjA5ID09PSAnemgnIHx8IOW3suS/neWtmOivreiogDIwMjA5ID09PSAnemgtQ04nKSB7CiAg5piv5ZCm5YC8MjAyMDggPSBmYWxzZTsKfSBlbHNlIHsKICDmmK/lkKblgLwyMDIwOCA9IOa1j+iniOWZqOivreiogDIwMjEwLmluY2x1ZGVzKCdmYScpIHx8IOa1j+iniOWZqOivreiogDIwMjEwLmluY2x1ZGVzKCdmYS1JUicpOwp9CmNvbnN0IOe/u+ivkeWAvDIwMjA3ID0g5pys5Zyw5YC8MjAyMTVb5piv5ZCm5YC8MjAyMDggPyAnZmEnIDogJ3poJ107CmZ1bmN0aW9uIOWIh+aNouivreiogCjor63oqIApIHsKICBsb2NhbFN0b3JhZ2Uuc2V0SXRlbSgncHJlZmVycmVkTGFuZ3VhZ2UnLCDor63oqIApOwogIC8vIOiuvue9rkNvb2tpZe+8iOacieaViOacnzHlubTvvIkKICBjb25zdCDov4fmnJ/ml6XmnJ8yMDIwNiA9IG5ldyBEYXRlKCk7CiAg6L+H5pyf5pel5pyfMjAyMDYuc2V0RnVsbFllYXIo6L+H5pyf5pel5pyfMjAyMDYuZ2V0RnVsbFllYXIoKSArIDEpOwogIGRvY3VtZW50LmNvb2tpZSA9ICdwcmVmZXJyZWRMYW5ndWFnZT0nICsg6K+t6KiAICsgJzsgcGF0aD0vOyBleHBpcmVzPScgKyDov4fmnJ/ml6XmnJ8yMDIwNi50b1VUQ1N0cmluZygpICsgJzsgU2FtZVNpdGU9TGF4JzsKICAvLyDliLfmlrDpobXpnaLvvIzkuI3kvb/nlKhVUkzlj4LmlbAKICB3aW5kb3cubG9jYXRpb24ucmVsb2FkKCk7Cn0KCi8vIOmhtemdouWKoOi9veaXtuajgOafpSBsb2NhbFN0b3JhZ2Ug5ZKMIENvb2tpZe+8jOW5tua4heeQhlVSTOWPguaVsAp3aW5kb3cuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uICgpIHsKICBjb25zdCDlt7Lkv53lrZjor63oqIAyMDIwNSA9IGxvY2FsU3RvcmFnZS5nZXRJdGVtKCdwcmVmZXJyZWRMYW5ndWFnZScpIHx8IOiOt+WPluWHreaNrjIwMjE0KCdwcmVmZXJyZWRMYW5ndWFnZScpOwogIGNvbnN0IOe9keWdgOWPguaVsCA9IG5ldyBVUkxTZWFyY2hQYXJhbXMod2luZG93LmxvY2F0aW9uLnNlYXJjaCk7CiAgY29uc3Qg572R5Z2A6K+t6KiAID0g572R5Z2A5Y+C5pWwLmdldCgnbGFuZycpOwoKICAvLyDlpoLmnpxVUkzkuK3mnInor63oqIDlj4LmlbDvvIznp7vpmaTlroPlubborr7nva5Db29raWUKICBpZiAo572R5Z2A6K+t6KiAKSB7CiAgICBjb25zdCDlvZPliY3nvZHlnYAyMDIwNCA9IG5ldyBVUkwod2luZG93LmxvY2F0aW9uLmhyZWYpOwogICAg5b2T5YmN572R5Z2AMjAyMDQuc2VhcmNoUGFyYW1zLmRlbGV0ZSgnbGFuZycpOwogICAgY29uc3Qg5paw572R5Z2AID0g5b2T5YmN572R5Z2AMjAyMDQudG9TdHJpbmcoKTsKCiAgICAvLyDorr7nva5Db29raWUKICAgIGNvbnN0IOi/h+acn+aXpeacnzIwMjAzID0gbmV3IERhdGUoKTsKICAgIOi/h+acn+aXpeacnzIwMjAzLnNldEZ1bGxZZWFyKOi/h+acn+aXpeacnzIwMjAzLmdldEZ1bGxZZWFyKCkgKyAxKTsKICAgIGRvY3VtZW50LmNvb2tpZSA9ICdwcmVmZXJyZWRMYW5ndWFnZT0nICsg572R5Z2A6K+t6KiAICsgJzsgcGF0aD0vOyBleHBpcmVzPScgKyDov4fmnJ/ml6XmnJ8yMDIwMy50b1VUQ1N0cmluZygpICsgJzsgU2FtZVNpdGU9TGF4JzsKICAgIGxvY2FsU3RvcmFnZS5zZXRJdGVtKCdwcmVmZXJyZWRMYW5ndWFnZScsIOe9keWdgOivreiogCk7CgogICAgLy8g5L2/55SoaGlzdG9yeSBBUEnnp7vpmaRVUkzlj4LmlbDvvIzkuI3liLfmlrDpobXpnaIKICAgIHdpbmRvdy5oaXN0b3J5LnJlcGxhY2VTdGF0ZSh7fSwgJycsIOaWsOe9keWdgCk7CiAgfSBlbHNlIGlmICjlt7Lkv53lrZjor63oqIAyMDIwNSkgewogICAgLy8g5aaC5p6cbG9jYWxTdG9yYWdl5Lit5pyJ5L2GQ29va2ll5Lit5rKh5pyJ77yM5ZCM5q2l5YiwQ29va2llCiAgICBjb25zdCDov4fmnJ/ml6XmnJ8gPSBuZXcgRGF0ZSgpOwogICAg6L+H5pyf5pel5pyfLnNldEZ1bGxZZWFyKOi/h+acn+aXpeacny5nZXRGdWxsWWVhcigpICsgMSk7CiAgICBkb2N1bWVudC5jb29raWUgPSAncHJlZmVycmVkTGFuZ3VhZ2U9JyArIOW3suS/neWtmOivreiogDIwMjA1ICsgJzsgcGF0aD0vOyBleHBpcmVzPScgKyDov4fmnJ/ml6XmnJ8udG9VVENTdHJpbmcoKSArICc7IFNhbWVTaXRlPUxheCc7CiAgfQp9KTsKCi8vIOi1m+WNmuaci+WFi+mjjiB0b2FzdCDpgJrnn6UgKOabv+S7oyBhbGVydCkKd2luZG93LuaYvuekuuaPkOekuiA9IGZ1bmN0aW9uICjmtojmga8yMDIwMiwg57G75Z6LMjAyMDEsIOacrOWcsOWAvDIwMjAwKSB7CiAg5pys5Zyw5YC8MjAyMDAgPSDmnKzlnLDlgLwyMDIwMCB8fCB7fTsKICB2YXIg5aCG5qCIID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2NwVG9hc3RTdGFjaycpOwogIGlmICgh5aCG5qCIKSByZXR1cm47CiAgdmFyIOexu+Wei+aYoOWwhCA9IHsKICAgIHN1Y2Nlc3M6ICfinJMnLAogICAgaW5mbzogJ+KMrCcsCiAgICB3YXJuOiAn4pqgJywKICAgIGVycm9yOiAn4pyVJwogIH07CiAgdmFyIOagh+mimOaYoOWwhCA9IHsKICAgIHN1Y2Nlc3M6ICdTVUNDRVNTJywKICAgIGluZm86ICdJTkZPJywKICAgIHdhcm46ICdXQVJOJywKICAgIGVycm9yOiAnRVJST1InCiAgfTsKICDnsbvlnosyMDIwMSA9IOexu+Wei+aYoOWwhFvnsbvlnosyMDIwMV0gPyDnsbvlnosyMDIwMSA6ICdzdWNjZXNzJzsKICB2YXIg5oyB57ut5pe26Ze0ID0g5pys5Zyw5YC8MjAyMDAuZHVyYXRpb24gfHwgMzIwMDsKICB2YXIg5o+Q56S6ID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnZGl2Jyk7CiAg5o+Q56S6LmNsYXNzTmFtZSA9ICdjcC10b2FzdCBjcC10b2FzdC0nICsg57G75Z6LMjAyMDE7CiAg5o+Q56S6LnN0eWxlLnNldFByb3BlcnR5KCctLWNwLXRvYXN0LWR1cicsIOaMgee7reaXtumXtCArICdtcycpOwogIHZhciDlm77moIcgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdzcGFuJyk7CiAg5Zu+5qCHLmNsYXNzTmFtZSA9ICdjcC10b2FzdC1pY29uJzsKICDlm77moIcudGV4dENvbnRlbnQgPSDnsbvlnovmmKDlsIRb57G75Z6LMjAyMDFdOwogIHZhciDkuLvkvZMgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdkaXYnKTsKICDkuLvkvZMuY2xhc3NOYW1lID0gJ2NwLXRvYXN0LWJvZHknOwogIHZhciDmoIfpopggPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdkaXYnKTsKICDmoIfpopguY2xhc3NOYW1lID0gJ2NwLXRvYXN0LXRpdGxlJzsKICDmoIfpopgudGV4dENvbnRlbnQgPSDmnKzlnLDlgLwyMDIwMC50aXRsZSB8fCDmoIfpopjmmKDlsIRb57G75Z6LMjAyMDFdOwogIHZhciDmtojmga8yMDE5OSA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2RpdicpOwogIOa2iOaBrzIwMTk5LmNsYXNzTmFtZSA9ICdjcC10b2FzdC1tc2cnOwogIOa2iOaBrzIwMTk5LnRleHRDb250ZW50ID0gU3RyaW5nKOa2iOaBrzIwMjAyID09IG51bGwgPyAnJyA6IOa2iOaBrzIwMjAyKTsKICDkuLvkvZMuYXBwZW5kQ2hpbGQo5qCH6aKYKTsKICDkuLvkvZMuYXBwZW5kQ2hpbGQo5raI5oGvMjAxOTkpOwogIHZhciDlhbPpl60gPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdidXR0b24nKTsKICDlhbPpl60udHlwZSA9ICdidXR0b24nOwogIOWFs+mXrS5jbGFzc05hbWUgPSAnY3AtdG9hc3QtY2xvc2UnOwogIOWFs+mXrS5zZXRBdHRyaWJ1dGUoJ2FyaWEtbGFiZWwnLCAnY2xvc2UnKTsKICDlhbPpl60udGV4dENvbnRlbnQgPSAn4pyVJzsKICDmj5DnpLouYXBwZW5kQ2hpbGQo5Zu+5qCHKTsKICDmj5DnpLouYXBwZW5kQ2hpbGQo5Li75L2TKTsKICDmj5DnpLouYXBwZW5kQ2hpbGQo5YWz6ZetKTsKICDloIbmoIguYXBwZW5kQ2hpbGQo5o+Q56S6KTsKICByZXF1ZXN0QW5pbWF0aW9uRnJhbWUoZnVuY3Rpb24gKCkgewogICAg5o+Q56S6LmNsYXNzTGlzdC5hZGQoJ2NwLXNob3cnKTsKICB9KTsKICB2YXIg5pys5Zyw5YC8MjAxOTggPSBmYWxzZTsKICBmdW5jdGlvbiDlhbPpl63mj5DnpLooKSB7CiAgICBpZiAo5pys5Zyw5YC8MjAxOTgpIHJldHVybjsKICAgIOacrOWcsOWAvDIwMTk4ID0gdHJ1ZTsKICAgIOaPkOekui5jbGFzc0xpc3QucmVtb3ZlKCdjcC1zaG93Jyk7CiAgICDmj5DnpLouY2xhc3NMaXN0LmFkZCgnY3AtaGlkZScpOwogICAgc2V0VGltZW91dChmdW5jdGlvbiAoKSB7CiAgICAgIGlmICjmj5DnpLoucGFyZW50Tm9kZSkg5o+Q56S6LnBhcmVudE5vZGUucmVtb3ZlQ2hpbGQo5o+Q56S6KTsKICAgIH0sIDQwMCk7CiAgfQogIOWFs+mXrS5hZGRFdmVudExpc3RlbmVyKCdjbGljaycsIOWFs+mXreaPkOekuik7CiAgdmFyIOiuoeaXtuWZqCA9IHNldFRpbWVvdXQo5YWz6Zet5o+Q56S6LCDmjIHnu63ml7bpl7QpOwogIOaPkOekui5hZGRFdmVudExpc3RlbmVyKCdtb3VzZWVudGVyJywgZnVuY3Rpb24gKCkgewogICAgY2xlYXJUaW1lb3V0KOiuoeaXtuWZqCk7CiAgfSk7CiAg5o+Q56S6LmFkZEV2ZW50TGlzdGVuZXIoJ21vdXNlbGVhdmUnLCBmdW5jdGlvbiAoKSB7CiAgICDorqHml7blmaggPSBzZXRUaW1lb3V0KOWFs+mXreaPkOekuiwgMTIwMCk7CiAgfSk7CiAgcmV0dXJuIHsKICAgIGRpc21pc3M6IOWFs+mXreaPkOekuiwKICAgIGVsZW1lbnQ6IOaPkOekugogIH07Cn07CmZ1bmN0aW9uIOWwneivleaJk+W8gOW6lOeUqCjmlrnmoYjnvZHlnYAyMDE5Nywg5Zue6YCA5Zue6LCDLCDotoXml7YyMDE5NikgewogIOi2heaXtjIwMTk2ID0g6LaF5pe2MjAxOTYgfHwgMjUwMDsKICB2YXIg5bqU55So5bey5omT5byAID0gZmFsc2U7CiAgdmFyIOWbnuiwg+W3suaJp+ihjCA9IGZhbHNlOwogIHZhciDlvIDlp4vlgLwgPSBEYXRlLm5vdygpOwogIHZhciDlgLzlgLwyMDE5NSA9IGZ1bmN0aW9uICgpIHsKICAgIHZhciDogJfml7YyMDE5NCA9IERhdGUubm93KCkgLSDlvIDlp4vlgLw7CiAgICBpZiAo6ICX5pe2MjAxOTQgPCAzMDAwICYmICHlm57osIPlt7LmiafooYwpIHsKICAgICAg5bqU55So5bey5omT5byAID0gdHJ1ZTsKICAgIH0KICB9OwogIHdpbmRvdy5hZGRFdmVudExpc3RlbmVyKCdibHVyJywg5YC85YC8MjAxOTUpOwogIHZhciDlgLzlgLwyMDE5MyA9IGZ1bmN0aW9uICgpIHsKICAgIHZhciDogJfml7YgPSBEYXRlLm5vdygpIC0g5byA5aeL5YC8OwogICAgaWYgKOiAl+aXtiA8IDMwMDAgJiYgIeWbnuiwg+W3suaJp+ihjCkgewogICAgICDlupTnlKjlt7LmiZPlvIAgPSB0cnVlOwogICAgfQogIH07CiAgZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcigndmlzaWJpbGl0eWNoYW5nZScsIOWAvOWAvDIwMTkzKTsKICB2YXIg5YaF5bWM5qGG5p62ID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnaWZyYW1lJyk7CiAg5YaF5bWM5qGG5p62LnN0eWxlLmRpc3BsYXkgPSAnbm9uZSc7CiAg5YaF5bWM5qGG5p62LnN0eWxlLndpZHRoID0gJzFweCc7CiAg5YaF5bWM5qGG5p62LnN0eWxlLmhlaWdodCA9ICcxcHgnOwogIOWGheW1jOahhuaeti5zcmMgPSDmlrnmoYjnvZHlnYAyMDE5NzsKICBkb2N1bWVudC5ib2R5LmFwcGVuZENoaWxkKOWGheW1jOahhuaetik7CiAgc2V0VGltZW91dChmdW5jdGlvbiAoKSB7CiAgICDlhoXltYzmoYbmnrYucGFyZW50Tm9kZSAmJiDlhoXltYzmoYbmnrYucGFyZW50Tm9kZS5yZW1vdmVDaGlsZCjlhoXltYzmoYbmnrYpOwogICAgd2luZG93LnJlbW92ZUV2ZW50TGlzdGVuZXIoJ2JsdXInLCDlgLzlgLwyMDE5NSk7CiAgICBkb2N1bWVudC5yZW1vdmVFdmVudExpc3RlbmVyKCd2aXNpYmlsaXR5Y2hhbmdlJywg5YC85YC8MjAxOTMpOwogICAgaWYgKCHlm57osIPlt7LmiafooYwpIHsKICAgICAg5Zue6LCD5bey5omn6KGMID0gdHJ1ZTsKICAgICAgaWYgKCHlupTnlKjlt7LmiZPlvIAgJiYg5Zue6YCA5Zue6LCDKSB7CiAgICAgICAg5Zue6YCA5Zue6LCDKCk7CiAgICAgIH0KICAgIH0KICB9LCDotoXml7YyMDE5Nik7Cn0KZnVuY3Rpb24g55Sf5oiQ5a6i5oi356uv6ZO+5o6lKOWuouaIt+err+exu+Weiywg5a6i5oi356uv5ZCN56ewKSB7CiAgdmFyIOW9k+WJjee9keWdgDIwMTkyID0gd2luZG93LmxvY2F0aW9uLmhyZWY7CiAgdmFyIOiuoumYhee9keWdgDIwMTkxID0g5b2T5YmN572R5Z2AMjAxOTIgKyAiL3N1YiI7CiAgdmFyIOaWueahiOe9keWdgCA9ICcnOwogIHZhciDmmL7npLrlkI3np7AgPSDlrqLmiLfnq6/lkI3np7AgfHwgJyc7CiAgdmFyIOacgOe7iOe9keWdgCA9IOiuoumYhee9keWdgDIwMTkxOwogIGlmICjlrqLmiLfnq6/nsbvlnosgPT09ICc=") + String(_v4('djJyYXk=')) + _d64("AScpIHsKICAgIOacgOe7iOe9keWdgCA9IOiuoumYhee9keWdgDIwMTkxOwogICAgdmFyIOe9keWdgOWAvDIwMTkwID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoImNsaWVudFN1YnNjcmlwdGlvblVybCIpOwogICAg572R5Z2A5YC8MjAxOTAudGV4dENvbnRlbnQgPSDmnIDnu4jnvZHlnYA7CiAgICDnvZHlnYDlgLwyMDE5MC5zdHlsZS5kaXNwbGF5ID0gImJsb2NrIjsKICAgIOe9keWdgOWAvDIwMTkwLnN0eWxlLm92ZXJmbG93V3JhcCA9ICJicmVhay13b3JkIjsKICAgIOe9keWdgOWAvDIwMTkwLnN0eWxlLndvcmRCcmVhayA9ICJicmVhay1hbGwiOwogICAg572R5Z2A5YC8MjAxOTAuc3R5bGUub3ZlcmZsb3dYID0gImF1dG8iOwogICAg572R5Z2A5YC8MjAxOTAuc3R5bGUubWF4V2lkdGggPSAiMTAwJSI7CiAgICDnvZHlnYDlgLwyMDE5MC5zdHlsZS5ib3hTaXppbmcgPSAiYm9yZGVyLWJveCI7CiAgICBpZiAo5a6i5oi356uv5ZCN56ewID09PSAn") + String(_v4('VjJSQVk=')) + _d64("AScpIHsKICAgICAgbmF2aWdhdG9yLmNsaXBib2FyZC53cml0ZVRleHQo5pyA57uI572R5Z2AKS50aGVuKGZ1bmN0aW9uICgpIHsKICAgICAgICDmmL7npLrmj5DnpLoo5pi+56S65ZCN56ewICsgIiAiICsg57+76K+R5YC8MjAyMDcuc3Vic2NyaXB0aW9uQ29waWVkLCAnc3VjY2VzcycpOwogICAgICB9KTsKICAgIH0gZWxzZSBpZiAo5a6i5oi356uv5ZCN56ewID09PSAn") + String(_v4('U2hhZG93cm9ja2V0')) + _d64("AScpIHsKICAgICAg5pa55qGI572R5Z2AID0gJw==") + String(_v4('c2hhZG93cm9ja2V0Oi8vYWRkLw==')) + _d64("AScgKyBlbmNvZGVVUklDb21wb25lbnQo5pyA57uI572R5Z2AKTsKICAgICAg5bCd6K+V5omT5byA5bqU55SoKOaWueahiOe9keWdgCwgZnVuY3Rpb24gKCkgewogICAgICAgIG5hdmlnYXRvci5jbGlwYm9hcmQud3JpdGVUZXh0KOacgOe7iOe9keWdgCkudGhlbihmdW5jdGlvbiAoKSB7CiAgICAgICAgICDmmL7npLrmj5DnpLoo5pi+56S65ZCN56ewICsgIiAiICsg57+76K+R5YC8MjAyMDcuc3Vic2NyaXB0aW9uQ29waWVkLCAnc3VjY2VzcycpOwogICAgICAgIH0pOwogICAgICB9KTsKICAgIH0gZWxzZSBpZiAo5a6i5oi356uv5ZCN56ewID09PSAn") + String(_v4('VjJSQVlORw==')) + _d64("AScpIHsKICAgICAg5pa55qGI572R5Z2AID0gJw==") + String(_v4('djJyYXluZzovL2luc3RhbGw/dXJsPQ==')) + _d64("AScgKyBlbmNvZGVVUklDb21wb25lbnQo5pyA57uI572R5Z2AKTsKICAgICAg5bCd6K+V5omT5byA5bqU55SoKOaWueahiOe9keWdgCwgZnVuY3Rpb24gKCkgewogICAgICAgIG5hdmlnYXRvci5jbGlwYm9hcmQud3JpdGVUZXh0KOacgOe7iOe9keWdgCkudGhlbihmdW5jdGlvbiAoKSB7CiAgICAgICAgICDmmL7npLrmj5DnpLoo5pi+56S65ZCN56ewICsgIiAiICsg57+76K+R5YC8MjAyMDcuc3Vic2NyaXB0aW9uQ29waWVkLCAnc3VjY2VzcycpOwogICAgICAgIH0pOwogICAgICB9KTsKICAgIH0gZWxzZSBpZiAo5a6i5oi356uv5ZCN56ewID09PSAn") + String(_v4('TkVLT1JBWQ==')) + _d64("AScpIHsKICAgICAg5pa55qGI572R5Z2AID0gJw==") + String(_v4('bmVrb3JheTovL2luc3RhbGwtY29uZmlnP3VybD0=')) + _d64("AScgKyBlbmNvZGVVUklDb21wb25lbnQo5pyA57uI572R5Z2AKTsKICAgICAg5bCd6K+V5omT5byA5bqU55SoKOaWueahiOe9keWdgCwgZnVuY3Rpb24gKCkgewogICAgICAgIG5hdmlnYXRvci5jbGlwYm9hcmQud3JpdGVUZXh0KOacgOe7iOe9keWdgCkudGhlbihmdW5jdGlvbiAoKSB7CiAgICAgICAgICDmmL7npLrmj5DnpLoo5pi+56S65ZCN56ewICsgIiAiICsg57+76K+R5YC8MjAyMDcuc3Vic2NyaXB0aW9uQ29waWVkLCAnc3VjY2VzcycpOwogICAgICAgIH0pOwogICAgICB9KTsKICAgIH0KICB9IGVsc2UgewogICAgLy8g57uf5LiA6LWw5YaF6YOo5qC85byP6L2s5o2iCiAgICDmnIDnu4jnvZHlnYAgPSDorqLpmIXnvZHlnYAyMDE5MSArICjorqLpmIXnvZHlnYAyMDE5MS5pbmNsdWRlcygnPycpID8gJyYnIDogJz8nKSArICJ0YXJnZXQ9IiArIOWuouaIt+err+exu+WeizsKICAgIHZhciDnvZHlnYDlgLwyMDE5MCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCJjbGllbnRTdWJzY3JpcHRpb25VcmwiKTsKICAgIOe9keWdgOWAvDIwMTkwLnRleHRDb250ZW50ID0g5pyA57uI572R5Z2AOwogICAg572R5Z2A5YC8MjAxOTAuc3R5bGUuZGlzcGxheSA9ICJibG9jayI7CiAgICDnvZHlnYDlgLwyMDE5MC5zdHlsZS5vdmVyZmxvd1dyYXAgPSAiYnJlYWstd29yZCI7CiAgICDnvZHlnYDlgLwyMDE5MC5zdHlsZS53b3JkQnJlYWsgPSAiYnJlYWstYWxsIjsKICAgIOe9keWdgOWAvDIwMTkwLnN0eWxlLm92ZXJmbG93WCA9ICJhdXRvIjsKICAgIOe9keWdgOWAvDIwMTkwLnN0eWxlLm1heFdpZHRoID0gIjEwMCUiOwogICAg572R5Z2A5YC8MjAxOTAuc3R5bGUuYm94U2l6aW5nID0gImJvcmRlci1ib3giOwogICAgaWYgKOWuouaIt+err+exu+WeiyA9PT0gJw==") + String(_v4('Y2xhc2g=')) + _d64("AScpIHsKICAgICAgaWYgKOWuouaIt+err+WQjeensCA9PT0gJw==") + String(_v4('U1RBU0g=')) + _d64("AScpIHsKICAgICAgICDmlrnmoYjnvZHlnYAgPSAn") + String(_v4('c3Rhc2g6Ly9pbnN0YWxsP3VybD0=')) + _d64("AScgKyBlbmNvZGVVUklDb21wb25lbnQo5pyA57uI572R5Z2AKTsKICAgICAgICDmmL7npLrlkI3np7AgPSAn") + String(_v4('U1RBU0g=')) + _d64("ASc7CiAgICAgIH0gZWxzZSB7CiAgICAgICAg5pa55qGI572R5Z2AID0gJw==") + String(_v4('Y2xhc2g6Ly9pbnN0YWxsLWNvbmZpZz91cmw9')) + _d64("AScgKyBlbmNvZGVVUklDb21wb25lbnQo5pyA57uI572R5Z2AKTsKICAgICAgICDmmL7npLrlkI3np7AgPSAn") + String(_v4('Q0xBU0g=')) + _d64("ASc7CiAgICAgIH0KICAgIH0gZWxzZSBpZiAo5a6i5oi356uv57G75Z6LID09PSAn") + String(_v4('c3VyZ2U=')) + _d64("AScpIHsKICAgICAg5pa55qGI572R5Z2AID0gJw==") + String(_v4('c3VyZ2U6Ly8vaW5zdGFsbC1jb25maWc/dXJsPQ==')) + _d64("AScgKyBlbmNvZGVVUklDb21wb25lbnQo5pyA57uI572R5Z2AKTsKICAgICAg5pi+56S65ZCN56ewID0gJw==") + String(_v4('U1VSR0U=')) + _d64("ASc7CiAgICB9IGVsc2UgaWYgKOWuouaIt+err+exu+WeiyA9PT0gJw==") + String(_v4('c2luZ2JveA==')) + _d64("AScpIHsKICAgICAg5pa55qGI572R5Z2AID0gJw==") + String(_v4('c2luZy1ib3g6Ly9pbnN0YWxsLWNvbmZpZz91cmw9')) + _d64("AScgKyBlbmNvZGVVUklDb21wb25lbnQo5pyA57uI572R5Z2AKTsKICAgICAg5pi+56S65ZCN56ewID0gJw==") + String(_v4('U0lORy1CT1g=')) + _d64("ASc7CiAgICB9IGVsc2UgaWYgKOWuouaIt+err+exu+WeiyA9PT0gJw==") + String(_v4('bG9vbg==')) + _d64("AScpIHsKICAgICAg5pa55qGI572R5Z2AID0gJw==") + String(_v4('bG9vbjovL2luc3RhbGw/dXJsPQ==')) + _d64("AScgKyBlbmNvZGVVUklDb21wb25lbnQo5pyA57uI572R5Z2AKTsKICAgICAg5pi+56S65ZCN56ewID0gJw==") + String(_v4('TE9PTg==')) + _d64("ASc7CiAgICB9IGVsc2UgaWYgKOWuouaIt+err+exu+WeiyA9PT0gJw==") + String(_v4('cXVhbng=')) + _d64("AScpIHsKICAgICAg5pa55qGI572R5Z2AID0gJw==") + String(_v4('cXVhbnR1bXVsdC14Oi8vaW5zdGFsbC1jb25maWc/dXJsPQ==')) + _d64("AScgKyBlbmNvZGVVUklDb21wb25lbnQo5pyA57uI572R5Z2AKTsKICAgICAg5pi+56S65ZCN56ewID0gJw==") + String(_v4('UVVBTlRVTVVMVCBY')) + _d64("ASc7CiAgICB9CiAgICBpZiAo5pa55qGI572R5Z2AKSB7CiAgICAgIOWwneivleaJk+W8gOW6lOeUqCjmlrnmoYjnvZHlnYAsIGZ1bmN0aW9uICgpIHsKICAgICAgICBuYXZpZ2F0b3IuY2xpcGJvYXJkLndyaXRlVGV4dCjmnIDnu4jnvZHlnYApLnRoZW4oZnVuY3Rpb24gKCkgewogICAgICAgICAg5pi+56S65o+Q56S6KOaYvuekuuWQjeensCArICIgIiArIOe/u+ivkeWAvDIwMjA3LnN1YnNjcmlwdGlvbkNvcGllZCwgJ3N1Y2Nlc3MnKTsKICAgICAgICB9KTsKICAgICAgfSk7CiAgICB9IGVsc2UgewogICAgICBuYXZpZ2F0b3IuY2xpcGJvYXJkLndyaXRlVGV4dCjmnIDnu4jnvZHlnYApLnRoZW4oZnVuY3Rpb24gKCkgewogICAgICAgIOaYvuekuuaPkOekuijmmL7npLrlkI3np7AgKyAiICIgKyDnv7vor5HlgLwyMDIwNy5zdWJzY3JpcHRpb25Db3BpZWQsICdzdWNjZXNzJyk7CiAgICAgIH0pOwogICAgfQogIH0KfQoKLy8g6aG16Z2i54m55pWI5Zu+5b2i5YyW5byA5YWzIChsb2NhbFN0b3JhZ2Ug5oyB5LmF5YyWKQp3aW5kb3cu5bqU55So6aG16Z2i54m55pWIID0gZnVuY3Rpb24gKCkgewogIHZhciDmnKzlnLDlgLwyMDE4OSA9IGxvY2FsU3RvcmFnZS5nZXRJdGVtKCdjcC1meC1vZmYnKSA9PT0gJzEnOwogIGRvY3VtZW50LmJvZHkuY2xhc3NMaXN0LnRvZ2dsZSgnZngtb2ZmJywg5pys5Zyw5YC8MjAxODkpOwogIHZhciDmnKzlnLDlgLwyMDE4OCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjcEZ4TGFiZWwnKTsKICBpZiAo5pys5Zyw5YC8MjAxODgpIOacrOWcsOWAvDIwMTg4LnRleHRDb250ZW50ID0g5pys5Zyw5YC8MjAxODkgPyAnRlg6IE9GRicgOiAnRlg6IE9OJzsKICBpZiAo5pys5Zyw5YC8MjAxODkpIHsKICAgIHZhciDmnKzlnLDlgLwyMDE4NyA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdtYXRyaXhDb2RlUmFpbicpOwogICAgaWYgKOacrOWcsOWAvDIwMTg3KSDmnKzlnLDlgLwyMDE4Ny5pbm5lckhUTUwgPSAnJzsKICB9IGVsc2UgaWYgKHR5cGVvZiDliJvlu7rnn6npmLXpm6ggPT09ICdmdW5jdGlvbicpIHsKICAgIHZhciDnu5PmnpzlgLwgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnbWF0cml4Q29kZVJhaW4nKTsKICAgIGlmICjnu5PmnpzlgLwgJiYgIee7k+aenOWAvC5maXJzdENoaWxkKSDliJvlu7rnn6npmLXpm6goKTsKICB9Cn07CndpbmRvdy7liIfmjaLpobXpnaLnibnmlYggPSBmdW5jdGlvbiAoKSB7CiAgdmFyIOacrOWcsOWAvDIwMTg2ID0gbG9jYWxTdG9yYWdlLmdldEl0ZW0oJ2NwLWZ4LW9mZicpID09PSAnMSc7CiAgbG9jYWxTdG9yYWdlLnNldEl0ZW0oJ2NwLWZ4LW9mZicsIOacrOWcsOWAvDIwMTg2ID8gJzAnIDogJzEnKTsKICB3aW5kb3cu5bqU55So6aG16Z2i54m55pWIKCk7Cn07CihmdW5jdGlvbiAoKSB7CiAgaWYgKGxvY2FsU3RvcmFnZS5nZXRJdGVtKCdjcC1meC1vZmYnKSA9PT0gJzEnKSB7CiAgICBkb2N1bWVudC5hZGRFdmVudExpc3RlbmVyKCdET01Db250ZW50TG9hZGVkJywgZnVuY3Rpb24gKCkgewogICAgICBkb2N1bWVudC5ib2R5LmNsYXNzTGlzdC5hZGQoJ2Z4LW9mZicpOwogICAgICB2YXIg5pys5Zyw5YC8MjAxODUgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY3BGeExhYmVsJyk7CiAgICAgIGlmICjmnKzlnLDlgLwyMDE4NSkg5pys5Zyw5YC8MjAxODUudGV4dENvbnRlbnQgPSAnRlg6IE9GRic7CiAgICB9KTsKICB9Cn0pKCk7CmZ1bmN0aW9uIOWIm+W7uuefqemYtembqCgpIHsKICBpZiAoZG9jdW1lbnQuYm9keSAmJiBkb2N1bWVudC5ib2R5LmNsYXNzTGlzdC5jb250YWlucygnZngtb2ZmJykpIHJldHVybjsKICBjb25zdCDnn6npmLXlgLwgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnbWF0cml4Q29kZVJhaW4nKTsKICBpZiAoIeefqemYteWAvCkgcmV0dXJuOwogIGNvbnN0IOi1m+WNmuWtl+espuWIl+ihqCA9ICcwMeOCouOCpOOCpuOCqOOCquOCq+OCreOCr+OCseOCs+OCteOCt+OCueOCu+OCveOCv+ODgeODhOODhuODiOODiuODi+ODjOODjeODjiQlI0AhPzw+Kz1BQkNERUYnOwogIGNvbnN0IOiwg+iJsuadvyA9IFsnI2M4ZjEzNScsICcjNWI4Y2ZmJywgJyNmZmI0NTQnLCAnIzNkZGM4NCddOwogIGNvbnN0IOWIl+aVsCA9IE1hdGguZmxvb3Iod2luZG93LmlubmVyV2lkdGggLyAyMCk7CiAgZm9yIChsZXQg57Si5byV5YC8MjAxODQgPSAwOyDntKLlvJXlgLwyMDE4NCA8IOWIl+aVsDsg57Si5byV5YC8MjAxODQrKykgewogICAgY29uc3Qg5YiXMjAxODMgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdkaXYnKTsKICAgIOWIlzIwMTgzLmNsYXNzTmFtZSA9ICdtYXRyaXgtY29sdW1uJzsKICAgIOWIlzIwMTgzLnN0eWxlLmxlZnQgPSDntKLlvJXlgLwyMDE4NCAqIDIwICsgJ3B4JzsKICAgIOWIlzIwMTgzLnN0eWxlLmFuaW1hdGlvbkRlbGF5ID0gLU1hdGgucmFuZG9tKCkgKiAxNSArICdzJzsKICAgIOWIlzIwMTgzLnN0eWxlLmFuaW1hdGlvbkR1cmF0aW9uID0gTWF0aC5yYW5kb20oKSAqIDE0ICsgOCArICdzJzsKICAgIOWIlzIwMTgzLnN0eWxlLmZvbnRTaXplID0gTWF0aC5yYW5kb20oKSAqIDQgKyAxMiArICdweCc7CiAgICDliJcyMDE4My5zdHlsZS5vcGFjaXR5ID0gKE1hdGgucmFuZG9tKCkgKiAwLjcgKyAwLjMpLnRvRml4ZWQoMik7CiAgICBsZXQg5paH5pysMjAxODIgPSAnJzsKICAgIGNvbnN0IOWtl+espuaVsOmHjyA9IE1hdGguZmxvb3IoTWF0aC5yYW5kb20oKSAqIDMwICsgMTgpOwogICAgZm9yIChsZXQg5qyh57Si5byV5YC8ID0gMDsg5qyh57Si5byV5YC8IDwg5a2X56ym5pWw6YePOyDmrKHntKLlvJXlgLwrKykgewogICAgICBjb25zdCDlrZfnrKYgPSDotZvljZrlrZfnrKbliJfooahbTWF0aC5mbG9vcihNYXRoLnJhbmRvbSgpICog6LWb5Y2a5a2X56ym5YiX6KGoLmxlbmd0aCldOwogICAgICBjb25zdCDlgLzlvLrosIMgPSBNYXRoLnJhbmRvbSgpID4gMC44NTsKICAgICAgY29uc3Qg6aKc6ImyID0g5YC85by66LCDID8g6LCD6Imy5p2/W01hdGguZmxvb3IoTWF0aC5yYW5kb20oKSAqIOiwg+iJsuadvy5sZW5ndGgpXSA6ICcnOwogICAgICDmlofmnKwyMDE4MiArPSDpopzoibIgPyAnPHNwYW4gc3R5bGU9ImNvbG9yOicgKyDpopzoibIgKyAnOyI+JyArIOWtl+espiArICc8L3NwYW4+PGJyPicgOiAnPHNwYW4+JyArIOWtl+espiArICc8L3NwYW4+PGJyPic7CiAgICB9CiAgICDliJcyMDE4My5pbm5lckhUTUwgPSDmlofmnKwyMDE4MjsKICAgIOefqemYteWAvC5hcHBlbmRDaGlsZCjliJcyMDE4Myk7CiAgfQogIHNldEludGVydmFsKGZ1bmN0aW9uICgpIHsKICAgIGNvbnN0IOWIl+WIl+ihqCA9IOefqemYteWAvC5xdWVyeVNlbGVjdG9yQWxsKCcubWF0cml4LWNvbHVtbicpOwogICAg5YiX5YiX6KGoLmZvckVhY2goZnVuY3Rpb24gKOWIlykgewogICAgICBpZiAoTWF0aC5yYW5kb20oKSA+IDAuOTQpIHsKICAgICAgICBjb25zdCDlrZfnrKbliJfooaggPSDliJcucXVlcnlTZWxlY3RvckFsbCgnc3BhbicpOwogICAgICAgIGlmICjlrZfnrKbliJfooagubGVuZ3RoID4gMCkgewogICAgICAgICAgY29uc3Qg55uu5qCHMjAxODEgPSDlrZfnrKbliJfooahbTWF0aC5mbG9vcihNYXRoLnJhbmRvbSgpICog5a2X56ym5YiX6KGoLmxlbmd0aCldOwogICAgICAgICAgY29uc3Qg5pys5Zyw5YC8MjAxODAgPSDnm67moIcyMDE4MS5zdHlsZS5jb2xvcjsKICAgICAgICAgIOebruaghzIwMTgxLnN0eWxlLmNvbG9yID0gJyNmZmZmZmYnOwogICAgICAgICAg55uu5qCHMjAxODEuc3R5bGUudGV4dFNoYWRvdyA9ICcwIDAgMTBweCAjZmZmZmZmLCAwIDAgMThweCAjYzhmMTM1JzsKICAgICAgICAgIHNldFRpbWVvdXQoZnVuY3Rpb24gKCkgewogICAgICAgICAgICDnm67moIcyMDE4MS5zdHlsZS5jb2xvciA9IOacrOWcsOWAvDIwMTgwOwogICAgICAgICAgICDnm67moIcyMDE4MS5zdHlsZS50ZXh0U2hhZG93ID0gJyc7CiAgICAgICAgICB9LCAyMDApOwogICAgICAgIH0KICAgICAgfQogICAgfSk7CiAgfSwgMTEwKTsKfQphc3luYyBmdW5jdGlvbiDmo4Dmn6Xns7vnu5/nirbmgIEoKSB7CiAgdHJ5IHsKICAgIGNvbnN0IOS6keWimeeKtuaAgSA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjZlN0YXR1cycpOwogICAgY29uc3Qg5Zyw5Yy654q25oCBID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3JlZ2lvblN0YXR1cycpOwogICAgY29uc3Qg5YC85YC8MjAxNzkgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnZ2VvSW5mbycpOwogICAgY29uc3Qg5aSH55So54q25oCBID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2JhY2t1cFN0YXR1cycpOwogICAgY29uc3Qg5b2T5YmN5Zyw5Z2AID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2N1cnJlbnRJUCcpOwogICAgY29uc3Qg5Zyw5Yy65YC8ID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3JlZ2lvbk1hdGNoJyk7CgogICAgLy8g6I635Y+W5b2T5YmN6K+t6KiA6K6+572u77yI5LyY5YWI5LuOQ29va2llL2xvY2FsU3RvcmFnZeivu+WPlu+8iQogICAgZnVuY3Rpb24g6I635Y+W5Yet5o2uMjAxNzgo5ZCN56ewMjAxNzcpIHsKICAgICAgY29uc3Qg5YC8MjAxNzYgPSAnOyAnICsgZG9jdW1lbnQuY29va2llOwogICAgICBjb25zdCDpg6jliIbliJfooagyMDE3NSA9IOWAvDIwMTc2LnNwbGl0KCc7ICcgKyDlkI3np7AyMDE3NyArICc9Jyk7CiAgICAgIGlmICjpg6jliIbliJfooagyMDE3NS5sZW5ndGggPT09IDIpIHJldHVybiDpg6jliIbliJfooagyMDE3NS5wb3AoKS5zcGxpdCgnOycpLnNoaWZ0KCk7CiAgICAgIHJldHVybiBudWxsOwogICAgfQogICAgY29uc3Qg5rWP6KeI5Zmo6K+t6KiAMjAxNzQgPSBuYXZpZ2F0b3IubGFuZ3VhZ2UgfHwgbmF2aWdhdG9yLnVzZXJMYW5ndWFnZSB8fCAnJzsKICAgIGNvbnN0IOW3suS/neWtmOivreiogDIwMTczID0gbG9jYWxTdG9yYWdlLmdldEl0ZW0oJ3ByZWZlcnJlZExhbmd1YWdlJykgfHwg6I635Y+W5Yet5o2uMjAxNzgoJ3ByZWZlcnJlZExhbmd1YWdlJyk7CiAgICBsZXQg5piv5ZCm5YC8MjAxNzIgPSBmYWxzZTsKICAgIGlmICjlt7Lkv53lrZjor63oqIAyMDE3MyA9PT0gJ2ZhJyB8fCDlt7Lkv53lrZjor63oqIAyMDE3MyA9PT0gJ2ZhLUlSJykgewogICAgICDmmK/lkKblgLwyMDE3MiA9IHRydWU7CiAgICB9IGVsc2UgaWYgKOW3suS/neWtmOivreiogDIwMTczID09PSAnemgnIHx8IOW3suS/neWtmOivreiogDIwMTczID09PSAnemgtQ04nKSB7CiAgICAgIOaYr+WQpuWAvDIwMTcyID0gZmFsc2U7CiAgICB9IGVsc2UgewogICAgICDmmK/lkKblgLwyMDE3MiA9IOa1j+iniOWZqOivreiogDIwMTc0LmluY2x1ZGVzKCdmYScpIHx8IOa1j+iniOWZqOivreiogDIwMTc0LmluY2x1ZGVzKCdmYS1JUicpOwogICAgfQogICAgY29uc3Qg5pys5Zyw5YC8MjAxNzEgPSB7CiAgICAgIHpoOiB7CiAgICAgICAgd29ya2VyUmVnaW9uOiAnV29ya2Vy5Zyw5Yy6OiAnLAogICAgICAgIGRldGVjdGlvbk1ldGhvZDogJ+ajgOa1i+aWueW8jzogJywKICAgICAgICBwaXBTdGF0dXM6ICc=") + String(_v4('UHJveHlJUOeKtuaAgTog')) + _d64("AScsCiAgICAgICAgY3VycmVudElQOiAn5b2T5YmN5L2/55SoSVA6ICcsCiAgICAgICAgcmVnaW9uTWF0Y2g6ICflnLDljLrljLnphY06ICcsCiAgICAgICAgcmVnaW9uTmFtZXM6IHsKICAgICAgICAgICdISyc6ICfwn4et8J+HsCDpppnmuK8nLAogICAgICAgICAgJ1VTJzogJ/Cfh7rwn4e4IOe+juWbvScsCiAgICAgICAgICAnU0cnOiAn8J+HuPCfh6wg5paw5Yqg5Z2hJywKICAgICAgICAgICdKUCc6ICfwn4ev8J+HtSDml6XmnKwnLAogICAgICAgICAgJ0tSJzogJ/Cfh7Dwn4e3IOmfqeWbvScsCiAgICAgICAgICAnREUnOiAn8J+HqfCfh6og5b635Zu9JywKICAgICAgICAgICdTRSc6ICfwn4e48J+HqiDnkZ7lhbgnLAogICAgICAgICAgJ05MJzogJ/Cfh7Pwn4exIOiNt+WFsCcsCiAgICAgICAgICAnRkknOiAn8J+Hq/Cfh64g6Iqs5YWwJywKICAgICAgICAgICdHQic6ICfwn4es8J+HpyDoi7Hlm70nCiAgICAgICAgfSwKICAgICAgICBjdXN0b21JUE1vZGU6ICc=") + String(_v4('6Ieq5a6a5LmJUHJveHlJUOaooeW8jyAocOWPmOmHj+WQr+eUqCk=')) + _d64("AScsCiAgICAgICAgY3VzdG9tSVBNb2RlRGVzYzogJ+iHquWumuS5iUlQ5qih5byPICjlt7LnpoHnlKjlnLDljLrljLnphY0pJywKICAgICAgICBjdXN0b21QaXBMYWJlbDogJw==") + String(_v4('5L2/55So6Ieq5a6a5LmJUHJveHlJUDog')) + _d64("AScsCiAgICAgICAgY3VzdG9tSVBDb25maWc6ICcgKHDlj5jph4/phY3nva4pJywKICAgICAgICBjdXN0b21JUE1vZGVEaXNhYmxlZDogJ+iHquWumuS5iUlQ5qih5byP77yM5Zyw5Yy66YCJ5oup5bey56aB55SoJywKICAgICAgICBtYW51YWxSZWdpb246ICfmiYvliqjmjIflrprlnLDljLonLAogICAgICAgIG1hbnVhbFJlZ2lvbkRlc2M6ICcgKOaJi+WKqOaMh+WumiknLAogICAgICAgIHBpcEF2YWlsTGFiZWw6ICc=") + String(_v4('MTAvMTAg5Y+v55SoIChQcm94eUlQ5Z+f5ZCN6aKE6K6+5Y+v55SoKQ==')) + _d64("AScsCiAgICAgICAgc21hcnRTZWxlY3Rpb246ICfmmbrog73lsLHov5HpgInmi6nkuK0nLAogICAgICAgIHNhbWVSZWdpb25JUDogJ+WQjOWcsOWMuklQ5Y+v55SoICgx5LiqKScsCiAgICAgICAgY2xvdWRmbGFyZURldGVjdGlvbjogJ0Nsb3VkZmxhcmXlhoXnva7mo4DmtYsnLAogICAgICAgIGRldGVjdGlvbkZhaWxlZDogJ+ajgOa1i+Wksei0pScsCiAgICAgICAgdW5rbm93bjogJ+acquefpScKICAgICAgfSwKICAgICAgZmE6IHsKICAgICAgICB3b3JrZXJSZWdpb246ICfZhdmG2LfZgtmHIFdvcmtlcjogJywKICAgICAgICBkZXRlY3Rpb25NZXRob2Q6ICfYsdmI2LQg2KrYtNiu24zYtTogJywKICAgICAgICBwaXBTdGF0dXM6ICc=") + String(_v4('2YjYtti524zYqiBQcm94eUlQOiA=')) + "',\n        currentIP: 'IP فعلی: ',\n        regionMatch: 'تطبیق منطقه: ',\n        regionNames: {\n          'HK': '🇭🇰 هنگ کنگ',\n          'US': '🇺🇸 آمریکا',\n          'SG': '🇸🇬 سنگاپور',\n          'JP': '🇯🇵 ژاپن',\n          'KR': '🇰🇷 کره جنوبی',\n          'DE': '🇩🇪 آلمان',\n          'SE': '🇸🇪 سوئد',\n          'NL': '🇳🇱 هلند',\n          'FI': '🇫🇮 فنلاند',\n          'GB': '🇬🇧 بریتانیا'\n        },\n        customIPMode: '" + String(_v4('2K3Yp9mE2KogUHJveHlJUCDYs9mB2KfYsdi024wgKNmF2KrYutuM2LEgcCDZgdi52KfZhCDYp9iz2Kop')) + "',\n        customIPModeDesc: 'حالت IP سفارشی (تطبیق منطقه غیرفعال است)',\n        customPipLabel: '" + String(_v4('2KfYs9iq2YHYp9iv2Ycg2KfYsiBQcm94eUlQINiz2YHYp9ix2LTbjDog')) + "',\n        customIPConfig: ' (پیکربندی متغیر p)',\n        customIPModeDisabled: 'حالت IP سفارشی، انتخاب منطقه غیرفعال است',\n        manualRegion: 'تعیین منطقه دستی',\n        manualRegionDesc: ' (تعیین دستی)',\n        pipAvailLabel: '" + String(_v4('MTAvMTAg2K/YsSDYr9iz2KrYsdizICjYr9in2YXZhtmHINm+24zYtOKAjNmB2LHYtiBQcm94eUlQINiv2LEg2K/Ys9iq2LHYsyDYp9iz2Kop')) + _d64("AScsCiAgICAgICAgc21hcnRTZWxlY3Rpb246ICfYp9mG2KrYrtin2Kgg2YfZiNi02YXZhtivINmG2LLYr9uM2qkg2K/YsSDYrdin2YQg2KfZhtis2KfZhSDYp9iz2KonLAogICAgICAgIHNhbWVSZWdpb25JUDogJ0lQINmH2YXigIzZhdmG2LfZgtmHINiv2LEg2K/Ys9iq2LHYsyDYp9iz2KogKDEpJywKICAgICAgICBjbG91ZGZsYXJlRGV0ZWN0aW9uOiAn2KrYtNiu24zYtSDYr9in2K7ZhNuMIENsb3VkZmxhcmUnLAogICAgICAgIGRldGVjdGlvbkZhaWxlZDogJ9iq2LTYrtuM2LUg2YbYp9mF2YjZgdmCJywKICAgICAgICB1bmtub3duOiAn2YbYp9i02YbYp9iu2KrZhycKICAgICAgfQogICAgfTsKICAgIGNvbnN0IOe/u+ivkeWAvDIwMTcwID0g5pys5Zyw5YC8MjAxNzFb5piv5ZCm5YC8MjAxNzIgPyAnZmEnIDogJ3poJ107CiAgICBsZXQg5YC85Zyw5Yy6MjAxNjkgPSAnVVMnOyAvLyDpu5jorqTlgLwKICAgIGxldCDmmK/lkKboh6rlrprkuYnlnLDlnYDlgLwgPSBmYWxzZTsKICAgIGxldCDmmK/lkKbmiYvliqjlnLDljLrlgLwgPSBmYWxzZTsKICAgIHRyeSB7CiAgICAgIGNvbnN0IOWTjeW6lDIwMTY4ID0gYXdhaXQgZmV0Y2god2luZG93LmxvY2F0aW9uLnBhdGhuYW1lICsgJy9yZWdpb24nKTsKICAgICAgY29uc3Qg5pWw5o2uMjAxNjcgPSBhd2FpdCDlk43lupQyMDE2OC5qc29uKCk7CiAgICAgIGlmICjmlbDmja4yMDE2Ny5yZWdpb24gPT09ICdDVVNUT00nKSB7CiAgICAgICAg5piv5ZCm6Ieq5a6a5LmJ5Zyw5Z2A5YC8ID0gdHJ1ZTsKICAgICAgICDlgLzlnLDljLoyMDE2OSA9ICdDVVNUT00nOwoKICAgICAgICAvLyDojrflj5boh6rlrprkuYlJUOeahOivpue7huS/oeaBrwogICAgICAgIGNvbnN0IOiHquWumuS5ieWcsOWdgOWAvCA9IOaVsOaNrjIwMTY3LmNpIHx8IOe/u+ivkeWAvDIwMTcwLnVua25vd247CiAgICAgICAg5YC85YC8MjAxNzkuaW5uZXJIVE1MID0g57+76K+R5YC8MjAxNzAuZGV0ZWN0aW9uTWV0aG9kICsgJzxzcGFuIHN0eWxlPSJjb2xvcjogI2ZmYjQ1NDsiPuKame+4jyAnICsg57+76K+R5YC8MjAxNzAuY3VzdG9tSVBNb2RlICsgJzwvc3Bhbj4nOwogICAgICAgIOWcsOWMuueKtuaAgS5pbm5lckhUTUwgPSDnv7vor5HlgLwyMDE3MC53b3JrZXJSZWdpb24gKyAnPHNwYW4gc3R5bGU9ImNvbG9yOiAjZmZiNDU0OyI+8J+UpyAnICsg57+76K+R5YC8MjAxNzAuY3VzdG9tSVBNb2RlRGVzYyArICc8L3NwYW4+JzsKCiAgICAgICAgLy8g5pi+56S66Ieq5a6a5LmJSVDphY3nva7nirbmgIHvvIzljIXlkKvlhbfkvZNJUAogICAgICAgIGlmICjlpIfnlKjnirbmgIEpIOWkh+eUqOeKtuaAgS5pbm5lckhUTUwgPSDnv7vor5HlgLwyMDE3MC5waXBTdGF0dXMgKyAnPHNwYW4gc3R5bGU9ImNvbG9yOiAjZmZiNDU0OyI+8J+UpyAnICsg57+76K+R5YC8MjAxNzAuY3VzdG9tUGlwTGFiZWwgKyDoh6rlrprkuYnlnLDlnYDlgLwgKyAnPC9zcGFuPic7CiAgICAgICAgaWYgKOW9k+WJjeWcsOWdgCkg5b2T5YmN5Zyw5Z2ALmlubmVySFRNTCA9IOe/u+ivkeWAvDIwMTcwLmN1cnJlbnRJUCArICc8c3BhbiBzdHlsZT0iY29sb3I6ICNmZmI0NTQ7Ij7inIUgJyArIOiHquWumuS5ieWcsOWdgOWAvCArIOe/u+ivkeWAvDIwMTcwLmN1c3RvbUlQQ29uZmlnICsgJzwvc3Bhbj4nOwogICAgICAgIGlmICjlnLDljLrlgLwpIOWcsOWMuuWAvC5pbm5lckhUTUwgPSDnv7vor5HlgLwyMDE3MC5yZWdpb25NYXRjaCArICc8c3BhbiBzdHlsZT0iY29sb3I6ICNmZmI0NTQ7Ij7imqDvuI8gJyArIOe/u+ivkeWAvDIwMTcwLmN1c3RvbUlQTW9kZURpc2FibGVkICsgJzwvc3Bhbj4nOwogICAgICAgIHJldHVybjsgLy8g5o+Q5YmN6L+U5Zue77yM5LiN5omn6KGM5ZCO57ut55qE5Zyw5Yy65Yy56YWN6YC76L6RCiAgICAgIH0gZWxzZSBpZiAo5pWw5o2uMjAxNjcuZGV0ZWN0aW9uTWV0aG9kID09PSAn5omL5Yqo5oyH5a6a5Zyw5Yy6JyB8fCDmlbDmja4yMDE2Ny5kZXRlY3Rpb25NZXRob2QgPT09ICfYqti524zbjNmGINmF2YbYt9mC2Ycg2K/Ys9iq24wnKSB7CiAgICAgICAg5piv5ZCm5omL5Yqo5Zyw5Yy65YC8ID0gdHJ1ZTsKICAgICAgICDlgLzlnLDljLoyMDE2OSA9IOaVsOaNrjIwMTY3LnJlZ2lvbjsKICAgICAgICDlgLzlgLwyMDE3OS5pbm5lckhUTUwgPSDnv7vor5HlgLwyMDE3MC5kZXRlY3Rpb25NZXRob2QgKyAnPHNwYW4gc3R5bGU9ImNvbG9yOiAjM2RkYzg0OyI+JyArIOe/u+ivkeWAvDIwMTcwLm1hbnVhbFJlZ2lvbiArICc8L3NwYW4+JzsKICAgICAgICDlnLDljLrnirbmgIEuaW5uZXJIVE1MID0g57+76K+R5YC8MjAxNzAud29ya2VyUmVnaW9uICsgJzxzcGFuIHN0eWxlPSJjb2xvcjogIzNkZGM4NDsiPvCfjq8gJyArIOe/u+ivkeWAvDIwMTcwLnJlZ2lvbk5hbWVzW+WAvOWcsOWMujIwMTY5XSArIOe/u+ivkeWAvDIwMTcwLm1hbnVhbFJlZ2lvbkRlc2MgKyAnPC9zcGFuPic7CgogICAgICAgIC8vIOaYvuekuumFjee9rueKtuaAgeiAjOS4jeaYr+ajgOa1i+eKtuaAgQogICAgICAgIGlmICjlpIfnlKjnirbmgIEpIOWkh+eUqOeKtuaAgS5pbm5lckhUTUwgPSDnv7vor5HlgLwyMDE3MC5waXBTdGF0dXMgKyAnPHNwYW4gc3R5bGU9ImNvbG9yOiAjM2RkYzg0OyI+4pyFICcgKyDnv7vor5HlgLwyMDE3MC5waXBBdmFpbExhYmVsICsgJzwvc3Bhbj4nOwogICAgICAgIGlmICjlvZPliY3lnLDlnYApIOW9k+WJjeWcsOWdgC5pbm5lckhUTUwgPSDnv7vor5HlgLwyMDE3MC5jdXJyZW50SVAgKyAnPHNwYW4gc3R5bGU9ImNvbG9yOiAjM2RkYzg0OyI+4pyFICcgKyDnv7vor5HlgLwyMDE3MC5zbWFydFNlbGVjdGlvbiArICc8L3NwYW4+JzsKICAgICAgICBpZiAo5Zyw5Yy65YC8KSDlnLDljLrlgLwuaW5uZXJIVE1MID0g57+76K+R5YC8MjAxNzAucmVnaW9uTWF0Y2ggKyAnPHNwYW4gc3R5bGU9ImNvbG9yOiAjM2RkYzg0OyI+4pyFICcgKyDnv7vor5HlgLwyMDE3MC5zYW1lUmVnaW9uSVAgKyAnPC9zcGFuPic7CiAgICAgICAgcmV0dXJuOyAvLyDmj5DliY3ov5Tlm57vvIzkuI3miafooYzlkI7nu63nmoTlnLDljLrljLnphY3pgLvovpEKICAgICAgfSBlbHNlIGlmICjmlbDmja4yMDE2Ny5yZWdpb24gJiYg57+76K+R5YC8MjAxNzAucmVnaW9uTmFtZXNb5pWw5o2uMjAxNjcucmVnaW9uXSkgewogICAgICAgIOWAvOWcsOWMujIwMTY5ID0g5pWw5o2uMjAxNjcucmVnaW9uOwogICAgICB9CiAgICAgIOWAvOWAvDIwMTc5LmlubmVySFRNTCA9IOe/u+ivkeWAvDIwMTcwLmRldGVjdGlvbk1ldGhvZCArICc8c3BhbiBzdHlsZT0iY29sb3I6ICMzZGRjODQ7Ij4nICsg57+76K+R5YC8MjAxNzAuY2xvdWRmbGFyZURldGVjdGlvbiArICc8L3NwYW4+JzsKICAgIH0gY2F0Y2ggKOS6i+S7tuWAvDIwMTY2KSB7CiAgICAgIOWAvOWAvDIwMTc5LmlubmVySFRNTCA9IOe/u+ivkeWAvDIwMTcwLmRldGVjdGlvbk1ldGhvZCArICc8c3BhbiBzdHlsZT0iY29sb3I6ICNmZjVkNzM7Ij4nICsg57+76K+R5YC8MjAxNzAuZGV0ZWN0aW9uRmFpbGVkICsgJzwvc3Bhbj4nOwogICAgfQogICAg5Zyw5Yy654q25oCBLmlubmVySFRNTCA9IOe/u+ivkeWAvDIwMTcwLndvcmtlclJlZ2lvbiArICc8c3BhbiBzdHlsZT0iY29sb3I6ICMzZGRjODQ7Ij7inIUgJyArIOe/u+ivkeWAvDIwMTcwLnJlZ2lvbk5hbWVzW+WAvOWcsOWMujIwMTY5XSArICc8L3NwYW4+JzsKCiAgICAvLyDnm7TmjqXmmL7npLrphY3nva7nirbmgIHvvIzkuI3lho3ov5vooYzmo4DmtYsKICAgIGlmICjlpIfnlKjnirbmgIEpIHsKICAgICAg5aSH55So54q25oCBLmlubmVySFRNTCA9IOe/u+ivkeWAvDIwMTcwLnBpcFN0YXR1cyArICc8c3BhbiBzdHlsZT0iY29sb3I6ICMzZGRjODQ7Ij7inIUgJyArIOe/u+ivkeWAvDIwMTcwLnBpcEF2YWlsTGFiZWwgKyAnPC9zcGFuPic7CiAgICB9CiAgICBpZiAo5b2T5YmN5Zyw5Z2AKSB7CiAgICAgIOW9k+WJjeWcsOWdgC5pbm5lckhUTUwgPSDnv7vor5HlgLwyMDE3MC5jdXJyZW50SVAgKyAnPHNwYW4gc3R5bGU9ImNvbG9yOiAjM2RkYzg0OyI+4pyFICcgKyDnv7vor5HlgLwyMDE3MC5zbWFydFNlbGVjdGlvbiArICc8L3NwYW4+JzsKICAgIH0KICAgIGlmICjlnLDljLrlgLwpIHsKICAgICAg5Zyw5Yy65YC8LmlubmVySFRNTCA9IOe/u+ivkeWAvDIwMTcwLnJlZ2lvbk1hdGNoICsgJzxzcGFuIHN0eWxlPSJjb2xvcjogIzNkZGM4NDsiPuKchSAnICsg57+76K+R5YC8MjAxNzAuc2FtZVJlZ2lvbklQICsgJzwvc3Bhbj4nOwogICAgfQogIH0gY2F0Y2ggKOmUmeivrzIwMTY1KSB7CiAgICBmdW5jdGlvbiDojrflj5blh63mja4yMDE2NCjlkI3np7AyMDE2MykgewogICAgICBjb25zdCDlgLwyMDE2MiA9ICc7ICcgKyBkb2N1bWVudC5jb29raWU7CiAgICAgIGNvbnN0IOmDqOWIhuWIl+ihqDIwMTYxID0g5YC8MjAxNjIuc3BsaXQoJzsgJyArIOWQjeensDIwMTYzICsgJz0nKTsKICAgICAgaWYgKOmDqOWIhuWIl+ihqDIwMTYxLmxlbmd0aCA9PT0gMikgcmV0dXJuIOmDqOWIhuWIl+ihqDIwMTYxLnBvcCgpLnNwbGl0KCc7Jykuc2hpZnQoKTsKICAgICAgcmV0dXJuIG51bGw7CiAgICB9CiAgICBjb25zdCDmtY/op4jlmajor63oqIAyMDE2MCA9IG5hdmlnYXRvci5sYW5ndWFnZSB8fCBuYXZpZ2F0b3IudXNlckxhbmd1YWdlIHx8ICcnOwogICAgY29uc3Qg5bey5L+d5a2Y6K+t6KiAMjAxNTkgPSBsb2NhbFN0b3JhZ2UuZ2V0SXRlbSgncHJlZmVycmVkTGFuZ3VhZ2UnKSB8fCDojrflj5blh63mja4yMDE2NCgncHJlZmVycmVkTGFuZ3VhZ2UnKTsKICAgIGxldCDmmK/lkKblgLwyMDE1OCA9IGZhbHNlOwogICAgaWYgKOW3suS/neWtmOivreiogDIwMTU5ID09PSAnZmEnIHx8IOW3suS/neWtmOivreiogDIwMTU5ID09PSAnZmEtSVInKSB7CiAgICAgIOaYr+WQpuWAvDIwMTU4ID0gdHJ1ZTsKICAgIH0gZWxzZSB7CiAgICAgIOaYr+WQpuWAvDIwMTU4ID0g5rWP6KeI5Zmo6K+t6KiAMjAxNjAuaW5jbHVkZXMoJ2ZhJykgfHwg5rWP6KeI5Zmo6K+t6KiAMjAxNjAuaW5jbHVkZXMoJ2ZhLUlSJyk7CiAgICB9CiAgICBjb25zdCDmnKzlnLDlgLwyMDE1NyA9IHsKICAgICAgemg6IHsKICAgICAgICB3b3JrZXJSZWdpb246ICdXb3JrZXLlnLDljLo6ICcsCiAgICAgICAgZGV0ZWN0aW9uTWV0aG9kOiAn5qOA5rWL5pa55byPOiAnLAogICAgICAgIHBpcFN0YXR1czogJw==") + String(_v4('UHJveHlJUOeKtuaAgTog')) + _d64("AScsCiAgICAgICAgY3VycmVudElQOiAn5b2T5YmN5L2/55SoSVA6ICcsCiAgICAgICAgcmVnaW9uTWF0Y2g6ICflnLDljLrljLnphY06ICcsCiAgICAgICAgZGV0ZWN0aW9uRmFpbGVkOiAn5qOA5rWL5aSx6LSlJwogICAgICB9LAogICAgICBmYTogewogICAgICAgIHdvcmtlclJlZ2lvbjogJ9mF2YbYt9mC2YcgV29ya2VyOiAnLAogICAgICAgIGRldGVjdGlvbk1ldGhvZDogJ9ix2YjYtCDYqti02K7bjNi1OiAnLAogICAgICAgIHBpcFN0YXR1czogJw==") + String(_v4('2YjYtti524zYqiBQcm94eUlQOiA=')) + _d64("AScsCiAgICAgICAgY3VycmVudElQOiAnSVAg2YHYudmE24w6ICcsCiAgICAgICAgcmVnaW9uTWF0Y2g6ICfYqti32KjbjNmCINmF2YbYt9mC2Yc6ICcsCiAgICAgICAgZGV0ZWN0aW9uRmFpbGVkOiAn2KrYtNiu24zYtSDZhtin2YXZiNmB2YInCiAgICAgIH0KICAgIH07CiAgICBjb25zdCDnv7vor5HlgLwyMDE1NiA9IOacrOWcsOWAvDIwMTU3W+aYr+WQpuWAvDIwMTU4ID8gJ2ZhJyA6ICd6aCddOwogICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3JlZ2lvblN0YXR1cycpLmlubmVySFRNTCA9IOe/u+ivkeWAvDIwMTU2LndvcmtlclJlZ2lvbiArICc8c3BhbiBzdHlsZT0iY29sb3I6ICNmZjVkNzM7Ij7inYwgJyArIOe/u+ivkeWAvDIwMTU2LmRldGVjdGlvbkZhaWxlZCArICc8L3NwYW4+JzsKICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdnZW9JbmZvJykuaW5uZXJIVE1MID0g57+76K+R5YC8MjAxNTYuZGV0ZWN0aW9uTWV0aG9kICsgJzxzcGFuIHN0eWxlPSJjb2xvcjogI2ZmNWQ3MzsiPuKdjCAnICsg57+76K+R5YC8MjAxNTYuZGV0ZWN0aW9uRmFpbGVkICsgJzwvc3Bhbj4nOwogICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2JhY2t1cFN0YXR1cycpLmlubmVySFRNTCA9IOe/u+ivkeWAvDIwMTU2LnBpcFN0YXR1cyArICc8c3BhbiBzdHlsZT0iY29sb3I6ICNmZjVkNzM7Ij7inYwgJyArIOe/u+ivkeWAvDIwMTU2LmRldGVjdGlvbkZhaWxlZCArICc8L3NwYW4+JzsKICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjdXJyZW50SVAnKS5pbm5lckhUTUwgPSDnv7vor5HlgLwyMDE1Ni5jdXJyZW50SVAgKyAnPHNwYW4gc3R5bGU9ImNvbG9yOiAjZmY1ZDczOyI+4p2MICcgKyDnv7vor5HlgLwyMDE1Ni5kZXRlY3Rpb25GYWlsZWQgKyAnPC9zcGFuPic7CiAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgncmVnaW9uTWF0Y2gnKS5pbm5lckhUTUwgPSDnv7vor5HlgLwyMDE1Ni5yZWdpb25NYXRjaCArICc8c3BhbiBzdHlsZT0iY29sb3I6ICNmZjVkNzM7Ij7inYwgJyArIOe/u+ivkeWAvDIwMTU2LmRldGVjdGlvbkZhaWxlZCArICc8L3NwYW4+JzsKICB9Cn0KYXN5bmMgZnVuY3Rpb24g5rWL6K+V5o6l5Y+jKCkgewogIHRyeSB7CiAgICBmdW5jdGlvbiDojrflj5blh63mja4yMDE1NSjlkI3np7AyMDE1NCkgewogICAgICBjb25zdCDlgLwyMDE1MyA9ICc7ICcgKyBkb2N1bWVudC5jb29raWU7CiAgICAgIGNvbnN0IOmDqOWIhuWIl+ihqDIwMTUyID0g5YC8MjAxNTMuc3BsaXQoJzsgJyArIOWQjeensDIwMTU0ICsgJz0nKTsKICAgICAgaWYgKOmDqOWIhuWIl+ihqDIwMTUyLmxlbmd0aCA9PT0gMikgcmV0dXJuIOmDqOWIhuWIl+ihqDIwMTUyLnBvcCgpLnNwbGl0KCc7Jykuc2hpZnQoKTsKICAgICAgcmV0dXJuIG51bGw7CiAgICB9CiAgICBjb25zdCDmtY/op4jlmajor63oqIAyMDE1MSA9IG5hdmlnYXRvci5sYW5ndWFnZSB8fCBuYXZpZ2F0b3IudXNlckxhbmd1YWdlIHx8ICcnOwogICAgY29uc3Qg5bey5L+d5a2Y6K+t6KiAMjAxNTAgPSBsb2NhbFN0b3JhZ2UuZ2V0SXRlbSgncHJlZmVycmVkTGFuZ3VhZ2UnKSB8fCDojrflj5blh63mja4yMDE1NSgncHJlZmVycmVkTGFuZ3VhZ2UnKTsKICAgIGxldCDmmK/lkKblgLwyMDE0OSA9IGZhbHNlOwogICAgaWYgKOW3suS/neWtmOivreiogDIwMTUwID09PSAnZmEnIHx8IOW3suS/neWtmOivreiogDIwMTUwID09PSAnZmEtSVInKSB7CiAgICAgIOaYr+WQpuWAvDIwMTQ5ID0gdHJ1ZTsKICAgIH0gZWxzZSB7CiAgICAgIOaYr+WQpuWAvDIwMTQ5ID0g5rWP6KeI5Zmo6K+t6KiAMjAxNTEuaW5jbHVkZXMoJ2ZhJykgfHwg5rWP6KeI5Zmo6K+t6KiAMjAxNTEuaW5jbHVkZXMoJ2ZhLUlSJyk7CiAgICB9CiAgICBjb25zdCDmnKzlnLDlgLwyMDE0OCA9IHsKICAgICAgemg6IHsKICAgICAgICBhcGlUZXN0UmVzdWx0OiAnQVBJ5qOA5rWL57uT5p6cOiAnLAogICAgICAgIGFwaVRlc3RUaW1lOiAn5qOA5rWL5pe26Ze0OiAnLAogICAgICAgIGFwaVRlc3RGYWlsZWQ6ICdBUEnmo4DmtYvlpLHotKU6ICcsCiAgICAgICAgdW5rbm93bkVycm9yOiAn5pyq55+l6ZSZ6K+vJywKICAgICAgICBhcGlUZXN0RXJyb3I6ICdBUEnmtYvor5XlpLHotKU6ICcKICAgICAgfSwKICAgICAgZmE6IHsKICAgICAgICBhcGlUZXN0UmVzdWx0OiAn2YbYqtuM2KzZhyDYqti02K7bjNi1IEFQSTogJywKICAgICAgICBhcGlUZXN0VGltZTogJ9iy2YXYp9mGINiq2LTYrtuM2LU6ICcsCiAgICAgICAgYXBpVGVzdEZhaWxlZDogJ9iq2LTYrtuM2LUgQVBJINmG2KfZhdmI2YHZgjogJywKICAgICAgICB1bmtub3duRXJyb3I6ICfYrti32KfbjCDZhtin2LTZhtin2K7YqtmHJywKICAgICAgICBhcGlUZXN0RXJyb3I6ICfYqtiz2KogQVBJINmG2KfZhdmI2YHZgjogJwogICAgICB9CiAgICB9OwogICAgY29uc3Qg57+76K+R5YC8MjAxNDcgPSDmnKzlnLDlgLwyMDE0OFvmmK/lkKblgLwyMDE0OSA/ICdmYScgOiAnemgnXTsKICAgIGNvbnN0IOWTjeW6lDIwMTQ2ID0gYXdhaXQgZmV0Y2god2luZG93LmxvY2F0aW9uLnBhdGhuYW1lICsgJy90ZXN0LWFwaScpOwogICAgY29uc3Qg5pWw5o2uMjAxNDUgPSBhd2FpdCDlk43lupQyMDE0Ni5qc29uKCk7CiAgICBpZiAo5pWw5o2uMjAxNDUuZGV0ZWN0ZWRSZWdpb24pIHsKICAgICAg5pi+56S65o+Q56S6KOe/u+ivkeWAvDIwMTQ3LmFwaVRlc3RSZXN1bHQgKyDmlbDmja4yMDE0NS5kZXRlY3RlZFJlZ2lvbiArICdcbicgKyDnv7vor5HlgLwyMDE0Ny5hcGlUZXN0VGltZSArIOaVsOaNrjIwMTQ1LnRpbWVzdGFtcCwgJ2luZm8nLCB7CiAgICAgICAgZHVyYXRpb246IDUwMDAKICAgICAgfSk7CiAgICB9IGVsc2UgewogICAgICDmmL7npLrmj5DnpLoo57+76K+R5YC8MjAxNDcuYXBpVGVzdEZhaWxlZCArICjmlbDmja4yMDE0NS5lcnJvciB8fCDnv7vor5HlgLwyMDE0Ny51bmtub3duRXJyb3IpLCAnZXJyb3InLCB7CiAgICAgICAgZHVyYXRpb246IDQ1MDAKICAgICAgfSk7CiAgICB9CiAgfSBjYXRjaCAo6ZSZ6K+vMjAxNDQpIHsKICAgIGZ1bmN0aW9uIOiOt+WPluWHreaNrjIwMTQzKOWQjeensDIwMTQyKSB7CiAgICAgIGNvbnN0IOWAvDIwMTQxID0gJzsgJyArIGRvY3VtZW50LmNvb2tpZTsKICAgICAgY29uc3Qg6YOo5YiG5YiX6KGoMjAxNDAgPSDlgLwyMDE0MS5zcGxpdCgnOyAnICsg5ZCN56ewMjAxNDIgKyAnPScpOwogICAgICBpZiAo6YOo5YiG5YiX6KGoMjAxNDAubGVuZ3RoID09PSAyKSByZXR1cm4g6YOo5YiG5YiX6KGoMjAxNDAucG9wKCkuc3BsaXQoJzsnKS5zaGlmdCgpOwogICAgICByZXR1cm4gbnVsbDsKICAgIH0KICAgIGNvbnN0IOa1j+iniOWZqOivreiogDIwMTM5ID0gbmF2aWdhdG9yLmxhbmd1YWdlIHx8IG5hdmlnYXRvci51c2VyTGFuZ3VhZ2UgfHwgJyc7CiAgICBjb25zdCDlt7Lkv53lrZjor63oqIAyMDEzOCA9IGxvY2FsU3RvcmFnZS5nZXRJdGVtKCdwcmVmZXJyZWRMYW5ndWFnZScpIHx8IOiOt+WPluWHreaNrjIwMTQzKCdwcmVmZXJyZWRMYW5ndWFnZScpOwogICAgbGV0IOaYr+WQpuWAvDIwMTM3ID0gZmFsc2U7CiAgICBpZiAo5bey5L+d5a2Y6K+t6KiAMjAxMzggPT09ICdmYScgfHwg5bey5L+d5a2Y6K+t6KiAMjAxMzggPT09ICdmYS1JUicpIHsKICAgICAg5piv5ZCm5YC8MjAxMzcgPSB0cnVlOwogICAgfSBlbHNlIHsKICAgICAg5piv5ZCm5YC8MjAxMzcgPSDmtY/op4jlmajor63oqIAyMDEzOS5pbmNsdWRlcygnZmEnKSB8fCDmtY/op4jlmajor63oqIAyMDEzOS5pbmNsdWRlcygnZmEtSVInKTsKICAgIH0KICAgIGNvbnN0IOacrOWcsOWAvDIwMTM2ID0gewogICAgICB6aDogewogICAgICAgIGFwaVRlc3RFcnJvcjogJ0FQSea1i+ivleWksei0pTogJwogICAgICB9LAogICAgICBmYTogewogICAgICAgIGFwaVRlc3RFcnJvcjogJ9iq2LPYqiBBUEkg2YbYp9mF2YjZgdmCOiAnCiAgICAgIH0KICAgIH07CiAgICBjb25zdCDnv7vor5HlgLwyMDEzNSA9IOacrOWcsOWAvDIwMTM2W+aYr+WQpuWAvDIwMTM3ID8gJ2ZhJyA6ICd6aCddOwogICAg5pi+56S65o+Q56S6KOe/u+ivkeWAvDIwMTM1LmFwaVRlc3RFcnJvciArIOmUmeivrzIwMTQ0Lm1lc3NhZ2UsICdlcnJvcicsIHsKICAgICAgZHVyYXRpb246IDQ1MDAKICAgIH0pOwogIH0KfQoKLy8g6YWN572u566h55CG55u45YWz5Ye95pWwCmFzeW5jIGZ1bmN0aW9uIOajgOafpemUruWAvOeKtuaAgSgpIHsKICBjb25zdCDmjqXlj6PnvZHlnYAyMDEzNCA9IHdpbmRvdy5sb2NhdGlvbi5wYXRobmFtZSArICcvYXBpL2NvbmZpZyc7CiAgdHJ5IHsKICAgIGNvbnN0IOWTjeW6lDIwMTMzID0gYXdhaXQgZmV0Y2go5o6l5Y+j572R5Z2AMjAxMzQpOwogICAgZnVuY3Rpb24g6I635Y+W5Yet5o2uMjAxMzIo5ZCN56ewMjAxMzEpIHsKICAgICAgY29uc3Qg5YC8MjAxMzAgPSAnOyAnICsgZG9jdW1lbnQuY29va2llOwogICAgICBjb25zdCDpg6jliIbliJfooagyMDEyOSA9IOWAvDIwMTMwLnNwbGl0KCc7ICcgKyDlkI3np7AyMDEzMSArICc9Jyk7CiAgICAgIGlmICjpg6jliIbliJfooagyMDEyOS5sZW5ndGggPT09IDIpIHJldHVybiDpg6jliIbliJfooagyMDEyOS5wb3AoKS5zcGxpdCgnOycpLnNoaWZ0KCk7CiAgICAgIHJldHVybiBudWxsOwogICAgfQogICAgY29uc3Qg5rWP6KeI5Zmo6K+t6KiAMjAxMjggPSBuYXZpZ2F0b3IubGFuZ3VhZ2UgfHwgbmF2aWdhdG9yLnVzZXJMYW5ndWFnZSB8fCAnJzsKICAgIGNvbnN0IOW3suS/neWtmOivreiogDIwMTI3ID0gbG9jYWxTdG9yYWdlLmdldEl0ZW0oJ3ByZWZlcnJlZExhbmd1YWdlJykgfHwg6I635Y+W5Yet5o2uMjAxMzIoJ3ByZWZlcnJlZExhbmd1YWdlJyk7CiAgICBsZXQg5piv5ZCm5YC8MjAxMjYgPSBmYWxzZTsKICAgIGlmICjlt7Lkv53lrZjor63oqIAyMDEyNyA9PT0gJ2ZhJyB8fCDlt7Lkv53lrZjor63oqIAyMDEyNyA9PT0gJ2ZhLUlSJykgewogICAgICDmmK/lkKblgLwyMDEyNiA9IHRydWU7CiAgICB9IGVsc2UgewogICAgICDmmK/lkKblgLwyMDEyNiA9IOa1j+iniOWZqOivreiogDIwMTI4LmluY2x1ZGVzKCdmYScpIHx8IOa1j+iniOWZqOivreiogDIwMTI4LmluY2x1ZGVzKCdmYS1JUicpOwogICAgfQogICAgY29uc3Qg5pys5Zyw5YC8MjAxMjUgPSB7CiAgICAgIHpoOiB7CiAgICAgICAga3ZEaXNhYmxlZDogJ+KaoO+4jyBLVuWtmOWCqOacquWQr+eUqOaIluacqumFjee9ricsCiAgICAgICAga3ZOb3RDb25maWd1cmVkOiAnS1blrZjlgqjmnKrphY3nva7vvIzml6Dms5Xkvb/nlKjphY3nva7nrqHnkIblip/og73jgIJcblxu6K+35ZyoQ2xvdWRmbGFyZSBXb3JrZXJz5LitOlxuMS4g5Yib5bu6S1blkb3lkI3nqbrpl7RcbjIuIOe7keWumueOr+Wig+WPmOmHjyBDXG4zLiDph43mlrDpg6jnvbLku6PnoIEnLAogICAgICAgIGt2Tm90RW5hYmxlZDogJ0tW5a2Y5YKo5pyq6YWN572uJywKICAgICAgICBrdkVuYWJsZWQ6ICfinIUgS1blrZjlgqjlt7LlkK/nlKjvvIzlj6/ku6Xkvb/nlKjphY3nva7nrqHnkIblip/og70nLAogICAgICAgIGt2Q2hlY2tGYWlsZWQ6ICfimqDvuI8gS1blrZjlgqjmo4DmtYvlpLHotKUnLAogICAgICAgIGt2Q2hlY2tGYWlsZWRGb3JtYXQ6ICdLVuWtmOWCqOajgOa1i+Wksei0pTog5ZON5bqU5qC85byP6ZSZ6K+vJywKICAgICAgICBrdkNoZWNrRmFpbGVkU3RhdHVzOiAnS1blrZjlgqjmo4DmtYvlpLHotKUgLSDnirbmgIHnoIE6ICcsCiAgICAgICAga3ZDaGVja0ZhaWxlZEVycm9yOiAnS1blrZjlgqjmo4DmtYvlpLHotKUgLSDplJnor686ICcKICAgICAgfSwKICAgICAgZmE6IHsKICAgICAgICBrdkRpc2FibGVkOiAn4pqg77iPINiw2K7bjNix2YfigIzYs9in2LLbjCBLViDZgdi52KfZhCDZhtuM2LPYqiDbjNinINm+24zaqdix2KjZhtiv24wg2YbYtNiv2Ycg2KfYs9iqJywKICAgICAgICBrdk5vdENvbmZpZ3VyZWQ6ICfYsNiu24zYsdmH4oCM2LPYp9iy24wgS1Yg2b7bjNqp2LHYqNmG2K/bjCDZhti02K/ZhyDYp9iz2KrYjCDZhtmF24zigIzYqtmI2KfZhtuM2K8g2KfYsiDYudmF2YTaqdix2K8g2YXYr9uM2LHbjNiqINiq2YbYuNuM2YXYp9iqINin2LPYqtmB2KfYr9mHINqp2YbbjNivLlxuXG7ZhNi32YHYpyDYr9ixIENsb3VkZmxhcmUgV29ya2VyczpcbjEuINmB2LbYp9uMINmG2KfZhSBLViDYp9uM2KzYp9ivINqp2YbbjNivXG4yLiDZhdiq2LrbjNixINmF2K3bjNi324wgQyDYsdinINm+24zZiNmG2K8g2K/Zh9uM2K9cbjMuINqp2K8g2LHYpyDYr9mI2KjYp9ix2Ycg2YXYs9iq2YLYsSDaqdmG24zYrycsCiAgICAgICAga3ZOb3RFbmFibGVkOiAn2LDYrtuM2LHZh+KAjNiz2KfYstuMIEtWINm+24zaqdix2KjZhtiv24wg2YbYtNiv2Ycg2KfYs9iqJywKICAgICAgICBrdkVuYWJsZWQ6ICfinIUg2LDYrtuM2LHZh+KAjNiz2KfYstuMIEtWINmB2LnYp9mEINin2LPYqtiMINmF24zigIzYqtmI2KfZhtuM2K8g2KfYsiDZhdiv24zYsduM2Kog2KrZhti424zZhdin2Kog2KfYs9iq2YHYp9iv2Ycg2qnZhtuM2K8nLAogICAgICAgIGt2Q2hlY2tGYWlsZWQ6ICfimqDvuI8g2KjYsdix2LPbjCDYsNiu24zYsdmH4oCM2LPYp9iy24wgS1Yg2YbYp9mF2YjZgdmCJywKICAgICAgICBrdkNoZWNrRmFpbGVkRm9ybWF0OiAn2KjYsdix2LPbjCDYsNiu24zYsdmH4oCM2LPYp9iy24wgS1Yg2YbYp9mF2YjZgdmCOiDYrti32KfbjCDZgdix2YXYqiDZvtin2LPYricsCiAgICAgICAga3ZDaGVja0ZhaWxlZFN0YXR1czogJ9io2LHYsdiz24wg2LDYrtuM2LHZh+KAjNiz2KfYstuMIEtWINmG2KfZhdmI2YHZgiAtINqp2K8g2YjYtti524zYqjogJywKICAgICAgICBrdkNoZWNrRmFpbGVkRXJyb3I6ICfYqNix2LHYs9uMINiw2K7bjNix2YfigIzYs9in2LLbjCBLViDZhtin2YXZiNmB2YIgLSDYrti32Kc6ICcKICAgICAgfQogICAgfTsKICAgIGNvbnN0IOe/u+ivkeWAvDIwMTI0ID0g5pys5Zyw5YC8MjAxMjVb5piv5ZCm5YC8MjAxMjYgPyAnZmEnIDogJ3poJ107CiAgICBpZiAo5ZON5bqUMjAxMzMuc3RhdHVzID09PSA1MDMpIHsKICAgICAgLy8gS1bmnKrphY3nva4KICAgICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2t2U3RhdHVzJykuaW5uZXJIVE1MID0gJzxzcGFuIHN0eWxlPSJjb2xvcjogI2ZmYjQ1NDsiPicgKyDnv7vor5HlgLwyMDEyNC5rdkRpc2FibGVkICsgJzwvc3Bhbj4nOwogICAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY29uZmlnQ2FyZCcpLnN0eWxlLmRpc3BsYXkgPSAnYmxvY2snOwogICAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY3VycmVudENvbmZpZycpLnRleHRDb250ZW50ID0g57+76K+R5YC8MjAxMjQua3ZOb3RDb25maWd1cmVkOwogICAgfSBlbHNlIGlmICjlk43lupQyMDEzMy5vaykgewogICAgICB0cnkgewogICAgICAgIGNvbnN0IOaVsOaNrjIwMTIzID0gYXdhaXQg5ZON5bqUMjAxMzMuanNvbigpOwoKICAgICAgICAvLyDmo4Dmn6Xlk43lupTmmK/lkKbljIXlkKtLVumFjee9ruS/oeaBrwogICAgICAgIGlmICjmlbDmja4yMDEyMyAmJiDmlbDmja4yMDEyMy5rdkVuYWJsZWQgPT09IHRydWUpIHsKICAgICAgICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdrdlN0YXR1cycpLmlubmVySFRNTCA9ICc8c3BhbiBzdHlsZT0iY29sb3I6ICMzZGRjODQ7Ij4nICsg57+76K+R5YC8MjAxMjQua3ZFbmFibGVkICsgJzwvc3Bhbj4nOwogICAgICAgICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2NvbmZpZ0NvbnRlbnQnKS5zdHlsZS5kaXNwbGF5ID0gJ2Jsb2NrJzsKICAgICAgICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjb25maWdDYXJkJykuc3R5bGUuZGlzcGxheSA9ICdibG9jayc7CiAgICAgICAgICBhd2FpdCDliqDovb3lvZPliY3phY3nva4oKTsKICAgICAgICB9IGVsc2UgewogICAgICAgICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2t2U3RhdHVzJykuaW5uZXJIVE1MID0gJzxzcGFuIHN0eWxlPSJjb2xvcjogI2ZmYjQ1NDsiPicgKyDnv7vor5HlgLwyMDEyNC5rdkRpc2FibGVkICsgJzwvc3Bhbj4nOwogICAgICAgICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2NvbmZpZ0NhcmQnKS5zdHlsZS5kaXNwbGF5ID0gJ2Jsb2NrJzsKICAgICAgICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjdXJyZW50Q29uZmlnJykudGV4dENvbnRlbnQgPSDnv7vor5HlgLwyMDEyNC5rdk5vdEVuYWJsZWQ7CiAgICAgICAgfQogICAgICB9IGNhdGNoICjmlbDmja7lr7nosaHplJnor68pIHsKICAgICAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgna3ZTdGF0dXMnKS5pbm5lckhUTUwgPSAnPHNwYW4gc3R5bGU9ImNvbG9yOiAjZmZiNDU0OyI+JyArIOe/u+ivkeWAvDIwMTI0Lmt2Q2hlY2tGYWlsZWQgKyAnPC9zcGFuPic7CiAgICAgICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2NvbmZpZ0NhcmQnKS5zdHlsZS5kaXNwbGF5ID0gJ2Jsb2NrJzsKICAgICAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY3VycmVudENvbmZpZycpLnRleHRDb250ZW50ID0g57+76K+R5YC8MjAxMjQua3ZDaGVja0ZhaWxlZEZvcm1hdDsKICAgICAgfQogICAgfSBlbHNlIHsKICAgICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2t2U3RhdHVzJykuaW5uZXJIVE1MID0gJzxzcGFuIHN0eWxlPSJjb2xvcjogI2ZmYjQ1NDsiPicgKyDnv7vor5HlgLwyMDEyNC5rdkRpc2FibGVkICsgJzwvc3Bhbj4nOwogICAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY29uZmlnQ2FyZCcpLnN0eWxlLmRpc3BsYXkgPSAnYmxvY2snOwogICAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY3VycmVudENvbmZpZycpLnRleHRDb250ZW50ID0g57+76K+R5YC8MjAxMjQua3ZDaGVja0ZhaWxlZFN0YXR1cyArIOWTjeW6lDIwMTMzLnN0YXR1czsKICAgIH0KICB9IGNhdGNoICjplJnor68yMDEyMikgewogICAgZnVuY3Rpb24g6I635Y+W5Yet5o2uKOWQjeensCkgewogICAgICBjb25zdCDlgLwyMDEyMSA9ICc7ICcgKyBkb2N1bWVudC5jb29raWU7CiAgICAgIGNvbnN0IOmDqOWIhuWIl+ihqDIwMTIwID0g5YC8MjAxMjEuc3BsaXQoJzsgJyArIOWQjeensCArICc9Jyk7CiAgICAgIGlmICjpg6jliIbliJfooagyMDEyMC5sZW5ndGggPT09IDIpIHJldHVybiDpg6jliIbliJfooagyMDEyMC5wb3AoKS5zcGxpdCgnOycpLnNoaWZ0KCk7CiAgICAgIHJldHVybiBudWxsOwogICAgfQogICAgY29uc3Qg5rWP6KeI5Zmo6K+t6KiAID0gbmF2aWdhdG9yLmxhbmd1YWdlIHx8IG5hdmlnYXRvci51c2VyTGFuZ3VhZ2UgfHwgJyc7CiAgICBjb25zdCDlt7Lkv53lrZjor63oqIAgPSBsb2NhbFN0b3JhZ2UuZ2V0SXRlbSgncHJlZmVycmVkTGFuZ3VhZ2UnKSB8fCDojrflj5blh63mja4oJ3ByZWZlcnJlZExhbmd1YWdlJyk7CiAgICBsZXQg5piv5ZCm5YC8ID0gZmFsc2U7CiAgICBpZiAo5bey5L+d5a2Y6K+t6KiAID09PSAnZmEnIHx8IOW3suS/neWtmOivreiogCA9PT0gJ2ZhLUlSJykgewogICAgICDmmK/lkKblgLwgPSB0cnVlOwogICAgfSBlbHNlIHsKICAgICAg5piv5ZCm5YC8ID0g5rWP6KeI5Zmo6K+t6KiALmluY2x1ZGVzKCdmYScpIHx8IOa1j+iniOWZqOivreiogC5pbmNsdWRlcygnZmEtSVInKTsKICAgIH0KICAgIGNvbnN0IOacrOWcsOWAvDIwMTE5ID0gewogICAgICB6aDogewogICAgICAgIGt2RGlzYWJsZWQ6ICfimqDvuI8gS1blrZjlgqjmnKrlkK/nlKjmiJbmnKrphY3nva4nLAogICAgICAgIGt2Q2hlY2tGYWlsZWRFcnJvcjogJ0tW5a2Y5YKo5qOA5rWL5aSx6LSlIC0g6ZSZ6K+vOiAnCiAgICAgIH0sCiAgICAgIGZhOiB7CiAgICAgICAga3ZEaXNhYmxlZDogJ+KaoO+4jyDYsNiu24zYsdmH4oCM2LPYp9iy24wgS1Yg2YHYudin2YQg2YbbjNiz2Kog24zYpyDZvtuM2qnYsdio2YbYr9uMINmG2LTYr9mHINin2LPYqicsCiAgICAgICAga3ZDaGVja0ZhaWxlZEVycm9yOiAn2KjYsdix2LPbjCDYsNiu24zYsdmH4oCM2LPYp9iy24wgS1Yg2YbYp9mF2YjZgdmCIC0g2K7Yt9inOiAnCiAgICAgIH0KICAgIH07CiAgICBjb25zdCDnv7vor5HlgLwyMDExOCA9IOacrOWcsOWAvDIwMTE5W+aYr+WQpuWAvCA/ICdmYScgOiAnemgnXTsKICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdrdlN0YXR1cycpLmlubmVySFRNTCA9ICc8c3BhbiBzdHlsZT0iY29sb3I6ICNmZmI0NTQ7Ij4nICsg57+76K+R5YC8MjAxMTgua3ZEaXNhYmxlZCArICc8L3NwYW4+JzsKICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjb25maWdDYXJkJykuc3R5bGUuZGlzcGxheSA9ICdibG9jayc7CiAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY3VycmVudENvbmZpZycpLnRleHRDb250ZW50ID0g57+76K+R5YC8MjAxMTgua3ZDaGVja0ZhaWxlZEVycm9yICsg6ZSZ6K+vMjAxMjIubWVzc2FnZTsKICB9Cn0KZnVuY3Rpb24g6K+75Y+W5a2X5q615YC8KOagh+ivhikgewogIGNvbnN0IOWFg+e0oCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKOagh+ivhik7CiAgcmV0dXJuIOWFg+e0oCA/IOWFg+e0oC52YWx1ZSA6ICcnOwp9CgpmdW5jdGlvbiDlhpnlhaXlrZfmrrXlgLwo5qCH6K+GLCDlgLwgPSAnJykgewogIGNvbnN0IOWFg+e0oCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKOagh+ivhik7CiAgaWYgKOWFg+e0oCkg5YWD57SgLnZhbHVlID0g5YC8IHx8ICcnOwp9CgpmdW5jdGlvbiDmmK/lkKblvIDlhbPlkK/nlKgo5YC8LCDpu5jorqTlkK/nlKggPSBmYWxzZSkgewogIGlmICjlgLwgPT09IHVuZGVmaW5lZCB8fCDlgLwgPT09IG51bGwgfHwg5YC8ID09PSAnJykgcmV0dXJuIOm7mOiupOWQr+eUqDsKICBpZiAo5YC8ID09PSB0cnVlIHx8IOWAvCA9PT0gZmFsc2UpIHJldHVybiDlgLw7CiAgY29uc3Qg5paH5pysID0gU3RyaW5nKOWAvCkudHJpbSgpLnRvTG93ZXJDYXNlKCk7CiAgaWYgKOaWh+acrCA9PT0gJ3llcycgfHwg5paH5pysID09PSAndHJ1ZScgfHwg5paH5pysID09PSAnMScgfHwg5paH5pysID09PSAnb24nKSByZXR1cm4gdHJ1ZTsKICBpZiAo5paH5pysID09PSAnbm8nIHx8IOaWh+acrCA9PT0gJ2ZhbHNlJyB8fCDmlofmnKwgPT09ICcwJyB8fCDmlofmnKwgPT09ICdvZmYnKSByZXR1cm4gZmFsc2U7CiAgcmV0dXJuIOm7mOiupOWQr+eUqDsKfQoKZnVuY3Rpb24g5YaZ5YWl5byA5YWz5YC8KOagh+ivhiwg5YC8LCDpu5jorqTlkK/nlKggPSBmYWxzZSkgewogIGNvbnN0IOWFg+e0oCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKOagh+ivhik7CiAgaWYgKOWFg+e0oCkg5YWD57SgLmNoZWNrZWQgPSDmmK/lkKblvIDlhbPlkK/nlKgo5YC8LCDpu5jorqTlkK/nlKgpOwp9CgpmdW5jdGlvbiDor7vlj5blvIDlhbPlgLwo5qCH6K+GLCDpu5jorqTlkK/nlKggPSBmYWxzZSkgewogIGNvbnN0IOWFg+e0oCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKOagh+ivhik7CiAgaWYgKCHlhYPntKApIHJldHVybiDpu5jorqTlkK/nlKggPyAneWVzJyA6ICdubyc7CiAgcmV0dXJuIOWFg+e0oC5jaGVja2VkID8gJ3llcycgOiAnbm8nOwp9CgpmdW5jdGlvbiDlkIzmraXljY/orq7nlYzpnaLnirbmgIEoKSB7CiAgY29uc3Qg5piO5paH5byA5YWzID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2V2Jyk7CiAgY29uc3Qg5pyo6ams5byA5YWzID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2V0Jyk7CiAgY29uc3Qg5omp5bGV5byA5YWzID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2V4Jyk7CiAgaWYgKOaYjuaWh+W8gOWFsyAmJiDmnKjpqazlvIDlhbMgJiYg5omp5bGV5byA5YWzICYmICHmmI7mloflvIDlhbMuY2hlY2tlZCAmJiAh5pyo6ams5byA5YWzLmNoZWNrZWQgJiYgIeaJqeWxleW8gOWFsy5jaGVja2VkKSB7CiAgICDmmI7mloflvIDlhbMuY2hlY2tlZCA9IHRydWU7CiAgfQp9CgpmdW5jdGlvbiDlkIzmraXogZTliqjnlYzpnaLnirbmgIEoKSB7CiAg5ZCM5q2l5Y2P6K6u55WM6Z2i54q25oCBKCk7CiAgY29uc3Qg5Yqg5a+G5a6i5oi356uv6Zeu5YCZ5aSN6YCJ5qGGID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2VjaCcpOwogIGNvbnN0IOerr+WPo+aOp+WItiA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdwb3J0Q29udHJvbCcpOwogIGlmICjliqDlr4blrqLmiLfnq6/pl67lgJnlpI3pgInmoYYgJiYg56uv5Y+j5o6n5Yi2ICYmIOWKoOWvhuWuouaIt+err+mXruWAmeWkjemAieahhi5jaGVja2VkKSB7CiAgICDnq6/lj6PmjqfliLYudmFsdWUgPSAneWVzJzsKICB9CiAg5pu05paw6Lev5b6E57G75Z6L54q25oCBKOivu+WPluWtl+auteWAvCgnY3VzdG9tUGF0aCcpKTsKICDmm7TmlrDlt6XkvZzlmajlnLDljLrnirbmgIEoKTsKfQoKZnVuY3Rpb24g5bqU55So6YWN572u5Yiw55WM6Z2iKOmFjee9rikgewogIOWGmeWFpeWtl+auteWAvCgnd2tSZWdpb24nLCDphY3nva4ud2spOwogIOWGmeWFpeW8gOWFs+WAvCgnZXYnLCDphY3nva4uZXYsIHRydWUpOwogIOWGmeWFpeW8gOWFs+WAvCgnZXQnLCDphY3nva4uZXQsIGZhbHNlKTsKICDlhpnlhaXlvIDlhbPlgLwoJ2V4Jywg6YWN572uLmV4LCBmYWxzZSk7CiAg5YaZ5YWl5byA5YWz5YC8KCdlY2gnLCDphY3nva4uZWNoLCBmYWxzZSk7CiAg5YaZ5YWl5a2X5q615YC8KCd0cCcsIOmFjee9ri50cCk7CiAg5YaZ5YWl5a2X5q615YC8KCdjdXN0b21ETlMnLCDphY3nva4uY3VzdG9tRE5TKTsKICDlhpnlhaXlrZfmrrXlgLwoJ2N1c3RvbUVDSERvbWFpbicsIOmFjee9ri5jdXN0b21FQ0hEb21haW4pOwogIOWGmeWFpeWtl+auteWAvCgnYWxwbicsIOmFjee9ri5hbHBuKTsKICDlhpnlhaXlrZfmrrXlgLwoJ3NjdScsIOmFjee9ri5zY3UpOwogIOWGmeWFpeW8gOWFs+WAvCgnZW5hJywg6YWN572uLmVuYSwgZmFsc2UpOwogIOWGmeWFpeW8gOWFs+WAvCgnZXBkJywg6YWN572uLmVwZCwgdHJ1ZSk7CiAg5YaZ5YWl5byA5YWz5YC8KCdlcGknLCDphY3nva4uZXBpLCB0cnVlKTsKICDlhpnlhaXlvIDlhbPlgLwoJ2VnaScsIOmFjee9ri5lZ2ksIHRydWUpOwogIOWGmeWFpeW8gOWFs+WAvCgnaXB2NEVuYWJsZWQnLCDphY3nva4uaXB2NCwgdHJ1ZSk7CiAg5YaZ5YWl5byA5YWz5YC8KCdpcHY2RW5hYmxlZCcsIOmFjee9ri5pcHY2LCB0cnVlKTsKICDlhpnlhaXlvIDlhbPlgLwoJ2lzcE1vYmlsZScsIOmFjee9ri5pc3BNb2JpbGUsIHRydWUpOwogIOWGmeWFpeW8gOWFs+WAvCgnaXNwVW5pY29tJywg6YWN572uLmlzcFVuaWNvbSwgdHJ1ZSk7CiAg5YaZ5YWl5byA5YWz5YC8KCdpc3BUZWxlY29tJywg6YWN572uLmlzcFRlbGVjb20sIHRydWUpOwogIOWGmeWFpeWtl+auteWAvCgnY3VzdG9tUGF0aCcsIOmFjee9ri5kKTsKICDlhpnlhaXlrZfmrrXlgLwoJ2N1c3RvbUlQJywg6YWN572uLnApOwogIOWGmeWFpeWtl+auteWAvCgneXgnLCDphY3nva4ueXgpOwogIOWGmeWFpeWtl+auteWAvCgneXhVUkwnLCDphY3nva4ueXhVUkwpOwogIOWGmeWFpeWtl+auteWAvCgnc29ja3NDb25maWcnLCDphY3nva4ucyk7CiAg5YaZ5YWl5a2X5q615YC8KCdjdXN0b21Ib21lcGFnZScsIOmFjee9ri5ob21lcGFnZSk7CiAg5YaZ5YWl5a2X5q615YC8KCdhcGlFbmFibGVkJywg6YWN572uLmFlKTsKICDlhpnlhaXlrZfmrrXlgLwoJ3JlZ2lvbk1hdGNoaW5nJywg6YWN572uLnJtKTsKICDlhpnlhaXlrZfmrrXlgLwoJ2Rvd25ncmFkZUNvbnRyb2wnLCDphY3nva4ucWopOwogIOWGmeWFpeWtl+auteWAvCgncG9ydENvbnRyb2wnLCDphY3nva4uZGtieSk7CiAg5YaZ5YWl5a2X5q615YC8KCdwcmVmZXJyZWRDb250cm9sJywg6YWN572uLnl4YnkpOwogIOWGmeWFpeWtl+auteWAvCgndXBkVmVyVXJsJywg6YWN572uLnVwZFZlclVybCk7CiAg5YaZ5YWl5a2X5q615YC8KCd1cGRTcmNVcmwnLCDphY3nva4udXBkU3JjVXJsKTsKICDlhpnlhaXlrZfmrrXlgLwoJ2NmVG9rZW4nLCDphY3nva4uY2ZUb2tlbik7CiAg5YaZ5YWl5a2X5q615YC8KCdjZkFjY291bnRJZCcsIOmFjee9ri5jZkFjY291bnRJZCk7CiAg5YaZ5YWl5a2X5q615YC8KCdjZlNjcmlwdE5hbWUnLCDphY3nva4uY2ZTY3JpcHROYW1lKTsKICDlkIzmraXogZTliqjnlYzpnaLnirbmgIEoKTsKfQoKZnVuY3Rpb24g5pS26ZuG55WM6Z2i6YWN572uKCkgewogIGNvbnN0IOmFjee9riA9IHsKICAgIHdrOiDor7vlj5blrZfmrrXlgLwoJ3drUmVnaW9uJyksCiAgICBldjog6K+75Y+W5byA5YWz5YC8KCdldicsIHRydWUpLAogICAgZXQ6IOivu+WPluW8gOWFs+WAvCgnZXQnLCBmYWxzZSksCiAgICBleDog6K+75Y+W5byA5YWz5YC8KCdleCcsIGZhbHNlKSwKICAgIGVjaDog6K+75Y+W5byA5YWz5YC8KCdlY2gnLCBmYWxzZSksCiAgICB0cDog6K+75Y+W5a2X5q615YC8KCd0cCcpLAogICAgY3VzdG9tRE5TOiDor7vlj5blrZfmrrXlgLwoJ2N1c3RvbUROUycpLAogICAgY3VzdG9tRUNIRG9tYWluOiDor7vlj5blrZfmrrXlgLwoJ2N1c3RvbUVDSERvbWFpbicpLAogICAgYWxwbjog6K+75Y+W5a2X5q615YC8KCdhbHBuJyksCiAgICBkOiDor7vlj5blrZfmrrXlgLwoJ2N1c3RvbVBhdGgnKSwKICAgIHA6IOivu+WPluWtl+auteWAvCgnY3VzdG9tSVAnKSwKICAgIHl4OiDor7vlj5blrZfmrrXlgLwoJ3l4JyksCiAgICB5eFVSTDog6K+75Y+W5a2X5q615YC8KCd5eFVSTCcpLAogICAgczog6K+75Y+W5a2X5q615YC8KCdzb2Nrc0NvbmZpZycpLAogICAgaG9tZXBhZ2U6IOivu+WPluWtl+auteWAvCgnY3VzdG9tSG9tZXBhZ2UnKSwKICAgIHNjdTog6K+75Y+W5a2X5q615YC8KCdzY3UnKSwKICAgIGVuYTog6K+75Y+W5byA5YWz5YC8KCdlbmEnLCBmYWxzZSksCiAgICBlcGQ6IOivu+WPluW8gOWFs+WAvCgnZXBkJywgdHJ1ZSksCiAgICBlcGk6IOivu+WPluW8gOWFs+WAvCgnZXBpJywgdHJ1ZSksCiAgICBlZ2k6IOivu+WPluW8gOWFs+WAvCgnZWdpJywgdHJ1ZSksCiAgICBhZTog6K+75Y+W5a2X5q615YC8KCdhcGlFbmFibGVkJyksCiAgICBybTog6K+75Y+W5a2X5q615YC8KCdyZWdpb25NYXRjaGluZycpLAogICAgcWo6IOivu+WPluWtl+auteWAvCgnZG93bmdyYWRlQ29udHJvbCcpLAogICAgZGtieTog6K+75Y+W5a2X5q615YC8KCdwb3J0Q29udHJvbCcpLAogICAgeXhieTog6K+75Y+W5a2X5q615YC8KCdwcmVmZXJyZWRDb250cm9sJyksCiAgICBpcHY0OiDor7vlj5blvIDlhbPlgLwoJ2lwdjRFbmFibGVkJywgdHJ1ZSksCiAgICBpcHY2OiDor7vlj5blvIDlhbPlgLwoJ2lwdjZFbmFibGVkJywgdHJ1ZSksCiAgICBpc3BNb2JpbGU6IOivu+WPluW8gOWFs+WAvCgnaXNwTW9iaWxlJywgdHJ1ZSksCiAgICBpc3BVbmljb206IOivu+WPluW8gOWFs+WAvCgnaXNwVW5pY29tJywgdHJ1ZSksCiAgICBpc3BUZWxlY29tOiDor7vlj5blvIDlhbPlgLwoJ2lzcFRlbGVjb20nLCB0cnVlKSwKICAgIHVwZFZlclVybDog6K+75Y+W5a2X5q615YC8KCd1cGRWZXJVcmwnKSwKICAgIHVwZFNyY1VybDog6K+75Y+W5a2X5q615YC8KCd1cGRTcmNVcmwnKSwKICAgIGNmVG9rZW46IOivu+WPluWtl+auteWAvCgnY2ZUb2tlbicpLAogICAgY2ZBY2NvdW50SWQ6IOivu+WPluWtl+auteWAvCgnY2ZBY2NvdW50SWQnKSwKICAgIGNmU2NyaXB0TmFtZTog6K+75Y+W5a2X5q615YC8KCdjZlNjcmlwdE5hbWUnKQogIH07CiAgaWYgKOmFjee9ri5ldiA9PT0gJ25vJyAmJiDphY3nva4uZXQgPT09ICdubycgJiYg6YWN572uLmV4ID09PSAnbm8nKSB7CiAgICDphY3nva4uZXYgPSAneWVzJzsKICAgIOWGmeWFpeW8gOWFs+WAvCgnZXYnLCAneWVzJywgdHJ1ZSk7CiAgfQogIGlmICjphY3nva4uZWNoID09PSAneWVzJykgewogICAg6YWN572uLmRrYnkgPSAneWVzJzsKICAgIOWGmeWFpeWtl+auteWAvCgncG9ydENvbnRyb2wnLCAneWVzJyk7CiAgfQogIHJldHVybiDphY3nva47Cn0KCmFzeW5jIGZ1bmN0aW9uIOWKoOi9veW9k+WJjemFjee9rigpIHsKICBjb25zdCDmjqXlj6PnvZHlnYAyMDExNyA9IHdpbmRvdy5sb2NhdGlvbi5wYXRobmFtZSArICcvYXBpL2NvbmZpZyc7CiAgdHJ5IHsKICAgIGNvbnN0IOWTjeW6lDIwMTE2ID0gYXdhaXQgZmV0Y2go5o6l5Y+j572R5Z2AMjAxMTcpOwogICAgaWYgKOWTjeW6lDIwMTE2LnN0YXR1cyA9PT0gNTAzKSB7CiAgICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjdXJyZW50Q29uZmlnJykudGV4dENvbnRlbnQgPSAnS1blrZjlgqjmnKrphY3nva7vvIzml6Dms5XliqDovb3phY3nva4nOwogICAgICByZXR1cm47CiAgICB9CiAgICBpZiAoIeWTjeW6lDIwMTE2Lm9rKSB7CiAgICAgIGNvbnN0IOmUmeivr+aWh+acrDIwMTE1ID0gYXdhaXQg5ZON5bqUMjAxMTYudGV4dCgpOwogICAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY3VycmVudENvbmZpZycpLnRleHRDb250ZW50ID0gJ+WKoOi9vemFjee9ruWksei0pTogJyArIOmUmeivr+aWh+acrDIwMTE1OwogICAgICByZXR1cm47CiAgICB9CiAgICBjb25zdCDphY3nva4gPSBhd2FpdCDlk43lupQyMDExNi5qc29uKCk7CgogICAgLy8g6L+H5ruk5o6J5YaF6YOo5a2X5q61IGt2RW5hYmxlZAogICAgY29uc3Qg5pi+56S66YWN572uID0ge307CiAgICBmb3IgKGNvbnN0IFvplK4yMDExNCwg5YC8MjAxMTNdIG9mIE9iamVjdC5lbnRyaWVzKOmFjee9rikpIHsKICAgICAgaWYgKOmUrjIwMTE0ICE9PSAna3ZFbmFibGVkJykgewogICAgICAgIOaYvuekuumFjee9rlvplK4yMDExNF0gPSDlgLwyMDExMzsKICAgICAgfQogICAgfQogICAgbGV0IOmFjee9ruaWh+acrCA9ICflvZPliY3phY3nva46XG4nOwogICAgaWYgKE9iamVjdC5rZXlzKOaYvuekuumFjee9rikubGVuZ3RoID09PSAwKSB7CiAgICAgIOmFjee9ruaWh+acrCArPSAnKOaaguaXoOmFjee9riknOwogICAgfSBlbHNlIHsKICAgICAgZm9yIChjb25zdCBb6ZSuLCDlgLwyMDExMl0gb2YgT2JqZWN0LmVudHJpZXMo5pi+56S66YWN572uKSkgewogICAgICAgIOmFjee9ruaWh+acrCArPSDplK4gKyAnOiAnICsgKOWAvDIwMTEyIHx8ICco5pyq6K6+572uKScpICsgJ1xuJzsKICAgICAgfQogICAgfQogICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2N1cnJlbnRDb25maWcnKS50ZXh0Q29udGVudCA9IOmFjee9ruaWh+acrDsKCiAgICDlupTnlKjphY3nva7liLDnlYzpnaIo6YWN572uKTsKICB9IGNhdGNoICjplJnor68yMDExMSkgewogICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2N1cnJlbnRDb25maWcnKS50ZXh0Q29udGVudCA9ICfliqDovb3phY3nva7lpLHotKU6ICcgKyDplJnor68yMDExMS5tZXNzYWdlOwogIH0KfQoKLy8g5pu05paw6Lev5b6E57G75Z6L5pi+56S6CmZ1bmN0aW9uIOabtOaWsOi3r+W+hOexu+Wei+eKtuaAgSjoh6rlrprkuYnot6/lvoQpIHsKICBjb25zdCDot6/lvoTnsbvlnovnirbmgIEgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgncGF0aFR5cGVTdGF0dXMnKTsKICBjb25zdCDlvZPliY3nvZHlnYAyMDExMCA9IHdpbmRvdy5sb2NhdGlvbi5ocmVmOwogIGNvbnN0IOi3r+W+hOmDqOWIhuWIl+ihqCA9IHdpbmRvdy5sb2NhdGlvbi5wYXRobmFtZS5zcGxpdCgnLycpLmZpbHRlcijlj4LmlbDlgLwyMDEwOSA9PiDlj4LmlbDlgLwyMDEwOSk7CiAgY29uc3Qg5b2T5YmN6Lev5b6EID0g6Lev5b6E6YOo5YiG5YiX6KGoLmxlbmd0aCA+IDAgPyDot6/lvoTpg6jliIbliJfooahbMF0gOiAnJzsKICBpZiAo6Ieq5a6a5LmJ6Lev5b6EICYmIOiHquWumuS5iei3r+W+hC50cmltKCkpIHsKICAgIC8vIOS9v+eUqOiHquWumuS5iei3r+W+hCAoZCkKICAgIOi3r+W+hOexu+Wei+eKtuaAgS5pbm5lckhUTUwgPSAnPGRpdiBzdHlsZT0iY29sb3I6ICMzZGRjODQ7Ij7kvb/nlKjnsbvlnos6IDxzdHJvbmc+6Ieq5a6a5LmJ6Lev5b6EIChkKTwvc3Ryb25nPjwvZGl2PicgKyAnPGRpdiBzdHlsZT0ibWFyZ2luLXRvcDogNXB4OyBjb2xvcjogI2M4ZjEzNTsiPuW9k+WJjei3r+W+hDogPHNwYW4gc3R5bGU9ImNvbG9yOiAjZmZiNDU0OyI+JyArIOiHquWumuS5iei3r+W+hCArICc8L3NwYW4+PC9kaXY+JyArICc8ZGl2IHN0eWxlPSJtYXJnaW4tdG9wOiA1cHg7IGZvbnQtc2l6ZTogMC45cmVtOyBjb2xvcjogIzlhYTZiODsiPuiuv+mXruWcsOWdgDogJyArICjlvZPliY3nvZHlnYAyMDExMC5zcGxpdCgnLycpWzBdICsgJy8vJyArIOW9k+WJjee9keWdgDIwMTEwLnNwbGl0KCcvJylbMl0pICsg6Ieq5a6a5LmJ6Lev5b6EICsgJy9zdWI8L2Rpdj4nOwogIH0gZWxzZSB7CiAgICAvLyDkvb/nlKggVVVJRCAodSkKICAgIOi3r+W+hOexu+Wei+eKtuaAgS5pbm5lckhUTUwgPSAnPGRpdiBzdHlsZT0iY29sb3I6ICMzZGRjODQ7Ij7kvb/nlKjnsbvlnos6IDxzdHJvbmc+VVVJRCDot6/lvoQgKHUpPC9zdHJvbmc+PC9kaXY+JyArICc8ZGl2IHN0eWxlPSJtYXJnaW4tdG9wOiA1cHg7IGNvbG9yOiAjYzhmMTM1OyI+5b2T5YmN6Lev5b6EOiA8c3BhbiBzdHlsZT0iY29sb3I6ICNmZmI0NTQ7Ij4nICsgKOW9k+WJjei3r+W+hCB8fCAnKFVVSUQpJykgKyAnPC9zcGFuPjwvZGl2PicgKyAnPGRpdiBzdHlsZT0ibWFyZ2luLXRvcDogNXB4OyBmb250LXNpemU6IDAuOXJlbTsgY29sb3I6ICM5YWE2Yjg7Ij7orr/pl67lnLDlnYA6ICcgKyDlvZPliY3nvZHlnYAyMDExMC5zcGxpdCgnL3N1YicpWzBdICsgJy9zdWI8L2Rpdj4nOwogIH0KfQoKLy8g5pu05pawd2vlnLDljLrpgInmi6nnmoTlkK/nlKgv56aB55So54q25oCBCmZ1bmN0aW9uIOabtOaWsOW3peS9nOWZqOWcsOWMuueKtuaAgSgpIHsKICBjb25zdCDoh6rlrprkuYnlnLDlnYDovpPlhaUyMDEwOCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjdXN0b21JUCcpOwogIGNvbnN0IOWAvOWcsOWMuiA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCd3a1JlZ2lvbicpOwogIGNvbnN0IOWAvOWcsOWMuuWAvCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCd3a1JlZ2lvbkhpbnQnKTsKICBpZiAo6Ieq5a6a5LmJ5Zyw5Z2A6L6T5YWlMjAxMDggJiYg5YC85Zyw5Yy6KSB7CiAgICBjb25zdCDmmK/lkKbmnInoh6rlrprkuYnlnLDlnYAgPSDoh6rlrprkuYnlnLDlnYDovpPlhaUyMDEwOC52YWx1ZS50cmltKCkgIT09ICcnOwogICAg5YC85Zyw5Yy6LmRpc2FibGVkID0g5piv5ZCm5pyJ6Ieq5a6a5LmJ5Zyw5Z2AOwoKICAgIC8vIOa3u+WKoOinhuinieWPjemmiAogICAgaWYgKOaYr+WQpuacieiHquWumuS5ieWcsOWdgCkgewogICAgICDlgLzlnLDljLouc3R5bGUub3BhY2l0eSA9ICcwLjUnOwogICAgICDlgLzlnLDljLouc3R5bGUuY3Vyc29yID0gJ25vdC1hbGxvd2VkJzsKICAgICAg5YC85Zyw5Yy6LnN0eWxlLmJhY2tncm91bmRDb2xvciA9ICdyZ2JhKDAsIDAsIDAsIDAuNSknOwogICAgICAvLyDmmL7npLrmj5DnpLrkv6Hmga8KICAgICAgaWYgKOWAvOWcsOWMuuWAvCkgewogICAgICAgIOWAvOWcsOWMuuWAvC5zdHlsZS5kaXNwbGF5ID0gJ2Jsb2NrJzsKICAgICAgICDlgLzlnLDljLrlgLwuc3R5bGUuY29sb3IgPSAnI2ZmYjQ1NCc7CiAgICAgIH0KICAgIH0gZWxzZSB7CiAgICAgIOWAvOWcsOWMui5zdHlsZS5vcGFjaXR5ID0gJzEnOwogICAgICDlgLzlnLDljLouc3R5bGUuY3Vyc29yID0gJ3BvaW50ZXInOwogICAgICDlgLzlnLDljLouc3R5bGUuYmFja2dyb3VuZENvbG9yID0gJ3JnYmEoMCwgMCwgMCwgMC44KSc7CiAgICAgIC8vIOmakOiXj+aPkOekuuS/oeaBrwogICAgICBpZiAo5YC85Zyw5Yy65YC8KSB7CiAgICAgICAg5YC85Zyw5Yy65YC8LnN0eWxlLmRpc3BsYXkgPSAnbm9uZSc7CiAgICAgIH0KICAgIH0KICB9Cn0KYXN5bmMgZnVuY3Rpb24g5L+d5a2Y6YWN572uKOmFjee9ruaVsOaNrjIwMTA3KSB7CiAgY29uc3Qg5o6l5Y+j572R5Z2AID0gd2luZG93LmxvY2F0aW9uLnBhdGhuYW1lICsgJy9hcGkvY29uZmlnJzsKICB0cnkgewogICAgY29uc3Qg5ZON5bqUMjAxMDYgPSBhd2FpdCBmZXRjaCjmjqXlj6PnvZHlnYAsIHsKICAgICAgbWV0aG9kOiAnUE9TVCcsCiAgICAgIGhlYWRlcnM6IHsKICAgICAgICAnQ29udGVudC1UeXBlJzogJ2FwcGxpY2F0aW9uL2pzb24nCiAgICAgIH0sCiAgICAgIGJvZHk6IEpTT04uc3RyaW5naWZ5KOmFjee9ruaVsOaNrjIwMTA3KQogICAgfSk7CiAgICBpZiAo5ZON5bqUMjAxMDYuc3RhdHVzID09PSA1MDMpIHsKICAgICAg5pi+56S654q25oCBKCdLVuWtmOWCqOacqumFjee9ru+8jOaXoOazleS/neWtmOmFjee9ruOAguivt+WFiOWcqENsb3VkZmxhcmUgV29ya2Vyc+S4remFjee9rktW5a2Y5YKo44CCJywgJ2Vycm9yJyk7CiAgICAgIHJldHVybjsKICAgIH0KICAgIGlmICgh5ZON5bqUMjAxMDYub2spIHsKICAgICAgY29uc3Qg6ZSZ6K+v5paH5pysMjAxMDUgPSBhd2FpdCDlk43lupQyMDEwNi50ZXh0KCk7CgogICAgICAvLyDlsJ3or5Xop6PmnpAgSlNPTiDplJnor6/kv6Hmga8KICAgICAgdHJ5IHsKICAgICAgICBjb25zdCDplJnor6/mlbDmja4yMDEwNCA9IEpTT04ucGFyc2Uo6ZSZ6K+v5paH5pysMjAxMDUpOwogICAgICAgIOaYvuekuueKtuaAgSjplJnor6/mlbDmja4yMDEwNC5tZXNzYWdlIHx8ICfkv53lrZjlpLHotKUnLCAnZXJyb3InKTsKICAgICAgfSBjYXRjaCAo6Kej5p6Q6ZSZ6K+vMjAxMDMpIHsKICAgICAgICAvLyDlpoLmnpzkuI3mmK8gSlNPTu+8jOebtOaOpeaYvuekuuaWh+acrAogICAgICAgIOaYvuekuueKtuaAgSgn5L+d5a2Y5aSx6LSlOiAnICsg6ZSZ6K+v5paH5pysMjAxMDUsICdlcnJvcicpOwogICAgICB9CiAgICAgIHJldHVybjsKICAgIH0KICAgIGNvbnN0IOe7k+aenDIwMTAyID0gYXdhaXQg5ZON5bqUMjAxMDYuanNvbigpOwogICAg5pi+56S654q25oCBKOe7k+aenDIwMTAyLm1lc3NhZ2UsIOe7k+aenDIwMTAyLnN1Y2Nlc3MgPyAnc3VjY2VzcycgOiAnZXJyb3InKTsKICAgIGlmICjnu5PmnpwyMDEwMi5zdWNjZXNzKSB7CiAgICAgIGF3YWl0IOWKoOi9veW9k+WJjemFjee9rigpOwogICAgICAvLyDmm7TmlrB3a+WcsOWMuumAieaLqeeKtuaAgQogICAgICDmm7TmlrDlt6XkvZzlmajlnLDljLrnirbmgIEoKTsKICAgICAgLy8g5L+d5a2Y5oiQ5Yqf5ZCO5Yi35paw6aG16Z2i5Lul5pu05paw57O757uf54q25oCBCiAgICAgIHNldFRpbWVvdXQoZnVuY3Rpb24gKCkgewogICAgICAgIHdpbmRvdy5sb2NhdGlvbi5yZWxvYWQoKTsKICAgICAgfSwgMTUwMCk7CiAgICB9IGVsc2Uge30KICB9IGNhdGNoICjplJnor68yMDEwMSkgewogICAg5pi+56S654q25oCBKCfkv53lrZjlpLHotKU6ICcgKyDplJnor68yMDEwMS5tZXNzYWdlLCAnZXJyb3InKTsKICB9Cn0KZnVuY3Rpb24g5pi+56S654q25oCBKOa2iOaBrzIwMTAwLCDnsbvlnosyMDA5OSkgewogIGNvbnN0IOeKtuaAgeWAvCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdzdGF0dXNNZXNzYWdlJyk7CiAgaWYgKOeKtuaAgeWAvCkgewogICAg54q25oCB5YC8LnRleHRDb250ZW50ID0g5raI5oGvMjAxMDA7CiAgICDnirbmgIHlgLwuc3R5bGUuZGlzcGxheSA9ICdibG9jayc7CiAgICDnirbmgIHlgLwuc3R5bGUuY29sb3IgPSDnsbvlnosyMDA5OSA9PT0gJ3N1Y2Nlc3MnID8gJyNjOGYxMzUnIDogJyNmZjVkNzMnOwogICAg54q25oCB5YC8LnN0eWxlLmJvcmRlckNvbG9yID0g57G75Z6LMjAwOTkgPT09ICdzdWNjZXNzJyA/ICcjYzhmMTM1JyA6ICcjZmY1ZDczJzsKICAgIHNldFRpbWVvdXQoZnVuY3Rpb24gKCkgewogICAgICDnirbmgIHlgLwuc3R5bGUuZGlzcGxheSA9ICdub25lJzsKICAgIH0sIDMwMDApOwogIH0KICAvLyDlkIzmraXlnKjlupXpg6jmk43kvZzmnaHkuIrmlrnlvLnlh7rpnJPombnlj43ppogKICBpZiAodHlwZW9mIHdpbmRvdy7mmL7npLrmk43kvZznirbmgIEgPT09ICdmdW5jdGlvbicpIHsKICAgIHdpbmRvdy7mmL7npLrmk43kvZznirbmgIEo5raI5oGvMjAxMDAsIOexu+WeizIwMDk5ID09PSAnc3VjY2VzcycgPyAnb2snIDogJ2VycicpOwogIH0KfQphc3luYyBmdW5jdGlvbiDph43nva7lhajpg6jphY3nva4oKSB7CiAgaWYgKGNvbmZpcm0oJ+ehruWumuimgemHjee9ruaJgOaciemFjee9ruWQl++8n+i/meWwhua4heepuuaJgOaciUtW6YWN572u77yM5oGi5aSN5Li6546v5aKD5Y+Y6YeP6K6+572u44CCJykpIHsKICAgIHRyeSB7CiAgICAgIGNvbnN0IOWTjeW6lDIwMDk4ID0gYXdhaXQgZmV0Y2god2luZG93LmxvY2F0aW9uLnBhdGhuYW1lICsgJy9hcGkvY29uZmlnJywgewogICAgICAgIG1ldGhvZDogJ1BPU1QnLAogICAgICAgIGhlYWRlcnM6IHsKICAgICAgICAgICdDb250ZW50LVR5cGUnOiAnYXBwbGljYXRpb24vanNvbicKICAgICAgICB9LAogICAgICAgIGJvZHk6IEpTT04uc3RyaW5naWZ5KHsKICAgICAgICAgIHdrOiAnJywKICAgICAgICAgIGQ6ICcnLAogICAgICAgICAgcDogJycsCiAgICAgICAgICB5eDogJycsCiAgICAgICAgICB5eFVSTDogJycsCiAgICAgICAgICBzOiAnJywKICAgICAgICAgIGFlOiAnJywKICAgICAgICAgIHJtOiAnJywKICAgICAgICAgIHFqOiAnJywKICAgICAgICAgIGRrYnk6ICcnLAogICAgICAgICAgeXhieTogJycsCiAgICAgICAgICBldjogJycsCiAgICAgICAgICBldDogJycsCiAgICAgICAgICBleDogJycsCiAgICAgICAgICBlY2g6ICcnLAogICAgICAgICAgdHA6ICcnLAogICAgICAgICAgY3VzdG9tRE5TOiAnJywKICAgICAgICAgIGN1c3RvbUVDSERvbWFpbjogJycsCiAgICAgICAgICBzY3U6ICcnLAogICAgICAgICAgZXBkOiAnJywKICAgICAgICAgIGVwaTogJycsCiAgICAgICAgICBlZ2k6ICcnLAogICAgICAgICAgaXB2NDogJycsCiAgICAgICAgICBpcHY2OiAnJywKICAgICAgICAgIGlzcE1vYmlsZTogJycsCiAgICAgICAgICBpc3BVbmljb206ICcnLAogICAgICAgICAgaXNwVGVsZWNvbTogJycsCiAgICAgICAgICBob21lcGFnZTogJycsCiAgICAgICAgICBhbHBuOiAnJwogICAgICAgIH0pCiAgICAgIH0pOwogICAgICBpZiAo5ZON5bqUMjAwOTguc3RhdHVzID09PSA1MDMpIHsKICAgICAgICDmmL7npLrnirbmgIEoJ0tW5a2Y5YKo5pyq6YWN572u77yM5peg5rOV6YeN572u6YWN572u44CCJywgJ2Vycm9yJyk7CiAgICAgICAgcmV0dXJuOwogICAgICB9CiAgICAgIGlmICgh5ZON5bqUMjAwOTgub2spIHsKICAgICAgICBjb25zdCDplJnor6/mlofmnKwgPSBhd2FpdCDlk43lupQyMDA5OC50ZXh0KCk7CgogICAgICAgIC8vIOWwneivleino+aekCBKU09OIOmUmeivr+S/oeaBrwogICAgICAgIHRyeSB7CiAgICAgICAgICBjb25zdCDplJnor6/mlbDmja4gPSBKU09OLnBhcnNlKOmUmeivr+aWh+acrCk7CiAgICAgICAgICDmmL7npLrnirbmgIEo6ZSZ6K+v5pWw5o2uLm1lc3NhZ2UgfHwgJ+mHjee9ruWksei0pScsICdlcnJvcicpOwogICAgICAgIH0gY2F0Y2ggKOino+aekOmUmeivrykgewogICAgICAgICAgLy8g5aaC5p6c5LiN5pivIEpTT07vvIznm7TmjqXmmL7npLrmlofmnKwKICAgICAgICAgIOaYvuekuueKtuaAgSgn6YeN572u5aSx6LSlOiAnICsg6ZSZ6K+v5paH5pysLCAnZXJyb3InKTsKICAgICAgICB9CiAgICAgICAgcmV0dXJuOwogICAgICB9CiAgICAgIGNvbnN0IOe7k+aenDIwMDk3ID0gYXdhaXQg5ZON5bqUMjAwOTguanNvbigpOwogICAgICDmmL7npLrnirbmgIEo57uT5p6cMjAwOTcubWVzc2FnZSB8fCAn6YWN572u5bey6YeN572uJywg57uT5p6cMjAwOTcuc3VjY2VzcyA/ICdzdWNjZXNzJyA6ICdlcnJvcicpOwogICAgICBpZiAo57uT5p6cMjAwOTcuc3VjY2VzcykgewogICAgICAgIGF3YWl0IOWKoOi9veW9k+WJjemFjee9rigpOwogICAgICAgIC8vIOabtOaWsHdr5Zyw5Yy66YCJ5oup54q25oCBCiAgICAgICAg5pu05paw5bel5L2c5Zmo5Zyw5Yy654q25oCBKCk7CiAgICAgICAgLy8g5Yi35paw6aG16Z2i5Lul5pu05paw57O757uf54q25oCBCiAgICAgICAgc2V0VGltZW91dChmdW5jdGlvbiAoKSB7CiAgICAgICAgICB3aW5kb3cubG9jYXRpb24ucmVsb2FkKCk7CiAgICAgICAgfSwgMTUwMCk7CiAgICAgIH0KICAgIH0gY2F0Y2ggKOmUmeivrzIwMDk2KSB7CiAgICAgIOaYvuekuueKtuaAgSgn6YeN572u5aSx6LSlOiAnICsg6ZSZ6K+vMjAwOTYubWVzc2FnZSwgJ2Vycm9yJyk7CiAgICB9CiAgfQp9CgovKiAtLS0tIHNlbGYtdXBkYXRlOiBzYXZlIHNldHRpbmdzIC8gY2hlY2sgZm9yIHVwZGF0ZSAvIHB1bGwgJiBhcHBseSB1cGRhdGUgLS0tLSAqLwpmdW5jdGlvbiDmmL7npLrmm7TmlrDnirbmgIEo5raI5oGvLCDnsbvlnospIHsKICBjb25zdCDlhYPntKAgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgndXBkU3RhdHVzJyk7CiAgaWYgKCHlhYPntKApIHJldHVybjsKICDlhYPntKAuc3R5bGUuZGlzcGxheSA9ICdibG9jayc7CiAg5YWD57SgLnRleHRDb250ZW50ID0g5raI5oGvOwogIOWFg+e0oC5zdHlsZS5jb2xvciA9IOexu+WeiyA9PT0gJ2Vycm9yJyA/ICcjZmY1ZDczJyA6ICjnsbvlnosgPT09ICdvaycgPyAnIzNkZGM4NCcgOiAnI2M4ZjEzNScpOwogIOWFg+e0oC5zdHlsZS5ib3JkZXJDb2xvciA9IOWFg+e0oC5zdHlsZS5jb2xvcjsKfQoKYXN5bmMgZnVuY3Rpb24g5L+d5a2Y5pu05paw6K6+572uKCkgewogIHRyeSB7CiAgICBjb25zdCDlk43lupQgPSBhd2FpdCBmZXRjaCh3aW5kb3cubG9jYXRpb24ucGF0aG5hbWUgKyAnL2FwaS9jb25maWcnLCB7CiAgICAgIG1ldGhvZDogJ1BPU1QnLAogICAgICBoZWFkZXJzOiB7ICdDb250ZW50LVR5cGUnOiAnYXBwbGljYXRpb24vanNvbicgfSwKICAgICAgYm9keTogSlNPTi5zdHJpbmdpZnkoewogICAgICAgIHVwZFZlclVybDogZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3VwZFZlclVybCcpLnZhbHVlLnRyaW0oKSwKICAgICAgICB1cGRTcmNVcmw6IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCd1cGRTcmNVcmwnKS52YWx1ZS50cmltKCksCiAgICAgICAgY2ZUb2tlbjogZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2NmVG9rZW4nKS52YWx1ZS50cmltKCksCiAgICAgICAgY2ZBY2NvdW50SWQ6IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjZkFjY291bnRJZCcpLnZhbHVlLnRyaW0oKSwKICAgICAgICBjZlNjcmlwdE5hbWU6IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjZlNjcmlwdE5hbWUnKS52YWx1ZS50cmltKCkKICAgICAgfSkKICAgIH0pOwogICAgY29uc3Qg57uT5p6cID0gYXdhaXQg5ZON5bqULmpzb24oKS5jYXRjaCgoKSA9PiAoe30pKTsKICAgIOaYvuekuuabtOaWsOeKtuaAgSjnu5PmnpwubWVzc2FnZSB8fCAo5ZON5bqULm9rID8gJ9iq2YbYuNuM2YXYp9iqINiw2K7bjNix2Ycg2LTYrycgOiAn2LDYrtuM2LHZhyDZhtin2YXZiNmB2YIg2KjZiNivJyksIOWTjeW6lC5vayA/ICdvaycgOiAnZXJyb3InKTsKICB9IGNhdGNoICjYrti32KcpIHsKICAgIOaYvuekuuabtOaWsOeKtuaAgSgn2LDYrtuM2LHZhyDZhtin2YXZiNmB2YI6ICcgKyDYrti32KcubWVzc2FnZSwgJ2Vycm9yJyk7CiAgfQp9Cgphc3luYyBmdW5jdGlvbiDYqNix2LHYs9uMX9io2Ydf2LHZiNiy2LHYs9in2YbbjCgpIHsKICDmmL7npLrmm7TmlrDnirbmgIEoJ9iv2LEg2K3Yp9mEINio2LHYsdiz24wg2YbYs9iu2Ycg2KzYr9uM2K/igKYnLCAnaW5mbycpOwogIHRyeSB7CiAgICBjb25zdCDlk43lupQgPSBhd2FpdCBmZXRjaCh3aW5kb3cubG9jYXRpb24ucGF0aG5hbWUgKyAnL2FwaS91cGRhdGUnKTsKICAgIGNvbnN0INmG2KrbjNis2YcgPSBhd2FpdCDlk43lupQuanNvbigpOwogICAgY29uc3Qg2KjYsdqG2LPYqCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCd1cGRMYXRlc3RMYWJlbCcpOwogICAgY29uc3Qg2K/aqdmF2YfYp9i52YXYp9mEID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3VwZEFwcGx5QnRuJyk7CiAgICBpZiAo2YbYqtuM2KzZhy5lcnJvcikgewogICAgICDmmL7npLrmm7TmlrDnirbmgIEo2YbYqtuM2KzZhy5lcnJvciwgJ2Vycm9yJyk7CiAgICAgIHJldHVybjsKICAgIH0KICAgIGlmICjYqNix2obYs9ioKSDYqNix2obYs9ioLnRleHRDb250ZW50ID0gJ9ii2K7YsduM2YYg2YbYs9iu2Yc6ICcgKyAo2YbYqtuM2KzZhy5sYXRlc3QgfHwgJ+KAlCcpOwogICAgaWYgKNmG2KrbjNis2YcuaGFzVXBkYXRlKSB7CiAgICAgIOaYvuekuuabtOaWsOeKtuaAgSgn2YbYs9iu2Ycg2KzYr9uM2K8g2YXZiNis2YjYryDYp9iz2Ko6ICcgKyDZhtiq24zYrNmHLmxhdGVzdCwgJ29rJyk7CiAgICAgIGlmICjYr9qp2YXZh9in2LnZhdin2YQpINiv2qnZhdmH2KfYudmF2KfZhC5zdHlsZS5kaXNwbGF5ID0gJ2lubGluZS1ibG9jayc7CiAgICB9IGVsc2UgewogICAgICDmmL7npLrmm7TmlrDnirbmgIEoJ9m+2YbZhCDYtNmF2Kcg2KjZh+KAjNix2YjYsiDYp9iz2KogKNmG2LPYrtmHICcgKyDZhtiq24zYrNmHLmN1cnJlbnQgKyAnKScsICdpbmZvJyk7CiAgICAgIGlmICjYr9qp2YXZh9in2LnZhdin2YQpINiv2qnZhdmH2KfYudmF2KfZhC5zdHlsZS5kaXNwbGF5ID0gJ25vbmUnOwogICAgfQogIH0gY2F0Y2ggKNiu2LfYpykgewogICAg5pi+56S65pu05paw54q25oCBKCfYqNix2LHYs9uMINmG2LPYrtmHINmG2KfZhdmI2YHZgjogJyArINiu2LfYpy5tZXNzYWdlLCAnZXJyb3InKTsKICB9Cn0KCmFzeW5jIGZ1bmN0aW9uINin2LnZhdin2YRf2KjZh1/YsdmI2LLYsdiz2KfZhtuMKCkgewogIGlmICghY29uZmlybSgn2KLbjNinINmF2LfZhdim2YbbjNifINqp2K8g2YHYudmE24wg2YjYsdqp2LEg2KjYpyDZhtiz2K7ZhyDYrNiv24zYryDYrNin24zar9iy24zZhiDZhduM4oCM2LTZiNivLicpKSByZXR1cm47CiAg5pi+56S65pu05paw54q25oCBKCfYr9ixINit2KfZhCDYr9ix24zYp9mB2Kog2Ygg2KfYudmF2KfZhCDYqNmH4oCM2LHZiNiy2LHYs9in2YbbjOKApiDahtmG2K8g2KvYp9mG24zZhyDYtdio2LEg2qnZhicsICdpbmZvJyk7CiAgdHJ5IHsKICAgIGNvbnN0IOWTjeW6lCA9IGF3YWl0IGZldGNoKHdpbmRvdy5sb2NhdGlvbi5wYXRobmFtZSArICcvYXBpL3VwZGF0ZScsIHsgbWV0aG9kOiAnUE9TVCcgfSk7CiAgICBjb25zdCDnu5PmnpwgPSBhd2FpdCDlk43lupQuanNvbigpOwogICAg5pi+56S65pu05paw54q25oCBKOe7k+aenC5tZXNzYWdlLCDnu5Pmnpwuc3VjY2VzcyA/ICdvaycgOiAnZXJyb3InKTsKICAgIGlmICjnu5Pmnpwuc3VjY2VzcykgewogICAgICBzZXRUaW1lb3V0KGZ1bmN0aW9uICgpIHsgd2luZG93LmxvY2F0aW9uLnJlbG9hZCgpOyB9LCAyMDAwKTsKICAgIH0KICB9IGNhdGNoICjYrti32KcpIHsKICAgIOaYvuekuuabtOaWsOeKtuaAgSgn2KjZh+KAjNix2YjYstix2LPYp9mG24wg2YbYp9mF2YjZgdmCOiAnICsg2K7Yt9inLm1lc3NhZ2UsICdlcnJvcicpOwogIH0KfQoKYXN5bmMgZnVuY3Rpb24g5qOA5p+l5Yqg5a+G6Zeu5YCZ54q25oCBKCkgewogIGNvbnN0IOWKoOWvhuWuouaIt+err+mXruWAmeeKtuaAgeWAvCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdlY2hTdGF0dXMnKTsKICBpZiAoIeWKoOWvhuWuouaIt+err+mXruWAmeeKtuaAgeWAvCkgcmV0dXJuOwogIHRyeSB7CiAgICBjb25zdCDlvZPliY3nvZHlnYAgPSB3aW5kb3cubG9jYXRpb24uaHJlZjsKICAgIGNvbnN0IOiuoumYhee9keWdgCA9IOW9k+WJjee9keWdgCArICcvc3ViJzsKICAgIOWKoOWvhuWuouaIt+err+mXruWAmeeKtuaAgeWAvC5pbm5lckhUTUwgPSAnRUNI54q25oCBOiA8c3BhbiBzdHlsZT0iY29sb3I6ICNmZmI0NTQ7Ij7mo4DmtYvkuK0uLi48L3NwYW4+JzsKICAgIGNvbnN0IOWTjeW6lDIwMDk1ID0gYXdhaXQgZmV0Y2go6K6i6ZiF572R5Z2ALCB7CiAgICAgIG1ldGhvZDogJ0dFVCcsCiAgICAgIGhlYWRlcnM6IHsKICAgICAgICAnQWNjZXB0JzogJ3RleHQvcGxhaW4nCiAgICAgIH0KICAgIH0pOwogICAgY29uc3Qg5Yqg5a+G5a6i5oi356uv6Zeu5YCZ54q25oCB5aS06YOoID0g5ZON5bqUMjAwOTUuaGVhZGVycy5nZXQoJ1gtRUNILVN0YXR1cycpOwogICAgY29uc3Qg5Yqg5a+G5a6i5oi356uv6Zeu5YCZ6YWN572u6ZW/5bqmID0g5ZON5bqUMjAwOTUuaGVhZGVycy5nZXQoJ1gtRUNILUNvbmZpZy1MZW5ndGgnKTsKICAgIGlmICjliqDlr4blrqLmiLfnq6/pl67lgJnnirbmgIHlpLTpg6ggPT09ICdFTkFCTEVEJykgewogICAgICDliqDlr4blrqLmiLfnq6/pl67lgJnnirbmgIHlgLwuaW5uZXJIVE1MID0gJ0VDSOeKtuaAgTogPHNwYW4gc3R5bGU9ImNvbG9yOiAjM2RkYzg0OyI+4pyFIOW3suWQr+eUqCcgKyAo5Yqg5a+G5a6i5oi356uv6Zeu5YCZ6YWN572u6ZW/5bqmID8gJyAo6YWN572u6ZW/5bqmOiAnICsg5Yqg5a+G5a6i5oi356uv6Zeu5YCZ6YWN572u6ZW/5bqmICsgJyknIDogJycpICsgJzwvc3Bhbj4nOwogICAgfSBlbHNlIHsKICAgICAg5Yqg5a+G5a6i5oi356uv6Zeu5YCZ54q25oCB5YC8LmlubmVySFRNTCA9ICdFQ0jnirbmgIE6IDxzcGFuIHN0eWxlPSJjb2xvcjogI2ZmYjQ1NDsiPuKaoO+4jyDmnKrlkK/nlKg8L3NwYW4+JzsKICAgIH0KICB9IGNhdGNoICjplJnor68yMDA5NCkgewogICAg5Yqg5a+G5a6i5oi356uv6Zeu5YCZ54q25oCB5YC8LmlubmVySFRNTCA9ICdFQ0jnirbmgIE6IDxzcGFuIHN0eWxlPSJjb2xvcjogI2ZmNWQ3MzsiPuKdjCDmo4DmtYvlpLHotKU6ICcgKyDplJnor68yMDA5NC5tZXNzYWdlICsgJzwvc3Bhbj4nOwogIH0KfQpkb2N1bWVudC5hZGRFdmVudExpc3RlbmVyKCdET01Db250ZW50TG9hZGVkJywgZnVuY3Rpb24gKCkgewogIOWIm+W7uuefqemYtembqCgpOwogIOajgOafpeezu+e7n+eKtuaAgSgpOwogIOajgOafpemUruWAvOeKtuaAgSgpOwogIOajgOafpeWKoOWvhumXruWAmeeKtuaAgSgpOwoKICAvLyBFQ0gg5byA5ZCv5pe26Ieq5Yqo6IGU5Yqo5byA5ZCv5LuFVExTCiAgY29uc3Qg5Yqg5a+G5a6i5oi356uv6Zeu5YCZ5aSN6YCJ5qGGID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2VjaCcpOwogIGNvbnN0IOerr+WPo+aOp+WItiA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdwb3J0Q29udHJvbCcpOwogIGlmICjliqDlr4blrqLmiLfnq6/pl67lgJnlpI3pgInmoYYgJiYg56uv5Y+j5o6n5Yi2KSB7CiAgICDliqDlr4blrqLmiLfnq6/pl67lgJnlpI3pgInmoYYuYWRkRXZlbnRMaXN0ZW5lcignY2hhbmdlJywgZnVuY3Rpb24gKCkgewogICAgICBpZiAodGhpcy5jaGVja2VkKSB7CiAgICAgICAgLy8gRUNIIOW8gOWQr+aXtu+8jOiHquWKqOiuvue9ruS7hVRMU+S4uiB5ZXMKICAgICAgICDnq6/lj6PmjqfliLYudmFsdWUgPSAneWVzJzsKICAgICAgfQogICAgICDlkIzmraXogZTliqjnlYzpnaLnirbmgIEoKTsKICAgIH0pOwoKICAgIC8vIOmhtemdouWKoOi9veaXtu+8jOWmguaenCBFQ0gg5bey5Yu+6YCJ77yM5Lmf6Ieq5Yqo6K6+572u5LuFVExTCiAgICBpZiAo5Yqg5a+G5a6i5oi356uv6Zeu5YCZ5aSN6YCJ5qGGLmNoZWNrZWQpIHsKICAgICAg56uv5Y+j5o6n5Yi2LnZhbHVlID0gJ3llcyc7CiAgICB9CiAgfQoKICAvLyDnm5HlkKxjdXN0b21JUOi+k+WFpeahhuWPmOWMlu+8jOWunuaXtuabtOaWsHdr5Zyw5Yy66YCJ5oup54q25oCBCiAgY29uc3Qg6Ieq5a6a5LmJ5Zyw5Z2A6L6T5YWlID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2N1c3RvbUlQJyk7CiAgaWYgKOiHquWumuS5ieWcsOWdgOi+k+WFpSkgewogICAg6Ieq5a6a5LmJ5Zyw5Z2A6L6T5YWlLmFkZEV2ZW50TGlzdGVuZXIoJ2lucHV0JywgZnVuY3Rpb24gKCkgewogICAgICDlkIzmraXogZTliqjnlYzpnaLnirbmgIEoKTsKICAgIH0pOwogIH0KCiAgY29uc3Qg6Ieq5a6a5LmJ6Lev5b6E6L6T5YWlID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2N1c3RvbVBhdGgnKTsKICBpZiAo6Ieq5a6a5LmJ6Lev5b6E6L6T5YWlKSB7CiAgICDoh6rlrprkuYnot6/lvoTovpPlhaUuYWRkRXZlbnRMaXN0ZW5lcignaW5wdXQnLCBmdW5jdGlvbiAoKSB7CiAgICAgIOWQjOatpeiBlOWKqOeVjOmdoueKtuaAgSgpOwogICAgfSk7CiAgfQoKICBbJ2V2JywgJ2V0JywgJ2V4J10uZm9yRWFjaChmdW5jdGlvbiAo5Y2P6K6u5qCH6K+GKSB7CiAgICBjb25zdCDljY/orq7lvIDlhbMgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCjljY/orq7moIfor4YpOwogICAgaWYgKOWNj+iuruW8gOWFsykgewogICAgICDljY/orq7lvIDlhbMuYWRkRXZlbnRMaXN0ZW5lcignY2hhbmdlJywgZnVuY3Rpb24gKCkgewogICAgICAgIOWQjOatpeiBlOWKqOeVjOmdoueKtuaAgSgpOwogICAgICB9KTsKICAgIH0KICB9KTsKCiAgLy8g6Zi75q2i6KGo5Y2V6buY6K6k5o+Q5Lqk77yI5L+d5a2Y5oyJ6ZKu5bey57uf5LiA5Yiw5bqV6YOo5pON5L2c5p2h77yJCiAgWydyZWdpb25Gb3JtJywgJ290aGVyQ29uZmlnRm9ybScsICdhZHZhbmNlZENvbmZpZ0Zvcm0nXS5mb3JFYWNoKGZ1bmN0aW9uICjmnKzlnLDlgLwyMDA5MykgewogICAgY29uc3Qg6KGo5Y2V5YC8ID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQo5pys5Zyw5YC8MjAwOTMpOwogICAgaWYgKOihqOWNleWAvCkg6KGo5Y2V5YC8LmFkZEV2ZW50TGlzdGVuZXIoJ3N1Ym1pdCcsIGZ1bmN0aW9uICjkuovku7blgLwyMDA5MikgewogICAgICDkuovku7blgLwyMDA5Mi5wcmV2ZW50RGVmYXVsdCgpOwogICAgfSk7CiAgfSk7CgogIC8vIOWcqOS7u+aEj+i+k+WFpeahhuaMieS4i+Wbnui9pu+8jOinpuWPkee7n+S4gOS/neWtmAogIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoJyNjb25maWdDb250ZW50IGlucHV0W3R5cGU9InRleHQiXSwgI2NvbmZpZ0NvbnRlbnQgaW5wdXRbdHlwZT0ibnVtYmVyIl0nKS5mb3JFYWNoKGZ1bmN0aW9uICjmnKzlnLDlgLwyMDA5MSkgewogICAg5pys5Zyw5YC8MjAwOTEuYWRkRXZlbnRMaXN0ZW5lcigna2V5ZG93bicsIGZ1bmN0aW9uICjkuovku7blgLwyMDA5MCkgewogICAgICBpZiAo5LqL5Lu25YC8MjAwOTAua2V5ID09PSAnRW50ZXInKSB7CiAgICAgICAg5LqL5Lu25YC8MjAwOTAucHJldmVudERlZmF1bHQoKTsKICAgICAgICDkv53lrZjlhajpg6jphY3nva4oKTsKICAgICAgfQogICAgfSk7CiAgfSk7CgogIC8vIOe7n+S4gOS/neWtmO+8muS4gOasoeaAp+aUtum9kOaJgOacieWtl+autQogIGZ1bmN0aW9uIOaUtumbhuWFqOmDqOmFjee9rigpIHsKICAgIHJldHVybiDmlLbpm4bnlYzpnaLphY3nva4oKTsKICB9CiAgYXN5bmMgZnVuY3Rpb24g5L+d5a2Y5YWo6YOo6YWN572uKCkgewogICAgLy8g6Iez5bCR5ZCv55So5LiA5Liq6YCa6YGTCiAgICBjb25zdCDlgLzlgLwyMDA4NSA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdldicpLAogICAgICDlgLzlgLwyMDA4NCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdldCcpLAogICAgICDlgLzlgLwyMDA4MyA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdleCcpOwogICAgaWYgKOWAvOWAvDIwMDg1ICYmIOWAvOWAvDIwMDg0ICYmIOWAvOWAvDIwMDgzICYmICHlgLzlgLwyMDA4NS5jaGVja2VkICYmICHlgLzlgLwyMDA4NC5jaGVja2VkICYmICHlgLzlgLwyMDA4My5jaGVja2VkKSB7CiAgICAgIOaYvuekuuaTjeS9nOeKtuaAgSgn") + String(_v895 ? _v4('2K3Yr9in2YLZhCDbjNqpINm+2LHZiNiq2qnZhCDYsdinINmB2LnYp9mEINqp2YbbjNivIQ==') : _v4('6Iez5bCR6ZyA6KaB5ZCv55So5LiA5Liq5Y2P6K6u77yB')) + _d64("AScsICdlcnInKTsKICAgICAg5pi+56S65o+Q56S6KCc=") + String(_v895 ? _v4('2K3Yr9in2YLZhCDbjNqpINm+2LHZiNiq2qnZhCDYsdinINmB2LnYp9mEINqp2YbbjNivIQ==') : _v4('6Iez5bCR6ZyA6KaB5ZCv55So5LiA5Liq5Y2P6K6u77yB')) + _d64("AScsICd3YXJuJyk7CiAgICAgIHJldHVybjsKICAgIH0KICAgIGNvbnN0IOacrOWcsOWAvDIwMDgyID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2NwQnRuU2F2ZUFsbCcpOwogICAgaWYgKOacrOWcsOWAvDIwMDgyKSB7CiAgICAgIOacrOWcsOWAvDIwMDgyLmNsYXNzTGlzdC5hZGQoJ2NwLWFjdGlvbi1idG4tc2F2aW5nJyk7CiAgICAgIOacrOWcsOWAvDIwMDgyLmRpc2FibGVkID0gdHJ1ZTsKICAgIH0KICAgIHRyeSB7CiAgICAgIGF3YWl0IOS/neWtmOmFjee9rijmlLbpm4blhajpg6jphY3nva4oKSk7CiAgICB9IGZpbmFsbHkgewogICAgICBpZiAo5pys5Zyw5YC8MjAwODIpIHsKICAgICAgICDmnKzlnLDlgLwyMDA4Mi5jbGFzc0xpc3QucmVtb3ZlKCdjcC1hY3Rpb24tYnRuLXNhdmluZycpOwogICAgICAgIOacrOWcsOWAvDIwMDgyLmRpc2FibGVkID0gZmFsc2U7CiAgICAgIH0KICAgIH0KICB9CiAgd2luZG93LuS/neWtmOWFqOmDqOmFjee9riA9IOS/neWtmOWFqOmDqOmFjee9rjsKICBmdW5jdGlvbiDmmL7npLrmk43kvZznirbmgIEo5raI5oGvLCDnsbvlnospIHsKICAgIGNvbnN0IOacrOWcsOWAvDIwMDgxID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2NwQWN0aW9uU3RhdHVzJyk7CiAgICBpZiAoIeacrOWcsOWAvDIwMDgxKSByZXR1cm47CiAgICDmnKzlnLDlgLwyMDA4MS50ZXh0Q29udGVudCA9IOa2iOaBrzsKICAgIOacrOWcsOWAvDIwMDgxLmNsYXNzTGlzdC50b2dnbGUoJ2NwLWVycicsIOexu+WeiyA9PT0gJ2VycicpOwogICAg5pys5Zyw5YC8MjAwODEuY2xhc3NMaXN0LmFkZCgnY3Atc2hvdycpOwogICAgY2xlYXJUaW1lb3V0KOaYvuekuuaTjeS9nOeKtuaAgS5fdCk7CiAgICDmmL7npLrmk43kvZznirbmgIEuX3QgPSBzZXRUaW1lb3V0KGZ1bmN0aW9uICgpIHsKICAgICAg5pys5Zyw5YC8MjAwODEuY2xhc3NMaXN0LnJlbW92ZSgnY3Atc2hvdycpOwogICAgfSwgMjQwMCk7CiAgfQogIHdpbmRvdy7mmL7npLrmk43kvZznirbmgIEgPSDmmL7npLrmk43kvZznirbmgIE7CgogIC8vIOe7keWumuW6lemDqOe7n+S4gOaTjeS9nOadoQogIGNvbnN0IOWAvOaTjeS9nOWAvCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjcEFjdGlvbkJhcicpOwogIGNvbnN0IOWAvOWAvOS/neWtmOWAvCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjcEJ0blNhdmVBbGwnKTsKICBpZiAo5YC85YC85L+d5a2Y5YC8KSDlgLzlgLzkv53lrZjlgLwuYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCBhc3luYyBmdW5jdGlvbiAoKSB7CiAgICDlgLzlgLzkv53lrZjlgLwuY2xhc3NMaXN0LmFkZCgnY3AtYWN0aW9uLWJ0bi1zYXZpbmcnKTsKICAgIHRyeSB7CiAgICAgIGF3YWl0IOS/neWtmOWFqOmDqOmFjee9rigpOwogICAgICBpZiAo5YC85pON5L2c5YC8KSDlgLzmk43kvZzlgLwuY2xhc3NMaXN0LnJlbW92ZSgnY3AtZGlydHknKTsKICAgIH0gZmluYWxseSB7CiAgICAgIOWAvOWAvOS/neWtmOWAvC5jbGFzc0xpc3QucmVtb3ZlKCdjcC1hY3Rpb24tYnRuLXNhdmluZycpOwogICAgfQogIH0pOwogIGNvbnN0IOWAvOWAvOWAvDIwMDgwID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2NwQnRuUmVmcmVzaCcpOwogIGlmICjlgLzlgLzlgLwyMDA4MCkg5YC85YC85YC8MjAwODAuYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCBhc3luYyBmdW5jdGlvbiAoKSB7CiAgICDlgLzlgLzlgLwyMDA4MC5jbGFzc0xpc3QuYWRkKCdjcC1hY3Rpb24tYnRuLXNhdmluZycpOwogICAgdHJ5IHsKICAgICAgYXdhaXQg5Yqg6L295b2T5YmN6YWN572uKCk7CiAgICAgIGlmICjlgLzmk43kvZzlgLwpIOWAvOaTjeS9nOWAvC5jbGFzc0xpc3QucmVtb3ZlKCdjcC1kaXJ0eScpOwogICAgICDmmL7npLrmk43kvZznirbmgIEoJw==") + String(_v895 ? 'تنظیمات تازه‌سازی شد' : _d64("AemFjee9ruW3suWIt+aWsA==")) + _d64("AScpOwogICAgfSBmaW5hbGx5IHsKICAgICAg5YC85YC85YC8MjAwODAuY2xhc3NMaXN0LnJlbW92ZSgnY3AtYWN0aW9uLWJ0bi1zYXZpbmcnKTsKICAgIH0KICB9KTsKICBjb25zdCDlgLzlgLzph43nva4gPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY3BCdG5SZXNldCcpOwogIGlmICjlgLzlgLzph43nva4pIOWAvOWAvOmHjee9ri5hZGRFdmVudExpc3RlbmVyKCdjbGljaycsIOmHjee9ruWFqOmDqOmFjee9rik7CiAgY29uc3Qg5YC85YC85pu05paw5L+d5a2YID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3VwZFNhdmVCdG4nKTsgaWYgKOWAvOWAvOabtOaWsOS/neWtmCkg5YC85YC85pu05paw5L+d5a2YLmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywg5L+d5a2Y5pu05paw6K6+572uKTsKICBjb25zdCDlgLzlgLzmm7TmlrDmo4Dmn6UgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgndXBkQ2hlY2tCdG4nKTsgaWYgKOWAvOWAvOabtOaWsOajgOafpSkg5YC85YC85pu05paw5qOA5p+lLmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywg2KjYsdix2LPbjF/YqNmHX9ix2YjYstix2LPYp9mG24wpOwogIGNvbnN0IOWAvOWAvOabtOaWsOW6lOeUqCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCd1cGRBcHBseUJ0bicpOyBpZiAo5YC85YC85pu05paw5bqU55SoKSDlgLzlgLzmm7TmlrDlupTnlKguYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCDYp9i52YXYp9mEX9io2Ydf2LHZiNiy2LHYs9in2YbbjCk7CgogIC8vIOS/ruaUueWtl+auteaXtuaKiiBGQUIg5qCH6K6w5Li6ICLmnKrkv53lrZgiCiAgZnVuY3Rpb24g5qCH6K6w5bey5L+u5pS5KCkgewogICAgaWYgKOWAvOaTjeS9nOWAvCkg5YC85pON5L2c5YC8LmNsYXNzTGlzdC5hZGQoJ2NwLWRpcnR5Jyk7CiAgfQogIGNvbnN0IOW3suS/ruaUueiMg+WbtCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjb25maWdDb250ZW50JykgfHwgZG9jdW1lbnQ7CiAgWydpbnB1dCcsICdjaGFuZ2UnXS5mb3JFYWNoKGZ1bmN0aW9uICjmnKzlnLDlgLwyMDA3OSkgewogICAg5bey5L+u5pS56IyD5Zu0LmFkZEV2ZW50TGlzdGVuZXIo5pys5Zyw5YC8MjAwNzksIGZ1bmN0aW9uICjkuovku7blgLwyMDA3OCkgewogICAgICBjb25zdCDmnKzlnLDlgLwyMDA3NyA9IOS6i+S7tuWAvDIwMDc4LnRhcmdldDsKICAgICAgaWYgKCHmnKzlnLDlgLwyMDA3NyB8fCAh5pys5Zyw5YC8MjAwNzcudGFnTmFtZSkgcmV0dXJuOwogICAgICBjb25zdCDmnKzlnLDlgLwyMDA3NiA9IOacrOWcsOWAvDIwMDc3LnRhZ05hbWUudG9Mb3dlckNhc2UoKTsKICAgICAgaWYgKOacrOWcsOWAvDIwMDc2ID09PSAnaW5wdXQnIHx8IOacrOWcsOWAvDIwMDc2ID09PSAnc2VsZWN0JyB8fCDmnKzlnLDlgLwyMDA3NiA9PT0gJ3RleHRhcmVhJykgewogICAgICAgIC8vIOi3s+i/h+W7tui/n+a1i+ivleebuOWFs+i+k+WFpe+8jOmBv+WFjeivr+inpgogICAgICAgIGlmICjmnKzlnLDlgLwyMDA3Ny5pZCAmJiAvXihsYXRlbmN5VGVzdElucHV0fGZldGNoVVJMSW5wdXR8bGF0ZW5jeVRlc3RQb3J0fHJhbmRvbUlQQ291bnR8dGVzdFRocmVhZHN8aXBTb3VyY2VTZWxlY3QpJC8udGVzdCjmnKzlnLDlgLwyMDA3Ny5pZCkpIHJldHVybjsKICAgICAgICDmoIforrDlt7Lkv67mlLkoKTsKICAgICAgfQogICAgfSk7CiAgfSk7CgogIC8vIEN0cmwrUyAvIENtZCtTIOinpuWPkeS/neWtmAogIHdpbmRvdy5hZGRFdmVudExpc3RlbmVyKCdrZXlkb3duJywgZnVuY3Rpb24gKOS6i+S7tuWAvDIwMDc1KSB7CiAgICBpZiAoKOS6i+S7tuWAvDIwMDc1LmN0cmxLZXkgfHwg5LqL5Lu25YC8MjAwNzUubWV0YUtleSkgJiYgKOS6i+S7tuWAvDIwMDc1LmtleSA9PT0gJ3MnIHx8IOS6i+S7tuWAvDIwMDc1LmtleSA9PT0gJ1MnKSkgewogICAgICDkuovku7blgLwyMDA3NS5wcmV2ZW50RGVmYXVsdCgpOwogICAgICBpZiAo5YC85YC85L+d5a2Y5YC8ICYmICHlgLzlgLzkv53lrZjlgLwuY2xhc3NMaXN0LmNvbnRhaW5zKCdjcC1hY3Rpb24tYnRuLXNhdmluZycpKSB7CiAgICAgICAg5YC85YC85L+d5a2Y5YC8LmNsaWNrKCk7CiAgICAgIH0KICAgIH0KICB9KTsKICBsZXQg5rWL6K+V5YC85o6n5Yi25ZmoID0gbnVsbDsKICBsZXQg5rWL6K+V57uT5p6c5YiX6KGoID0gW107CiAgY29uc3Qg5byA5aeL5rWL6K+V5YC8ID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3N0YXJ0TGF0ZW5jeVRlc3QnKTsKICBjb25zdCDlgLzmtYvor5XlgLwgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnc3RvcExhdGVuY3lUZXN0Jyk7CiAgY29uc3Qg5rWL6K+V54q25oCBID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2xhdGVuY3lUZXN0U3RhdHVzJyk7CiAgY29uc3Qg5rWL6K+V57uT5p6c5YiX6KGo5YC8ID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2xhdGVuY3lUZXN0UmVzdWx0cycpOwogIGNvbnN0IOe7k+aenOWIl+ihqOWIl+ihqCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdsYXRlbmN5UmVzdWx0c0xpc3QnKTsKICBjb25zdCDopobnm5blt7LpgInlgLwgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnb3ZlcndyaXRlU2VsZWN0ZWRUb1l4Jyk7CiAgY29uc3Qg6L+95Yqg5bey6YCJ5YC8ID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2FwcGVuZFNlbGVjdGVkVG9ZeCcpOwogIGNvbnN0IOmAieaLqeWAvOWAvCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdzZWxlY3RBbGxSZXN1bHRzJyk7CiAgY29uc3Qg5YC85YC85YC8ID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2Rlc2VsZWN0QWxsUmVzdWx0cycpOwogIGNvbnN0IOWcsOWdgOa6kOmAieaLqSA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdpcFNvdXJjZVNlbGVjdCcpOwogIGNvbnN0IOaJi+WKqOi+k+WFpeWAvCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdtYW51YWxJbnB1dERpdicpOwogIGNvbnN0IOe9keWdgOiOt+WPluWAvCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCd1cmxGZXRjaERpdicpOwogIGNvbnN0IOW7tui/n+a1i+ivlei+k+WFpSA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdsYXRlbmN5VGVzdElucHV0Jyk7CiAgY29uc3Qg6I635Y+W572R5Z2A6L6T5YWlID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2ZldGNoVVJMSW5wdXQnKTsKICBjb25zdCDlu7bov5/mtYvor5Xnq6/lj6MgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnbGF0ZW5jeVRlc3RQb3J0Jyk7CiAgY29uc3Qg6ZqP5py65Zyw5Z2A5pWw6YePID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3JhbmRvbUlQQ291bnQnKTsKICBjb25zdCDkupHlopnpmo/mnLrlgLwgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY2ZSYW5kb21EaXYnKTsKICBjb25zdCDpmo/mnLrmlbDph4/lgLwgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgncmFuZG9tQ291bnREaXYnKTsKICBjb25zdCDnlJ/miJDkupHlopnlnLDlnYDlgLwgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnZ2VuZXJhdGVDRklQQnRuJyk7CiAgY29uc3Qg6I635Y+W5Zyw5Z2A5YC8ID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2ZldGNoSVBCdG4nKTsKICBpZiAo5bu26L+f5rWL6K+V6L6T5YWlKSB7CiAgICBjb25zdCDlt7Lkv53lrZjmtYvor5XovpPlhaUgPSBsb2NhbFN0b3JhZ2UuZ2V0SXRlbSgnbGF0ZW5jeVRlc3RJbnB1dCcpOwogICAgaWYgKOW3suS/neWtmOa1i+ivlei+k+WFpSkg5bu26L+f5rWL6K+V6L6T5YWlLnZhbHVlID0g5bey5L+d5a2Y5rWL6K+V6L6T5YWlOwogICAg5bu26L+f5rWL6K+V6L6T5YWlLmFkZEV2ZW50TGlzdGVuZXIoJ2lucHV0JywgZnVuY3Rpb24gKCkgewogICAgICBsb2NhbFN0b3JhZ2Uuc2V0SXRlbSgnbGF0ZW5jeVRlc3RJbnB1dCcsIHRoaXMudmFsdWUpOwogICAgfSk7CiAgfQogIGlmICjojrflj5bnvZHlnYDovpPlhaUpIHsKICAgIGNvbnN0IOW3suS/neWtmOiOt+WPlue9keWdgCA9IGxvY2FsU3RvcmFnZS5nZXRJdGVtKCdmZXRjaFVSTElucHV0Jyk7CiAgICBpZiAo5bey5L+d5a2Y6I635Y+W572R5Z2AKSDojrflj5bnvZHlnYDovpPlhaUudmFsdWUgPSDlt7Lkv53lrZjojrflj5bnvZHlnYA7CiAgICDojrflj5bnvZHlnYDovpPlhaUuYWRkRXZlbnRMaXN0ZW5lcignaW5wdXQnLCBmdW5jdGlvbiAoKSB7CiAgICAgIGxvY2FsU3RvcmFnZS5zZXRJdGVtKCdmZXRjaFVSTElucHV0JywgdGhpcy52YWx1ZSk7CiAgICB9KTsKICB9CiAgaWYgKOW7tui/n+a1i+ivleerr+WPoykgewogICAgY29uc3Qg5bey5L+d5a2Y56uv5Y+jID0gbG9jYWxTdG9yYWdlLmdldEl0ZW0oJ2xhdGVuY3lUZXN0UG9ydCcpOwogICAgaWYgKOW3suS/neWtmOerr+WPoykg5bu26L+f5rWL6K+V56uv5Y+jLnZhbHVlID0g5bey5L+d5a2Y56uv5Y+jOwogICAg5bu26L+f5rWL6K+V56uv5Y+jLmFkZEV2ZW50TGlzdGVuZXIoJ2lucHV0JywgZnVuY3Rpb24gKCkgewogICAgICBsb2NhbFN0b3JhZ2Uuc2V0SXRlbSgnbGF0ZW5jeVRlc3RQb3J0JywgdGhpcy52YWx1ZSk7CiAgICB9KTsKICB9CiAgaWYgKOmaj+acuuWcsOWdgOaVsOmHjykgewogICAgY29uc3Qg5bey5L+d5a2Y5pWw6YePID0gbG9jYWxTdG9yYWdlLmdldEl0ZW0oJ3JhbmRvbUlQQ291bnQnKTsKICAgIGlmICjlt7Lkv53lrZjmlbDph48pIOmaj+acuuWcsOWdgOaVsOmHjy52YWx1ZSA9IOW3suS/neWtmOaVsOmHjzsKICAgIOmaj+acuuWcsOWdgOaVsOmHjy5hZGRFdmVudExpc3RlbmVyKCdpbnB1dCcsIGZ1bmN0aW9uICgpIHsKICAgICAgbG9jYWxTdG9yYWdlLnNldEl0ZW0oJ3JhbmRvbUlQQ291bnQnLCB0aGlzLnZhbHVlKTsKICAgIH0pOwogICAgLy8g5Yid5aeL5YyW5pe277yM5aaC5p6c6buY6K6k5piv6ZqQ6JeP55qE77yM5YiZ56aB55So6L6T5YWl5qGGCiAgICBpZiAo6ZqP5py65pWw6YeP5YC8ICYmIOmaj+acuuaVsOmHj+WAvC5zdHlsZS5kaXNwbGF5ID09PSAnbm9uZScpIHsKICAgICAg6ZqP5py65Zyw5Z2A5pWw6YePLmRpc2FibGVkID0gdHJ1ZTsKICAgIH0KICB9CiAgY29uc3Qg5rWL6K+V57q/56iL5pWw6L6T5YWlID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3Rlc3RUaHJlYWRzJyk7CiAgaWYgKOa1i+ivlee6v+eoi+aVsOi+k+WFpSkgewogICAgY29uc3Qg5bey5L+d5a2Y57q/56iL5pWwID0gbG9jYWxTdG9yYWdlLmdldEl0ZW0oJ3Rlc3RUaHJlYWRzJyk7CiAgICBpZiAo5bey5L+d5a2Y57q/56iL5pWwKSDmtYvor5Xnur/nqIvmlbDovpPlhaUudmFsdWUgPSDlt7Lkv53lrZjnur/nqIvmlbA7CiAgICDmtYvor5Xnur/nqIvmlbDovpPlhaUuYWRkRXZlbnRMaXN0ZW5lcignaW5wdXQnLCBmdW5jdGlvbiAoKSB7CiAgICAgIGxvY2FsU3RvcmFnZS5zZXRJdGVtKCd0ZXN0VGhyZWFkcycsIHRoaXMudmFsdWUpOwogICAgfSk7CiAgfQogIGlmICjlnLDlnYDmupDpgInmi6kpIHsKICAgIGNvbnN0IOW3suS/neWtmOa6kCA9IGxvY2FsU3RvcmFnZS5nZXRJdGVtKCdpcFNvdXJjZVNlbGVjdCcpOwogICAgY29uc3Qg5b2T5YmN5rqQID0g5bey5L+d5a2Y5rqQIHx8IOWcsOWdgOa6kOmAieaLqS52YWx1ZSB8fCAnbWFudWFsJzsKICAgIGlmICjlt7Lkv53lrZjmupApIHsKICAgICAg5Zyw5Z2A5rqQ6YCJ5oupLnZhbHVlID0g5bey5L+d5a2Y5rqQOwogICAgfQogICAg5omL5Yqo6L6T5YWl5YC8LnN0eWxlLmRpc3BsYXkgPSDlvZPliY3mupAgPT09ICdtYW51YWwnID8gJ2Jsb2NrJyA6ICdub25lJzsKICAgIOe9keWdgOiOt+WPluWAvC5zdHlsZS5kaXNwbGF5ID0g5b2T5YmN5rqQID09PSAndXJsRmV0Y2gnID8gJ2Jsb2NrJyA6ICdub25lJzsKICAgIOS6keWimemaj+acuuWAvC5zdHlsZS5kaXNwbGF5ID0g5b2T5YmN5rqQID09PSAnY2ZSYW5kb20nID8gJ2Jsb2NrJyA6ICdub25lJzsKICAgIOmaj+acuuaVsOmHj+WAvC5zdHlsZS5kaXNwbGF5ID0g5b2T5YmN5rqQID09PSAnY2ZSYW5kb20nID8gJ2Jsb2NrJyA6ICdub25lJzsKICAgIC8vIOW9k+makOiXj+aXtuemgeeUqOi+k+WFpeahhu+8jOmBv+WFjeihqOWNlemqjOivgemUmeivrwogICAgaWYgKOmaj+acuuWcsOWdgOaVsOmHjykgewogICAgICDpmo/mnLrlnLDlnYDmlbDph48uZGlzYWJsZWQgPSDlvZPliY3mupAgIT09ICdjZlJhbmRvbSc7CiAgICB9CiAgfQogIGNvbnN0IOS6keWimee9keauteWIl+ihqCA9IFsnMTczLjI0NS40OC4wLzIwJywgJzEwMy4yMS4yNDQuMC8yMicsICcxMDMuMjIuMjAwLjAvMjInLCAnMTAzLjMxLjQuMC8yMicsICcxNDEuMTAxLjY0LjAvMTgnLCAnMTA4LjE2Mi4xOTIuMC8xOCcsICcxOTAuOTMuMjQwLjAvMjAnLCAnMTg4LjExNC45Ni4wLzIwJywgJzE5Ny4yMzQuMjQwLjAvMjInLCAnMTk4LjQxLjEyOC4wLzE3JywgJzE2Mi4xNTguMC4wLzE1JywgJzEwNC4xNi4wLjAvMTMnLCAnMTA0LjI0LjAuMC8xNCcsICcxNzIuNjQuMC4wLzEzJywgJzEzMS4wLjcyLjAvMjInXTsKICBmdW5jdGlvbiDku47nvZHmrrXnlJ/miJDpmo/mnLrlnLDlnYAo572R5q61MjAwNzQpIHsKICAgIGNvbnN0IFvln7rnoYDlnLDlnYAsIOWJjee8gOmVv+W6pl0gPSDnvZHmrrUyMDA3NC5zcGxpdCgnLycpOwogICAgY29uc3Qg5YmN57yAID0gcGFyc2VJbnQo5YmN57yA6ZW/5bqmKTsKICAgIGNvbnN0IOS4u+acuuWAvCA9IDMyIC0g5YmN57yAOwogICAgY29uc3Qg5Zyw5Z2A6YOo5YiG5YiX6KGoID0g5Z+656GA5Zyw5Z2ALnNwbGl0KCcuJykubWFwKOWPguaVsOWAvDIwMDczID0+IHBhcnNlSW50KOWPguaVsOWAvDIwMDczKSk7CiAgICBjb25zdCDlnLDlnYDlgLwgPSDlnLDlnYDpg6jliIbliJfooahbMF0gPDwgMjQgfCDlnLDlnYDpg6jliIbliJfooahbMV0gPDwgMTYgfCDlnLDlnYDpg6jliIbliJfooahbMl0gPDwgOCB8IOWcsOWdgOmDqOWIhuWIl+ihqFszXTsKICAgIGNvbnN0IOmaj+acuuWBj+enuyA9IE1hdGguZmxvb3IoTWF0aC5yYW5kb20oKSAqIE1hdGgucG93KDIsIOS4u+acuuWAvCkpOwogICAgY29uc3Qg5o6p56CBID0gMHhGRkZGRkZGRiA8PCDkuLvmnLrlgLwgPj4+IDA7CiAgICBjb25zdCDpmo/mnLrlnLDlnYAgPSAoKOWcsOWdgOWAvCAmIOaOqeeggSkgPj4+IDApICsg6ZqP5py65YGP56e7ID4+PiAwOwogICAgcmV0dXJuIFvpmo/mnLrlnLDlnYAgPj4+IDI0ICYgMHhGRiwg6ZqP5py65Zyw5Z2AID4+PiAxNiAmIDB4RkYsIOmaj+acuuWcsOWdgCA+Pj4gOCAmIDB4RkYsIOmaj+acuuWcsOWdgCAmIDB4RkZdLmpvaW4oJy4nKTsKICB9CiAgZnVuY3Rpb24g55Sf5oiQ5LqR5aKZ6ZqP5py65Zyw5Z2AKOaVsOmHjzIwMDcyLCDnq6/lj6MyMDA3MSkgewogICAgY29uc3Qg5Zyw5Z2A5YiX6KGoMjAwNzAgPSBbXTsKICAgIGZvciAobGV0IOe0ouW8leWAvDIwMDY5ID0gMDsg57Si5byV5YC8MjAwNjkgPCDmlbDph48yMDA3Mjsg57Si5byV5YC8MjAwNjkrKykgewogICAgICBjb25zdCDnvZHmrrUgPSDkupHlopnnvZHmrrXliJfooahbTWF0aC5mbG9vcihNYXRoLnJhbmRvbSgpICog5LqR5aKZ572R5q615YiX6KGoLmxlbmd0aCldOwogICAgICBjb25zdCDlnLDlnYAyMDA2OCA9IOS7jue9keauteeUn+aIkOmaj+acuuWcsOWdgCjnvZHmrrUpOwogICAgICDlnLDlnYDliJfooagyMDA3MC5wdXNoKOWcsOWdgDIwMDY4ICsgJzonICsg56uv5Y+jMjAwNzEpOwogICAgfQogICAgcmV0dXJuIOWcsOWdgOWIl+ihqDIwMDcwOwogIH0KICBpZiAo5Zyw5Z2A5rqQ6YCJ5oupKSB7CiAgICDlnLDlnYDmupDpgInmi6kuYWRkRXZlbnRMaXN0ZW5lcignY2hhbmdlJywgZnVuY3Rpb24gKCkgewogICAgICBjb25zdCDlgLwgPSB0aGlzLnZhbHVlOwogICAgICBsb2NhbFN0b3JhZ2Uuc2V0SXRlbSgnaXBTb3VyY2VTZWxlY3QnLCDlgLwpOwogICAgICDmiYvliqjovpPlhaXlgLwuc3R5bGUuZGlzcGxheSA9IOWAvCA9PT0gJ21hbnVhbCcgPyAnYmxvY2snIDogJ25vbmUnOwogICAgICDnvZHlnYDojrflj5blgLwuc3R5bGUuZGlzcGxheSA9IOWAvCA9PT0gJ3VybEZldGNoJyA/ICdibG9jaycgOiAnbm9uZSc7CiAgICAgIOS6keWimemaj+acuuWAvC5zdHlsZS5kaXNwbGF5ID0g5YC8ID09PSAnY2ZSYW5kb20nID8gJ2Jsb2NrJyA6ICdub25lJzsKICAgICAg6ZqP5py65pWw6YeP5YC8LnN0eWxlLmRpc3BsYXkgPSDlgLwgPT09ICdjZlJhbmRvbScgPyAnYmxvY2snIDogJ25vbmUnOwogICAgICAvLyDlvZPpmpDol4/ml7bnpoHnlKjovpPlhaXmoYbvvIzpgb/lhY3ooajljZXpqozor4HplJnor68KICAgICAgaWYgKOmaj+acuuWcsOWdgOaVsOmHjykgewogICAgICAgIOmaj+acuuWcsOWdgOaVsOmHjy5kaXNhYmxlZCA9IOWAvCAhPT0gJ2NmUmFuZG9tJzsKICAgICAgfQogICAgfSk7CiAgfQogIGlmICjnlJ/miJDkupHlopnlnLDlnYDlgLwpIHsKICAgIOeUn+aIkOS6keWimeWcsOWdgOWAvC5hZGRFdmVudExpc3RlbmVyKCdjbGljaycsIGZ1bmN0aW9uICgpIHsKICAgICAgY29uc3Qg5pWw6YePID0gcGFyc2VJbnQoZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3JhbmRvbUlQQ291bnQnKS52YWx1ZSkgfHwgMjA7CiAgICAgIGNvbnN0IOerr+WPozIwMDY3ID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2xhdGVuY3lUZXN0UG9ydCcpLnZhbHVlIHx8ICc0NDMnOwogICAgICBjb25zdCDlnLDlnYDliJfooaggPSDnlJ/miJDkupHlopnpmo/mnLrlnLDlnYAo5pWw6YePLCDnq6/lj6MyMDA2Nyk7CiAgICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdsYXRlbmN5VGVzdElucHV0JykudmFsdWUgPSDlnLDlnYDliJfooaguam9pbignLCcpOwogICAgICDmiYvliqjovpPlhaXlgLwuc3R5bGUuZGlzcGxheSA9ICdibG9jayc7CiAgICAgIOaYvuekuueKtuaAgSgn") + String(_v895 ? 'تولید شد' : _d64("AeW3sueUn+aIkA==")) + _d64("ASAnICsg5pWw6YePICsgJyA=") + String(_v895 ? 'IP تصادفی CF' : _d64("AeS4qkNG6ZqP5py6SVA=")) + _d64("AScsICdzdWNjZXNzJyk7CiAgICB9KTsKICB9CiAgaWYgKOiOt+WPluWcsOWdgOWAvCkgewogICAg6I635Y+W5Zyw5Z2A5YC8LmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywgYXN5bmMgZnVuY3Rpb24gKCkgewogICAgICBjb25zdCDnvZHlnYDovpPlhaUgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnZmV0Y2hVUkxJbnB1dCcpOwogICAgICBjb25zdCDojrflj5bnvZHlnYAgPSDnvZHlnYDovpPlhaUudmFsdWUudHJpbSgpOwogICAgICBpZiAoIeiOt+WPlue9keWdgCkgewogICAgICAgIOaYvuekuuaPkOekuign") + String(_v895 ? 'لطفا URL را وارد کنید' : _d64("Aeivt+i+k+WFpVVSTA==")) + _d64("AScsICd3YXJuJyk7CiAgICAgICAgcmV0dXJuOwogICAgICB9CiAgICAgIOiOt+WPluWcsOWdgOWAvC5kaXNhYmxlZCA9IHRydWU7CiAgICAgIOiOt+WPluWcsOWdgOWAvC50ZXh0Q29udGVudCA9ICc=") + String(_v895 ? 'در حال دریافت...' : _d64("AeiOt+WPluS4rS4uLg==")) + _d64("ASc7CiAgICAgIHRyeSB7CiAgICAgICAgLy8g5pSv5oyB5aSa5LiqIFVSTO+8iOmAl+WPt+WIhumalO+8ieS7peWPiui/lOWbnuWGheWuueS4remAl+WPt+WIhumalOeahOWkmuS4qiBJUC/oioLngrkKICAgICAgICBjb25zdCDnvZHlnYDliJfooaggPSBBcnJheS5mcm9tKG5ldyBTZXQo6I635Y+W572R5Z2ALnNwbGl0KCcsJykubWFwKOe9keWdgOWAvDIwMDY2ID0+IOe9keWdgOWAvDIwMDY2LnRyaW0oKSkuZmlsdGVyKOe9keWdgOWAvDIwMDY1ID0+IOe9keWdgOWAvDIwMDY1KSkpOwogICAgICAgIGNvbnN0IOWAvOmhueebruWIl+ihqCA9IFtdOwogICAgICAgIGZvciAoY29uc3Qg572R5Z2A5YC8IG9mIOe9keWdgOWIl+ihqCkgewogICAgICAgICAgY29uc3Qg5ZON5bqUID0gYXdhaXQgZmV0Y2go572R5Z2A5YC8KTsKICAgICAgICAgIGlmICgh5ZON5bqULm9rKSB7CiAgICAgICAgICAgIHRocm93IG5ldyBFcnJvcignSFRUUCAnICsg5ZON5bqULnN0YXR1cyArICcgQCAnICsg572R5Z2A5YC8KTsKICAgICAgICAgIH0KICAgICAgICAgIGNvbnN0IOaWh+acrDIwMDY0ID0gYXdhaXQg5ZON5bqULnRleHQoKTsKCiAgICAgICAgICAvLyDlhYjmjInooYzliIblibLvvIzlho3lnKjmr4/ooYzlhoXmjInpgJflj7fliIblibLvvIzlhbzlrrnigJzlpJrooYwgKyDpgJflj7fliIbpmpTigJ3kuKTnp43moLzlvI8KICAgICAgICAgIGNvbnN0IOWAvOe9keWdgOmhueebruWIl+ihqCA9IOaWh+acrDIwMDY0LnNwbGl0KC9ccj9cbi8pLm1hcCjooYzlgLwyMDA2MyA9PiDooYzlgLwyMDA2My50cmltKCkpLmZpbHRlcijooYzlgLwyMDA2MiA9PiDooYzlgLwyMDA2MiAmJiAh6KGM5YC8MjAwNjIuc3RhcnRzV2l0aCgnIycpKS5mbGF0TWFwKOihjOWAvCA9PiDooYzlgLwuc3BsaXQoJywnKS5tYXAo5Y+C5pWw5YC8MjAwNjEgPT4g5Y+C5pWw5YC8MjAwNjEudHJpbSgpKS5maWx0ZXIo5Y+C5pWw5YC8ID0+IOWPguaVsOWAvCkpOwogICAgICAgICAg5YC86aG555uu5YiX6KGoLnB1c2goLi4u5YC8572R5Z2A6aG555uu5YiX6KGoKTsKICAgICAgICB9CiAgICAgICAgaWYgKOWAvOmhueebruWIl+ihqC5sZW5ndGggPiAwKSB7CiAgICAgICAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnbGF0ZW5jeVRlc3RJbnB1dCcpLnZhbHVlID0g5YC86aG555uu5YiX6KGoLmpvaW4oJywnKTsKICAgICAgICAgIOaJi+WKqOi+k+WFpeWAvC5zdHlsZS5kaXNwbGF5ID0gJ2Jsb2NrJzsKICAgICAgICAgIOaYvuekuueKtuaAgSgn") + String(_v895 ? 'دریافت شد' : _d64("AeW3suiOt+WPlg==")) + _d64("ASAnICsg5YC86aG555uu5YiX6KGoLmxlbmd0aCArICcg") + String(_v895 ? 'IP' : _d64("AeS4qklQ")) + _d64("AScsICdzdWNjZXNzJyk7CiAgICAgICAgfSBlbHNlIHsKICAgICAgICAgIOaYvuekuueKtuaAgSgn") + String(_v895 ? 'داده‌ای یافت نشد' : _d64("AeacquiOt+WPluWIsOaVsOaNrg==")) + _d64("AScsICdlcnJvcicpOwogICAgICAgIH0KICAgICAgfSBjYXRjaCAo6ZSZ6K+vMjAwNjApIHsKICAgICAgICDmmL7npLrnirbmgIEoJw==") + String(_v895 ? 'خطا در دریافت' : _d64("AeiOt+WPluWksei0pQ==")) + _d64("ATogJyArIOmUmeivrzIwMDYwLm1lc3NhZ2UsICdlcnJvcicpOwogICAgICB9IGZpbmFsbHkgewogICAgICAgIOiOt+WPluWcsOWdgOWAvC5kaXNhYmxlZCA9IGZhbHNlOwogICAgICAgIOiOt+WPluWcsOWdgOWAvC50ZXh0Q29udGVudCA9ICfirIcg") + String(_v895 ? 'دریافت IP' : _d64("AeiOt+WPlklQ")) + _d64("ASc7CiAgICAgIH0KICAgIH0pOwogIH0KICBpZiAo5byA5aeL5rWL6K+V5YC8KSB7CiAgICDlvIDlp4vmtYvor5XlgLwuYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCBhc3luYyBmdW5jdGlvbiAoKSB7CiAgICAgIGNvbnN0IOi+k+WFpeWAvDIwMDU5ID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2xhdGVuY3lUZXN0SW5wdXQnKTsKICAgICAgY29uc3Qg56uv5Y+j5YC8ID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2xhdGVuY3lUZXN0UG9ydCcpOwogICAgICBjb25zdCDnur/nqIvmlbDlgLwgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgndGVzdFRocmVhZHMnKTsKICAgICAgY29uc3Qg6L6T5YWl5YC8ID0g6L6T5YWl5YC8MjAwNTkudmFsdWUudHJpbSgpOwogICAgICBjb25zdCDpu5jorqTnq6/lj6MgPSDnq6/lj6PlgLwudmFsdWUgfHwgJzQ0Myc7CiAgICAgIGNvbnN0IOe6v+eoi+aVsCA9IHBhcnNlSW50KOe6v+eoi+aVsOWAvC52YWx1ZSkgfHwgNTsKICAgICAgaWYgKCHovpPlhaXlgLwpIHsKICAgICAgICDmmL7npLrnirbmgIEoJw==") + String(_v895 ? 'لطفا IP یا دامنه وارد کنید' : _d64("Aeivt+i+k+WFpUlQ5oiW5Z+f5ZCN")) + _d64("AScsICdlcnJvcicpOwogICAgICAgIHJldHVybjsKICAgICAgfQogICAgICBjb25zdCDmnKzlnLDlgLwyMDA1OCA9IOi+k+WFpeWAvC5zcGxpdCgnLCcpLm1hcCjnv7vor5HlgLwyMDA1NyA9PiDnv7vor5HlgLwyMDA1Ny50cmltKCkpLmZpbHRlcijnv7vor5HlgLwyMDA1NiA9PiDnv7vor5HlgLwyMDA1Nik7CiAgICAgIGlmICjmnKzlnLDlgLwyMDA1OC5sZW5ndGggPT09IDApIHJldHVybjsKICAgICAg5byA5aeL5rWL6K+V5YC8LnN0eWxlLmRpc3BsYXkgPSAnbm9uZSc7CiAgICAgIOWAvOa1i+ivleWAvC5zdHlsZS5kaXNwbGF5ID0gJ2lubGluZS1ibG9jayc7CiAgICAgIOa1i+ivleeKtuaAgS5zdHlsZS5kaXNwbGF5ID0gJ2Jsb2NrJzsKICAgICAg5rWL6K+V57uT5p6c5YiX6KGo5YC8LnN0eWxlLmRpc3BsYXkgPSAnYmxvY2snOwogICAgICDnu5PmnpzliJfooajliJfooaguaW5uZXJIVE1MID0gJyc7CiAgICAgIOa1i+ivlee7k+aenOWIl+ihqCA9IFtdOwogICAgICBpZiAo5Z+O5biC562b6YCJ5YC8KSB7CiAgICAgICAg5Z+O5biC562b6YCJ5YC8LnN0eWxlLmRpc3BsYXkgPSAnbm9uZSc7CiAgICAgIH0KICAgICAg5rWL6K+V5YC85o6n5Yi25ZmoID0gbmV3IEFib3J0Q29udHJvbGxlcigpOwogICAgICBsZXQg5pys5Zyw5YC8MjAwNTUgPSAwOwogICAgICBjb25zdCDmnKzlnLDlgLwyMDA1NCA9IOacrOWcsOWAvDIwMDU4Lmxlbmd0aDsKICAgICAgZnVuY3Rpb24g6Kej5p6Q55uu5qCHKOebruaghzIwMDUzKSB7CiAgICAgICAgbGV0IOS4u+acujIwMDUyID0g55uu5qCHMjAwNTM7CiAgICAgICAgbGV0IOerr+WPozIwMDUxID0g6buY6K6k56uv5Y+jOwogICAgICAgIGxldCDoioLngrnlkI3np7AyMDA1MCA9ICcnOwogICAgICAgIGlmICjnm67moIcyMDA1My5pbmNsdWRlcygnIycpKSB7CiAgICAgICAgICBjb25zdCDpg6jliIbliJfooagyMDA0OSA9IOebruaghzIwMDUzLnNwbGl0KCcjJyk7CiAgICAgICAgICDoioLngrnlkI3np7AyMDA1MCA9IOmDqOWIhuWIl+ihqDIwMDQ5WzFdIHx8ICcnOwogICAgICAgICAg5Li75py6MjAwNTIgPSDpg6jliIbliJfooagyMDA0OVswXTsKICAgICAgICB9CiAgICAgICAgaWYgKOS4u+acujIwMDUyLmluY2x1ZGVzKCc6JykgJiYgIeS4u+acujIwMDUyLnN0YXJ0c1dpdGgoJ1snKSkgewogICAgICAgICAgY29uc3Qg5YC85YC8MjAwNDggPSDkuLvmnLoyMDA1Mi5sYXN0SW5kZXhPZignOicpOwogICAgICAgICAgY29uc3Qg5YC856uv5Y+jID0g5Li75py6MjAwNTIuc3Vic3RyaW5nKOWAvOWAvDIwMDQ4ICsgMSk7CiAgICAgICAgICBpZiAoL15bMC05XSskLy50ZXN0KOWAvOerr+WPoykpIHsKICAgICAgICAgICAg56uv5Y+jMjAwNTEgPSDlgLznq6/lj6M7CiAgICAgICAgICAgIOS4u+acujIwMDUyID0g5Li75py6MjAwNTIuc3Vic3RyaW5nKDAsIOWAvOWAvDIwMDQ4KTsKICAgICAgICAgIH0KICAgICAgICB9IGVsc2UgaWYgKOS4u+acujIwMDUyLmluY2x1ZGVzKCddOicpKSB7CiAgICAgICAgICBjb25zdCDpg6jliIbliJfooagyMDA0NyA9IOS4u+acujIwMDUyLnNwbGl0KCddOicpOwogICAgICAgICAg5Li75py6MjAwNTIgPSDpg6jliIbliJfooagyMDA0N1swXSArICddJzsKICAgICAgICAgIOerr+WPozIwMDUxID0g6YOo5YiG5YiX6KGoMjAwNDdbMV07CiAgICAgICAgfQogICAgICAgIHJldHVybiB7CiAgICAgICAgICBob3N0OiDkuLvmnLoyMDA1MiwKICAgICAgICAgIHBvcnQ6IOerr+WPozIwMDUxLAogICAgICAgICAgbm9kZU5hbWU6IOiKgueCueWQjeensDIwMDUwCiAgICAgICAgfTsKICAgICAgfQogICAgICBmdW5jdGlvbiDmuLLmn5Pnu5Pmnpwo57uT5p6cMjAwNDYsIOe0ouW8lTIwMDQ1LCDlgLzlgLwyMDA0NCA9IHRydWUpIHsKICAgICAgICAvLyDlj6rlsZXnpLrlnKjnur/kvJjpgInmiJDlip/nmoTnu5PmnpzvvIzlpLHotKUv6LaF5pe255qE5LiN5YaN5pi+56S6CiAgICAgICAgaWYgKCHnu5PmnpwyMDA0Ni5zdWNjZXNzKSB7CiAgICAgICAgICByZXR1cm4gbnVsbDsKICAgICAgICB9CiAgICAgICAgY29uc3Qg57uT5p6c6aG555uuID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnZGl2Jyk7CiAgICAgICAg57uT5p6c6aG555uuLnN0eWxlLmNzc1RleHQgPSAnZGlzcGxheTogZmxleDsgYWxpZ24taXRlbXM6IGNlbnRlcjsgcGFkZGluZzogOHB4OyBib3JkZXItYm90dG9tOiAxcHggc29saWQgIzA4MTMwYTsgZ2FwOiAxMHB4Oyc7CiAgICAgICAg57uT5p6c6aG555uuLmRhdGFzZXQuaW5kZXggPSDntKLlvJUyMDA0NTsKICAgICAgICDnu5Pmnpzpobnnm64uZGF0YXNldC5jb2xvID0g57uT5p6cMjAwNDYuY29sbyB8fCAnJzsKICAgICAgICBpZiAoIeWAvOWAvDIwMDQ0KSB7CiAgICAgICAgICDnu5Pmnpzpobnnm64uc3R5bGUuZGlzcGxheSA9ICdub25lJzsKICAgICAgICB9CiAgICAgICAgY29uc3Qg5aSN6YCJ5qGGMjAwNDMgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdpbnB1dCcpOwogICAgICAgIOWkjemAieahhjIwMDQzLnR5cGUgPSAnY2hlY2tib3gnOwogICAgICAgIOWkjemAieahhjIwMDQzLmNoZWNrZWQgPSB0cnVlOwogICAgICAgIOWkjemAieahhjIwMDQzLmRpc2FibGVkID0gZmFsc2U7CiAgICAgICAg5aSN6YCJ5qGGMjAwNDMuZGF0YXNldC5pbmRleCA9IOe0ouW8lTIwMDQ1OwogICAgICAgIOWkjemAieahhjIwMDQzLnN0eWxlLmNzc1RleHQgPSAnd2lkdGg6IDE4cHg7IGhlaWdodDogMThweDsgY3Vyc29yOiBwb2ludGVyOyc7CiAgICAgICAgY29uc3Qg5pys5Zyw5YC8MjAwNDIgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdkaXYnKTsKICAgICAgICDmnKzlnLDlgLwyMDA0Mi5zdHlsZS5jc3NUZXh0ID0gJ2ZsZXg6IDE7IGZvbnQtZmFtaWx5OiBtb25vc3BhY2U7IGZvbnQtc2l6ZTogMTNweDsnOwogICAgICAgIGNvbnN0IOacuuaIv+WQjeensDIwMDQxID0g57uT5p6cMjAwNDYuY29sbyA/IOiOt+WPluacuuaIv+WQjeensCjnu5PmnpwyMDA0Ni5jb2xvKSA6ICcnOwogICAgICAgIGNvbnN0IOacuuaIv+aYvuekuiA9IOacuuaIv+WQjeensDIwMDQxID8gJyA8c3BhbiBzdHlsZT0iY29sb3I6ICM1YjhjZmY7Ij5bJyArIOacuuaIv+WQjeensDIwMDQxICsgJ108L3NwYW4+JyA6ICcnOwogICAgICAgIOacrOWcsOWAvDIwMDQyLmlubmVySFRNTCA9ICc8c3BhbiBzdHlsZT0iY29sb3I6ICNjOGYxMzU7Ij4nICsg57uT5p6cMjAwNDYuaG9zdCArICc6JyArIOe7k+aenDIwMDQ2LnBvcnQgKyAnPC9zcGFuPicgKyDmnLrmiL/mmL7npLogKyAnIDxzcGFuIHN0eWxlPSJjb2xvcjogI2ZmYjQ1NDsiPicgKyDnu5PmnpwyMDA0Ni5sYXRlbmN5ICsgJ21zPC9zcGFuPic7CiAgICAgICAg57uT5p6c6aG555uuLmFwcGVuZENoaWxkKOWkjemAieahhjIwMDQzKTsKICAgICAgICDnu5Pmnpzpobnnm64uYXBwZW5kQ2hpbGQo5pys5Zyw5YC8MjAwNDIpOwogICAgICAgIOe7k+aenOWIl+ihqOWIl+ihqC5hcHBlbmRDaGlsZCjnu5Pmnpzpobnnm64pOwogICAgICAgIHJldHVybiDnu5Pmnpzpobnnm647CiAgICAgIH0KICAgICAgYXN5bmMgZnVuY3Rpb24g5rWL6K+V5Y2V6aG5KOebruaghykgewogICAgICAgIGlmICjmtYvor5XlgLzmjqfliLblmaguc2lnbmFsLmFib3J0ZWQpIHJldHVybiBudWxsOwogICAgICAgIGNvbnN0IHsKICAgICAgICAgIGhvc3Q6IOS4u+acujIwMDQwLAogICAgICAgICAgcG9ydDog56uv5Y+jMjAwMzksCiAgICAgICAgICBub2RlTmFtZTog6IqC54K55ZCN56ewCiAgICAgICAgfSA9IOino+aekOebruaghyjnm67moIcpOwogICAgICAgIGNvbnN0IOe7k+aenDIwMDM4ID0gYXdhaXQg5rWL6K+V5bu26L+fKOS4u+acujIwMDQwLCDnq6/lj6MyMDAzOSwg5rWL6K+V5YC85o6n5Yi25ZmoLnNpZ25hbCk7CiAgICAgICAg57uT5p6cMjAwMzguaG9zdCA9IOS4u+acujIwMDQwOwogICAgICAgIOe7k+aenDIwMDM4LnBvcnQgPSDnq6/lj6MyMDAzOTsKICAgICAgICDnu5PmnpwyMDAzOC5ub2RlTmFtZSA9IOe7k+aenDIwMDM4LnN1Y2Nlc3MgJiYg57uT5p6cMjAwMzguY29sbyA/IOiKgueCueWQjeensCB8fCAnQ0YtJyArIOe7k+aenDIwMDM4LmNvbG8gOiDoioLngrnlkI3np7AgfHwg5Li75py6MjAwNDA7CiAgICAgICAgcmV0dXJuIOe7k+aenDIwMDM4OwogICAgICB9CiAgICAgIGZvciAobGV0IOe0ouW8leWAvDIwMDM3ID0gMDsg57Si5byV5YC8MjAwMzcgPCDmnKzlnLDlgLwyMDA1NDsg57Si5byV5YC8MjAwMzcgKz0g57q/56iL5pWwKSB7CiAgICAgICAgaWYgKOa1i+ivleWAvOaOp+WItuWZqC5zaWduYWwuYWJvcnRlZCkgYnJlYWs7CiAgICAgICAgY29uc3Qg5pys5Zyw5YC8MjAwMzYgPSDmnKzlnLDlgLwyMDA1OC5zbGljZSjntKLlvJXlgLwyMDAzNywgTWF0aC5taW4o57Si5byV5YC8MjAwMzcgKyDnur/nqIvmlbAsIOacrOWcsOWAvDIwMDU0KSk7CiAgICAgICAg5rWL6K+V54q25oCBLnRleHRDb250ZW50ID0gJw==") + String(_v895 ? 'در حال تست' : _d64("Aea1i+ivleS4rQ==")) + _d64("ATogJyArICjntKLlvJXlgLwyMDAzNyArIDEpICsgJy0nICsgTWF0aC5taW4o57Si5byV5YC8MjAwMzcgKyDnur/nqIvmlbAsIOacrOWcsOWAvDIwMDU0KSArICcvJyArIOacrOWcsOWAvDIwMDU0ICsgJyAo") + String(_v895 ? 'رشته‌ها' : _d64("Aee6v+eoiw==")) + _d64("ATogJyArIOe6v+eoi+aVsCArICcpJzsKICAgICAgICBjb25zdCDnu5PmnpzliJfooaggPSBhd2FpdCBQcm9taXNlLmFsbCjmnKzlnLDlgLwyMDAzNi5tYXAo57+76K+R5YC8ID0+IOa1i+ivleWNlemhuSjnv7vor5HlgLwpKSk7CiAgICAgICAgZm9yIChjb25zdCDnu5PmnpwyMDAzNSBvZiDnu5PmnpzliJfooagpIHsKICAgICAgICAgIGlmICjnu5PmnpwyMDAzNSkgewogICAgICAgICAgICBjb25zdCDntKLlvJUyMDAzNCA9IOa1i+ivlee7k+aenOWIl+ihqC5sZW5ndGg7CiAgICAgICAgICAgIOa1i+ivlee7k+aenOWIl+ihqC5wdXNoKOe7k+aenDIwMDM1KTsKICAgICAgICAgICAg5riy5p+T57uT5p6cKOe7k+aenDIwMDM1LCDntKLlvJUyMDAzNCk7CiAgICAgICAgICAgIOacrOWcsOWAvDIwMDU1Kys7CiAgICAgICAgICB9CiAgICAgICAgfQogICAgICB9CiAgICAgIOa1i+ivleeKtuaAgS50ZXh0Q29udGVudCA9ICc=") + String(_v895 ? 'تست کامل شد' : _d64("Aea1i+ivleWujOaIkA==")) + _d64("ATogJyArIOacrOWcsOWAvDIwMDU1ICsgJy8nICsg5pys5Zyw5YC8MjAwNTQ7CiAgICAgIOW8gOWni+a1i+ivleWAvC5zdHlsZS5kaXNwbGF5ID0gJ2lubGluZS1ibG9jayc7CiAgICAgIOWAvOa1i+ivleWAvC5zdHlsZS5kaXNwbGF5ID0gJ25vbmUnOwoKICAgICAgLy8g5pu05paw5Z+O5biC6YCJ5oup5ZmoCiAgICAgIOabtOaWsOWfjuW4guetm+mAiSgpOwogICAgfSk7CiAgfQogIGlmICjlgLzmtYvor5XlgLwpIHsKICAgIOWAvOa1i+ivleWAvC5hZGRFdmVudExpc3RlbmVyKCdjbGljaycsIGZ1bmN0aW9uICgpIHsKICAgICAgaWYgKOa1i+ivleWAvOaOp+WItuWZqCkgewogICAgICAgIOa1i+ivleWAvOaOp+WItuWZqC5hYm9ydCgpOwogICAgICB9CiAgICAgIOW8gOWni+a1i+ivleWAvC5zdHlsZS5kaXNwbGF5ID0gJ2lubGluZS1ibG9jayc7CiAgICAgIOWAvOa1i+ivleWAvC5zdHlsZS5kaXNwbGF5ID0gJ25vbmUnOwogICAgICDmtYvor5XnirbmgIEudGV4dENvbnRlbnQgPSAn") + String(_v895 ? 'تست متوقف شد' : _d64("Aea1i+ivleW3suWBnOatog==")) + _d64("ASc7CiAgICB9KTsKICB9CiAgaWYgKOmAieaLqeWAvOWAvCkgewogICAg6YCJ5oup5YC85YC8LmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywgZnVuY3Rpb24gKCkgewogICAgICBjb25zdCDmnKzlnLDlgLwyMDAzMyA9IOe7k+aenOWIl+ihqOWIl+ihqC5xdWVyeVNlbGVjdG9yQWxsKCdpbnB1dFt0eXBlPSJjaGVja2JveCJdOm5vdCg6ZGlzYWJsZWQpJyk7CiAgICAgIOacrOWcsOWAvDIwMDMzLmZvckVhY2go5pys5Zyw5YC8MjAwMzIgPT4g5pys5Zyw5YC8MjAwMzIuY2hlY2tlZCA9IHRydWUpOwogICAgfSk7CiAgfQogIGlmICjlgLzlgLzlgLwpIHsKICAgIOWAvOWAvOWAvC5hZGRFdmVudExpc3RlbmVyKCdjbGljaycsIGZ1bmN0aW9uICgpIHsKICAgICAgY29uc3Qg5pys5Zyw5YC8MjAwMzEgPSDnu5PmnpzliJfooajliJfooagucXVlcnlTZWxlY3RvckFsbCgnaW5wdXRbdHlwZT0iY2hlY2tib3giXScpOwogICAgICDmnKzlnLDlgLwyMDAzMS5mb3JFYWNoKOacrOWcsOWAvDIwMDMwID0+IOacrOWcsOWAvDIwMDMwLmNoZWNrZWQgPSBmYWxzZSk7CiAgICB9KTsKICB9CgogIC8vIOiOt+WPlumAieS4remhueeahOmAmueUqOWHveaVsAogIGZ1bmN0aW9uIOiOt+WPluW3sumAiemhueebrigpIHsKICAgIGNvbnN0IOacrOWcsOWAvDIwMDI5ID0g57uT5p6c5YiX6KGo5YiX6KGoLnF1ZXJ5U2VsZWN0b3JBbGwoJ2lucHV0W3R5cGU9ImNoZWNrYm94Il06Y2hlY2tlZCcpOwogICAgaWYgKOacrOWcsOWAvDIwMDI5Lmxlbmd0aCA9PT0gMCkgewogICAgICDmmL7npLrnirbmgIEoJw==") + String(_v895 ? 'لطفا حداقل یک مورد انتخاب کنید' : _d64("Aeivt+iHs+WwkemAieaLqeS4gOmhuQ==")) + _d64("AScsICdlcnJvcicpOwogICAgICByZXR1cm4gbnVsbDsKICAgIH0KICAgIGNvbnN0IOW3sumAiemhueebruWIl+ihqDIwMDI4ID0gW107CiAgICDmnKzlnLDlgLwyMDAyOS5mb3JFYWNoKOacrOWcsOWAvDIwMDI3ID0+IHsKICAgICAgY29uc3Qg57Si5byVMjAwMjYgPSBwYXJzZUludCjmnKzlnLDlgLwyMDAyNy5kYXRhc2V0LmluZGV4KTsKICAgICAgY29uc3Qg57uT5p6cMjAwMjUgPSDmtYvor5Xnu5PmnpzliJfooahb57Si5byVMjAwMjZdOwogICAgICBpZiAo57uT5p6cMjAwMjUgJiYg57uT5p6cMjAwMjUuc3VjY2VzcykgewogICAgICAgIGNvbnN0IOacuuaIv+WQjeensCA9IOe7k+aenDIwMDI1LmNvbG8gPyDojrflj5bmnLrmiL/lkI3np7Ao57uT5p6cMjAwMjUuY29sbykgOiDnu5PmnpwyMDAyNS5ub2RlTmFtZTsKICAgICAgICBjb25zdCDpobnnm67lrZfnrKbkuLIgPSDnu5PmnpwyMDAyNS5ob3N0ICsgJzonICsg57uT5p6cMjAwMjUucG9ydCArICcjJyArIOacuuaIv+WQjeensDsKICAgICAgICDlt7LpgInpobnnm67liJfooagyMDAyOC5wdXNoKOmhueebruWtl+espuS4sik7CiAgICAgIH0KICAgIH0pOwogICAgcmV0dXJuIOW3sumAiemhueebruWIl+ihqDIwMDI4OwogIH0KCiAgLy8g6KaG55uW5re75YqgCiAgaWYgKOimhuebluW3sumAieWAvCkgewogICAg6KaG55uW5bey6YCJ5YC8LmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywgYXN5bmMgZnVuY3Rpb24gKCkgewogICAgICBjb25zdCDlt7LpgInpobnnm67liJfooagyMDAyNCA9IOiOt+WPluW3sumAiemhueebrigpOwogICAgICBpZiAoIeW3sumAiemhueebruWIl+ihqDIwMDI0IHx8IOW3sumAiemhueebruWIl+ihqDIwMDI0Lmxlbmd0aCA9PT0gMCkgcmV0dXJuOwogICAgICBjb25zdCDlgLzovpPlhaUyMDAyMyA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCd5eCcpOwogICAgICBjb25zdCDmlrDlgLwyMDAyMiA9IOW3sumAiemhueebruWIl+ihqDIwMDI0LmpvaW4oJywnKTsKICAgICAg5YC86L6T5YWlMjAwMjMudmFsdWUgPSDmlrDlgLwyMDAyMjsKICAgICAg6KaG55uW5bey6YCJ5YC8LmRpc2FibGVkID0gdHJ1ZTsKICAgICAg6L+95Yqg5bey6YCJ5YC8LmRpc2FibGVkID0gdHJ1ZTsKICAgICAg6KaG55uW5bey6YCJ5YC8LnRleHRDb250ZW50ID0gJw==") + String(_v895 ? 'در حال ذخیره...' : _d64("AeS/neWtmOS4rS4uLg==")) + _d64("ASc7CiAgICAgIHRyeSB7CiAgICAgICAgY29uc3Qg6YWN572u5pWw5o2uMjAwMjEgPSB7CiAgICAgICAgICBjdXN0b21JUDogZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2N1c3RvbUlQJykudmFsdWUsCiAgICAgICAgICB5eDog5paw5YC8MjAwMjIsCiAgICAgICAgICB5eFVSTDogZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3l4VVJMJykudmFsdWUsCiAgICAgICAgICBzOiBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnc29ja3NDb25maWcnKS52YWx1ZQogICAgICAgIH07CiAgICAgICAgYXdhaXQg5L+d5a2Y6YWN572uKOmFjee9ruaVsOaNrjIwMDIxKTsKICAgICAgICDmmL7npLrnirbmgIEoJw==") + String(_v895 ? 'موفقیت‌آمیز بود' : _d64("AeW3suimhueblg==")) + _d64("ASAnICsg5bey6YCJ6aG555uu5YiX6KGoMjAwMjQubGVuZ3RoICsgJyA=") + String(_v895 ? 'مورد و ذخیره شد' : _d64("AemhueW5tuW3suS/neWtmA==")) + _d64("AScsICdzdWNjZXNzJyk7CiAgICAgIH0gY2F0Y2ggKOmUmeivrzIwMDIwKSB7CiAgICAgICAg5pi+56S654q25oCBKCc=") + String(_v895 ? 'خطا در ذخیره' : _d64("AeS/neWtmOWksei0pQ==")) + _d64("ATogJyArIOmUmeivrzIwMDIwLm1lc3NhZ2UsICdlcnJvcicpOwogICAgICB9IGZpbmFsbHkgewogICAgICAgIOimhuebluW3sumAieWAvC5kaXNhYmxlZCA9IGZhbHNlOwogICAgICAgIOi/veWKoOW3sumAieWAvC5kaXNhYmxlZCA9IGZhbHNlOwogICAgICAgIOimhuebluW3sumAieWAvC50ZXh0Q29udGVudCA9ICc=") + String(_v895 ? _d64("Aeimhueblua3u+WKoA==") : _d64("Aeimhueblua3u+WKoA==")) + _d64("ASc7CiAgICAgIH0KICAgIH0pOwogIH0KCiAgLy8g6L+95Yqg5re75YqgCiAgaWYgKOi/veWKoOW3sumAieWAvCkgewogICAg6L+95Yqg5bey6YCJ5YC8LmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywgYXN5bmMgZnVuY3Rpb24gKCkgewogICAgICBjb25zdCDlt7LpgInpobnnm67liJfooaggPSDojrflj5blt7LpgInpobnnm64oKTsKICAgICAgaWYgKCHlt7LpgInpobnnm67liJfooaggfHwg5bey6YCJ6aG555uu5YiX6KGoLmxlbmd0aCA9PT0gMCkgcmV0dXJuOwogICAgICBjb25zdCDlgLzovpPlhaUgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgneXgnKTsKICAgICAgY29uc3Qg5b2T5YmN5YC8ID0g5YC86L6T5YWlLnZhbHVlLnRyaW0oKTsKICAgICAgY29uc3Qg5paw6aG555uu5YiX6KGoID0g5bey6YCJ6aG555uu5YiX6KGoLmpvaW4oJywnKTsKICAgICAgY29uc3Qg5paw5YC8ID0g5b2T5YmN5YC8ID8g5b2T5YmN5YC8ICsgJywnICsg5paw6aG555uu5YiX6KGoIDog5paw6aG555uu5YiX6KGoOwogICAgICDlgLzovpPlhaUudmFsdWUgPSDmlrDlgLw7CiAgICAgIOimhuebluW3sumAieWAvC5kaXNhYmxlZCA9IHRydWU7CiAgICAgIOi/veWKoOW3sumAieWAvC5kaXNhYmxlZCA9IHRydWU7CiAgICAgIOi/veWKoOW3sumAieWAvC50ZXh0Q29udGVudCA9ICc=") + String(_v895 ? 'در حال ذخیره...' : _d64("AeS/neWtmOS4rS4uLg==")) + _d64("ASc7CiAgICAgIHRyeSB7CiAgICAgICAgY29uc3Qg6YWN572u5pWw5o2uID0gewogICAgICAgICAgY3VzdG9tSVA6IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjdXN0b21JUCcpLnZhbHVlLAogICAgICAgICAgeXg6IOaWsOWAvCwKICAgICAgICAgIHl4VVJMOiBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgneXhVUkwnKS52YWx1ZSwKICAgICAgICAgIHM6IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdzb2Nrc0NvbmZpZycpLnZhbHVlCiAgICAgICAgfTsKICAgICAgICBhd2FpdCDkv53lrZjphY3nva4o6YWN572u5pWw5o2uKTsKICAgICAgICDmmL7npLrnirbmgIEoJw==") + String(_v895 ? 'موفقیت‌آمیز بود' : _d64("AeW3sui/veWKoA==")) + _d64("ASAnICsg5bey6YCJ6aG555uu5YiX6KGoLmxlbmd0aCArICcg") + String(_v895 ? 'مورد و ذخیره شد' : _d64("AemhueW5tuW3suS/neWtmA==")) + _d64("AScsICdzdWNjZXNzJyk7CiAgICAgIH0gY2F0Y2ggKOmUmeivrzIwMDE5KSB7CiAgICAgICAg5pi+56S654q25oCBKCc=") + String(_v895 ? 'خطا در ذخیره' : _d64("AeS/neWtmOWksei0pQ==")) + _d64("ATogJyArIOmUmeivrzIwMDE5Lm1lc3NhZ2UsICdlcnJvcicpOwogICAgICB9IGZpbmFsbHkgewogICAgICAgIOimhuebluW3sumAieWAvC5kaXNhYmxlZCA9IGZhbHNlOwogICAgICAgIOi/veWKoOW3sumAieWAvC5kaXNhYmxlZCA9IGZhbHNlOwogICAgICAgIOi/veWKoOW3sumAieWAvC50ZXh0Q29udGVudCA9ICc=") + String(_v895 ? _d64("Aei/veWKoOa3u+WKoA==") : _d64("Aei/veWKoOa3u+WKoA==")) + _d64("ASc7CiAgICAgIH0KICAgIH0pOwogIH0KICBmdW5jdGlvbiDlnLDlnYDovazljYHlha3ov5vliLYo5Zyw5Z2AKSB7CiAgICBjb25zdCDpg6jliIbliJfooaggPSDlnLDlnYAuc3BsaXQoJy4nKTsKICAgIGlmICjpg6jliIbliJfooagubGVuZ3RoICE9PSA0KSByZXR1cm4gbnVsbDsKICAgIGxldCDljYHlha3ov5vliLYgPSAnJzsKICAgIGZvciAobGV0IOe0ouW8leWAvCA9IDA7IOe0ouW8leWAvCA8IDQ7IOe0ouW8leWAvCsrKSB7CiAgICAgIGNvbnN0IOaVsOWtlyA9IHBhcnNlSW50KOmDqOWIhuWIl+ihqFvntKLlvJXlgLxdKTsKICAgICAgaWYgKGlzTmFOKOaVsOWtlykgfHwg5pWw5a2XIDwgMCB8fCDmlbDlrZcgPiAyNTUpIHJldHVybiBudWxsOwogICAgICDljYHlha3ov5vliLYgKz0g5pWw5a2XLnRvU3RyaW5nKDE2KS5wYWRTdGFydCgyLCAnMCcpOwogICAgfQogICAgcmV0dXJuIOWNgeWFrei/m+WItjsKICB9CiAgY29uc3Qg5py65oi/5pig5bCEID0gewogICAgJ1NKQyc6ICfwn4e68J+HuCDlnKPkvZXloZ4nLAogICAgJ0xBWCc6ICfwn4e68J+HuCDmtJvmnYnnn7YnLAogICAgJ1NFQSc6ICfwn4e68J+HuCDopb/pm4Xlm74nLAogICAgJ1NGTyc6ICfwn4e68J+HuCDml6fph5HlsbEnLAogICAgJ0RGVyc6ICfwn4e68J+HuCDovr7mi4nmlq8nLAogICAgJ09SRCc6ICfwn4e68J+HuCDoip3liqDlk6UnLAogICAgJ0lBRCc6ICfwn4e68J+HuCDljY7nm5vpob8nLAogICAgJ0FUTCc6ICfwn4e68J+HuCDkuprnibnlhbDlpKcnLAogICAgJ01JQSc6ICfwn4e68J+HuCDov4jpmL/lr4YnLAogICAgJ0RFTic6ICfwn4e68J+HuCDkuLnkvZsnLAogICAgJ1BIWCc6ICfwn4e68J+HuCDlh6Tlh7Dln44nLAogICAgJ0JPUyc6ICfwn4e68J+HuCDms6Llo6vpob8nLAogICAgJ0VXUic6ICfwn4e68J+HuCDnur3nk6blhYsnLAogICAgJ0pGSyc6ICfwn4e68J+HuCDnur3nuqYnLAogICAgJ0xBUyc6ICfwn4e68J+HuCDmi4nmlq/nu7TliqDmlq8nLAogICAgJ01TUCc6ICfwn4e68J+HuCDmmI7lsLzpmL/ms6LliKnmlq8nLAogICAgJ0RUVyc6ICfwn4e68J+HuCDlupXnibnlvosnLAogICAgJ1BITCc6ICfwn4e68J+HuCDotLnln44nLAogICAgJ0NMVCc6ICfwn4e68J+HuCDlpI/mtJvnibknLAogICAgJ1NMQyc6ICfwn4e68J+HuCDnm5DmuZbln44nLAogICAgJ1BEWCc6ICfwn4e68J+HuCDms6LnibnlhbAnLAogICAgJ1NBTic6ICfwn4e68J+HuCDlnKPlnLDkuprlk6UnLAogICAgJ1RQQSc6ICfwn4e68J+HuCDlnabluJUnLAogICAgJ0lBSCc6ICfwn4e68J+HuCDkvJHmlq/pob8nLAogICAgJ01DTyc6ICfwn4e68J+HuCDlpaXlhbDlpJonLAogICAgJ0FVUyc6ICfwn4e68J+HuCDlpaXmlq/msYAnLAogICAgJ0JOQSc6ICfwn4e68J+HuCDnurPku4Dnu7TlsJQnLAogICAgJ1JEVSc6ICfwn4e68J+HuCDnvZfliKknLAogICAgJ0lORCc6ICfwn4e68J+HuCDljbDnrKzlronnurPms6LliKnmlq8nLAogICAgJ0NNSCc6ICfwn4e68J+HuCDlk6XkvKbluIMnLAogICAgJ01DSSc6ICfwn4e68J+HuCDloKrokKjmlq/ln44nLAogICAgJ09NQSc6ICfwn4e68J+HuCDlpaXpqazlk4gnLAogICAgJ0FCUSc6ICfwn4e68J+HuCDpmL/lsJTkvK/lhYvln7onLAogICAgJ09LQyc6ICfwn4e68J+HuCDkv4TlhYvmi4nojbfpqazln44nLAogICAgJ01FTSc6ICfwn4e68J+HuCDlrZ/oj7Lmlq8nLAogICAgJ0pBWCc6ICfwn4e68J+HuCDmnbDlhYvpgIrnu7TlsJQnLAogICAgJ1JJQyc6ICfwn4e68J+HuCDph4zlo6vmu6EnLAogICAgJ0JVRic6ICfwn4e68J+HuCDluIPms5XnvZcnLAogICAgJ1BJVCc6ICfwn4e68J+HuCDljLnlhbnloKEnLAogICAgJ0NMRSc6ICfwn4e68J+HuCDlhYvliKnlpKvlhbAnLAogICAgJ0NWRyc6ICfwn4e68J+HuCDovpvovpvpgqPmj5AnLAogICAgJ01LRSc6ICfwn4e68J+HuCDlr4blsJTmsoPln7onLAogICAgJ1NUTCc6ICfwn4e68J+HuCDlnKPot6/mmJPmlq8nLAogICAgJ1NBVCc6ICfwn4e68J+HuCDlnKPlronkuJzlsLzlpaUnLAogICAgJ0hOTCc6ICfwn4e68J+HuCDmqoDpppnlsbEnLAogICAgJ0FOQyc6ICfwn4e68J+HuCDlronlhYvpm7flpYcnLAogICAgJ1NNRic6ICfwn4e68J+HuCDokKjlhYvmi4npl6jmiZgnLAogICAgJ09OVCc6ICfwn4e68J+HuCDlronlpKfnlaUnLAogICAgJ09BSyc6ICfwn4e68J+HuCDlpaXlhYvlhbAnLAogICAgJ0hLRyc6ICfwn4et8J+HsCDpppnmuK8nLAogICAgJ1RQRSc6ICfwn4e58J+HvCDlj7DljJcnLAogICAgJ1RTQSc6ICfwn4e58J+HvCDlj7DljJfmnb7lsbEnLAogICAgJ0tISCc6ICfwn4e58J+HvCDpq5jpm4QnLAogICAgJ05SVCc6ICfwn4ev8J+HtSDkuJzkuqzmiJDnlLAnLAogICAgJ0hORCc6ICfwn4ev8J+HtSDkuJzkuqznvr3nlLAnLAogICAgJ0tJWCc6ICfwn4ev8J+HtSDlpKfpmKrlhbPopb8nLAogICAgJ0lUTSc6ICfwn4ev8J+HtSDlpKfpmKrkvIrkuLknLAogICAgJ05HTyc6ICfwn4ev8J+HtSDlkI3lj6TlsYsnLAogICAgJ0ZVSyc6ICfwn4ev8J+HtSDnpo/lhognLAogICAgJ0NUUyc6ICfwn4ev8J+HtSDmnK3luYwnLAogICAgJ09LQSc6ICfwn4ev8J+HtSDlhrLnu7MnLAogICAgJ0lDTic6ICfwn4ew8J+HtyDpppblsJTku4Hlt50nLAogICAgJ0dNUCc6ICfwn4ew8J+HtyDpppblsJTph5HmtaYnLAogICAgJ1BVUyc6ICfwn4ew8J+HtyDph5zlsbEnLAogICAgJ1NJTic6ICfwn4e48J+HrCDmlrDliqDlnaEnLAogICAgJ0JLSyc6ICfwn4e58J+HrSDmm7zosLcnLAogICAgJ0RNSyc6ICfwn4e58J+HrSDmm7zosLflu4rmm7wnLAogICAgJ0tVTCc6ICfwn4ey8J+HviDlkInpmoblnaEnLAogICAgJ0NHSyc6ICfwn4eu8J+HqSDpm4XliqDovr4nLAogICAgJ01OTCc6ICfwn4e18J+HrSDpqazlsLzmi4knLAogICAgJ0NFQic6ICfwn4e18J+HrSDlrr/liqEnLAogICAgJ0hBTic6ICfwn4e78J+HsyDmsrPlhoUnLAogICAgJ1NHTic6ICfwn4e78J+HsyDog6Hlv5fmmI4nLAogICAgJ0RBRCc6ICfwn4e78J+HsyDlspjmuK8nLAogICAgJ1JHTic6ICfwn4ey8J+HsiDku7DlhYknLAogICAgJ1BOSCc6ICfwn4ew8J+HrSDph5HovrknLAogICAgJ1JFUCc6ICfwn4ew8J+HrSDmmrnnspInLAogICAgJ1ZURSc6ICfwn4ex8J+HpiDkuIfosaEnLAogICAgJ0JPTSc6ICfwn4eu8J+HsyDlrZ/kubAnLAogICAgJ0RFTCc6ICfwn4eu8J+HsyDmlrDlvrfph4wnLAogICAgJ01BQSc6ICfwn4eu8J+HsyDph5HlpYgnLAogICAgJ0JMUic6ICfwn4eu8J+HsyDnj63liqDnvZflsJQnLAogICAgJ0NDVSc6ICfwn4eu8J+HsyDliqDlsJTlkITnrZQnLAogICAgJ0hZRCc6ICfwn4eu8J+HsyDmtbflvpfmi4nlt7QnLAogICAgJ0FNRCc6ICfwn4eu8J+HsyDoib7lk4jov4jovr7lt7TlvrcnLAogICAgJ0NPSyc6ICfwn4eu8J+HsyDnp5HpkqYnLAogICAgJ1BOUSc6ICfwn4eu8J+HsyDmtabpgqMnLAogICAgJ0dPSSc6ICfwn4eu8J+HsyDmnpzpmL8nLAogICAgJ0NNQic6ICfwn4ex8J+HsCDnp5HkvKblnaEnLAogICAgJ0RBQyc6ICfwn4en8J+HqSDovr7ljaEnLAogICAgJ0tUTSc6ICfwn4ez8J+HtSDliqDlvrfmu6Hpg70nLAogICAgJ0lTQic6ICfwn4e18J+HsCDkvIrmlq/lhbDloKEnLAogICAgJ0tISSc6ICfwn4e18J+HsCDljaHmi4nlpYcnLAogICAgJ0xIRSc6ICfwn4e18J+HsCDmi4nlkIjlsJQnLAogICAgJ0xIUic6ICfwn4es8J+HpyDkvKbmlabluIzmgJ3nvZcnLAogICAgJ0xHVyc6ICfwn4es8J+HpyDkvKbmlabnm5bnibnlqIHlhYsnLAogICAgJ1NUTic6ICfwn4es8J+HpyDkvKbmlabmlq/lnabmlq/nibnlvrcnLAogICAgJ0xUTic6ICfwn4es8J+HpyDkvKbmlabljaLpob8nLAogICAgJ01BTic6ICfwn4es8J+HpyDmm7zlvbvmlq/nibknLAogICAgJ0VESSc6ICfwn4es8J+HpyDniLHkuIHloKEnLAogICAgJ0JIWCc6ICfwn4es8J+HpyDkvK/mmI7nv7AnLAogICAgJ0NERyc6ICfwn4er8J+HtyDlt7Tpu47miLTpq5jkuZAnLAogICAgJ09SWSc6ICfwn4er8J+HtyDlt7Tpu47lpaXliKknLAogICAgJ01SUyc6ICfwn4er8J+HtyDpqazotZsnLAogICAgJ0xZUyc6ICfwn4er8J+HtyDph4zmmIInLAogICAgJ05DRSc6ICfwn4er8J+HtyDlsLzmlq8nLAogICAgJ0ZSQSc6ICfwn4ep8J+HqiDms5XlhbDlhYvnpo8nLAogICAgJ01VQyc6ICfwn4ep8J+HqiDmhZXlsLzpu5EnLAogICAgJ1RYTCc6ICfwn4ep8J+HqiDmn4/mnpcnLAogICAgJ0JFUic6ICfwn4ep8J+HqiDmn4/mnpfli4PlhbDnmbvloKEnLAogICAgJ0hBTSc6ICfwn4ep8J+HqiDmsYnloKEnLAogICAgJ0RVUyc6ICfwn4ep8J+HqiDmnZzloZ7lsJTlpJrlpKsnLAogICAgJ0NHTic6ICfwn4ep8J+HqiDnp5HpmoYnLAogICAgJ1NUUic6ICfwn4ep8J+HqiDmlq/lm77liqDnibknLAogICAgJ0FNUyc6ICfwn4ez8J+HsSDpmL/lp4bmlq/nibnkuLknLAogICAgJ0JSVSc6ICfwn4en8J+HqiDluIPpsoHloZ7lsJQnLAogICAgJ0xVWCc6ICfwn4ex8J+HuiDljaLmo67loKEnLAogICAgJ1pSSCc6ICfwn4eo8J+HrSDoi4/pu47kuJYnLAogICAgJ0dWQSc6ICfwn4eo8J+HrSDml6XlhoXnk6YnLAogICAgJ0JTTCc6ICfwn4eo8J+HrSDlt7TloZ7lsJQnLAogICAgJ1ZJRSc6ICfwn4em8J+HuSDnu7TkuZ/nurMnLAogICAgJ1BSRyc6ICfwn4eo8J+HvyDluIPmi4nmoLwnLAogICAgJ0JVRCc6ICfwn4et8J+HuiDluIPovr7kvanmlq8nLAogICAgJ1dBVyc6ICfwn4e18J+HsSDljY7mspknLAogICAgJ0tSSyc6ICfwn4e18J+HsSDlhYvmi4nnp5HlpKsnLAogICAgJ01YUCc6ICfwn4eu8J+HuSDnsbPlhbDpqazlsJTlva3okKgnLAogICAgJ0xJTic6ICfwn4eu8J+HuSDnsbPlhbDliKnnurPnibknLAogICAgJ0ZDTyc6ICfwn4eu8J+HuSDnvZfpqawnLAogICAgJ1ZDRSc6ICfwn4eu8J+HuSDlqIHlsLzmlq8nLAogICAgJ05BUCc6ICfwn4eu8J+HuSDpgqPkuI3li5Lmlq8nLAogICAgJ0ZMUic6ICfwn4eu8J+HuSDkvZvnvZfkvKbokKgnLAogICAgJ0JHWSc6ICfwn4eu8J+HuSDotJ3liqDojqsnLAogICAgJ01BRCc6ICfwn4eq8J+HuCDpqazlvrfph4wnLAogICAgJ0JDTic6ICfwn4eq8J+HuCDlt7TloZ7nvZfpgqMnLAogICAgJ1BNSSc6ICfwn4eq8J+HuCDluJXlsJTpqawnLAogICAgJ0FHUCc6ICfwn4eq8J+HuCDpqazmi4nliqAnLAogICAgJ1ZMQyc6ICfwn4eq8J+HuCDnk6bkvKbopb/kuponLAogICAgJ1NWUSc6ICfwn4eq8J+HuCDloZ7nu7TliKnkuponLAogICAgJ0JJTyc6ICfwn4eq8J+HuCDmr5XlsJTlt7TphIInLAogICAgJ0xJUyc6ICfwn4e18J+HuSDph4zmlq/mnKwnLAogICAgJ09QTyc6ICfwn4e18J+HuSDms6LlsJTlm74nLAogICAgJ0ZBTyc6ICfwn4e18J+HuSDms5XpsoEnLAogICAgJ0RVQic6ICfwn4eu8J+HqiDpg73mn4/mnpcnLAogICAgJ0NQSCc6ICfwn4ep8J+HsCDlk6XmnKzlk4jmoLknLAogICAgJ0FSTic6ICfwn4e48J+HqiDmlq/lvrflk6XlsJTmkaknLAogICAgJ0dPVCc6ICfwn4e48J+HqiDlk6XlvrfloKEnLAogICAgJ09TTCc6ICfwn4ez8J+HtCDlpaXmlq/pmYYnLAogICAgJ0JHTyc6ICfwn4ez8J+HtCDljZHlsJTmoLknLAogICAgJ0hFTCc6ICfwn4er8J+HriDotavlsJTovpvln7onLAogICAgJ1JJWCc6ICfwn4ex8J+HuyDph4zliqAnLAogICAgJ1RMTCc6ICfwn4eq8J+HqiDloZTmnpcnLAogICAgJ1ZOTyc6ICfwn4ex8J+HuSDnu7TlsJTnur3mlq8nLAogICAgJ0FUSCc6ICfwn4es8J+HtyDpm4XlhbgnLAogICAgJ1NLRyc6ICfwn4es8J+HtyDloZ7okKjmtJvlsLzln7onLAogICAgJ1NPRic6ICfwn4en8J+HrCDntKLpnZ7kuponLAogICAgJ09UUCc6ICfwn4e38J+HtCDluIPliqDli5Lmlq/nibknLAogICAgJ0JFRyc6ICfwn4e38J+HuCDotJ3lsJTmoLzojrHlvrcnLAogICAgJ1pBRyc6ICfwn4et8J+HtyDokKjmoLzli5LluIMnLAogICAgJ0xKVSc6ICfwn4e48J+HriDljaLluIPlsJTpm4XpgqMnLAogICAgJ0tCUCc6ICfwn4e68J+HpiDln7rovoUnLAogICAgJ0lFVic6ICfwn4e68J+HpiDln7rovoXojLnoia/lsLwnLAogICAgJ09EUyc6ICfwn4e68J+HpiDmlZblvrfokKgnLAogICAgJ1NWTyc6ICfwn4e38J+HuiDojqvmlq/np5HosKLliJfmooXmjbfmsoMnLAogICAgJ0RNRSc6ICfwn4e38J+HuiDojqvmlq/np5HlpJrojqvmnbDlpJrmsoMnLAogICAgJ1ZLTyc6ICfwn4e38J+HuiDojqvmlq/np5HkvI/liqrnp5HmsoMnLAogICAgJ0xFRCc6ICfwn4e38J+HuiDlnKPlvbzlvpfloKEnLAogICAgJ0lTVCc6ICfwn4e58J+HtyDkvIrmlq/lnabluIPlsJQnLAogICAgJ1NBVyc6ICfwn4e58J+HtyDkvIrmlq/lnabluIPlsJTokKjmr5Tlk4gnLAogICAgJ0VTQic6ICfwn4e58J+HtyDlronljaHmi4knLAogICAgJ0FZVCc6ICfwn4e58J+HtyDlronloZTliKnkuponLAogICAgJ0FEQic6ICfwn4e58J+HtyDkvIrlhbnlr4blsJQnLAogICAgJ1RMVic6ICfwn4eu8J+HsSDnibnmi4nnu7TlpKsnLAogICAgJ0FNTSc6ICfwn4ev8J+HtCDlronmm7wnLAogICAgJ0JFWSc6ICfwn4ex8J+HpyDotJ3psoHnibknLAogICAgJ0JBSCc6ICfwn4en8J+HrSDlt7TmnpcnLAogICAgJ0tXSSc6ICfwn4ew8J+HvCDnp5HlqIHnibknLAogICAgJ0RYQic6ICfwn4em8J+HqiDov6rmi5wnLAogICAgJ0FVSCc6ICfwn4em8J+HqiDpmL/luIPmiY7mr5QnLAogICAgJ1NISic6ICfwn4em8J+HqiDmspnov6YnLAogICAgJ0RPSCc6ICfwn4e28J+HpiDlpJrlk4gnLAogICAgJ01DVCc6ICfwn4e08J+HsiDpqazmlq/lloDnibknLAogICAgJ1JVSCc6ICfwn4e48J+HpiDliKnpm4XlvpcnLAogICAgJ0pFRCc6ICfwn4e48J+HpiDlkInovr4nLAogICAgJ0RNTSc6ICfwn4e48J+HpiDovr7mm7wnLAogICAgJ0NBSSc6ICfwn4eq8J+HrCDlvIDnvZcnLAogICAgJ0hCRSc6ICfwn4eq8J+HrCDkuprljoblsbHlpKcnLAogICAgJ1NTSCc6ICfwn4eq8J+HrCDmspnlp4bmspnkvIrotasnLAogICAgJ0NNTic6ICfwn4ey8J+HpiDljaHokKjluIPlhbDljaEnLAogICAgJ1JBSyc6ICfwn4ey8J+HpiDpqazmi4nlloDku4AnLAogICAgJ1RVTic6ICfwn4e58J+HsyDnqoHlsLzmlq8nLAogICAgJ0FMRyc6ICfwn4ep8J+HvyDpmL/lsJTlj4rlsJQnLAogICAgJ0xPUyc6ICfwn4ez8J+HrCDmi4nlkITmlq8nLAogICAgJ0FCVic6ICfwn4ez8J+HrCDpmL/luIPotL4nLAogICAgJ0FDQyc6ICfwn4es8J+HrSDpmL/lhYvmi4knLAogICAgJ05CTyc6ICfwn4ew8J+HqiDlhoXnvZfmr5UnLAogICAgJ01CQSc6ICfwn4ew8J+HqiDokpnlt7TokKgnLAogICAgJ0FERCc6ICfwn4eq8J+HuSDkuprnmoTmlq/kuprotJ3lt7QnLAogICAgJ0RBUic6ICfwn4e58J+HvyDovr7ntK/mlq/okKjmi4nlp4YnLAogICAgJ0pOQic6ICfwn4e/8J+HpiDnuqbnv7DlhoXmlq/loKEnLAogICAgJ0NQVCc6ICfwn4e/8J+HpiDlvIDmma7mlaYnLAogICAgJ0RVUic6ICfwn4e/8J+HpiDlvrfnj60nLAogICAgJ0hSRSc6ICfwn4e/8J+HvCDlk4jmi4npm7cnLAogICAgJ0xVTic6ICfwn4e/8J+HsiDljaLokKjljaEnLAogICAgJ01SVSc6ICfwn4ey8J+HuiDmr5vph4zmsYLmlq8nLAogICAgJ1NFWic6ICfwn4e48J+HqCDloZ7oiIzlsJQnLAogICAgJ1NZRCc6ICfwn4em8J+HuiDmgonlsLwnLAogICAgJ01FTCc6ICfwn4em8J+HuiDloqjlsJTmnKwnLAogICAgJ0JORSc6ICfwn4em8J+HuiDluIPph4zmlq/nj60nLAogICAgJ1BFUic6ICfwn4em8J+HuiDnj4Dmlq8nLAogICAgJ0FETCc6ICfwn4em8J+HuiDpmL/lvrfojrHlvrcnLAogICAgJ0NCUic6ICfwn4em8J+HuiDloKrln7nmi4knLAogICAgJ09PTCc6ICfwn4em8J+HuiDpu4Tph5HmtbflsrgnLAogICAgJ0NOUyc6ICfwn4em8J+HuiDlh6/mganmlq8nLAogICAgJ0FLTCc6ICfwn4ez8J+HvyDlpaXlhYvlhbAnLAogICAgJ1dMRyc6ICfwn4ez8J+HvyDmg6DngbXpob8nLAogICAgJ0NIQyc6ICfwn4ez8J+HvyDln7rnnaPln44nLAogICAgJ1pRTic6ICfwn4ez8J+HvyDnmoflkI7plYcnLAogICAgJ05BTic6ICfwn4er8J+HryDmpaDov6onLAogICAgJ1BQVCc6ICfwn4e18J+HqyDluJXnmq7mj5AnLAogICAgJ0dVTSc6ICfwn4es8J+HuiDlhbPlspsnLAogICAgJ0dSVSc6ICfwn4en8J+HtyDlnKPkv53nvZfnk5zpsoHmn7Pmlq8nLAogICAgJ0NHSCc6ICfwn4en8J+HtyDlnKPkv53nvZflrZTmiIjlsLzkuprmlq8nLAogICAgJ0dJRyc6ICfwn4en8J+HtyDph4znuqbng63lhoXljaInLAogICAgJ0JTQic6ICfwn4en8J+HtyDlt7Topb/liKnkuponLAogICAgJ0NORic6ICfwn4en8J+HtyDotJ3mtJvlpaXph4zol4/nibknLAogICAgJ1BPQSc6ICfwn4en8J+HtyDpmL/pm7fmoLzph4zmuK8nLAogICAgJ0NXQic6ICfwn4en8J+HtyDlupPph4zokoLlt7QnLAogICAgJ0ZPUic6ICfwn4en8J+HtyDnpo/loZTojrHokKgnLAogICAgJ1JFQyc6ICfwn4en8J+HtyDntK/opb/ohZMnLAogICAgJ1NTQSc6ICfwn4en8J+HtyDokKjlsJTnk6blpJonLAogICAgJ0VaRSc6ICfwn4em8J+HtyDluIPlrpzor7rmlq/oib7liKnmlq8nLAogICAgJ0FFUCc6ICfwn4em8J+HtyDluIPlrpzor7rmlq/oib7liKnmlq/ln44nLAogICAgJ0NPUic6ICfwn4em8J+HtyDnp5HlsJTlpJrnk6YnLAogICAgJ01EWic6ICfwn4em8J+HtyDpl6jlpJrokKgnLAogICAgJ1NDTCc6ICfwn4eo8J+HsSDlnKPlnLDkuprlk6UnLAogICAgJ0xJTSc6ICfwn4e18J+HqiDliKnpqawnLAogICAgJ0JPRyc6ICfwn4eo8J+HtCDms6Llk6XlpKcnLAogICAgJ01ERSc6ICfwn4eo8J+HtCDpuqblvrfmnpcnLAogICAgJ0NMTyc6ICfwn4eo8J+HtCDljaHliKknLAogICAgJ1VJTyc6ICfwn4eq8J+HqCDln7rlpJonLAogICAgJ0dZRSc6ICfwn4eq8J+HqCDnk5zkuprln7rlsJQnLAogICAgJ0NDUyc6ICfwn4e78J+HqiDliqDmi4nliqDmlq8nLAogICAgJ01WRCc6ICfwn4e68J+HviDokpnlvpfnu7TnmoTkuponLAogICAgJ0FTVSc6ICfwn4e18J+HviDkuprmnb7mo64nLAogICAgJ1BUWSc6ICfwn4e18J+HpiDlt7Tmi7/pqazln44nLAogICAgJ1NKTyc6ICfwn4eo8J+HtyDlnKPkvZXloZ4nLAogICAgJ0dVQSc6ICfwn4es8J+HuSDljbHlnLDpqazmi4nln44nLAogICAgJ1NBTCc6ICfwn4e48J+HuyDlnKPokKjlsJTnk6blpJonLAogICAgJ1RHVSc6ICfwn4et8J+HsyDnibnlj6Topb/liqDlsJTlt7QnLAogICAgJ01HQSc6ICfwn4ez8J+HriDpqazpgqPnk5wnLAogICAgJ0JaRSc6ICfwn4en8J+HvyDkvK/liKnlhbnln44nLAogICAgJ01FWCc6ICfwn4ey8J+HvSDloqjopb/lk6Xln44nLAogICAgJ0dETCc6ICfwn4ey8J+HvSDnk5zovr7mi4nlk4jmi4knLAogICAgJ01UWSc6ICfwn4ey8J+HvSDokpnnibnpm7cnLAogICAgJ0NVTic6ICfwn4ey8J+HvSDlnY7mmIYnLAogICAgJ1RJSic6ICfwn4ey8J+HvSDokoLljY7nurMnLAogICAgJ1NKRCc6ICfwn4ey8J+HvSDlnKPkvZXloZ7lvrflsJTljaHmsoMnLAogICAgJ1lZWic6ICfwn4eo8J+HpiDlpJrkvKblpJonLAogICAgJ1lWUic6ICfwn4eo8J+HpiDmuKnlk6XljY4nLAogICAgJ1lVTCc6ICfwn4eo8J+HpiDokpnnibnliKnlsJQnLAogICAgJ1lZQyc6ICfwn4eo8J+HpiDljaHlsJTliqDph4wnLAogICAgJ1lFRyc6ICfwn4eo8J+HpiDln4Plvrfokpnpob8nLAogICAgJ1lPVyc6ICfwn4eo8J+HpiDmuKXlpKrljY4nLAogICAgJ1lXRyc6ICfwn4eo8J+HpiDmuKnlsLzkvK8nLAogICAgJ1lIWic6ICfwn4eo8J+HpiDlk4jliKnms5XlhYvmlq8nLAogICAgJ0hBVic6ICfwn4eo8J+HuiDlk4jnk6bpgqMnLAogICAgJ1NKVSc6ICfwn4e18J+HtyDlnKPog6HlroknLAogICAgJ1NEUSc6ICfwn4ep8J+HtCDlnKPlpJrmmI7lkIQnLAogICAgJ1BBUCc6ICfwn4et8J+HuSDlpKrlrZDmuK8nLAogICAgJ0tJTic6ICfwn4ev8J+HsiDph5Hmlq/pob8nLAogICAgJ05BUyc6ICfwn4en8J+HuCDmi7/pqponLAogICAgJ01CSic6ICfwn4ev8J+HsiDokpnnibnlk6XotJ0nCiAgfTsKICBmdW5jdGlvbiDojrflj5bmnLrmiL/lkI3np7Ao5py65oi/MjAwMTgpIHsKICAgIHJldHVybiDmnLrmiL/mmKDlsIRb5py65oi/MjAwMThdIHx8IOacuuaIvzIwMDE4OwogIH0KCiAgLy8g5Z+O5biC562b6YCJ55u45YWz5Ye95pWwCiAgY29uc3Qg5Z+O5biC562b6YCJ5YC8ID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2NpdHlGaWx0ZXJDb250YWluZXInKTsKICBjb25zdCDln47luILlgLzlgLwgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY2l0eUNoZWNrYm94ZXNDb250YWluZXInKTsKICBmdW5jdGlvbiDmm7TmlrDln47luILnrZvpgIkoKSB7CiAgICBpZiAoIeWfjuW4guetm+mAieWAvCB8fCAh5Z+O5biC5YC85YC8KSByZXR1cm47CgogICAgLy8g5LuO5rWL6K+V57uT5p6c5Lit5o+Q5Y+W5omA5pyJ5Y+v55So55qE5Z+O5biCCiAgICBjb25zdCDln47luILmmKDlsIQgPSBuZXcgTWFwKCk7CiAgICDmtYvor5Xnu5PmnpzliJfooaguZm9yRWFjaCgo57uT5p6cMjAwMTcsIOe0ouW8lTIwMDE2KSA9PiB7CiAgICAgIGlmICjnu5PmnpwyMDAxNy5zdWNjZXNzICYmIOe7k+aenDIwMDE3LmNvbG8pIHsKICAgICAgICBjb25zdCDmnLrmiL8yMDAxNSA9IOe7k+aenDIwMDE3LmNvbG87CiAgICAgICAgaWYgKCHln47luILmmKDlsIQuaGFzKOacuuaIvzIwMDE1KSkgewogICAgICAgICAg5Z+O5biC5pig5bCELnNldCjmnLrmiL8yMDAxNSwgewogICAgICAgICAgICBjb2xvOiDmnLrmiL8yMDAxNSwKICAgICAgICAgICAgbmFtZTog6I635Y+W5py65oi/5ZCN56ewKOacuuaIvzIwMDE1KSwKICAgICAgICAgICAgY291bnQ6IDAKICAgICAgICAgIH0pOwogICAgICAgIH0KICAgICAgICDln47luILmmKDlsIQuZ2V0KOacuuaIvzIwMDE1KS5jb3VudCsrOwogICAgICB9CiAgICB9KTsKICAgIGlmICjln47luILmmKDlsIQuc2l6ZSA9PT0gMCkgewogICAgICDln47luILnrZvpgInlgLwuc3R5bGUuZGlzcGxheSA9ICdub25lJzsKICAgICAgcmV0dXJuOwogICAgfQogICAg5Z+O5biC562b6YCJ5YC8LnN0eWxlLmRpc3BsYXkgPSAnYmxvY2snOwogICAg5Z+O5biC5YC85YC8LmlubmVySFRNTCA9ICcnOwoKICAgIC8vIOaMieWfjuW4guWQjeensOaOkuW6jwogICAgY29uc3Qg5Z+O5biC5YiX6KGoID0gQXJyYXkuZnJvbSjln47luILmmKDlsIQudmFsdWVzKCkpLnNvcnQoKOeUsuWAvDIwMDE0LCDkuZnlgLwyMDAxMykgPT4g55Sy5YC8MjAwMTQubmFtZS5sb2NhbGVDb21wYXJlKOS5meWAvDIwMDEzLm5hbWUpKTsKICAgIOWfjuW4guWIl+ihqC5mb3JFYWNoKOWfjuW4giA9PiB7CiAgICAgIGNvbnN0IOagh+etviA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2xhYmVsJyk7CiAgICAgIOagh+etvi5zdHlsZS5jc3NUZXh0ID0gJ2Rpc3BsYXk6IGlubGluZS1mbGV4OyBhbGlnbi1pdGVtczogY2VudGVyOyBjdXJzb3I6IHBvaW50ZXI7IGNvbG9yOiAjYzhmMTM1OyBmb250LXNpemU6IDAuODVyZW07IHBhZGRpbmc6IDRweCA4cHg7IGJhY2tncm91bmQ6IHJnYmEoMTEsMTQsMjAsMC40KTsgYm9yZGVyOiAxcHggc29saWQgIzlhYTZiODsgYm9yZGVyLXJhZGl1czogNHB4Oyc7CiAgICAgIGNvbnN0IOWkjemAieahhjIwMDEyID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnaW5wdXQnKTsKICAgICAg5aSN6YCJ5qGGMjAwMTIudHlwZSA9ICdjaGVja2JveCc7CiAgICAgIOWkjemAieahhjIwMDEyLnZhbHVlID0g5Z+O5biCLmNvbG87CiAgICAgIOWkjemAieahhjIwMDEyLmNoZWNrZWQgPSB0cnVlOwogICAgICDlpI3pgInmoYYyMDAxMi5kYXRhc2V0LmNvbG8gPSDln47luIIuY29sbzsKICAgICAg5aSN6YCJ5qGGMjAwMTIuc3R5bGUuY3NzVGV4dCA9ICdtYXJnaW4tcmlnaHQ6IDZweDsgd2lkdGg6IDE2cHg7IGhlaWdodDogMTZweDsgY3Vyc29yOiBwb2ludGVyOyc7CiAgICAgIGNvbnN0IOacrOWcsOWAvDIwMDExID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnc3BhbicpOwogICAgICDmnKzlnLDlgLwyMDAxMS50ZXh0Q29udGVudCA9IOWfjuW4gi5uYW1lICsgJyAoJyArIOWfjuW4gi5jb3VudCArICcpJzsKICAgICAg5qCH562+LmFwcGVuZENoaWxkKOWkjemAieahhjIwMDEyKTsKICAgICAg5qCH562+LmFwcGVuZENoaWxkKOacrOWcsOWAvDIwMDExKTsKICAgICAg5Z+O5biC5YC85YC8LmFwcGVuZENoaWxkKOagh+etvik7CiAgICAgIOWkjemAieahhjIwMDEyLmFkZEV2ZW50TGlzdGVuZXIoJ2NoYW5nZScsIOaMieWfjuW4guetm+mAiee7k+aenCk7CiAgICB9KTsKCiAgICAvLyDnm5HlkKznrZvpgInmqKHlvI/lj5jljJYKICAgIGNvbnN0IOetm+mAieWAvOWAvCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoJ2lucHV0W25hbWU9ImNpdHlGaWx0ZXJNb2RlIl0nKTsKICAgIOetm+mAieWAvOWAvC5mb3JFYWNoKOWNlemAieahhiA9PiB7CiAgICAgIOWNlemAieahhi5hZGRFdmVudExpc3RlbmVyKCdjaGFuZ2UnLCBmdW5jdGlvbiAoKSB7CiAgICAgICAgaWYgKHRoaXMudmFsdWUgPT09ICdhbGwnKSB7CiAgICAgICAgICAvLyDliIfmjaLliLAi5YWo6YOo5Z+O5biCIuaooeW8j+aXtu+8jOiHquWKqOmAieS4reaJgOacieWfjuW4guWkjemAieahhgogICAgICAgICAgY29uc3Qg5Z+O5biC5YC8MjAwMTAgPSDln47luILlgLzlgLwucXVlcnlTZWxlY3RvckFsbCgnaW5wdXRbdHlwZT0iY2hlY2tib3giXScpOwogICAgICAgICAg5Z+O5biC5YC8MjAwMTAuZm9yRWFjaCjmnKzlnLDlgLwyMDAwOSA9PiB7CiAgICAgICAgICAgIOacrOWcsOWAvDIwMDA5LmNoZWNrZWQgPSB0cnVlOwogICAgICAgICAgICDmnKzlnLDlgLwyMDAwOS5kaXNhYmxlZCA9IGZhbHNlOwogICAgICAgICAgfSk7CiAgICAgICAgfQogICAgICAgIOaMieWfjuW4guetm+mAiee7k+aenCgpOwogICAgICB9KTsKICAgIH0pOwogIH0KICBmdW5jdGlvbiDmjInln47luILnrZvpgInnu5PmnpwoKSB7CiAgICBpZiAoIee7k+aenOWIl+ihqOWIl+ihqCB8fCAh5Z+O5biC5YC85YC8KSByZXR1cm47CiAgICBjb25zdCDnrZvpgInlgLwgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKCdpbnB1dFtuYW1lPSJjaXR5RmlsdGVyTW9kZSJdOmNoZWNrZWQnKT8udmFsdWUgfHwgJ2FsbCc7CiAgICBjb25zdCDnu5Pmnpzpobnnm67liJfooaggPSDnu5PmnpzliJfooajliJfooagucXVlcnlTZWxlY3RvckFsbCgnW2RhdGEtaW5kZXhdJyk7CiAgICBjb25zdCDln47luILlgLwgPSDln47luILlgLzlgLwucXVlcnlTZWxlY3RvckFsbCgnaW5wdXRbdHlwZT0iY2hlY2tib3giXScpOwogICAgaWYgKOetm+mAieWAvCA9PT0gJ2Zhc3Rlc3QxMCcpIHsKICAgICAgLy8g5Y+q6YCJ5oup5pyA5b+r55qEMTDkuKoKICAgICAgY29uc3Qg5YC857uT5p6c5YiX6KGoID0g5rWL6K+V57uT5p6c5YiX6KGoLm1hcCgo57uT5p6cLCDntKLlvJUyMDAwOCkgPT4gKHsKICAgICAgICByZXN1bHQ6IOe7k+aenCwKICAgICAgICBpbmRleDog57Si5byVMjAwMDgKICAgICAgfSkpLmZpbHRlcijpobnnm64yMDAwNyA9PiDpobnnm64yMDAwNy5yZXN1bHQuc3VjY2Vzcykuc29ydCgo55Sy5YC8LCDkuZnlgLwpID0+IOeUsuWAvC5yZXN1bHQubGF0ZW5jeSAtIOS5meWAvC5yZXN1bHQubGF0ZW5jeSkuc2xpY2UoMCwgMTApOwogICAgICBjb25zdCDmnIDlv6vntKLlvJXpm4blkIggPSBuZXcgU2V0KOWAvOe7k+aenOWIl+ihqC5tYXAo6aG555uuMjAwMDYgPT4g6aG555uuMjAwMDYuaW5kZXgpKTsKICAgICAg57uT5p6c6aG555uu5YiX6KGoLmZvckVhY2go6aG555uuMjAwMDUgPT4gewogICAgICAgIGNvbnN0IOe0ouW8lSA9IHBhcnNlSW50KOmhueebrjIwMDA1LmRhdGFzZXQuaW5kZXgpOwogICAgICAgIGNvbnN0IOWkjemAieahhjIwMDA0ID0g6aG555uuMjAwMDUucXVlcnlTZWxlY3RvcignaW5wdXRbdHlwZT0iY2hlY2tib3giXScpOwogICAgICAgIGlmICjmnIDlv6vntKLlvJXpm4blkIguaGFzKOe0ouW8lSkpIHsKICAgICAgICAgIOmhueebrjIwMDA1LnN0eWxlLmRpc3BsYXkgPSAnZmxleCc7CiAgICAgICAgICBpZiAo5aSN6YCJ5qGGMjAwMDQpIOWkjemAieahhjIwMDA0LmNoZWNrZWQgPSB0cnVlOwogICAgICAgIH0gZWxzZSB7CiAgICAgICAgICDpobnnm64yMDAwNS5zdHlsZS5kaXNwbGF5ID0gJ25vbmUnOwogICAgICAgICAgaWYgKOWkjemAieahhjIwMDA0KSDlpI3pgInmoYYyMDAwNC5jaGVja2VkID0gZmFsc2U7CiAgICAgICAgfQogICAgICB9KTsKCiAgICAgIC8vIOemgeeUqOWfjuW4guWkjemAieahhgogICAgICDln47luILlgLwuZm9yRWFjaCjmnKzlnLDlgLwyMDAwMyA9PiDmnKzlnLDlgLwyMDAwMy5kaXNhYmxlZCA9IHRydWUpOwogICAgfSBlbHNlIHsKICAgICAgLy8g5qC55o2u6YCJ5Lit55qE5Z+O5biC562b6YCJCiAgICAgIGNvbnN0IOW3sumAieWfjuW4guWIl+ihqCA9IG5ldyBTZXQoKTsKICAgICAg5Z+O5biC5YC8LmZvckVhY2go5pys5Zyw5YC8MjAwMDIgPT4gewogICAgICAgIGlmICjmnKzlnLDlgLwyMDAwMi5jaGVja2VkKSB7CiAgICAgICAgICDlt7LpgInln47luILliJfooaguYWRkKOacrOWcsOWAvDIwMDAyLnZhbHVlKTsKICAgICAgICB9CiAgICAgIH0pOwoKICAgICAgLy8g5aaC5p6c5omA5pyJ5Z+O5biC6YO96KKr6YCJ5Lit77yI5oiW5rKh5pyJ6YCJ5Lit5Lu75L2V5Z+O5biC77yJ77yM5pi+56S65omA5pyJ57uT5p6cCiAgICAgIGNvbnN0IOWAvOWAvDIwMDAxID0g5Z+O5biC5YC8Lmxlbmd0aCA+IDAgJiYg5bey6YCJ5Z+O5biC5YiX6KGoLnNpemUgPT09IOWfjuW4guWAvC5sZW5ndGg7CiAgICAgIGNvbnN0IOWAvOWAvCA9IOW3sumAieWfjuW4guWIl+ihqC5zaXplID09PSAwOwogICAgICDnu5Pmnpzpobnnm67liJfooaguZm9yRWFjaCjpobnnm64gPT4gewogICAgICAgIGNvbnN0IOacuuaIvzIwMDAwID0g6aG555uuLmRhdGFzZXQuY29sbyB8fCAnJzsKICAgICAgICBjb25zdCDlpI3pgInmoYYgPSDpobnnm64ucXVlcnlTZWxlY3RvcignaW5wdXRbdHlwZT0iY2hlY2tib3giXScpOwogICAgICAgIGlmICjlgLzlgLwyMDAwMSB8fCDlgLzlgLwgfHwg5bey6YCJ5Z+O5biC5YiX6KGoLmhhcyjmnLrmiL8yMDAwMCkpIHsKICAgICAgICAgIOmhueebri5zdHlsZS5kaXNwbGF5ID0gJ2ZsZXgnOwogICAgICAgICAgLy8g5ZCM5q2l5pu05paw57uT5p6c6aG55aSN6YCJ5qGG55qE6YCJ5Lit54q25oCBCiAgICAgICAgICBpZiAo5aSN6YCJ5qGGKSB7CiAgICAgICAgICAgIGlmICjlgLzlgLwyMDAwMSkgewogICAgICAgICAgICAgIC8vIOaJgOacieWfjuW4gumDvemAieS4reaXtu+8jOaJgOaciee7k+aenOmhueWkjemAieahhumDvemAieS4rQogICAgICAgICAgICAgIOWkjemAieahhi5jaGVja2VkID0gdHJ1ZTsKICAgICAgICAgICAgfSBlbHNlIGlmICjlgLzlgLwpIHsKICAgICAgICAgICAgICAvLyDmsqHmnInpgInkuK3ku7vkvZXln47luILml7bvvIzmiYDmnInnu5PmnpzpobnlpI3pgInmoYbpg73lj5bmtojpgInkuK0KICAgICAgICAgICAgICDlpI3pgInmoYYuY2hlY2tlZCA9IGZhbHNlOwogICAgICAgICAgICB9IGVsc2UgewogICAgICAgICAgICAgIC8vIOagueaNruWfjuW4gumAieaLqeeKtuaAgeWQjOatpeWkjemAieahhgogICAgICAgICAgICAgIOWkjemAieahhi5jaGVja2VkID0g5bey6YCJ5Z+O5biC5YiX6KGoLmhhcyjmnLrmiL8yMDAwMCk7CiAgICAgICAgICAgIH0KICAgICAgICAgIH0KICAgICAgICB9IGVsc2UgewogICAgICAgICAg6aG555uuLnN0eWxlLmRpc3BsYXkgPSAnbm9uZSc7CiAgICAgICAgICAvLyDlj5bmtojpgInkuK3pmpDol4/nmoTnu5PmnpzpobnlpI3pgInmoYYKICAgICAgICAgIGlmICjlpI3pgInmoYYpIHsKICAgICAgICAgICAg5aSN6YCJ5qGGLmNoZWNrZWQgPSBmYWxzZTsKICAgICAgICAgIH0KICAgICAgICB9CiAgICAgIH0pOwoKICAgICAgLy8g5ZCv55So5Z+O5biC5aSN6YCJ5qGGCiAgICAgIOWfjuW4guWAvC5mb3JFYWNoKOacrOWcsOWAvCA9PiDmnKzlnLDlgLwuZGlzYWJsZWQgPSBmYWxzZSk7CiAgICB9CiAgfQogIGFzeW5jIGZ1bmN0aW9uIOa1i+ivleW7tui/nyjkuLvmnLosIOerr+WPoywg5L+h5Y+3KSB7CiAgICBjb25zdCDotoXml7YgPSA4MDAwOwogICAgbGV0IOacuuaIvyA9ICcnOwogICAgbGV0IOa1i+ivlee9keWdgCA9ICcnOwogICAgdHJ5IHsKICAgICAgY29uc3Qg5o6n5Yi25ZmoID0gbmV3IEFib3J0Q29udHJvbGxlcigpOwogICAgICBjb25zdCDotoXml7bmoIfor4YgPSBzZXRUaW1lb3V0KCgpID0+IOaOp+WItuWZqC5hYm9ydCgpLCDotoXml7YpOwogICAgICBpZiAo5L+h5Y+3KSB7CiAgICAgICAg5L+h5Y+3LmFkZEV2ZW50TGlzdGVuZXIoJ2Fib3J0JywgKCkgPT4g5o6n5Yi25ZmoLmFib3J0KCkpOwogICAgICB9CiAgICAgIGNvbnN0IOa4heeQhuS4u+acuiA9IOS4u+acui5yZXBsYWNlKC9eXFt8XF0kL2csICcnKTsKICAgICAgY29uc3Qg5Y2B5YWt6L+b5Yi25Zyw5Z2AID0g5Zyw5Z2A6L2s5Y2B5YWt6L+b5Yi2KOa4heeQhuS4u+acuik7CiAgICAgIGNvbnN0IOa1i+ivleWfn+WQjSA9IOWNgeWFrei/m+WItuWcsOWdgCA/IOWNgeWFrei/m+WItuWcsOWdgCArICcubmlwLmxmcmVlLm9yZycgOiDmuIXnkIbkuLvmnLogKyAnLm5pcC5sZnJlZS5vcmcnOwogICAgICDmtYvor5XnvZHlnYAgPSAnaHR0cHM6Ly8nICsg5rWL6K+V5Z+f5ZCNICsgJzonICsg56uv5Y+jICsgJy8nOwogICAgICBjb25zb2xlLmxvZygnW0xhdGVuY3lUZXN0XSBUZXN0aW5nOicsIOa1i+ivlee9keWdgCwgJ09yaWdpbmFsOicsIOS4u+acuiArICc6JyArIOerr+WPoywgJ0hleElQOicsIOWNgeWFrei/m+WItuWcsOWdgCk7CiAgICAgIGNvbnN0IOmmluasoeW8gOWniyA9IERhdGUubm93KCk7CiAgICAgIGNvbnN0IOWTjeW6lDEgPSBhd2FpdCBmZXRjaCjmtYvor5XnvZHlnYAsIHsKICAgICAgICBzaWduYWw6IOaOp+WItuWZqC5zaWduYWwKICAgICAgfSk7CiAgICAgIGNvbnN0IOmmluasoeWAvCA9IERhdGUubm93KCkgLSDpppbmrKHlvIDlp4s7CiAgICAgIGlmICgh5ZON5bqUMS5vaykgewogICAgICAgIGNsZWFyVGltZW91dCjotoXml7bmoIfor4YpOwogICAgICAgIHJldHVybiB7CiAgICAgICAgICBzdWNjZXNzOiBmYWxzZSwKICAgICAgICAgIGxhdGVuY3k6IOmmluasoeWAvCwKICAgICAgICAgIGVycm9yOiAnSFRUUCAnICsg5ZON5bqUMS5zdGF0dXMgKyAnICcgKyDlk43lupQxLnN0YXR1c1RleHQsCiAgICAgICAgICBjb2xvOiAnJywKICAgICAgICAgIHRlc3RVcmw6IOa1i+ivlee9keWdgAogICAgICAgIH07CiAgICAgIH0KICAgICAgdHJ5IHsKICAgICAgICBjb25zdCDmlofmnKwgPSBhd2FpdCDlk43lupQxLnRleHQoKTsKICAgICAgICBjb25zb2xlLmxvZygnW0xhdGVuY3lUZXN0XSBSZXNwb25zZSBib2R5OicsIOaWh+acrC5zdWJzdHJpbmcoMCwgMjAwKSk7CiAgICAgICAgY29uc3Qg5pWw5o2uID0gSlNPTi5wYXJzZSjmlofmnKwpOwogICAgICAgIGlmICjmlbDmja4uY29sbykgewogICAgICAgICAg5py65oi/ID0g5pWw5o2uLmNvbG87CiAgICAgICAgfQogICAgICB9IGNhdGNoICjkuovku7blgLwpIHsKICAgICAgICBjb25zb2xlLmxvZygnW0xhdGVuY3lUZXN0XSBQYXJzZSBlcnJvcjonLCDkuovku7blgLwubWVzc2FnZSk7CiAgICAgIH0KICAgICAgY29uc3Qg5YC85byA5aeLID0gRGF0ZS5ub3coKTsKICAgICAgY29uc3Qg5ZON5bqUMiA9IGF3YWl0IGZldGNoKOa1i+ivlee9keWdgCwgewogICAgICAgIHNpZ25hbDog5o6n5Yi25ZmoLnNpZ25hbAogICAgICB9KTsKICAgICAgYXdhaXQg5ZON5bqUMi50ZXh0KCk7CiAgICAgIGNvbnN0IOW7tui/nyA9IERhdGUubm93KCkgLSDlgLzlvIDlp4s7CiAgICAgIGNsZWFyVGltZW91dCjotoXml7bmoIfor4YpOwogICAgICBjb25zb2xlLmxvZygnW0xhdGVuY3lUZXN0XSBGaXJzdDonLCDpppbmrKHlgLwgKyAnbXMgKEROUytUTFMrUlRUKScsICdTZWNvbmQ6Jywg5bu26L+fICsgJ21zIChSVFQgb25seSknKTsKICAgICAgcmV0dXJuIHsKICAgICAgICBzdWNjZXNzOiB0cnVlLAogICAgICAgIGxhdGVuY3k6IOW7tui/nywKICAgICAgICBjb2xvOiDmnLrmiL8sCiAgICAgICAgdGVzdFVybDog5rWL6K+V572R5Z2ACiAgICAgIH07CiAgICB9IGNhdGNoICjplJnor68pIHsKICAgICAgY29uc3Qg6ZSZ6K+v5raI5oGvID0g6ZSZ6K+vLm5hbWUgPT09ICdBYm9ydEVycm9yJyA/ICc=") + String(_v895 ? 'زمان تمام شد' : _d64("Aei2heaXtg==")) + _d64("AScgOiDplJnor68ubWVzc2FnZTsKICAgICAgY29uc29sZS5sb2coJ1tMYXRlbmN5VGVzdF0gRXJyb3I6Jywg6ZSZ6K+v5raI5oGvLCAnVVJMOicsIOa1i+ivlee9keWdgCk7CiAgICAgIHJldHVybiB7CiAgICAgICAgc3VjY2VzczogZmFsc2UsCiAgICAgICAgbGF0ZW5jeTogLTEsCiAgICAgICAgZXJyb3I6IOmUmeivr+a2iOaBrywKICAgICAgICBjb2xvOiAnJywKICAgICAgICB0ZXN0VXJsOiDmtYvor5XnvZHlnYAKICAgICAgfTsKICAgIH0KICB9Cn0pOwo8L3NjcmlwdD4KICAgIDwvYm9keT4KICAgIDwvaHRtbD4=");
+  return new Response(_v901, {
     status: 200,
     headers: {
       'Content-Type': 'text/html; charset=utf-8'
     }
   });
 }
-async function 解析木马头部(缓冲234, 本地值233) {
-  const 字节 = 处理值值8数组(缓冲234);
-  const 密码值井号 = 传输路径 || 本地值233;
-  const 值224密码 = await 处理值224井号(密码值井号);
-  if (字节.byteLength < 56) {
+async function _v661(_v902, _v903) {
+  const _v8 = _v639(_v902);
+  const _v904 = _v27 || _v903;
+  const _v905 = await _v906(_v904);
+  if (_v8.byteLength < 56) {
     return {
       hasError: true,
-      message: "invalid " + 解码64('dHJvamFu') + " data - too short"
+      message: "invalid " + _v4('dHJvamFu') + " data - too short"
     };
   }
-  let 值值索引 = 56;
-  if (字节[56] !== 0x0d || 字节[57] !== 0x0a) {
+  let _v907 = 56;
+  if (_v8[56] !== 0x0d || _v8[57] !== 0x0a) {
     return {
       hasError: true,
-      message: "invalid " + 解码64('dHJvamFu') + " header format (missing CR LF)"
+      message: "invalid " + _v4('dHJvamFu') + " header format (missing CR LF)"
     };
   }
-  const 密码232 = 共享解码器.decode(字节.subarray(0, 值值索引));
-  if (密码232 !== 值224密码) {
+  const _v908 = _v94.decode(_v8.subarray(0, _v907));
+  if (_v908 !== _v905) {
     return {
       hasError: true,
-      message: "invalid " + 解码64('dHJvamFu') + " password"
+      message: "invalid " + _v4('dHJvamFu') + " password"
     };
   }
-  const 代理5数据缓冲 = 字节.subarray(值值索引 + 2);
-  if (代理5数据缓冲.byteLength < 6) {
+  const _v909 = _v8.subarray(_v907 + 2);
+  if (_v909.byteLength < 6) {
     return {
       hasError: true,
       message: 'E_S_REQ'
     };
   }
-  const 视图231 = new DataView(代理5数据缓冲.buffer, 代理5数据缓冲.byteOffset, 代理5数据缓冲.byteLength);
-  const 命令230 = 视图231.getUint8(0);
-  if (命令230 !== 1) {
+  const _v910 = new DataView(_v909.buffer, _v909.byteOffset, _v909.byteLength);
+  const _v911 = _v910.getUint8(0);
+  if (_v911 !== 1) {
     return {
       hasError: true,
       message: "unsupported command, only TCP (CONNECT) is allowed"
     };
   }
-  const 本地值229 = 视图231.getUint8(1);
-  let 地址长度 = 0;
-  let 地址索引228 = 2;
-  let 地址227 = "";
-  switch (本地值229) {
+  const _v912 = _v910.getUint8(1);
+  let _v913 = 0;
+  let _v914 = 2;
+  let _v915 = "";
+  switch (_v912) {
     case 1:
-      地址长度 = 4;
-      地址227 = 代理5数据缓冲.subarray(地址索引228, 地址索引228 + 地址长度).join(".");
+      _v913 = 4;
+      _v915 = _v909.subarray(_v914, _v914 + _v913).join(".");
       break;
     case 3:
-      地址长度 = 代理5数据缓冲[地址索引228];
-      地址索引228 += 1;
-      地址227 = 共享解码器.decode(代理5数据缓冲.subarray(地址索引228, 地址索引228 + 地址长度));
+      _v913 = _v909[_v914];
+      _v914 += 1;
+      _v915 = _v94.decode(_v909.subarray(_v914, _v914 + _v913));
       break;
     case 4:
-      地址长度 = 16;
-      const 数据视图 = new DataView(代理5数据缓冲.buffer, 代理5数据缓冲.byteOffset + 地址索引228, 地址长度);
-      const 值6 = [];
-      for (let 索引值226 = 0; 索引值226 < 8; 索引值226++) {
-        值6.push(数据视图.getUint16(索引值226 * 2).toString(16));
+      _v913 = 16;
+      const _v916 = new DataView(_v909.buffer, _v909.byteOffset + _v914, _v913);
+      const _v917 = [];
+      for (let _v918 = 0; _v918 < 8; _v918++) {
+        _v917.push(_v916.getUint16(_v918 * 2).toString(16));
       }
-      地址227 = 值6.join(":");
+      _v915 = _v917.join(":");
       break;
     default:
       return {
         hasError: true,
-        message: `invalid addressType is ${本地值229}`
+        message: `invalid addressType is ${_v912}`
       };
   }
-  if (!地址227) {
+  if (!_v915) {
     return {
       hasError: true,
-      message: `address is empty, addressType is ${本地值229}`
+      message: `address is empty, addressType is ${_v912}`
     };
   }
-  const 端口索引225 = 地址索引228 + 地址长度;
-  const 端口远程 = new DataView(代理5数据缓冲.buffer, 代理5数据缓冲.byteOffset + 端口索引225, 2).getUint16(0);
+  const _v919 = _v914 + _v913;
+  const _v920 = new DataView(_v909.buffer, _v909.byteOffset + _v919, 2).getUint16(0);
   return {
     hasError: false,
-    addressRemote: 地址227,
-    addressType: 本地值229,
-    port: 端口远程,
-    hostname: 地址227,
-    rawClientData: 代理5数据缓冲.subarray(端口索引225 + 4)
+    addressRemote: _v915,
+    addressType: _v912,
+    port: _v920,
+    hostname: _v915,
+    rawClientData: _v909.subarray(_v919 + 4)
   };
 }
-async function 处理值224井号(文本224) {
-  const 编码器 = new TextEncoder();
-  const 数据223 = 编码器.encode(文本224);
-  const 本地值222 = [0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5, 0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174, 0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da, 0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967, 0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85, 0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070, 0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3, 0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2];
-  let 头部游标 = [0xc1059ed8, 0x367cd507, 0x3070dd17, 0xf70e5939, 0xffc00b31, 0x68581511, 0x64f98fa7, 0xbefa4fa4];
-  const 消息长度 = 数据223.length;
-  const 值长度221 = 消息长度 * 8;
-  const 值长度220 = Math.ceil((消息长度 + 9) / 64) * 64;
-  const 本地值219 = new Uint8Array(值长度220);
-  本地值219.set(数据223);
-  本地值219[消息长度] = 0x80;
-  const 视图 = new DataView(本地值219.buffer);
-  视图.setUint32(值长度220 - 4, 值长度221, false);
-  for (let 块218 = 0; 块218 < 值长度220; 块218 += 64) {
-    const 写入器包装 = new Uint32Array(64);
-    for (let 索引值217 = 0; 索引值217 < 16; 索引值217++) {
-      写入器包装[索引值217] = 视图.getUint32(块218 + 索引值217 * 4, false);
+async function _v906(_v921) {
+  const _v922 = new TextEncoder();
+  const _v923 = _v922.encode(_v921);
+  const _v924 = [0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5, 0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174, 0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da, 0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967, 0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85, 0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070, 0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3, 0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2];
+  let _v925 = [0xc1059ed8, 0x367cd507, 0x3070dd17, 0xf70e5939, 0xffc00b31, 0x68581511, 0x64f98fa7, 0xbefa4fa4];
+  const _v926 = _v923.length;
+  const _v927 = _v926 * 8;
+  const _v928 = Math.ceil((_v926 + 9) / 64) * 64;
+  const _v929 = new Uint8Array(_v928);
+  _v929.set(_v923);
+  _v929[_v926] = 0x80;
+  const _v930 = new DataView(_v929.buffer);
+  _v930.setUint32(_v928 - 4, _v927, false);
+  for (let _v931 = 0; _v931 < _v928; _v931 += 64) {
+    const _v932 = new Uint32Array(64);
+    for (let _v933 = 0; _v933 < 16; _v933++) {
+      _v932[_v933] = _v930.getUint32(_v931 + _v933 * 4, false);
     }
-    for (let 索引值216 = 16; 索引值216 < 64; 索引值216++) {
-      const 值0215 = 处理值值200(写入器包装[索引值216 - 15], 7) ^ 处理值值200(写入器包装[索引值216 - 15], 18) ^ 写入器包装[索引值216 - 15] >>> 3;
-      const 值1214 = 处理值值200(写入器包装[索引值216 - 2], 17) ^ 处理值值200(写入器包装[索引值216 - 2], 19) ^ 写入器包装[索引值216 - 2] >>> 10;
-      写入器包装[索引值216] = 写入器包装[索引值216 - 16] + 值0215 + 写入器包装[索引值216 - 7] + 值1214 >>> 0;
+    for (let _v934 = 16; _v934 < 64; _v934++) {
+      const _v935 = _v936(_v932[_v934 - 15], 7) ^ _v936(_v932[_v934 - 15], 18) ^ _v932[_v934 - 15] >>> 3;
+      const _v937 = _v936(_v932[_v934 - 2], 17) ^ _v936(_v932[_v934 - 2], 19) ^ _v932[_v934 - 2] >>> 10;
+      _v932[_v934] = _v932[_v934 - 16] + _v935 + _v932[_v934 - 7] + _v937 >>> 0;
     }
-    let [甲值213, 乙值, 丙值212, 丁值211, 事件值210, 表单值, 本地值209, 头值208] = 头部游标;
-    for (let 索引值207 = 0; 索引值207 < 64; 索引值207++) {
-      const 值1206 = 处理值值200(事件值210, 6) ^ 处理值值200(事件值210, 11) ^ 处理值值200(事件值210, 25);
-      const 本地值205 = 事件值210 & 表单值 ^ ~事件值210 & 本地值209;
-      const 值1 = 头值208 + 值1206 + 本地值205 + 本地值222[索引值207] + 写入器包装[索引值207] >>> 0;
-      const 值0 = 处理值值200(甲值213, 2) ^ 处理值值200(甲值213, 13) ^ 处理值值200(甲值213, 22);
-      const 本地值204 = 甲值213 & 乙值 ^ 甲值213 & 丙值212 ^ 乙值 & 丙值212;
-      const 值2203 = 值0 + 本地值204 >>> 0;
-      头值208 = 本地值209;
-      本地值209 = 表单值;
-      表单值 = 事件值210;
-      事件值210 = 丁值211 + 值1 >>> 0;
-      丁值211 = 丙值212;
-      丙值212 = 乙值;
-      乙值 = 甲值213;
-      甲值213 = 值1 + 值2203 >>> 0;
+    let [_v938, _v939, _v940, _v941, _v942, _v943, _v944, _v945] = _v925;
+    for (let _v946 = 0; _v946 < 64; _v946++) {
+      const _v947 = _v936(_v942, 6) ^ _v936(_v942, 11) ^ _v936(_v942, 25);
+      const _v948 = _v942 & _v943 ^ ~_v942 & _v944;
+      const _v949 = _v945 + _v947 + _v948 + _v924[_v946] + _v932[_v946] >>> 0;
+      const _v950 = _v936(_v938, 2) ^ _v936(_v938, 13) ^ _v936(_v938, 22);
+      const _v951 = _v938 & _v939 ^ _v938 & _v940 ^ _v939 & _v940;
+      const _v952 = _v950 + _v951 >>> 0;
+      _v945 = _v944;
+      _v944 = _v943;
+      _v943 = _v942;
+      _v942 = _v941 + _v949 >>> 0;
+      _v941 = _v940;
+      _v940 = _v939;
+      _v939 = _v938;
+      _v938 = _v949 + _v952 >>> 0;
     }
-    头部游标[0] = 头部游标[0] + 甲值213 >>> 0;
-    头部游标[1] = 头部游标[1] + 乙值 >>> 0;
-    头部游标[2] = 头部游标[2] + 丙值212 >>> 0;
-    头部游标[3] = 头部游标[3] + 丁值211 >>> 0;
-    头部游标[4] = 头部游标[4] + 事件值210 >>> 0;
-    头部游标[5] = 头部游标[5] + 表单值 >>> 0;
-    头部游标[6] = 头部游标[6] + 本地值209 >>> 0;
-    头部游标[7] = 头部游标[7] + 头值208 >>> 0;
+    _v925[0] = _v925[0] + _v938 >>> 0;
+    _v925[1] = _v925[1] + _v939 >>> 0;
+    _v925[2] = _v925[2] + _v940 >>> 0;
+    _v925[3] = _v925[3] + _v941 >>> 0;
+    _v925[4] = _v925[4] + _v942 >>> 0;
+    _v925[5] = _v925[5] + _v943 >>> 0;
+    _v925[6] = _v925[6] + _v944 >>> 0;
+    _v925[7] = _v925[7] + _v945 >>> 0;
   }
-  const 结果202 = [];
-  for (let 索引值201 = 0; 索引值201 < 7; 索引值201++) {
-    结果202.push((头部游标[索引值201] >>> 24 & 0xff).toString(16).padStart(2, '0'), (头部游标[索引值201] >>> 16 & 0xff).toString(16).padStart(2, '0'), (头部游标[索引值201] >>> 8 & 0xff).toString(16).padStart(2, '0'), (头部游标[索引值201] & 0xff).toString(16).padStart(2, '0'));
+  const _v953 = [];
+  for (let _v954 = 0; _v954 < 7; _v954++) {
+    _v953.push((_v925[_v954] >>> 24 & 0xff).toString(16).padStart(2, '0'), (_v925[_v954] >>> 16 & 0xff).toString(16).padStart(2, '0'), (_v925[_v954] >>> 8 & 0xff).toString(16).padStart(2, '0'), (_v925[_v954] & 0xff).toString(16).padStart(2, '0'));
   }
-  return 结果202.join('');
+  return _v953.join('');
 }
-function 处理值值200(值199, 本地值198) {
-  return 值199 >>> 本地值198 | 值199 << 32 - 本地值198;
+function _v936(_v955, _v956) {
+  return _v955 >>> _v956 | _v955 << 32 - _v956;
 }
-let 值值197 = 0;
-const 值超文本缓冲大小 = 128 * 1024;
-const 连接超时值 = 5000;
-const 值超时值 = 45000;
-const 上限值196 = 2;
-const 上限值 = 32;
-function 处理扩展超文本值195(本地值194) {
-  return new Promise(结果值193 => setTimeout(结果值193, 本地值194));
+let _v957 = 0;
+const _v958 = 128 * 1024;
+const _v959 = 5000;
+const _v960 = 45000;
+const _v961 = 2;
+const _v962 = 32;
+function _v963(_v964) {
+  return new Promise(_v965 => setTimeout(_v965, _v964));
 }
-function 验证唯一标识扩展超文本(标识192, 唯一标识191) {
-  for (let 索引190 = 0; 索引190 < 16; 索引190++) {
-    if (标识192[索引190] !== 唯一标识191[索引190]) {
+function _v966(_v967, _v968) {
+  for (let _v969 = 0; _v969 < 16; _v969++) {
+    if (_v967[_v969] !== _v968[_v969]) {
       return false;
     }
   }
   return true;
 }
-class 扩展超文本计数器 {
+class _v970 {
   #total;
   constructor() {
     this.#total = 0;
@@ -7610,548 +3651,540 @@ class 扩展超文本计数器 {
   get() {
     return this.#total;
   }
-  add(大小189) {
-    this.#total += 大小189;
+  add(_v971) {
+    this.#total += _v971;
   }
 }
-function 处理值值值(首次, ...本地值188) {
-  let 长度 = 首次.length;
-  for (let 甲值187 of 本地值188) {
-    长度 += 甲值187.length;
+function _v972(_v973, ..._v974) {
+  let _v975 = _v973.length;
+  for (let _v976 of _v974) {
+    _v975 += _v976.length;
   }
-  const 结果值186 = new 首次.constructor(长度);
-  结果值186.set(首次, 0);
-  长度 = 首次.length;
-  for (let 甲值185 of 本地值188) {
-    结果值186.set(甲值185, 长度);
-    长度 += 甲值185.length;
+  const _v977 = new _v973.constructor(_v975);
+  _v977.set(_v973, 0);
+  _v975 = _v973.length;
+  for (let _v978 of _v974) {
+    _v977.set(_v978, _v975);
+    _v975 += _v978.length;
   }
-  return 结果值186;
+  return _v977;
 }
-function 解析唯一标识扩展超文本(唯一标识184) {
-  唯一标识184 = 唯一标识184.replaceAll('-', '');
-  const 结果值183 = [];
-  for (let 索引182 = 0; 索引182 < 16; 索引182++) {
-    const 取值181 = parseInt(唯一标识184.substr(索引182 * 2, 2), 16);
-    结果值183.push(取值181);
+function _v979(_v980) {
+  _v980 = _v980.replaceAll('-', '');
+  const _v981 = [];
+  for (let _v982 = 0; _v982 < 16; _v982++) {
+    const _v983 = parseInt(_v980.substr(_v982 * 2, 2), 16);
+    _v981.push(_v983);
   }
-  return 结果值183;
+  return _v981;
 }
-function 获取扩展超文本缓冲(大小) {
-  return new Uint8Array(new ArrayBuffer(大小 || 值超文本缓冲大小));
+function _v984(_v985) {
+  return new Uint8Array(new ArrayBuffer(_v985 || _v958));
 }
-async function 读取扩展超文本头部(本地值180, 唯一标识字符串) {
-  const 读取器179 = 本地值180.getReader({
+async function _v986(_v987, _v988) {
+  const _v989 = _v987.getReader({
     mode: 'byob'
   });
   try {
-    let 结果值178 = await 读取器179.readAtLeast(1 + 16 + 1, 获取扩展超文本缓冲());
-    let 本地值177 = 0;
-    let 索引 = 0;
-    let 缓存 = 结果值178.value;
-    本地值177 += 结果值178.value.length;
-    const 本地值176 = 缓存[0];
-    const 标识175 = 缓存.slice(1, 1 + 16);
-    const 唯一标识174 = 解析唯一标识扩展超文本(唯一标识字符串);
-    if (!验证唯一标识扩展超文本(标识175, 唯一标识174)) {
+    let _v990 = await _v989.readAtLeast(1 + 16 + 1, _v984());
+    let _v991 = 0;
+    let _v9 = 0;
+    let _v992 = _v990.value;
+    _v991 += _v990.value.length;
+    const _v993 = _v992[0];
+    const _v994 = _v992.slice(1, 1 + 16);
+    const _v995 = _v979(_v988);
+    if (!_v966(_v994, _v995)) {
       return `invalid UUID`;
     }
-    const 值长度173 = 缓存[1 + 16];
-    const 地址值1 = 1 + 16 + 1 + 值长度173 + 1 + 2 + 1;
-    if (地址值1 + 1 > 本地值177) {
-      if (结果值178.done) {
+    const _v996 = _v992[1 + 16];
+    const _v997 = 1 + 16 + 1 + _v996 + 1 + 2 + 1;
+    if (_v997 + 1 > _v991) {
+      if (_v990.done) {
         return `header too short`;
       }
-      索引 = 地址值1 + 1 - 本地值177;
-      结果值178 = await 读取器179.readAtLeast(索引, 获取扩展超文本缓冲());
-      本地值177 += 结果值178.value.length;
-      缓存 = 处理值值值(缓存, 结果值178.value);
+      _v9 = _v997 + 1 - _v991;
+      _v990 = await _v989.readAtLeast(_v9, _v984());
+      _v991 += _v990.value.length;
+      _v992 = _v972(_v992, _v990.value);
     }
-    const 命令 = 缓存[1 + 16 + 1 + 值长度173];
-    if (命令 !== 1) {
-      return `unsupported command: ${命令}`;
+    const _v998 = _v992[1 + 16 + 1 + _v996];
+    if (_v998 !== 1) {
+      return `unsupported command: ${_v998}`;
     }
-    const 端口172 = (缓存[地址值1 - 1 - 2] << 8) + 缓存[地址值1 - 1 - 1];
-    const 本地值171 = 缓存[地址值1 - 1];
-    let 头部长度 = -1;
-    if (本地值171 === 地址类型_四版) {
-      头部长度 = 地址值1 + 4;
-    } else if (本地值171 === 地址类型_六版) {
-      头部长度 = 地址值1 + 16;
-    } else if (本地值171 === 地址类型_网址) {
-      头部长度 = 地址值1 + 1 + 缓存[地址值1];
+    const _v999 = (_v992[_v997 - 1 - 2] << 8) + _v992[_v997 - 1 - 1];
+    const _v1000 = _v992[_v997 - 1];
+    let _v1001 = -1;
+    if (_v1000 === _v83) {
+      _v1001 = _v997 + 4;
+    } else if (_v1000 === _v85) {
+      _v1001 = _v997 + 16;
+    } else if (_v1000 === _v84) {
+      _v1001 = _v997 + 1 + _v992[_v997];
     }
-    if (头部长度 < 0) {
+    if (_v1001 < 0) {
       return 'read address type failed';
     }
-    索引 = 头部长度 - 本地值177;
-    if (索引 > 0) {
-      if (结果值178.done) {
+    _v9 = _v1001 - _v991;
+    if (_v9 > 0) {
+      if (_v990.done) {
         return `read address failed`;
       }
-      结果值178 = await 读取器179.readAtLeast(索引, 获取扩展超文本缓冲());
-      本地值177 += 结果值178.value.length;
-      缓存 = 处理值值值(缓存, 结果值178.value);
+      _v990 = await _v989.readAtLeast(_v9, _v984());
+      _v991 += _v990.value.length;
+      _v992 = _v972(_v992, _v990.value);
     }
-    let 主机名170 = '';
-    索引 = 地址值1;
-    switch (本地值171) {
-      case 地址类型_四版:
-        主机名170 = 缓存.slice(索引, 索引 + 4).join('.');
+    let _v1002 = '';
+    _v9 = _v997;
+    switch (_v1000) {
+      case _v83:
+        _v1002 = _v992.slice(_v9, _v9 + 4).join('.');
         break;
-      case 地址类型_网址:
-        主机名170 = new TextDecoder().decode(缓存.slice(索引 + 1, 索引 + 1 + 缓存[索引]));
+      case _v84:
+        _v1002 = new TextDecoder().decode(_v992.slice(_v9 + 1, _v9 + 1 + _v992[_v9]));
         break;
-      case 地址类型_六版:
-        主机名170 = 缓存.slice(索引, 索引 + 16).reduce((字符串值, 值2169, 值2, 甲值) => 值2 % 2 ? 字符串值.concat(((甲值[值2 - 1] << 8) + 值2169).toString(16)) : 字符串值, []).join(':');
+      case _v85:
+        _v1002 = _v992.slice(_v9, _v9 + 16).reduce((_v1003, _v1004, _v1005, _v1006) => _v1005 % 2 ? _v1003.concat(((_v1006[_v1005 - 1] << 8) + _v1004).toString(16)) : _v1003, []).join(':');
         break;
     }
-    if (主机名170.length < 1) {
+    if (_v1002.length < 1) {
       return 'failed to parse hostname';
     }
-    const 数据 = 缓存.slice(头部长度);
+    const _v1007 = _v992.slice(_v1001);
     return {
-      hostname: 主机名170,
-      port: 端口172,
-      data: 数据,
-      resp: new Uint8Array([本地值176, 0]),
-      reader: 读取器179,
-      done: 结果值178.done
+      hostname: _v1002,
+      port: _v999,
+      data: _v1007,
+      resp: new Uint8Array([_v993, 0]),
+      reader: _v989,
+      done: _v990.done
     };
-  } catch (错误168) {
+  } catch (_v1008) {
     try {
-      读取器179.releaseLock();
-    } catch (忽略值167) {}
-    throw 错误168;
+      _v989.releaseLock();
+    } catch (_v1009) {}
+    throw _v1008;
   }
 }
-async function 处理值值远程扩展超文本(计数器166, 写入器165, 本地值164) {
-  async function 处理值值(丁值) {
-    if (!丁值 || 丁值.length === 0) {
+async function _v1010(_v1011, _v1012, _v1013) {
+  async function _v1014(_v1015) {
+    if (!_v1015 || _v1015.length === 0) {
       return;
     }
-    计数器166.add(丁值.length);
+    _v1011.add(_v1015.length);
     try {
-      await 写入器165.write(丁值);
-    } catch (错误163) {
-      throw 错误163;
+      await _v1012.write(_v1015);
+    } catch (_v1016) {
+      throw _v1016;
     }
   }
   try {
-    await 处理值值(本地值164.data);
-    let 块数量162 = 0;
-    while (!本地值164.done) {
-      const 结果值161 = await 本地值164.reader.read(获取扩展超文本缓冲());
-      if (结果值161.done) break;
-      await 处理值值(结果值161.value);
-      本地值164.done = 结果值161.done;
-      块数量162++;
-      if (块数量162 % 10 === 0) {
-        await 处理扩展超文本值195(0);
+    await _v1014(_v1013.data);
+    let _v1017 = 0;
+    while (!_v1013.done) {
+      const _v1018 = await _v1013.reader.read(_v984());
+      if (_v1018.done) break;
+      await _v1014(_v1018.value);
+      _v1013.done = _v1018.done;
+      _v1017++;
+      if (_v1017 % 10 === 0) {
+        await _v963(0);
       }
-      if (!结果值161.value || 结果值161.value.length === 0) {
-        await 处理扩展超文本值195(2);
+      if (!_v1018.value || _v1018.value.length === 0) {
+        await _v963(2);
       }
     }
-  } catch (错误160) {
-    throw 错误160;
+  } catch (_v1019) {
+    throw _v1019;
   }
 }
-function 创建扩展超文本值159(本地值158, 本地值157) {
-  const 计数器156 = new 扩展超文本计数器();
-  const 写入器155 = 本地值157.getWriter();
-  const 本地值154 = (async () => {
+function _v1020(_v1021, _v1022) {
+  const _v1023 = new _v970();
+  const _v1024 = _v1022.getWriter();
+  const _v1025 = (async () => {
     try {
-      await 处理值值远程扩展超文本(计数器156, 写入器155, 本地值158);
-    } catch (错误153) {
-      throw 错误153;
+      await _v1010(_v1023, _v1024, _v1021);
+    } catch (_v1026) {
+      throw _v1026;
     } finally {
       try {
-        await 写入器155.close();
-      } catch (错误152) {}
+        await _v1024.close();
+      } catch (_v1027) {}
     }
   })();
   return {
-    counter: 计数器156,
-    done: 本地值154,
+    counter: _v1023,
+    done: _v1025,
     abort: () => {
       try {
-        写入器155.abort();
-      } catch (忽略值151) {}
+        _v1024.abort();
+      } catch (_v1028) {}
     }
   };
 }
-function 创建扩展超文本值(本地值150, 远程值) {
-  const 计数器 = new 扩展超文本计数器();
-  let 流;
-  const 本地值149 = new Promise((本地值148, 本地值147) => {
-    流 = new TransformStream({
-      start(控制器146) {
-        计数器.add(本地值150.length);
-        控制器146.enqueue(本地值150);
+function _v1029(_v1030, _v1031) {
+  const _v1032 = new _v970();
+  let _v1033;
+  const _v1034 = new Promise((_v1035, _v1036) => {
+    _v1033 = new TransformStream({
+      start(_v1037) {
+        _v1032.add(_v1030.length);
+        _v1037.enqueue(_v1030);
       },
-      transform(块, 控制器145) {
-        计数器.add(块.length);
-        控制器145.enqueue(块);
+      transform(_v1038, _v1039) {
+        _v1032.add(_v1038.length);
+        _v1039.enqueue(_v1038);
       },
-      cancel(本地值144) {
-        本地值147(`download cancelled: ${本地值144}`);
+      cancel(_v1040) {
+        _v1036(`download cancelled: ${_v1040}`);
       }
     }, null, new ByteLengthQueuingStrategy({
-      highWaterMark: 值超文本缓冲大小
+      highWaterMark: _v958
     }));
-    let 值值143 = Date.now();
-    const 值计时器 = setInterval(() => {
-      if (Date.now() - 值值143 > 值超时值) {
+    let _v1041 = Date.now();
+    const _v1042 = setInterval(() => {
+      if (Date.now() - _v1041 > _v960) {
         try {
-          流.writable.abort?.('idle timeout');
-        } catch (忽略值142) {}
-        clearInterval(值计时器);
-        本地值147('idle timeout');
+          _v1033.writable.abort?.('idle timeout');
+        } catch (_v1043) {}
+        clearInterval(_v1042);
+        _v1036('idle timeout');
       }
     }, 5000);
-    const 读取器 = 远程值.getReader();
-    const 写入器 = 流.writable.getWriter();
+    const _v1044 = _v1031.getReader();
+    const _v1045 = _v1033.writable.getWriter();
     ;
     (async () => {
       try {
-        let 块数量 = 0;
+        let _v1046 = 0;
         while (true) {
-          const 结果值141 = await 读取器.read();
-          if (结果值141.done) {
+          const _v1047 = await _v1044.read();
+          if (_v1047.done) {
             break;
           }
-          值值143 = Date.now();
-          await 写入器.write(结果值141.value);
-          块数量++;
-          if (块数量 % 5 === 0) {
-            await 处理扩展超文本值195(0);
+          _v1041 = Date.now();
+          await _v1045.write(_v1047.value);
+          _v1046++;
+          if (_v1046 % 5 === 0) {
+            await _v963(0);
           }
         }
-        await 写入器.close();
-        本地值148();
-      } catch (错误140) {
-        本地值147(错误140);
+        await _v1045.close();
+        _v1035();
+      } catch (_v1048) {
+        _v1036(_v1048);
       } finally {
         try {
-          读取器.releaseLock();
-        } catch (忽略值139) {}
+          _v1044.releaseLock();
+        } catch (_v1049) {}
         try {
-          写入器.releaseLock();
-        } catch (忽略值138) {}
-        clearInterval(值计时器);
+          _v1045.releaseLock();
+        } catch (_v1050) {}
+        clearInterval(_v1042);
       }
     })();
   });
   return {
-    readable: 流.readable,
-    counter: 计数器,
-    done: 本地值149,
+    readable: _v1033.readable,
+    counter: _v1032,
+    done: _v1034,
     abort: () => {
       try {
-        流.readable.cancel();
-      } catch (忽略值137) {}
+        _v1033.readable.cancel();
+      } catch (_v1051) {}
       try {
-        流.writable.abort();
-      } catch (忽略值136) {}
+        _v1033.writable.abort();
+      } catch (_v1052) {}
     }
   };
 }
-async function 连接值远程扩展超文本(本地值135, ...本地值134) {
-  let 本地值133 = 0;
-  let 值错误;
-  const 连接列表 = [本地值135.hostname, ...本地值134.filter(结果值 => 结果值 && 结果值 !== 本地值135.hostname)];
-  for (const 主机名 of 连接列表) {
-    if (!主机名) continue;
-    本地值133 = 0;
-    while (本地值133 < 上限值196) {
-      本地值133++;
+async function _v1053(_v1054, ..._v1055) {
+  let _v1056 = 0;
+  let _v1057;
+  const _v1058 = [_v1054.hostname, ..._v1055.filter(_v1059 => _v1059 && _v1059 !== _v1054.hostname)];
+  for (const _v1060 of _v1058) {
+    if (!_v1060) continue;
+    _v1056 = 0;
+    while (_v1056 < _v961) {
+      _v1056++;
       try {
-        const 远程 = 连接({
-          hostname: 主机名,
-          port: 本地值135.port
+        const _v1061 = _v1({
+          hostname: _v1060,
+          port: _v1054.port
         });
-        const 超时承诺 = 处理扩展超文本值195(连接超时值).then(() => {
+        const _v1062 = _v963(_v959).then(() => {
           throw new Error('E_TIMEOUT');
         });
-        await Promise.race([远程.opened, 超时承诺]);
-        const 本地值132 = 创建扩展超文本值159(本地值135, 远程.writable);
-        const 本地值131 = 创建扩展超文本值(本地值135.resp, 远程.readable);
+        await Promise.race([_v1061.opened, _v1062]);
+        const _v1063 = _v1020(_v1054, _v1061.writable);
+        const _v1064 = _v1029(_v1054.resp, _v1061.readable);
         return {
-          downloader: 本地值131,
-          uploader: 本地值132,
+          downloader: _v1064,
+          uploader: _v1063,
           close: () => {
             try {
-              远程.close();
-            } catch (忽略值130) {}
+              _v1061.close();
+            } catch (_v1065) {}
           }
         };
-      } catch (错误129) {
-        值错误 = 错误129;
-        if (本地值133 < 上限值196) {
-          await 处理扩展超文本值195(500 * 本地值133);
+      } catch (_v1066) {
+        _v1057 = _v1066;
+        if (_v1056 < _v961) {
+          await _v963(500 * _v1056);
         }
       }
     }
   }
   return null;
 }
-async function 处理扩展超文本客户端(主体128, 唯一标识) {
-  if (值值197 >= 上限值) {
+async function _v1067(_v1068, _v1069) {
+  if (_v957 >= _v962) {
     return new Response('Too many connections', {
       status: 429
     });
   }
-  值值197++;
-  let 本地值127 = false;
-  const 本地值126 = () => {
-    if (!本地值127) {
-      值值197 = Math.max(0, 值值197 - 1);
-      本地值127 = true;
+  _v957++;
+  let _v1070 = false;
+  const _v1071 = () => {
+    if (!_v1070) {
+      _v957 = Math.max(0, _v957 - 1);
+      _v1070 = true;
     }
   };
   try {
-    const 本地值125 = await 读取扩展超文本头部(主体128, 唯一标识);
-    if (typeof 本地值125 !== 'object' || !本地值125) {
+    const _v1072 = await _v986(_v1068, _v1069);
+    if (typeof _v1072 !== 'object' || !_v1072) {
       return null;
     }
-    const 远程连接 = await 连接值远程扩展超文本(本地值125, 回退地址, '13.230.34.30');
-    if (远程连接 === null) {
+    const _v1073 = await _v1053(_v1072, _v12, '13.230.34.30');
+    if (_v1073 === null) {
       return null;
     }
-    const 连接值 = Promise.race([(async () => {
+    const _v1074 = Promise.race([(async () => {
       try {
-        await 远程连接.downloader.done;
-      } catch (错误124) {}
+        await _v1073.downloader.done;
+      } catch (_v1075) {}
     })(), (async () => {
       try {
-        await 远程连接.uploader.done;
-      } catch (错误123) {}
-    })(), 处理扩展超文本值195(值超时值).then(() => {})]).finally(() => {
+        await _v1073.uploader.done;
+      } catch (_v1076) {}
+    })(), _v963(_v960).then(() => {})]).finally(() => {
       try {
-        远程连接.close();
-      } catch (忽略值122) {}
+        _v1073.close();
+      } catch (_v1077) {}
       try {
-        远程连接.downloader.abort();
-      } catch (忽略值121) {}
+        _v1073.downloader.abort();
+      } catch (_v1078) {}
       try {
-        远程连接.uploader.abort();
-      } catch (忽略值) {}
-      本地值126();
+        _v1073.uploader.abort();
+      } catch (_v1079) {}
+      _v1071();
     });
     return {
-      readable: 远程连接.downloader.readable,
-      closed: 连接值
+      readable: _v1073.downloader.readable,
+      closed: _v1074
     };
-  } catch (错误120) {
-    本地值126();
+  } catch (_v1080) {
+    _v1071();
     return null;
   }
 }
-async function 处理扩展超文本值(请求119) {
+async function _v263(_v1081) {
   try {
-    return await 处理扩展超文本客户端(请求119.body, 认证令牌);
-  } catch (错误118) {
+    return await _v1067(_v1081.body, _v11);
+  } catch (_v1082) {
     return null;
   }
 }
-function 处理基础64值数组(值64字符串) {
-  if (!值64字符串) return {
+function _v831(_v1083) {
+  if (!_v1083) return {
     error: null
   };
   try {
-    值64字符串 = 值64字符串.replace(/-/g, '+').replace(/_/g, '/');
+    _v1083 = _v1083.replace(/-/g, '+').replace(/_/g, '/');
     return {
-      earlyData: Uint8Array.from(atob(值64字符串), 丙值117 => 丙值117.charCodeAt(0)).buffer,
+      earlyData: Uint8Array.from(atob(_v1083), _v1084 => _v1084.charCodeAt(0)).buffer,
       error: null
     };
-  } catch (错误116) {
+  } catch (_v1085) {
     return {
-      error: 错误116
+      error: _v1085
     };
   }
 }
-function 关闭套接字值(套接字) {
+function _v635(_v1086) {
   try {
-    if (套接字.readyState === 1 || 套接字.readyState === 2) 套接字.close();
-  } catch (错误115) {}
+    if (_v1086.readyState === 1 || _v1086.readyState === 2) _v1086.close();
+  } catch (_v1087) {}
 }
-const 十六进制值 = Array.from({
+const _v1088 = Array.from({
   length: 256
-}, (取值, 索引值) => (索引值 + 256).toString(16).slice(1));
-function 处理格式值(本地值114, 偏移 = 0) {
-  const 标识 = (十六进制值[本地值114[偏移]] + 十六进制值[本地值114[偏移 + 1]] + 十六进制值[本地值114[偏移 + 2]] + 十六进制值[本地值114[偏移 + 3]] + "-" + 十六进制值[本地值114[偏移 + 4]] + 十六进制值[本地值114[偏移 + 5]] + "-" + 十六进制值[本地值114[偏移 + 6]] + 十六进制值[本地值114[偏移 + 7]] + "-" + 十六进制值[本地值114[偏移 + 8]] + 十六进制值[本地值114[偏移 + 9]] + "-" + 十六进制值[本地值114[偏移 + 10]] + 十六进制值[本地值114[偏移 + 11]] + 十六进制值[本地值114[偏移 + 12]] + 十六进制值[本地值114[偏移 + 13]] + 十六进制值[本地值114[偏移 + 14]] + 十六进制值[本地值114[偏移 + 15]]).toLowerCase();
-  if (!是否有效格式(标识)) throw new TypeError(错误_无效标识字符串);
-  return 标识;
+}, (_v1089, _v1090) => (_v1090 + 256).toString(16).slice(1));
+function _v1091(_v1092, _v1093 = 0) {
+  const _v1094 = (_v1088[_v1092[_v1093]] + _v1088[_v1092[_v1093 + 1]] + _v1088[_v1092[_v1093 + 2]] + _v1088[_v1092[_v1093 + 3]] + "-" + _v1088[_v1092[_v1093 + 4]] + _v1088[_v1092[_v1093 + 5]] + "-" + _v1088[_v1092[_v1093 + 6]] + _v1088[_v1092[_v1093 + 7]] + "-" + _v1088[_v1092[_v1093 + 8]] + _v1088[_v1092[_v1093 + 9]] + "-" + _v1088[_v1092[_v1093 + 10]] + _v1088[_v1092[_v1093 + 11]] + _v1088[_v1092[_v1093 + 12]] + _v1088[_v1092[_v1093 + 13]] + _v1088[_v1092[_v1093 + 14]] + _v1088[_v1092[_v1093 + 15]]).toLowerCase();
+  if (!_v96(_v1094)) throw new TypeError(_v75);
+  return _v1094;
 }
-async function 获取值解析新地址列表() {
-  const 网址113 = 优选地址源;
+async function _v518() {
+  const _v1095 = _v22;
   try {
-    const 网址列表112 = 网址113.includes(',') ? 网址113.split(',').map(网址值111 => 网址值111.trim()).filter(网址值 => 网址值) : [网址113];
-    const 接口结果列表 = await 获取优选接口(网址列表112, '443', 5000);
-    if (接口结果列表.length > 0) {
-      const 结果列表110 = [];
-      const 正则 = /^(\[[\da-fA-F:]+\]|[\d.]+|[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)*)(?::(\d+))?(?:#(.+))?$/;
-      for (const 项目109 of 接口结果列表) {
-        const 本地值108 = 项目109.match(正则);
-        if (本地值108) {
-          结果列表110.push({
-            ip: 本地值108[1],
-            port: parseInt(本地值108[2] || '443', 10),
-            name: 本地值108[3]?.trim() || 本地值108[1]
+    const _v1096 = _v1095.includes(',') ? _v1095.split(',').map(_v1097 => _v1097.trim()).filter(_v1098 => _v1098) : [_v1095];
+    const _v1099 = await _v1100(_v1096, '443', 5000);
+    if (_v1099.length > 0) {
+      const _v1101 = [];
+      const _v1102 = /^(\[[\da-fA-F:]+\]|[\d.]+|[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)*)(?::(\d+))?(?:#(.+))?$/;
+      for (const _v1103 of _v1099) {
+        const _v1104 = _v1103.match(_v1102);
+        if (_v1104) {
+          _v1101.push({
+            ip: _v1104[1],
+            port: parseInt(_v1104[2] || '443', 10),
+            name: _v1104[3]?.trim() || _v1104[1]
           });
         }
       }
-      return 结果列表110;
+      return _v1101;
     }
-    const 响应107 = await fetch(网址113);
-    if (!响应107.ok) return [];
-    const 文本106 = await 响应107.text();
-    const 结果列表105 = [];
-    const 行列表104 = 文本106.trim().replace(/\r/g, "").split('\n');
-    const 值正则 = /^([^:]+):(\d+)#(.*)$/;
-    for (const 行103 of 行列表104) {
-      const 值行 = 行103.trim();
-      if (!值行) continue;
-      const 本地值102 = 值行.match(值正则);
-      if (本地值102) {
-        结果列表105.push({
-          ip: 本地值102[1],
-          port: parseInt(本地值102[2], 10),
-          name: 本地值102[3].trim() || 本地值102[1]
+    const _v1105 = await fetch(_v1095);
+    if (!_v1105.ok) return [];
+    const _v1106 = await _v1105.text();
+    const _v1107 = [];
+    const _v1108 = _v1106.trim().replace(/\r/g, "").split('\n');
+    const _v1109 = /^([^:]+):(\d+)#(.*)$/;
+    for (const _v1110 of _v1108) {
+      const _v1111 = _v1110.trim();
+      if (!_v1111) continue;
+      const _v1112 = _v1111.match(_v1109);
+      if (_v1112) {
+        _v1107.push({
+          ip: _v1112[1],
+          port: parseInt(_v1112[2], 10),
+          name: _v1112[3].trim() || _v1112[1]
         });
       }
     }
-    return 结果列表105;
-  } catch (错误101) {
+    return _v1107;
+  } catch (_v1113) {
     return [];
   }
 }
-function 生成链接列表来源新地址列表(列表100, 用户99, 工作器域名98, 加密客户端问候配置97 = null, 跳过编号96 = false, 别名命名器95 = null) {
-  const 云墙超文本端口94 = [80, 8080, 8880, 2052, 2082, 2086, 2095];
-  const 云墙安全超文本端口93 = [443, 2053, 2083, 2087, 2096, 8443];
-  const 链接列表92 = [];
-  const 网页套接字路径91 = '/?ed=2048';
-  const 协议 = 解码64('dmxlc3M=');
-  const 制作节点名称90 = 别名命名器95 || 创建值节点命名器(跳过编号96);
-  for (const 项目89 of 列表100) {
-    const 端口88 = 项目89.port;
-    const 安全地址87 = 项目89.ip.includes(':') ? `[${项目89.ip}]` : 项目89.ip;
-    if (云墙安全超文本端口93.includes(端口88)) {
-      const 网页套接字节点名称86 = 制作节点名称90(项目89);
-      let 链接85 = `${协议}://${用户99}@${安全地址87}:${端口88}?encryption=none&security=tls&sni=${工作器域名98}&fp=${启用加密客户端问候 ? 'chrome' : 'randomized'}&type=ws&host=${工作器域名98}&path=${网页套接字路径91}`;
-      if (自定义应用层协议协商) 链接85 += `&alpn=${encodeURIComponent(自定义应用层协议协商)}`;
-
-      // 如果启用了ECH，添加ech参数（ECH需要伪装成Chrome浏览器）
-      if (启用加密客户端问候) {
-        const 域名系统值84 = 自定义域名系统 || 'https://223.5.5.5/dns-query';
-        const 加密客户端问候域名83 = 自定义加密客户端问候域名 || 'cloudflare-ech.com';
-        链接85 += `&ech=${encodeURIComponent(`${加密客户端问候域名83}+${域名系统值84}`)}`;
+function _v519(_v1114, _v1115, _v1116, _v1117 = null, _v1118 = false, _v1119 = null) {
+  const _v1120 = [80, 8080, 8880, 2052, 2082, 2086, 2095];
+  const _v1121 = [443, 2053, 2083, 2087, 2096, 8443];
+  const _v1122 = [];
+  const _v1123 = '/?ed=2048';
+  const _v1124 = _v4('dmxlc3M=');
+  const _v1125 = _v1119 || _v126(_v1118);
+  for (const _v1126 of _v1114) {
+    const _v1127 = _v1126.port;
+    const _v1128 = _v1126.ip.includes(':') ? `[${_v1126.ip}]` : _v1126.ip;
+    if (_v1121.includes(_v1127)) {
+      const _v1129 = _v1125(_v1126);
+      let _v1130 = `${_v1124}://${_v1115}@${_v1128}:${_v1127}?encryption=none&security=tls&sni=${_v1116}&fp=${_v28 ? 'chrome' : 'randomized'}&type=ws&host=${_v1116}&path=${_v1123}`;
+      if (_v31) _v1130 += `&alpn=${encodeURIComponent(_v31)}`;
+      if (_v28) {
+        const _v1131 = _v29 || 'https://223.5.5.5/dns-query';
+        const _v1132 = _v30 || 'cloudflare-ech.com';
+        _v1130 += `&ech=${encodeURIComponent(`${_v1132}+${_v1131}`)}`;
       }
-      链接85 += `#${encodeURIComponent(网页套接字节点名称86)}`;
-      链接列表92.push(链接85);
-    } else if (云墙超文本端口94.includes(端口88)) {
-      if (!禁用非传输层安全) {
-        const 网页套接字节点名称82 = 制作节点名称90(项目89);
-        const 链接81 = `${协议}://${用户99}@${安全地址87}:${端口88}?encryption=none&security=none&type=ws&host=${工作器域名98}&path=${网页套接字路径91}#${encodeURIComponent(网页套接字节点名称82)}`;
-        链接列表92.push(链接81);
+      _v1130 += `#${encodeURIComponent(_v1129)}`;
+      _v1122.push(_v1130);
+    } else if (_v1120.includes(_v1127)) {
+      if (!_v17) {
+        const _v1133 = _v1125(_v1126);
+        const _v1134 = `${_v1124}://${_v1115}@${_v1128}:${_v1127}?encryption=none&security=none&type=ws&host=${_v1116}&path=${_v1123}#${encodeURIComponent(_v1133)}`;
+        _v1122.push(_v1134);
       }
     } else {
-      const 网页套接字节点名称80 = 制作节点名称90(项目89);
-      let 链接79 = `${协议}://${用户99}@${安全地址87}:${端口88}?encryption=none&security=tls&sni=${工作器域名98}&fp=${启用加密客户端问候 ? 'chrome' : 'randomized'}&type=ws&host=${工作器域名98}&path=${网页套接字路径91}`;
-      if (自定义应用层协议协商) 链接79 += `&alpn=${encodeURIComponent(自定义应用层协议协商)}`;
-
-      // 如果启用了ECH，添加ech参数（ECH需要伪装成Chrome浏览器）
-      if (启用加密客户端问候) {
-        const 域名系统值78 = 自定义域名系统 || 'https://223.5.5.5/dns-query';
-        const 加密客户端问候域名77 = 自定义加密客户端问候域名 || 'cloudflare-ech.com';
-        链接79 += `&ech=${encodeURIComponent(`${加密客户端问候域名77}+${域名系统值78}`)}`;
+      const _v1135 = _v1125(_v1126);
+      let _v1136 = `${_v1124}://${_v1115}@${_v1128}:${_v1127}?encryption=none&security=tls&sni=${_v1116}&fp=${_v28 ? 'chrome' : 'randomized'}&type=ws&host=${_v1116}&path=${_v1123}`;
+      if (_v31) _v1136 += `&alpn=${encodeURIComponent(_v31)}`;
+      if (_v28) {
+        const _v1137 = _v29 || 'https://223.5.5.5/dns-query';
+        const _v1138 = _v30 || 'cloudflare-ech.com';
+        _v1136 += `&ech=${encodeURIComponent(`${_v1138}+${_v1137}`)}`;
       }
-      链接79 += `#${encodeURIComponent(网页套接字节点名称80)}`;
-      链接列表92.push(链接79);
+      _v1136 += `#${encodeURIComponent(_v1135)}`;
+      _v1122.push(_v1136);
     }
   }
-  return 链接列表92;
+  return _v1122;
 }
-function 生成扩展超文本链接列表来源源(列表76, 用户75, 工作器域名74, 加密客户端问候配置73 = null, 跳过编号72 = false, 别名命名器71 = null) {
-  const 链接列表70 = [];
-  const 节点路径 = 用户75.substring(0, 8);
-  const 制作节点名称69 = 别名命名器71 || 创建值节点命名器(跳过编号72);
-  for (const 项目68 of 列表76) {
-    const 安全地址67 = 项目68.ip.includes(':') ? `[${项目68.ip}]` : 项目68.ip;
-    const 端口66 = 项目68.port || 443;
-    const 网页套接字节点名称65 = 制作节点名称69(项目68);
-    const 参数 = new URLSearchParams({
+function _v500(_v1139, _v1140, _v1141, _v1142 = null, _v1143 = false, _v1144 = null) {
+  const _v1145 = [];
+  const _v1146 = _v1140.substring(0, 8);
+  const _v1147 = _v1144 || _v126(_v1143);
+  for (const _v1148 of _v1139) {
+    const _v1149 = _v1148.ip.includes(':') ? `[${_v1148.ip}]` : _v1148.ip;
+    const _v1150 = _v1148.port || 443;
+    const _v1151 = _v1147(_v1148);
+    const _v1152 = new URLSearchParams({
       encryption: 'none',
       security: 'tls',
-      sni: 工作器域名74,
+      sni: _v1141,
       fp: 'chrome',
       type: 'xhttp',
-      host: 工作器域名74,
-      path: `/${节点路径}`,
+      host: _v1141,
+      path: `/${_v1146}`,
       mode: 'stream-one'
     });
-    处理值应用层协议协商值(参数);
-    if (启用加密客户端问候) {
-      const 域名系统值64 = 自定义域名系统 || 'https://223.5.5.5/dns-query';
-      const 加密客户端问候域名63 = 自定义加密客户端问候域名 || 'cloudflare-ech.com';
-      参数.set('ech', `${加密客户端问候域名63}+${域名系统值64}`);
+    _v135(_v1152);
+    if (_v28) {
+      const _v1153 = _v29 || 'https://223.5.5.5/dns-query';
+      const _v1154 = _v30 || 'cloudflare-ech.com';
+      _v1152.set('ech', `${_v1154}+${_v1153}`);
     }
-    链接列表70.push(`${解码64('dmxlc3M6Ly8=')}${用户75}@${安全地址67}:${端口66}?${参数.toString()}#${encodeURIComponent(网页套接字节点名称65)}`);
+    _v1145.push(`${_v4('dmxlc3M6Ly8=')}${_v1140}@${_v1149}:${_v1150}?${_v1152.toString()}#${encodeURIComponent(_v1151)}`);
   }
-  return 链接列表70;
+  return _v1145;
 }
-async function 生成木马链接列表来源新地址列表(列表, 用户, 工作器域名, 加密客户端问候配置 = null, 跳过编号 = false, 别名命名器 = null) {
-  const 云墙超文本端口 = [80, 8080, 8880, 2052, 2082, 2086, 2095];
-  const 云墙安全超文本端口 = [443, 2053, 2083, 2087, 2096, 8443];
-  const 链接列表 = [];
-  const 网页套接字路径 = '/?ed=2048';
-  const 密码 = 传输路径 || 用户;
-  const 制作节点名称 = 别名命名器 || 创建值节点命名器(跳过编号);
-  for (const 项目62 of 列表) {
-    const 端口61 = 项目62.port;
-    const 安全地址 = 项目62.ip.includes(':') ? `[${项目62.ip}]` : 项目62.ip;
-    if (云墙安全超文本端口.includes(端口61)) {
-      const 网页套接字节点名称60 = 制作节点名称(项目62);
-      let 链接59 = `${解码64('dHJvamFuOi8v')}${密码}@${安全地址}:${端口61}?security=tls&sni=${工作器域名}&fp=chrome&type=ws&host=${工作器域名}&path=${网页套接字路径}`;
-      if (自定义应用层协议协商) 链接59 += `&alpn=${encodeURIComponent(自定义应用层协议协商)}`;
-
-      // 如果启用了ECH，添加ech参数（ECH需要伪装成Chrome浏览器）
-      if (启用加密客户端问候) {
-        const 域名系统值58 = 自定义域名系统 || 'https://223.5.5.5/dns-query';
-        const 加密客户端问候域名57 = 自定义加密客户端问候域名 || 'cloudflare-ech.com';
-        链接59 += `&ech=${encodeURIComponent(`${加密客户端问候域名57}+${域名系统值58}`)}`;
+async function _v520(_v1155, _v1156, _v1157, _v1158 = null, _v1159 = false, _v1160 = null) {
+  const _v1161 = [80, 8080, 8880, 2052, 2082, 2086, 2095];
+  const _v1162 = [443, 2053, 2083, 2087, 2096, 8443];
+  const _v1163 = [];
+  const _v1164 = '/?ed=2048';
+  const _v1165 = _v27 || _v1156;
+  const _v1166 = _v1160 || _v126(_v1159);
+  for (const _v1167 of _v1155) {
+    const _v1168 = _v1167.port;
+    const _v1169 = _v1167.ip.includes(':') ? `[${_v1167.ip}]` : _v1167.ip;
+    if (_v1162.includes(_v1168)) {
+      const _v1170 = _v1166(_v1167);
+      let _v1171 = `${_v4('dHJvamFuOi8v')}${_v1165}@${_v1169}:${_v1168}?security=tls&sni=${_v1157}&fp=chrome&type=ws&host=${_v1157}&path=${_v1164}`;
+      if (_v31) _v1171 += `&alpn=${encodeURIComponent(_v31)}`;
+      if (_v28) {
+        const _v1172 = _v29 || 'https://223.5.5.5/dns-query';
+        const _v1173 = _v30 || 'cloudflare-ech.com';
+        _v1171 += `&ech=${encodeURIComponent(`${_v1173}+${_v1172}`)}`;
       }
-      链接59 += `#${encodeURIComponent(网页套接字节点名称60)}`;
-      链接列表.push(链接59);
-    } else if (云墙超文本端口.includes(端口61)) {
-      if (!禁用非传输层安全) {
-        const 网页套接字节点名称56 = 制作节点名称(项目62);
-        const 链接55 = `${解码64('dHJvamFuOi8v')}${密码}@${安全地址}:${端口61}?security=none&type=ws&host=${工作器域名}&path=${网页套接字路径}#${encodeURIComponent(网页套接字节点名称56)}`;
-        链接列表.push(链接55);
+      _v1171 += `#${encodeURIComponent(_v1170)}`;
+      _v1163.push(_v1171);
+    } else if (_v1161.includes(_v1168)) {
+      if (!_v17) {
+        const _v1174 = _v1166(_v1167);
+        const _v1175 = `${_v4('dHJvamFuOi8v')}${_v1165}@${_v1169}:${_v1168}?security=none&type=ws&host=${_v1157}&path=${_v1164}#${encodeURIComponent(_v1174)}`;
+        _v1163.push(_v1175);
       }
     } else {
-      const 网页套接字节点名称 = 制作节点名称(项目62);
-      let 链接 = `${解码64('dHJvamFuOi8v')}${密码}@${安全地址}:${端口61}?security=tls&sni=${工作器域名}&fp=chrome&type=ws&host=${工作器域名}&path=${网页套接字路径}`;
-      if (自定义应用层协议协商) 链接 += `&alpn=${encodeURIComponent(自定义应用层协议协商)}`;
-
-      // 如果启用了ECH，添加ech参数（ECH需要伪装成Chrome浏览器）
-      if (启用加密客户端问候) {
-        const 域名系统值 = 自定义域名系统 || 'https://223.5.5.5/dns-query';
-        const 加密客户端问候域名 = 自定义加密客户端问候域名 || 'cloudflare-ech.com';
-        链接 += `&ech=${encodeURIComponent(`${加密客户端问候域名}+${域名系统值}`)}`;
+      const _v1176 = _v1166(_v1167);
+      let _v1177 = `${_v4('dHJvamFuOi8v')}${_v1165}@${_v1169}:${_v1168}?security=tls&sni=${_v1157}&fp=chrome&type=ws&host=${_v1157}&path=${_v1164}`;
+      if (_v31) _v1177 += `&alpn=${encodeURIComponent(_v31)}`;
+      if (_v28) {
+        const _v1178 = _v29 || 'https://223.5.5.5/dns-query';
+        const _v1179 = _v30 || 'cloudflare-ech.com';
+        _v1177 += `&ech=${encodeURIComponent(`${_v1179}+${_v1178}`)}`;
       }
-      链接 += `#${encodeURIComponent(网页套接字节点名称)}`;
-      链接列表.push(链接);
+      _v1177 += `#${encodeURIComponent(_v1176)}`;
+      _v1163.push(_v1177);
     }
   }
-  return 链接列表;
+  return _v1163;
 }
-async function 处理配置接口(请求54, 环境值 = {}) {
-  if (请求54.method === 'GET') {
-    if (!键值存储) {
+async function _v244(_v1180, _v59 = {}) {
+  if (_v1180.method === 'GET') {
+    if (!_v38) {
       return new Response(JSON.stringify({
-        error: 'KV存储未配置',
+        error: _d64("AUtW5a2Y5YKo5pyq6YWN572u"),
         kvEnabled: false
       }), {
         status: 503,
@@ -8161,18 +4194,18 @@ async function 处理配置接口(请求54, 环境值 = {}) {
       });
     }
     return new Response(JSON.stringify({
-      ...获取有效配置快照(环境值),
+      ..._v64(_v59),
       kvEnabled: true
     }), {
       headers: {
         'Content-Type': 'application/json'
       }
     });
-  } else if (请求54.method === 'POST') {
-    if (!键值存储) {
+  } else if (_v1180.method === 'POST') {
+    if (!_v38) {
       return new Response(JSON.stringify({
         success: false,
-        message: 'KV存储未配置，无法保存配置'
+        message: _d64("AUtW5a2Y5YKo5pyq6YWN572u77yM5peg5rOV5L+d5a2Y6YWN572u")
       }), {
         status: 503,
         headers: {
@@ -8181,32 +4214,32 @@ async function 处理配置接口(请求54, 环境值 = {}) {
       });
     }
     try {
-      const 新配置 = await 请求54.json();
-      for (const [键, 值] of Object.entries(新配置)) {
-        if (值 === '' || 值 === null || 值 === undefined) {
-          delete 键值配置[键];
+      const _v1181 = await _v1180.json();
+      for (const [_v50, _v46] of Object.entries(_v1181)) {
+        if (_v46 === '' || _v46 === null || _v46 === undefined) {
+          delete _v39[_v50];
         } else {
-          键值配置[键] = 值;
+          _v39[_v50] = _v46;
         }
       }
-      await 保存键值配置();
-      更新配置值();
-      if (新配置.yx !== undefined) {
-        更新自定义优选来源值();
+      await _v147();
+      _v1182();
+      if (_v1181.yx !== undefined) {
+        _v1183();
       }
       return new Response(JSON.stringify({
         success: true,
-        message: '配置已保存',
-        config: 获取有效配置快照(环境值)
+        message: _d64("AemFjee9ruW3suS/neWtmA=="),
+        config: _v64(_v59)
       }), {
         headers: {
           'Content-Type': 'application/json'
         }
       });
-    } catch (错误53) {
+    } catch (_v1184) {
       return new Response(JSON.stringify({
         success: false,
-        message: '保存配置失败: ' + 错误53.message
+        message: _d64("AeS/neWtmOmFjee9ruWksei0pTog") + _v1184.message
       }), {
         status: 500,
         headers: {
@@ -8224,84 +4257,146 @@ async function 处理配置接口(请求54, 环境值 = {}) {
     }
   });
 }
-/* ------------------------------------------------------------------
-   خودکارسازی به‌روزرسانی پنل (self-update)
-   - GET  /api/update  → مقایسه نسخه فعلی با نسخه‌ی موجود در آدرس VERSION
-   - POST /api/update  → دریافت worker-source.js جدید و آپلود آن روی همین Worker
-     از طریق Cloudflare API با توکنی که ادمین در تنظیمات ذخیره کرده.
-   هیچ آدرس یا توکنی هاردکد نشده؛ همه از KV (键值配置) خوانده می‌شود تا هر کاربر
-   بتواند منبع/توکن خودش را تنظیم کند و کاملاً اختیاری بماند.
-------------------------------------------------------------------- */
-async function 处理更新检查接口(请求, 环境值 = {}) {
-  if (请求.method !== 'GET') {
-    return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers: { 'Content-Type': 'application/json' } });
+async function _v261(_v1185, _v59 = {}) {
+  if (_v1185.method !== 'GET') {
+    return new Response(JSON.stringify({
+      error: 'Method not allowed'
+    }), {
+      status: 405,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
-  const 版本地址 = 获取配置文本值('updVerUrl', 配置默认值.updVerUrl, 环境值.updVerUrl);
-  if (!版本地址) {
-    return new Response(JSON.stringify({ current: 面板版本, latest: null, hasUpdate: false, message: 'آدرس بررسی نسخه تنظیم نشده' }), { headers: { 'Content-Type': 'application/json' } });
+  const _v1186 = _v54('updVerUrl', _v44.updVerUrl, _v59.updVerUrl);
+  if (!_v1186) {
+    return new Response(JSON.stringify({
+      current: _v43,
+      latest: null,
+      hasUpdate: false,
+      message: 'آدرس بررسی نسخه تنظیم نشده'
+    }), {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
   try {
-    const 响应 = await fetch(版本地址, { cf: { cacheTtl: 0 } });
-    if (!响应.ok) throw new Error('HTTP ' + 响应.status);
-    const 最新版本 = (await 响应.text()).trim();
+    const _v1187 = await fetch(_v1186, {
+      cf: {
+        cacheTtl: 0
+      }
+    });
+    if (!_v1187.ok) throw new Error('HTTP ' + _v1187.status);
+    const _v1188 = (await _v1187.text()).trim();
     return new Response(JSON.stringify({
-      current: 面板版本,
-      latest: 最新版本,
-      hasUpdate: !!最新版本 && 最新版本 !== 面板版本
-    }), { headers: { 'Content-Type': 'application/json' } });
-  } catch (错误) {
-    return new Response(JSON.stringify({ current: 面板版本, latest: null, hasUpdate: false, error: 'بررسی نسخه ناموفق: ' + 错误.message }), { status: 502, headers: { 'Content-Type': 'application/json' } });
+      current: _v43,
+      latest: _v1188,
+      hasUpdate: !!_v1188 && _v1188 !== _v43
+    }), {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+  } catch (_v1189) {
+    return new Response(JSON.stringify({
+      current: _v43,
+      latest: null,
+      hasUpdate: false,
+      error: 'بررسی نسخه ناموفق: ' + _v1189.message
+    }), {
+      status: 502,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
 }
-
-async function 处理更新应用接口(请求, 环境值 = {}) {
-  if (请求.method !== 'POST') {
-    return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers: { 'Content-Type': 'application/json' } });
+async function _v260(_v1185, _v59 = {}) {
+  if (_v1185.method !== 'POST') {
+    return new Response(JSON.stringify({
+      error: 'Method not allowed'
+    }), {
+      status: 405,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
-  const 源码地址 = 获取配置文本值('updSrcUrl', 配置默认值.updSrcUrl, 环境值.updSrcUrl);
-  const 令牌 = 获取配置文本值('cfToken', 配置默认值.cfToken, 环境值.cfToken);
-  const 账户ID = 获取配置文本值('cfAccountId', 配置默认值.cfAccountId, 环境值.cfAccountId);
-  const 脚本名 = 获取配置文本值('cfScriptName', 配置默认值.cfScriptName, 环境值.cfScriptName);
-  if (!源码地址 || !令牌 || !账户ID || !脚本名) {
+  const _v1190 = _v54('updSrcUrl', _v44.updSrcUrl, _v59.updSrcUrl);
+  const _v806 = _v54('cfToken', _v44.cfToken, _v59.cfToken);
+  const _v1191 = _v54('cfAccountId', _v44.cfAccountId, _v59.cfAccountId);
+  const _v1192 = _v54('cfScriptName', _v44.cfScriptName, _v59.cfScriptName);
+  if (!_v1190 || !_v806 || !_v1191 || !_v1192) {
     return new Response(JSON.stringify({
       success: false,
       message: 'برای به‌روزرسانی خودکار باید در تنظیمات مقادیر updSrcUrl، cfToken، cfAccountId و cfScriptName را وارد کنی'
-    }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+    }), {
+      status: 400,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
   try {
-    const 源码响应 = await fetch(源码地址, { cf: { cacheTtl: 0 } });
-    if (!源码响应.ok) throw new Error('دریافت کد جدید ناموفق: HTTP ' + 源码响应.status);
-    const 新源码 = await 源码响应.text();
-    if (!新源码 || 新源码.length < 1000) throw new Error('محتوای دریافت‌شده معتبر به نظر نمی‌رسد');
-
-    const 元数据 = { main_module: 'worker.js', compatibility_date: '2025-01-01', compatibility_flags: ['nodejs_compat'], keep_bindings: ['kv_namespace', 'plain_text', 'secret_text', 'd1'] };
-    const 表单 = new FormData();
-    表单.append('metadata', JSON.stringify(元数据));
-    表单.append('worker.js', new Blob([新源码], { type: 'application/javascript+module' }), 'worker.js');
-
-    const 上传地址 = `https://api.cloudflare.com/client/v4/accounts/${账户ID}/workers/scripts/${脚本名}`;
-    const 上传响应 = await fetch(上传地址, {
-      method: 'PUT',
-      headers: { 'Authorization': `Bearer ${令牌}` },
-      body: 表单
+    const _v1193 = await fetch(_v1190, {
+      cf: {
+        cacheTtl: 0
+      }
     });
-    const 上传结果 = await 上传响应.json().catch(() => ({}));
-    if (!上传响应.ok || 上传结果.success === false) {
-      const 错误信息 = (上传结果.errors && 上传结果.errors[0] && 上传结果.errors[0].message) || ('HTTP ' + 上传响应.status);
-      throw new Error(错误信息);
+    if (!_v1193.ok) throw new Error('دریافت کد جدید ناموفق: HTTP ' + _v1193.status);
+    const _v1194 = await _v1193.text();
+    if (!_v1194 || _v1194.length < 1000) throw new Error('محتوای دریافت‌شده معتبر به نظر نمی‌رسد');
+    const _v1195 = {
+      main_module: 'worker.js',
+      compatibility_date: '2025-01-01',
+      compatibility_flags: ['nodejs_compat'],
+      keep_bindings: ['kv_namespace', 'plain_text', 'secret_text', 'd1']
+    };
+    const _v1196 = new FormData();
+    _v1196.append('metadata', JSON.stringify(_v1195));
+    _v1196.append('worker.js', new Blob([_v1194], {
+      type: 'application/javascript+module'
+    }), 'worker.js');
+    const _v1197 = `https://api.cloudflare.com/client/v4/accounts/${_v1191}/workers/scripts/${_v1192}`;
+    const _v1198 = await fetch(_v1197, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${_v806}`
+      },
+      body: _v1196
+    });
+    const _v1199 = await _v1198.json().catch(() => ({}));
+    if (!_v1198.ok || _v1199.success === false) {
+      const _v1200 = _v1199.errors && _v1199.errors[0] && _v1199.errors[0].message || 'HTTP ' + _v1198.status;
+      throw new Error(_v1200);
     }
-    return new Response(JSON.stringify({ success: true, message: 'ورکر با موفقیت به‌روزرسانی شد. صفحه را رفرش کن.' }), { headers: { 'Content-Type': 'application/json' } });
-  } catch (错误) {
-    return new Response(JSON.stringify({ success: false, message: 'به‌روزرسانی ناموفق: ' + 错误.message }), { status: 500, headers: { 'Content-Type': 'application/json' } });
-  }
-}
-
-async function 处理优选地址列表接口(请求) {
-  if (!键值存储) {
+    return new Response(JSON.stringify({
+      success: true,
+      message: 'ورکر با موفقیت به‌روزرسانی شد. صفحه را رفرش کن.'
+    }), {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+  } catch (_v1189) {
     return new Response(JSON.stringify({
       success: false,
-      error: 'KV存储未配置',
-      message: '需要配置KV存储才能使用此功能'
+      message: 'به‌روزرسانی ناموفق: ' + _v1189.message
+    }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+  }
+}
+async function _v252(_v1185) {
+  if (!_v38) {
+    return new Response(JSON.stringify({
+      success: false,
+      error: _d64("AUtW5a2Y5YKo5pyq6YWN572u"),
+      message: _d64("AemcgOimgemFjee9rktW5a2Y5YKo5omN6IO95L2/55So5q2k5Yqf6IO9")
     }), {
       status: 503,
       headers: {
@@ -8309,12 +4404,12 @@ async function 处理优选地址列表接口(请求) {
       }
     });
   }
-  const 本地值52 = 获取配置值('ae', '') === 'yes';
-  if (!本地值52) {
+  const _v1201 = _v53('ae', '') === 'yes';
+  if (!_v1201) {
     return new Response(JSON.stringify({
       success: false,
-      error: 'API功能未启用',
-      message: '出于安全考虑，优选IP API功能默认关闭。请在配置管理页面开启"允许API管理"选项后使用。'
+      error: _d64("AUFQSeWKn+iDveacquWQr+eUqA=="),
+      message: _d64("AeWHuuS6juWuieWFqOiAg+iZke+8jOS8mOmAiUlQIEFQSeWKn+iDvem7mOiupOWFs+mXreOAguivt+WcqOmFjee9rueuoeeQhumhtemdouW8gOWQryLlhYHorrhBUEnnrqHnkIYi6YCJ6aG55ZCO5L2/55So44CC")
     }), {
       status: 403,
       headers: {
@@ -8323,26 +4418,26 @@ async function 处理优选地址列表接口(请求) {
     });
   }
   try {
-    if (请求.method === 'GET') {
-      const 值值51 = 获取配置值('yx', '');
-      const 本地值50 = 解析值值数组(值值51);
+    if (_v1185.method === 'GET') {
+      const _v1202 = _v53('yx', '');
+      const _v1203 = _v1204(_v1202);
       return new Response(JSON.stringify({
         success: true,
-        count: 本地值50.length,
-        data: 本地值50
+        count: _v1203.length,
+        data: _v1203
       }), {
         headers: {
           'Content-Type': 'application/json'
         }
       });
-    } else if (请求.method === 'POST') {
-      const 主体49 = await 请求.json();
-      const 地址列表值添加 = Array.isArray(主体49) ? 主体49 : [主体49];
-      if (地址列表值添加.length === 0) {
+    } else if (_v1185.method === 'POST') {
+      const _v1205 = await _v1185.json();
+      const _v1206 = Array.isArray(_v1205) ? _v1205 : [_v1205];
+      if (_v1206.length === 0) {
         return new Response(JSON.stringify({
           success: false,
-          error: '请求数据为空',
-          message: '请提供IP数据'
+          error: _d64("Aeivt+axguaVsOaNruS4uuepug=="),
+          message: _d64("Aeivt+aPkOS+m0lQ5pWw5o2u")
         }), {
           status: 400,
           headers: {
@@ -8350,90 +4445,90 @@ async function 处理优选地址列表接口(请求) {
           }
         });
       }
-      const 值值48 = 获取配置值('yx', '');
-      let 本地值47 = 解析值值数组(值值48);
-      const 值地址列表46 = [];
-      const 值地址列表45 = [];
-      const 错误列表 = [];
-      for (const 项目44 of 地址列表值添加) {
-        if (!项目44.ip) {
-          错误列表.push({
-            ip: '未知',
-            reason: 'IP地址是必需的'
+      const _v1207 = _v53('yx', '');
+      let _v1208 = _v1204(_v1207);
+      const _v1209 = [];
+      const _v1210 = [];
+      const _v1211 = [];
+      for (const _v1212 of _v1206) {
+        if (!_v1212.ip) {
+          _v1211.push({
+            ip: _d64("AeacquefpQ=="),
+            reason: _d64("AUlQ5Zyw5Z2A5piv5b+F6ZyA55qE")
           });
           continue;
         }
-        const 端口43 = 项目44.port || 443;
-        const 名称 = 项目44.name || `API优选-${项目44.ip}:${端口43}`;
-        if (!是否有效地址(项目44.ip) && !是否有效域名(项目44.ip)) {
-          错误列表.push({
-            ip: 项目44.ip,
-            reason: '无效的IP或域名格式'
+        const _v1213 = _v1212.port || 443;
+        const _v61 = _v1212.name || _d64("AUFQSeS8mOmAiS0=") + String(_v1212.ip) + ":" + String(_v1213);
+        if (!_v99(_v1212.ip) && !_v1214(_v1212.ip)) {
+          _v1211.push({
+            ip: _v1212.ip,
+            reason: _d64("AeaXoOaViOeahElQ5oiW5Z+f5ZCN5qC85byP")
           });
           continue;
         }
-        const 本地值42 = 本地值47.some(值项目 => 值项目.ip === 项目44.ip && 值项目.port === 端口43);
-        if (本地值42) {
-          值地址列表45.push({
-            ip: 项目44.ip,
-            port: 端口43,
-            reason: '已存在'
+        const _v1215 = _v1208.some(_v1216 => _v1216.ip === _v1212.ip && _v1216.port === _v1213);
+        if (_v1215) {
+          _v1210.push({
+            ip: _v1212.ip,
+            port: _v1213,
+            reason: _d64("AeW3suWtmOWcqA==")
           });
           continue;
         }
-        const 新地址 = {
-          ip: 项目44.ip,
-          port: 端口43,
-          name: 名称,
+        const _v1217 = {
+          ip: _v1212.ip,
+          port: _v1213,
+          name: _v61,
           addedAt: new Date().toISOString()
         };
-        本地值47.push(新地址);
-        值地址列表46.push(新地址);
+        _v1208.push(_v1217);
+        _v1209.push(_v1217);
       }
-      if (值地址列表46.length > 0) {
-        const 新值值41 = 处理数组值值(本地值47);
-        await 设置配置值('yx', 新值值41);
-        更新自定义优选来源值();
+      if (_v1209.length > 0) {
+        const _v1218 = _v1219(_v1208);
+        await _v153('yx', _v1218);
+        _v1183();
       }
       return new Response(JSON.stringify({
-        success: 值地址列表46.length > 0,
-        message: `成功添加 ${值地址列表46.length} 个IP`,
-        added: 值地址列表46.length,
-        skipped: 值地址列表45.length,
-        errors: 错误列表.length,
+        success: _v1209.length > 0,
+        message: _d64("AeaIkOWKn+a3u+WKoCA=") + String(_v1209.length) + _d64("ASDkuKpJUA=="),
+        added: _v1209.length,
+        skipped: _v1210.length,
+        errors: _v1211.length,
         data: {
-          addedIPs: 值地址列表46,
-          skippedIPs: 值地址列表45.length > 0 ? 值地址列表45 : undefined,
-          errors: 错误列表.length > 0 ? 错误列表 : undefined
+          addedIPs: _v1209,
+          skippedIPs: _v1210.length > 0 ? _v1210 : undefined,
+          errors: _v1211.length > 0 ? _v1211 : undefined
         }
       }), {
         headers: {
           'Content-Type': 'application/json'
         }
       });
-    } else if (请求.method === 'DELETE') {
-      const 主体 = await 请求.json();
-      if (主体.all === true) {
-        const 值值40 = 获取配置值('yx', '');
-        const 本地值39 = 解析值值数组(值值40);
-        const 值数量 = 本地值39.length;
-        await 设置配置值('yx', '');
-        更新自定义优选来源值();
+    } else if (_v1185.method === 'DELETE') {
+      const _v1220 = await _v1185.json();
+      if (_v1220.all === true) {
+        const _v1221 = _v53('yx', '');
+        const _v1222 = _v1204(_v1221);
+        const _v1223 = _v1222.length;
+        await _v153('yx', '');
+        _v1183();
         return new Response(JSON.stringify({
           success: true,
-          message: `已清空所有优选IP，共删除 ${值数量} 个`,
-          deletedCount: 值数量
+          message: _d64("AeW3sua4heepuuaJgOacieS8mOmAiUlQ77yM5YWx5Yig6ZmkIA==") + String(_v1223) + _d64("ASDkuKo="),
+          deletedCount: _v1223
         }), {
           headers: {
             'Content-Type': 'application/json'
           }
         });
       }
-      if (!主体.ip) {
+      if (!_v1220.ip) {
         return new Response(JSON.stringify({
           success: false,
-          error: 'IP地址是必需的',
-          message: '请提供要删除的ip字段，或使用 {"all": true} 清空所有'
+          error: _d64("AUlQ5Zyw5Z2A5piv5b+F6ZyA55qE"),
+          message: _d64("Aeivt+aPkOS+m+imgeWIoOmZpOeahGlw5a2X5q6177yM5oiW5L2/55SoIHsiYWxsIjogdHJ1ZX0g5riF56m65omA5pyJ")
         }), {
           status: 400,
           headers: {
@@ -8441,16 +4536,16 @@ async function 处理优选地址列表接口(请求) {
           }
         });
       }
-      const 端口38 = 主体.port || 443;
-      const 值值37 = 获取配置值('yx', '');
-      let 本地值36 = 解析值值数组(值值37);
-      const 值长度 = 本地值36.length;
-      const 值地址列表 = 本地值36.filter(项目35 => !(项目35.ip === 主体.ip && 项目35.port === 端口38));
-      if (值地址列表.length === 值长度) {
+      const _v1224 = _v1220.port || 443;
+      const _v1225 = _v53('yx', '');
+      let _v1226 = _v1204(_v1225);
+      const _v1227 = _v1226.length;
+      const _v1228 = _v1226.filter(_v1229 => !(_v1229.ip === _v1220.ip && _v1229.port === _v1224));
+      if (_v1228.length === _v1227) {
         return new Response(JSON.stringify({
           success: false,
-          error: '优选IP不存在',
-          message: `${主体.ip}:${端口38} 未找到`
+          error: _d64("AeS8mOmAiUlQ5LiN5a2Y5Zyo"),
+          message: "" + String(_v1220.ip) + ":" + String(_v1224) + _d64("ASDmnKrmib7liLA=")
         }), {
           status: 404,
           headers: {
@@ -8458,15 +4553,15 @@ async function 处理优选地址列表接口(请求) {
           }
         });
       }
-      const 新值值 = 处理数组值值(值地址列表);
-      await 设置配置值('yx', 新值值);
-      更新自定义优选来源值();
+      const _v1230 = _v1219(_v1228);
+      await _v153('yx', _v1230);
+      _v1183();
       return new Response(JSON.stringify({
         success: true,
-        message: '优选IP已删除',
+        message: _d64("AeS8mOmAiUlQ5bey5Yig6Zmk"),
         deleted: {
-          ip: 主体.ip,
-          port: 端口38
+          ip: _v1220.ip,
+          port: _v1224
         }
       }), {
         headers: {
@@ -8476,8 +4571,8 @@ async function 处理优选地址列表接口(请求) {
     } else {
       return new Response(JSON.stringify({
         success: false,
-        error: '不支持的请求方法',
-        message: '支持的方法: GET, POST, DELETE'
+        error: _d64("AeS4jeaUr+aMgeeahOivt+axguaWueazlQ=="),
+        message: _d64("AeaUr+aMgeeahOaWueazlTogR0VULCBQT1NULCBERUxFVEU=")
       }), {
         status: 405,
         headers: {
@@ -8485,11 +4580,11 @@ async function 处理优选地址列表接口(请求) {
         }
       });
     }
-  } catch (错误34) {
+  } catch (_v1231) {
     return new Response(JSON.stringify({
       success: false,
-      error: '处理请求失败',
-      message: 错误34.message
+      error: _d64("AeWkhOeQhuivt+axguWksei0pQ=="),
+      message: _v1231.message
     }), {
       status: 500,
       headers: {
@@ -8498,238 +4593,241 @@ async function 处理优选地址列表接口(请求) {
     });
   }
 }
-function 更新配置值() {
-  const 有效配置 = 获取有效配置快照();
-  const 手动地区 = 有效配置.wk;
-  if (手动地区 && 手动地区.trim()) {
-    手动工作器地区 = 手动地区.trim().toUpperCase();
-    当前工作器地区 = 手动工作器地区;
+function _v1182() {
+  const _v1232 = _v64();
+  const _v1233 = _v1232.wk;
+  if (_v1233 && _v1233.trim()) {
+    _v21 = _v1233.trim().toUpperCase();
+    _v20 = _v21;
   } else {
-    const 本地值 = 有效配置.p;
-    if (本地值 && 本地值.trim()) {
-      当前工作器地区 = 'CUSTOM';
+    const _v1234 = _v1232.p;
+    if (_v1234 && _v1234.trim()) {
+      _v20 = 'CUSTOM';
     } else {
-      手动工作器地区 = '';
-      当前工作器地区 = '';
+      _v21 = '';
+      _v20 = '';
     }
   }
-  启用地区匹配 = !(有效配置.rm && 有效配置.rm.toLowerCase() === 'no');
-  启用明文 = 有效配置.ev === 'yes';
-  启用木马 = 有效配置.et === 'yes';
-  启用扩展传输 = 有效配置.ex === 'yes';
-  传输路径 = 有效配置.tp || '';
-  订阅转换接口 = 有效配置.scu || 配置默认值.scu;
-  启用优选域名 = 有效配置.epd === 'yes';
-  启用优选地址 = 有效配置.epi === 'yes';
-  启用仓库优选 = 有效配置.egi === 'yes';
-  启用原生地址 = 有效配置.ena === 'yes';
-  启用加密客户端问候 = 有效配置.ech === 'yes';
-  自定义域名系统 = 有效配置.customDNS || 配置默认值.customDNS;
-  自定义加密客户端问候域名 = 有效配置.customECHDomain || 配置默认值.customECHDomain;
-  自定义应用层协议协商 = 规范化应用层协议协商(有效配置.alpn || '');
-  禁用非传输层安全 = 有效配置.dkby === 'yes' || 启用加密客户端问候;
-  启用代理降级 = !!(有效配置.qj && 有效配置.qj.toLowerCase() === 'no');
-  自定义路径 = 有效配置.d || '';
-  优选地址源 = 有效配置.yxURL || '';
-  回退地址 = 有效配置.p ? 有效配置.p.trim() : '';
-  代理5配置 = 有效配置.s || '';
-  if (代理5配置) {
+  _v19 = !(_v1232.rm && _v1232.rm.toLowerCase() === 'no');
+  _v24 = _v1232.ev === 'yes';
+  _v25 = _v1232.et === 'yes';
+  _v26 = _v1232.ex === 'yes';
+  _v27 = _v1232.tp || '';
+  _v32 = _v1232.scu || _v44.scu;
+  _v34 = _v1232.epd === 'yes';
+  _v35 = _v1232.epi === 'yes';
+  _v36 = _v1232.egi === 'yes';
+  _v37 = _v1232.ena === 'yes';
+  _v28 = _v1232.ech === 'yes';
+  _v29 = _v1232.customDNS || _v44.customDNS;
+  _v30 = _v1232.customECHDomain || _v44.customECHDomain;
+  _v31 = _v131(_v1232.alpn || '');
+  _v17 = _v1232.dkby === 'yes' || _v28;
+  _v16 = !!(_v1232.qj && _v1232.qj.toLowerCase() === 'no');
+  _v23 = _v1232.d || '';
+  _v22 = _v1232.yxURL || '';
+  _v12 = _v1232.p ? _v1232.p.trim() : '';
+  _v13 = _v1232.s || '';
+  if (_v13) {
     try {
-      已解析代理5配置 = 解析代理配置(代理5配置);
-      是否代理已启用 = true;
-    } catch (错误31) {
-      是否代理已启用 = false;
+      _v81 = _v219(_v13);
+      _v82 = true;
+    } catch (_v1235) {
+      _v82 = false;
     }
   } else {
-    已解析代理5配置 = {};
-    是否代理已启用 = false;
+    _v81 = {};
+    _v82 = false;
   }
-  禁用优选 = !!(有效配置.yxby && 有效配置.yxby.toLowerCase() === 'yes');
+  _v18 = !!(_v1232.yxby && _v1232.yxby.toLowerCase() === 'yes');
 }
-function 更新自定义优选来源值() {
-  const 值值30 = 获取配置值('yx', '');
-  if (值值30) {
+function _v1183() {
+  const _v1236 = _v53('yx', '');
+  if (_v1236) {
     try {
-      const 优选列表 = 值值30.split(',').map(项目29 => 项目29.trim()).filter(项目28 => 项目28);
-      自定义优选地址列表 = [];
-      自定义优选域名列表 = [];
-      优选列表.forEach(项目27 => {
-        let 节点名称26 = '';
-        let 地址部分25 = 项目27;
-        if (项目27.includes('#')) {
-          const 部分列表24 = 项目27.split('#');
-          地址部分25 = 部分列表24[0].trim();
-          节点名称26 = 部分列表24[1].trim();
+      const _v1237 = _v1236.split(',').map(_v1238 => _v1238.trim()).filter(_v1239 => _v1239);
+      _v14 = [];
+      _v15 = [];
+      _v1237.forEach(_v1240 => {
+        let _v1241 = '';
+        let _v1242 = _v1240;
+        if (_v1240.includes('#')) {
+          const _v1243 = _v1240.split('#');
+          _v1242 = _v1243[0].trim();
+          _v1241 = _v1243[1].trim();
         }
         const {
-          address: 地址23,
-          port: 端口22
-        } = 解析地址值端口(地址部分25);
-        if (!节点名称26) {
-          节点名称26 = '自定义优选-' + 地址23 + (端口22 ? ':' + 端口22 : '');
+          address: _v1244,
+          port: _v1245
+        } = _v194(_v1242);
+        if (!_v1241) {
+          _v1241 = _d64("AeiHquWumuS5ieS8mOmAiS0=") + _v1244 + (_v1245 ? ':' + _v1245 : '');
         }
-        if (是否有效地址(地址23)) {
-          自定义优选地址列表.push({
-            ip: 地址23,
-            port: 端口22,
-            isp: 节点名称26
+        if (_v99(_v1244)) {
+          _v14.push({
+            ip: _v1244,
+            port: _v1245,
+            isp: _v1241
           });
         } else {
-          自定义优选域名列表.push({
-            domain: 地址23,
-            port: 端口22,
-            name: 节点名称26
+          _v15.push({
+            domain: _v1244,
+            port: _v1245,
+            name: _v1241
           });
         }
       });
-    } catch (错误) {
-      自定义优选地址列表 = [];
-      自定义优选域名列表 = [];
+    } catch (_v1189) {
+      _v14 = [];
+      _v15 = [];
     }
   } else {
-    自定义优选地址列表 = [];
-    自定义优选域名列表 = [];
+    _v14 = [];
+    _v15 = [];
   }
 }
-function 解析值值数组(值值) {
-  if (!值值 || !值值.trim()) return [];
-  const 项目列表 = 值值.split(',').map(项目21 => 项目21.trim()).filter(项目20 => 项目20);
-  const 结果 = [];
-  for (const 项目19 of 项目列表) {
-    let 节点名称 = '';
-    let 地址部分 = 项目19;
-    if (项目19.includes('#')) {
-      const 部分列表 = 项目19.split('#');
-      地址部分 = 部分列表[0].trim();
-      节点名称 = 部分列表[1].trim();
+function _v1204(_v1246) {
+  if (!_v1246 || !_v1246.trim()) return [];
+  const _v1247 = _v1246.split(',').map(_v1248 => _v1248.trim()).filter(_v1249 => _v1249);
+  const _v10 = [];
+  for (const _v1250 of _v1247) {
+    let _v1251 = '';
+    let _v1252 = _v1250;
+    if (_v1250.includes('#')) {
+      const _v1253 = _v1250.split('#');
+      _v1252 = _v1253[0].trim();
+      _v1251 = _v1253[1].trim();
     }
     const {
-      address: 地址,
-      port: 端口18
-    } = 解析地址值端口(地址部分);
-    if (!节点名称) {
-      节点名称 = 地址 + (端口18 ? ':' + 端口18 : '');
+      address: _v1254,
+      port: _v1255
+    } = _v194(_v1252);
+    if (!_v1251) {
+      _v1251 = _v1254 + (_v1255 ? ':' + _v1255 : '');
     }
-    结果.push({
-      ip: 地址,
-      port: 端口18 || 443,
-      name: 节点名称,
+    _v10.push({
+      ip: _v1254,
+      port: _v1255 || 443,
+      name: _v1251,
       addedAt: new Date().toISOString()
     });
   }
-  return 结果;
+  return _v10;
 }
-function 处理数组值值(数组) {
-  if (!数组 || 数组.length === 0) return '';
-  return 数组.map(项目 => {
-    const 端口17 = 项目.port || 443;
-    return `${项目.ip}:${端口17}#${项目.name}`;
+function _v1219(_v1256) {
+  if (!_v1256 || _v1256.length === 0) return '';
+  return _v1256.map(_v1257 => {
+    const _v1258 = _v1257.port || 443;
+    return `${_v1257.ip}:${_v1258}#${_v1257.name}`;
   }).join(',');
 }
-function 是否有效域名(域名) {
-  const 域名正则 = /^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/;
-  return 域名正则.test(域名);
+function _v1214(_v1259) {
+  const _v1260 = /^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/;
+  return _v1260.test(_v1259);
 }
-async function 解析文本值数组(内容) {
-  var 已处理 = 内容.replace(/[	"'\r\n]+/g, ',').replace(/,+/g, ',');
-  if (已处理.charAt(0) == ',') 已处理 = 已处理.slice(1);
-  if (已处理.charAt(已处理.length - 1) == ',') 已处理 = 已处理.slice(0, 已处理.length - 1);
-  return 已处理.split(',');
+async function _v1261(_v1262) {
+  var _v1263 = _v1262.replace(/[	"'\r\n]+/g, ',').replace(/,+/g, ',');
+  if (_v1263.charAt(0) == ',') _v1263 = _v1263.slice(1);
+  if (_v1263.charAt(_v1263.length - 1) == ',') _v1263 = _v1263.slice(0, _v1263.length - 1);
+  return _v1263.split(',');
 }
-const _优选接口缓存 = new Map();
-async function 获取优选接口(网址列表, 默认端口 = '443', 超时 = 2200) {
-  if (!网址列表?.length) return [];
-  const _缓存键 = 网址列表.slice(0, 4).join('|') + ':' + 默认端口;
-  const _命中 = _优选接口缓存.get(_缓存键);
-  if (_命中 && Date.now() - _命中.t < 600000) return _命中.v;
-  const 结果列表 = new Set();
-  await Promise.allSettled(网址列表.map(async 网址 => {
+const _v1264 = new Map();
+async function _v1100(_v1265, _v1266 = '443', _v1267 = 2200) {
+  if (!_v1265?.length) return [];
+  const _v1268 = _v1265.slice(0, 4).join('|') + ':' + _v1266;
+  const _v1269 = _v1264.get(_v1268);
+  if (_v1269 && Date.now() - _v1269.t < 600000) return _v1269.v;
+  const _v1270 = new Set();
+  await Promise.allSettled(_v1265.map(async _v1271 => {
     try {
-      const 控制器 = new AbortController();
-      const 超时标识 = setTimeout(() => 控制器.abort(), 超时);
-      const 响应 = await fetch(网址, {
-        signal: 控制器.signal
+      const _v1272 = new AbortController();
+      const _v1273 = setTimeout(() => _v1272.abort(), _v1267);
+      const _v1187 = await fetch(_v1271, {
+        signal: _v1272.signal
       });
-      clearTimeout(超时标识);
-      let 文本 = '';
+      clearTimeout(_v1273);
+      let _v5 = '';
       try {
-        const 缓冲 = await 响应.arrayBuffer();
-        const 内容类型 = (响应.headers.get('content-type') || '').toLowerCase();
-        const 字符集 = 内容类型.match(/charset=([^\s;]+)/i)?.[1]?.toLowerCase() || '';
-        let 解码器列表 = ['utf-8', 'gb2312'];
-        if (字符集.includes('gb') || 字符集.includes('gbk') || 字符集.includes('gb2312')) {
-          解码器列表 = ['gb2312', 'utf-8'];
+        const _v1274 = await _v1187.arrayBuffer();
+        const _v1275 = (_v1187.headers.get('content-type') || '').toLowerCase();
+        const _v1276 = _v1275.match(/charset=([^\s;]+)/i)?.[1]?.toLowerCase() || '';
+        let _v1277 = ['utf-8', 'gb2312'];
+        if (_v1276.includes('gb') || _v1276.includes('gbk') || _v1276.includes('gb2312')) {
+          _v1277 = ['gb2312', 'utf-8'];
         }
-        let 解码成功 = false;
-        for (const 解码器 of 解码器列表) {
+        let _v1278 = false;
+        for (const _v1279 of _v1277) {
           try {
-            const 已解码 = new TextDecoder(解码器).decode(缓冲);
-            if (已解码 && 已解码.length > 0 && !已解码.includes('\ufffd')) {
-              文本 = 已解码;
-              解码成功 = true;
+            const _v1280 = new TextDecoder(_v1279).decode(_v1274);
+            if (_v1280 && _v1280.length > 0 && !_v1280.includes('\ufffd')) {
+              _v5 = _v1280;
+              _v1278 = true;
               break;
-            } else if (已解码 && 已解码.length > 0) {
+            } else if (_v1280 && _v1280.length > 0) {
               continue;
             }
-          } catch (事件值16) {
+          } catch (_v1281) {
             continue;
           }
         }
-        if (!解码成功) {
-          文本 = await 响应.text();
+        if (!_v1278) {
+          _v5 = await _v1187.text();
         }
-        if (!文本 || 文本.trim().length === 0) {
+        if (!_v5 || _v5.trim().length === 0) {
           return;
         }
-      } catch (事件值15) {
+      } catch (_v1282) {
         return;
       }
-      const 行列表 = 文本.trim().split('\n').map(行值14 => 行值14.trim()).filter(行值 => 行值);
-      const 是否值 = 行列表.length > 1 && 行列表[0].includes(',');
-      const 六版地址模式 = /^[^\[\]]*:[^\[\]]*:[^\[\]]/;
-      if (!是否值) {
-        行列表.forEach(行13 => {
-          const 井号索引 = 行13.indexOf('#');
-          const [主机部分, 备注] = 井号索引 > -1 ? [行13.substring(0, 井号索引), 行13.substring(井号索引)] : [行13, ''];
-          let 是否有端口 = false;
-          if (主机部分.startsWith('[')) {
-            是否有端口 = /\]:(\d+)$/.test(主机部分);
+      const _v1283 = _v5.trim().split('\n').map(_v1284 => _v1284.trim()).filter(_v1285 => _v1285);
+      const _v1286 = _v1283.length > 1 && _v1283[0].includes(',');
+      const _v1287 = /^[^\[\]]*:[^\[\]]*:[^\[\]]/;
+      if (!_v1286) {
+        _v1283.forEach(_v1288 => {
+          const _v1289 = _v1288.indexOf('#');
+          const [_v1290, _v1291] = _v1289 > -1 ? [_v1288.substring(0, _v1289), _v1288.substring(_v1289)] : [_v1288, ''];
+          let _v1292 = false;
+          if (_v1290.startsWith('[')) {
+            _v1292 = /\]:(\d+)$/.test(_v1290);
           } else {
-            const 值索引 = 主机部分.lastIndexOf(':');
-            是否有端口 = 值索引 > -1 && /^\d+$/.test(主机部分.substring(值索引 + 1));
+            const _v1293 = _v1290.lastIndexOf(':');
+            _v1292 = _v1293 > -1 && /^\d+$/.test(_v1290.substring(_v1293 + 1));
           }
-          const 端口12 = new URL(网址).searchParams.get('port') || 默认端口;
-          结果列表.add(是否有端口 ? 行13 : `${主机部分}:${端口12}${备注}`);
+          const _v1294 = new URL(_v1271).searchParams.get('port') || _v1266;
+          _v1270.add(_v1292 ? _v1288 : `${_v1290}:${_v1294}${_v1291}`);
         });
       } else {
-        const 头部列表 = 行列表[0].split(',').map(头值11 => 头值11.trim());
-        const 数据行列表 = 行列表.slice(1);
-        if (头部列表.includes('IP地址') && 头部列表.includes('端口') && 头部列表.includes('数据中心')) {
-          const 地址索引10 = 头部列表.indexOf('IP地址'),
-            端口索引 = 头部列表.indexOf('端口');
-          const 备注索引 = 头部列表.indexOf('国家') > -1 ? 头部列表.indexOf('国家') : 头部列表.indexOf('城市') > -1 ? 头部列表.indexOf('城市') : 头部列表.indexOf('数据中心');
-          const 传输层安全索引 = 头部列表.indexOf('TLS');
-          数据行列表.forEach(行9 => {
-            const 列列表8 = 行9.split(',').map(丙值7 => 丙值7.trim());
-            if (传输层安全索引 !== -1 && 列列表8[传输层安全索引]?.toLowerCase() !== 'true') return;
-            const 包裹地址6 = 六版地址模式.test(列列表8[地址索引10]) ? `[${列列表8[地址索引10]}]` : 列列表8[地址索引10];
-            结果列表.add(`${包裹地址6}:${列列表8[端口索引]}#${列列表8[备注索引]}`);
+        const _v1295 = _v1283[0].split(',').map(_v1296 => _v1296.trim());
+        const _v1297 = _v1283.slice(1);
+        if (_v1295.includes(_d64("AUlQ5Zyw5Z2A")) && _v1295.includes(_d64("Aeerr+WPow==")) && _v1295.includes(_d64("AeaVsOaNruS4reW/gw=="))) {
+          const _v1298 = _v1295.indexOf(_d64("AUlQ5Zyw5Z2A")),
+            _v1299 = _v1295.indexOf(_d64("Aeerr+WPow=="));
+          const _v1300 = _v1295.indexOf(_d64("AeWbveWutg==")) > -1 ? _v1295.indexOf(_d64("AeWbveWutg==")) : _v1295.indexOf(_d64("AeWfjuW4gg==")) > -1 ? _v1295.indexOf(_d64("AeWfjuW4gg==")) : _v1295.indexOf(_d64("AeaVsOaNruS4reW/gw=="));
+          const _v1301 = _v1295.indexOf('TLS');
+          _v1297.forEach(_v1302 => {
+            const _v1303 = _v1302.split(',').map(_v1304 => _v1304.trim());
+            if (_v1301 !== -1 && _v1303[_v1301]?.toLowerCase() !== 'true') return;
+            const _v1305 = _v1287.test(_v1303[_v1298]) ? `[${_v1303[_v1298]}]` : _v1303[_v1298];
+            _v1270.add(`${_v1305}:${_v1303[_v1299]}#${_v1303[_v1300]}`);
           });
-        } else if (头部列表.some(头值5 => 头值5.includes('IP')) && 头部列表.some(头值4 => 头值4.includes('延迟')) && 头部列表.some(头值3 => 头值3.includes('下载速度'))) {
-          const 地址索引 = 头部列表.findIndex(头值2 => 头值2.includes('IP'));
-          const 延迟索引 = 头部列表.findIndex(头值1 => 头值1.includes('延迟'));
-          const 速度索引 = 头部列表.findIndex(头值 => 头值.includes('下载速度'));
-          const 端口 = new URL(网址).searchParams.get('port') || 默认端口;
-          数据行列表.forEach(行 => {
-            const 列列表 = 行.split(',').map(丙值 => 丙值.trim());
-            const 包裹地址 = 六版地址模式.test(列列表[地址索引]) ? `[${列列表[地址索引]}]` : 列列表[地址索引];
-            结果列表.add(`${包裹地址}:${端口}#CF优选 ${列列表[延迟索引]}ms ${列列表[速度索引]}MB/s`);
+        } else if (_v1295.some(_v1306 => _v1306.includes('IP')) && _v1295.some(_v1307 => _v1307.includes(_d64("AeW7tui/nw=="))) && _v1295.some(_v1308 => _v1308.includes(_d64("AeS4i+i9vemAn+W6pg==")))) {
+          const _v1309 = _v1295.findIndex(_v1310 => _v1310.includes('IP'));
+          const _v1311 = _v1295.findIndex(_v1312 => _v1312.includes(_d64("AeW7tui/nw==")));
+          const _v1313 = _v1295.findIndex(_v1314 => _v1314.includes(_d64("AeS4i+i9vemAn+W6pg==")));
+          const _v1315 = new URL(_v1271).searchParams.get('port') || _v1266;
+          _v1297.forEach(_v1316 => {
+            const _v1317 = _v1316.split(',').map(_v1318 => _v1318.trim());
+            const _v1319 = _v1287.test(_v1317[_v1309]) ? `[${_v1317[_v1309]}]` : _v1317[_v1309];
+            _v1270.add("" + String(_v1319) + ":" + String(_v1315) + _d64("ASNDRuS8mOmAiSA=") + String(_v1317[_v1311]) + "ms " + String(_v1317[_v1313]) + "MB/s");
           });
         }
       }
-    } catch (事件值) {}
+    } catch (_v1320) {}
   }));
-  const _最终结果 = Array.from(结果列表).slice(0, 120);
-  _优选接口缓存.set(_缓存键, { t: Date.now(), v: _最终结果 });
-  return _最终结果;
+  const _v1321 = Array.from(_v1270).slice(0, 120);
+  _v1264.set(_v1268, {
+    t: Date.now(),
+    v: _v1321
+  });
+  return _v1321;
 }

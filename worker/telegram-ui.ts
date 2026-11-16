@@ -745,7 +745,7 @@ function randomName(): string {
   const bytes = crypto.getRandomValues(new Uint8Array(6))
   let out = ''
   for (const b of bytes) out += alphabet[b % alphabet.length]
-  return `mil-${out}`
+  return `studio-${out}`
 }
 
 export function deployStartScreen(): Screen {

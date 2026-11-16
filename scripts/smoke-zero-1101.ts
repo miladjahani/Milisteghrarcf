@@ -45,7 +45,7 @@ export const res = proto + ':' + plain;`
 
   const nexusSample = `let 连接 = null;\ntry { 连接 = (await import("cloudflare:sockets")).connect; } catch {}\nexport default {}`
   const optNexus = optimizeWorkerSourceForColdStart(nexusSample)
-  check('NEXUS top-level await is converted to static cloudflare:sockets import', !optNexus.includes('await import("cloudflare:sockets")') && optNexus.includes("import { connect as 连接 } from 'cloudflare:sockets';"))
+  check('NEXUS top-level await is converted to static cloudflare:sockets import', !optNexus.includes('await import("cloudflare:sockets")') && /import\s*\{\s*connect\s+as\s+[\w$]+\s*\}\s*from\s*'cloudflare:sockets'/.test(optNexus), optNexus.slice(0, 120))
   check('Telegram progress bar renders animated blocks', renderProgressBar(60).includes('██████░░░░'))
   check('Smart Error Alert diagnoses token/D1/1101 errors', diagnoseDeployError('invalid cloudflare token').includes('Edit Cloudflare Workers'))
 }

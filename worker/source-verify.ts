@@ -277,11 +277,18 @@ export async function verifyWorkerSource(
   // The bytes must belong to the project this source *claims* to be. Checked
   // before the checksum, so a mis-pointed URL says so plainly instead of being
   // "verified" against the wrong repository.
-  if (options.expectMarker && !code.includes(options.expectMarker)) {
+  // A marker may list alternatives with `|` (e.g. `StudioDocs|CFnew`): the
+  // source passes when it carries at least one of them. This keeps an older
+  // upstream copy deployable while the repository is mid-migration.
+  const expectedMarkers = (options.expectMarker ?? '')
+    .split('|')
+    .map((marker) => marker.trim())
+    .filter(Boolean)
+  if (expectedMarkers.length > 0 && !expectedMarkers.some((marker) => code.includes(marker))) {
     return {
       ...base,
       reason:
-        `فایل دانلودشده متعلق به این منبع نیست — نشانهٔ «${options.expectMarker}» در آن پیدا نشد؛ ` +
+        `فایل دانلودشده متعلق به این منبع نیست — هیچ‌کدام از نشانه‌های «${expectedMarkers.join(' | ')}» در آن پیدا نشد؛ ` +
         'استقرار متوقف شد تا ورکر شما با پنل اشتباه جایگزین نشود.',
     }
   }

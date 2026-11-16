@@ -157,7 +157,7 @@ const COMMIT = 'cccc3333cccc3333cccc3333cccc3333cccc3333'
 const bytesOf = (text: string): number => new TextEncoder().encode(text).length
 
 const ACCT = 'acct-1'
-const NAME = 'edge-relay-test'
+const NAME = 'studio-ui-test'
 const UUID = '11111111-2222-3333-4444-555555555555'
 
 interface Harness {
@@ -365,13 +365,13 @@ async function runScenario(
 {
   const { h, row } = await runScenario('account has no workers.dev subdomain yet', [], (h) => {
     h.subdomain = null
-    h.registerAs = 'edgeedge-relay-test'
+    h.registerAs = 'studio-ui-subdomain'
     h.probeAlive = true
   })
   check('a subdomain was registered and used',
-    row().worker_url === `https://${NAME}.edgeedge-relay-test.workers.dev`, String(row().worker_url))
+    row().worker_url === `https://${NAME}.studio-ui-subdomain.workers.dev`, String(row().worker_url))
   check('that host is what got probed',
-    h.probes.length > 0 && h.probes.every((u) => u.includes('edgeedge-relay-test')), h.probes.join(', '))
+    h.probes.length > 0 && h.probes.every((u) => u.includes('studio-ui-subdomain')), h.probes.join(', '))
   check('self-check passed', JSON.parse(String(row().config)).self_check === 'passed')
   check('status is deployed', row().status === 'deployed')
 }
@@ -398,11 +398,11 @@ async function runScenario(
     {
       id: 'dep-old',
       user_id: 'u1',
-      name: 'edge-relay-85a3',
+      name: 'studio-ui-85a3',
       status: 'deployed',
       method: 'workers',
       worker_source: 'custom',
-      worker_url: 'https://edge-relay-85a3.ms1rbxcr2ag5.workers.dev',
+      worker_url: 'https://studio-ui-85a3.ms1rbxcr2ag5.workers.dev',
       cf_account_id: ACCT,
       config: '{}',
     },
@@ -424,8 +424,8 @@ async function runScenario(
   const old = new Date(Date.now() - 20 * 60 * 1000).toISOString()
   const fresh = new Date().toISOString()
   const { env, tables } = makeEnv([
-    { id: 'dep-stale', user_id: 'u1', name: 'edge-relay-6b2e', status: 'deploying', method: 'workers', worker_source: 'custom', config: '{}', updated_at: old, created_at: old },
-    { id: 'dep-fresh', user_id: 'u1', name: 'edge-relay-d21a', status: 'deploying', method: 'workers', worker_source: 'custom', config: '{}', updated_at: fresh, created_at: fresh },
+    { id: 'dep-stale', user_id: 'u1', name: 'studio-ui-6b2e', status: 'deploying', method: 'workers', worker_source: 'custom', config: '{}', updated_at: old, created_at: old },
+    { id: 'dep-fresh', user_id: 'u1', name: 'studio-ui-d21a', status: 'deploying', method: 'workers', worker_source: 'custom', config: '{}', updated_at: fresh, created_at: fresh },
     { id: 'dep-other', user_id: 'u2', name: 'someone-else', status: 'deploying', method: 'workers', worker_source: 'custom', config: '{}', updated_at: old, created_at: old },
   ])
   const reaped = await reapStaleDeployments(env, 'u1')

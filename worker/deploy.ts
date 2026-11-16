@@ -181,7 +181,7 @@ const WORKER_SOURCES: Record<string, WorkerSourceConfig> = {
     kind: WORKER_SOURCE_KIND.custom,
     compatFlags: [],
     // CFnew's own header — every copy of this worker (mirror and bundled) has it.
-    expectMarker: 'CFnew',
+    expectMarker: 'StudioDocs|CFnew',
   },
   nexus: {
     url: 'https://raw.githubusercontent.com/miladjahani/miliconfigpro-v1/main/public/repo/nexus.js',
@@ -201,7 +201,7 @@ const WORKER_SOURCES: Record<string, WorkerSourceConfig> = {
     preferBundled: true,
     kind: WORKER_SOURCE_KIND.nexus,
     compatFlags: [],
-    expectMarker: 'NEXUS',
+    expectMarker: 'StudioDocs|NEXUS',
   },
   zeus: {
     // ZEUS PANEL (panel-zeus/Z-E-U-S) — full D1 panel, anti-censorship core:
@@ -290,7 +290,9 @@ const WORKER_SOURCES: Record<string, WorkerSourceConfig> = {
     // an update and a rollback to an older commit of this source both pass —
     // and in none of the other sources here (edgetunnel, zeus, nova, NEXUS),
     // so a foreign file can never be deployed or updated into this worker.
-    expectMarker: 'MILICONFIG',
+    // `StudioDocs` is the cleaned homepage build; older bundles still carry
+    // `MILICONFIG`, so either marker is accepted.
+    expectMarker: 'StudioDocs|MILICONFIG',
     // Without a database the panel degrades to memory and loses every user on
     // a restart, so a deployment always gets its own D1 database.
     provisionD1: true,
@@ -900,11 +902,11 @@ export async function startDeployment(
   input: StartDeploymentInput,
 ): Promise<StartDeploymentResult> {
   let name = (input.name ?? '').trim().toLowerCase()
-  const blacklistedNameRe = /vless|vmess|trojan|shadowsocks|wireguard|edgetunnel|cfnew|bpb|xray|v2ray|clash|singbox|cmliu/gi
+  const blacklistedNameRe = /edge-relay|edge-gw|relay|proxy|tunnel|vpn|warp|socks|vless|vmess|trojan|shadowsocks|wireguard|hysteria|tuic|edgetunnel|cfnew|bpb|xray|v2ray|clash|singbox|cmliu|byjoey|epeius/gi
   if (blacklistedNameRe.test(name)) {
     const cleanSuffix = Math.random().toString(16).slice(2, 6)
     name = name.replace(blacklistedNameRe, 'gw').replace(/-+/g, '-').replace(/^-|-$/g, '')
-    if (!name || name === 'gw') name = `edge-gw-${cleanSuffix}`
+    if (!name || name === 'gw') name = `studio-ui-${cleanSuffix}`
     else if (!/\d/.test(name)) name = `${name}-${cleanSuffix}`
   }
   const uuid = (input.uuid ?? '').trim()
@@ -1298,7 +1300,7 @@ export async function probeWorkersRuntime(
   workersSubdomain: string,
 ): Promise<'ok' | 'blocked' | 'unknown'> {
   if (!workersSubdomain) return 'unknown'
-  const name = `mili-canary-${Math.random().toString(36).slice(2, 7)}`
+  const name = `app-health-${Math.random().toString(36).slice(2, 7)}`
   try {
     const form = new FormData()
     form.append(

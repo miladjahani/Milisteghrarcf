@@ -138,7 +138,9 @@ if (!t) { console.log("skip (no CLOUDFLARE_API_TOKEN)"); process.exit(0); }
     const a = await fetch("https://api.cloudflare.com/client/v4/accounts?per_page=1", { headers: h }).then(r => r.json());
     const acc = a?.result?.[0]?.id;
     if (!acc) throw new Error("no account");
-    await fetch(`https://api.cloudflare.com/client/v4/accounts/${acc}/workers/scripts/miliconfigpro-v1/subdomain`, {
+    const fs = require("fs");
+    const name = (fs.readFileSync("wrangler.toml", "utf8").match(/^\s*name\s*=\s*"([^"]+)"/m) || [])[1] || "studio-cloud-console";
+    await fetch(`https://api.cloudflare.com/client/v4/accounts/${acc}/workers/scripts/${name}/subdomain`, {
       method: "POST",
       headers: { ...h, "Content-Type": "application/json" },
       body: JSON.stringify({ enabled: true }),
