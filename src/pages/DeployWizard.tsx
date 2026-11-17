@@ -45,7 +45,9 @@ const NAME_PREFIXES = ['studio-ui-', 'docs-web-', 'canvas-app-', 'folio-hub-', '
 
 function genName() {
   const prefix = NAME_PREFIXES[Math.floor(Math.random() * NAME_PREFIXES.length)]
-  return prefix + genUuid().slice(0, 4)
+  // 8 hex chars (32 bits) instead of 4: thousands of deployments must not
+  // collide on the same worker name.
+  return prefix + genUuid().replace(/-/g, '').slice(0, 8)
 }
 
 function validName(n: string) {

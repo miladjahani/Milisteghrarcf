@@ -332,13 +332,24 @@ export async function runDeploymentUpdate(
   // variable in the dashboard after this panel deployed it).
   const selfUpdate = (live.bindings as Array<{ name?: string }>).some((b) => b?.name === 'CF_API_TOKEN')
 
+  // UUID-path panels deployed before the `UUID` binding was aligned to upstream
+  // (which reads U/UUID/uuid) got a random admin path instead of `/<uuid>`.
+  // Add/refresh the binding on update so the stored panel link becomes valid
+  // again; every other binding is preserved untouched.
+  const liveBindings = (live.bindings as Array<Record<string, unknown>> | undefined)?.map((b) => ({ ...b })) ?? []
+  if (sourceConfig.kind === 'uuidpanel' && sourceConfig.uuidEnvName && dep.uuid) {
+    const idx = liveBindings.findIndex((b) => b?.name === sourceConfig.uuidEnvName)
+    if (idx >= 0) liveBindings[idx] = { ...liveBindings[idx], type: 'plain_text', text: dep.uuid }
+    else liveBindings.push({ type: 'plain_text', name: sourceConfig.uuidEnvName, text: dep.uuid })
+  }
+
   const meta = {
     main_module: live.main_module || 'worker.js',
     compatibility_date: live.compatibility_date || sourceConfig.compat,
     compatibility_flags: live.compatibility_flags?.length
       ? live.compatibility_flags
       : (sourceConfig.compatFlags ?? ['nodejs_compat', 'global_fetch_strictly_public']),
-    bindings: live.bindings,
+    bindings: liveBindings,
   }
 
   /** PUT one verified body over the live script, keeping its bindings. */
@@ -648,6 +659,43 @@ async function runPagesDeploymentUpdate(
   const id = dep.id
   const headers = { Authorization: `Bearer ${cfToken}` }
   const cfg = safeJsonParse<Record<string, unknown>>(dep.config ?? '', {})
+
+  // Older Pages deployments of a UUID-path panel only had the legacy `u` var,
+  // which the current upstream no longer reads; it then generated a random
+  // admin path. Refresh the binding so `/<uuid>` is the panel address again.
+  if (sourceConfig.kind === 'uuidpanel' && sourceConfig.uuidEnvName && dep.uuid && dep.cf_account_id) {
+    try {
+      const projectResp = await fetch(
+        `${API_BASE}/accounts/${dep.cf_account_id}/pages/projects/${dep.name}`,
+        { headers },
+      )
+      const projectData = (await projectResp.json().catch(() => ({}))) as {
+        success?: boolean
+        result?: { deployment_configs?: Record<string, Record<string, unknown>> }
+      }
+      const configs = projectData.result?.deployment_configs
+      if (projectData.success && configs) {
+        const next: Record<string, Record<string, unknown>> = {}
+        for (const [envName, envCfg] of Object.entries(configs)) {
+          next[envName] = {
+            ...envCfg,
+            env_vars: {
+              ...((envCfg.env_vars ?? {}) as Record<string, unknown>),
+              [sourceConfig.uuidEnvName]: { value: dep.uuid, type: 'plain_text' },
+            },
+          }
+        }
+        await fetch(`${API_BASE}/accounts/${dep.cf_account_id}/pages/projects/${dep.name}`, {
+          method: 'PATCH',
+          headers: { ...headers, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ deployment_configs: next }),
+        })
+        await log(`✓ UUID binding refreshed (${sourceConfig.uuidEnvName})`)
+      }
+    } catch {
+      await log('⚠ could not refresh the UUID binding — upstream keeps its stored admin path')
+    }
+  }
 
   await log(options.reason === 'recover' ? '♻ recovering Pages deployment from its source repository...' : '↻ checking upstream repository...')
   const fetchResult = await fetchWorkerSource(

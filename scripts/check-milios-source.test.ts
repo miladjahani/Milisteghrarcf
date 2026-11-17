@@ -54,7 +54,7 @@ check('engine accepts the StudioDocs or legacy MILICONFIG marker', cfg?.expectMa
 check('engine uses the repo compatibility date', cfg?.compat === '2024-11-06', cfg?.compat)
 check('engine provisions a D1 database', cfg?.provisionD1 === true)
 check('engine declares no KV binding (D1-only panel)', cfg?.kvBinding === '')
-check('engine sets the admin path env (env.u)', cfg?.uuidEnvName === 'u')
+check('engine sets the admin path env (env.UUID)', cfg?.uuidEnvName === 'UUID', String(cfg?.uuidEnvName))
 check('engine enables the in-panel updater (CF_API_TOKEN)', cfg?.selfUpdate === true)
 check('engine adds no compatibility flags (repo declares none)', (cfg?.compatFlags ?? ['x']).length === 0)
 

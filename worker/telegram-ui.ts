@@ -742,7 +742,7 @@ interface WizardData extends Record<string, unknown> {
 
 function randomName(): string {
   const alphabet = 'abcdefghijkmnpqrstuvwxyz23456789'
-  const bytes = crypto.getRandomValues(new Uint8Array(6))
+  const bytes = crypto.getRandomValues(new Uint8Array(8))
   let out = ''
   for (const b of bytes) out += alphabet[b % alphabet.length]
   return `studio-${out}`

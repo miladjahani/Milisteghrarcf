@@ -37,6 +37,11 @@ import {
 
 const API_BASE = 'https://api.cloudflare.com/client/v4'
 
+/** Cryptographically random lowercase suffix for names that leave the panel. */
+function randomDeploySuffix(length = 8): string {
+  return genId().replace(/-/g, '').slice(0, length)
+}
+
 /**
  * Update a worker script's settings.
  *
@@ -282,9 +287,10 @@ const WORKER_SOURCES: Record<string, WorkerSourceConfig> = {
     kvBinding: '',
     configKey: '',
     configFormat: 'custom',
-    // `env.u` is the admin path (the worker reads u/U/UUID/uuid and only then a
-    // stored admin_path), so the deployment's UUID becomes the panel address.
-    uuidEnvName: 'u',
+    // `env.UUID` is the admin-path override (the worker reads U/UUID/uuid
+    // before its stored/random admin_path), so the deployment's random UUID
+    // becomes the panel address instead of a shared /admin or /login route.
+    uuidEnvName: 'UUID',
     kind: WORKER_SOURCE_KIND.milios,
     // The panel's brand constant. It is present in every miliconfig build — so
     // an update and a rollback to an older commit of this source both pass —
@@ -904,7 +910,7 @@ export async function startDeployment(
   let name = (input.name ?? '').trim().toLowerCase()
   const blacklistedNameRe = /edge-relay|edge-gw|relay|proxy|tunnel|vpn|warp|socks|vless|vmess|trojan|shadowsocks|wireguard|hysteria|tuic|edgetunnel|cfnew|bpb|xray|v2ray|clash|singbox|cmliu|byjoey|epeius/gi
   if (blacklistedNameRe.test(name)) {
-    const cleanSuffix = Math.random().toString(16).slice(2, 6)
+    const cleanSuffix = randomDeploySuffix(6)
     name = name.replace(blacklistedNameRe, 'gw').replace(/-+/g, '-').replace(/^-|-$/g, '')
     if (!name || name === 'gw') name = `studio-ui-${cleanSuffix}`
     else if (!/\d/.test(name)) name = `${name}-${cleanSuffix}`
@@ -912,6 +918,16 @@ export async function startDeployment(
   const uuid = (input.uuid ?? '').trim()
   if (!/^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$/.test(name)) return { ok: false, error: 'نام ورکر نامعتبر است' }
   if (!uuid) return { ok: false, error: 'UUID الزامی است' }
+
+  // A new deployment must never reuse an existing script name: Cloudflare PUT
+  // overwrites a worker in place, which would silently replace another user's
+  // deployment with this one.
+  const nameTaken = await env.DB.prepare('SELECT id FROM deployments WHERE user_id = ? AND name = ?')
+    .bind(input.userId, name)
+    .first<{ id: string }>()
+  if (nameTaken) {
+    name = `${name.slice(0, 55).replace(/-+$/, '')}-${randomDeploySuffix(6)}`
+  }
 
   const tokenRow = await env.DB.prepare("SELECT id, token FROM cf_tokens WHERE id = ? AND user_id = ? AND status = 'active'")
     .bind(input.cfTokenId ?? '', input.userId)
@@ -1300,7 +1316,7 @@ export async function probeWorkersRuntime(
   workersSubdomain: string,
 ): Promise<'ok' | 'blocked' | 'unknown'> {
   if (!workersSubdomain) return 'unknown'
-  const name = `app-health-${Math.random().toString(36).slice(2, 7)}`
+  const name = `app-health-${randomDeploySuffix(8)}`
   try {
     const form = new FormData()
     form.append(
@@ -1448,7 +1464,7 @@ async function resolveWorkersSubdomain(
   // No subdomain yet (first worker of a fresh account): register one, exactly
   // like the workers.dev-route fallback below does. Without this the URL stayed
   // `https://<script>.workers.dev`, which is not a host Cloudflare serves.
-  const candidate = `edge-${workerName}`.replace(/[^a-z0-9-]/g, '').slice(0, 30)
+  const candidate = `studio-${randomDeploySuffix(8)}`.replace(/[^a-z0-9-]/g, '').slice(0, 30)
   try {
     await fetch(`${API_BASE}/accounts/${accountId}/workers/subdomain`, {
       method: 'PUT',
@@ -1762,13 +1778,14 @@ export async function runDeployment(env: Env, job: DeployJob): Promise<void> {
       const d1Data = (await d1Resp.json().catch(() => ({}))) as { success?: boolean; result?: { uuid?: string }; errors?: Array<{ message: string }> }
       d1DatabaseId = d1Data.result?.uuid ?? ''
       if (!d1DatabaseId) {
-        // Already exists? Reuse it instead of failing (or reuse an existing -db if the account hit the 10-DB Free limit).
+        // Already exists (for example a retried deployment)? Reuse the exact
+        // name only — never another deployment's database.
         const listResp = await fetch(`${API_BASE}/accounts/${accountId}/d1/database?per_page=100`, { headers })
         const listData = (await listResp.json().catch(() => ({}))) as { result?: Array<{ uuid?: string; name?: string }> }
         const list = listData.result ?? []
-        d1DatabaseId = list.find((d) => d.name === d1Name)?.uuid
-          ?? list.find((d) => (d.name ?? '').endsWith('-db'))?.uuid
-          ?? ''
+        // Exact-name reuse only. Falling back to any `-db` on the account
+        // would attach this deployment to another user's database.
+        d1DatabaseId = list.find((d) => d.name === d1Name)?.uuid ?? ''
       }
       if (!d1DatabaseId) {
         const msg = d1Data.errors?.[0]?.message ?? 'failed to create D1 database'
@@ -1796,9 +1813,8 @@ export async function runDeployment(env: Env, job: DeployJob): Promise<void> {
         const kvListResp = await fetch(`${API_BASE}/accounts/${accountId}/storage/kv/namespaces?per_page=100`, { headers }).catch(() => null)
         const kvListData = (await kvListResp?.json().catch(() => ({}))) as { result?: Array<{ id?: string; title?: string }> }
         const namespaces = kvListData.result ?? []
-        kvNamespaceId = namespaces.find((k) => k.title === kvTitle)?.id
-          ?? namespaces.find((k) => (k.title ?? '').endsWith('-kv'))?.id
-          ?? ''
+        // Exact-name reuse only — never another deployment's namespace.
+        kvNamespaceId = namespaces.find((k) => k.title === kvTitle)?.id ?? ''
         if (kvNamespaceId) {
           await appendLog(env, deployment_id, `✓ KV namespace reused: ${kvNamespaceId.slice(0, 8)}...`)
         } else if (kvRequired) {
@@ -2090,7 +2106,7 @@ export async function runDeployment(env: Env, job: DeployJob): Promise<void> {
         const existingSub = await fetch(`${API_BASE}/accounts/${accountId}/workers/subdomain`, { headers })
         const existingSubData = (await existingSub.json().catch(() => ({}))) as { result?: { subdomain?: string } }
         if (!existingSubData.result?.subdomain) {
-          const subName = `edge-${worker_name}`.replace(/[^a-z0-9-]/g, '').slice(0, 30)
+          const subName = `studio-${randomDeploySuffix(8)}`.replace(/[^a-z0-9-]/g, '').slice(0, 30)
           await fetch(`${API_BASE}/accounts/${accountId}/workers/subdomain`, {
             method: 'PUT',
             headers: { ...headers, 'Content-Type': 'application/json' },
@@ -2288,10 +2304,10 @@ export async function runDeployment(env: Env, job: DeployJob): Promise<void> {
       panelUrl = worker_source === 'nova' ? `${base}/admin` : base
       subUrl = ''
     } else if (sourceConfig.kind === 'uuidpanel') {
-      // miliconfigOS: the dashboard is served under the UUID handed to it via
-      // `env.u` (the root and /login are only the sign-in gateway), and every
-      // subscription is a per-user token issued inside the panel, so there is
-      // no deploy-time sub link.
+      // Mili: the dashboard is served under the UUID handed to it via
+      // `env.UUID`; `/` is the decoy/StudioDocs page and `/login` is only the
+      // gate. Subscriptions are per-user names issued inside the panel, so
+      // there is no deploy-time sub link.
       panelUrl = `${base}/${uuid}`
       subUrl = ''
     } else {

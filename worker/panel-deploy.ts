@@ -108,7 +108,7 @@ export async function startPanelDeploy(env: Env, input: StartPanelDeployInput): 
       // an older short region code — is resolved to the identifier Railway
       // accepts today rather than falling back to a US region.
       const region = resolveRailwayRegion(input.region) ?? DEFAULT_RAILWAY_REGION
-      const result = await deployToRailway(token, name, region, input.panel, { adminPassword, secretKey })
+      const result = await deployToRailway(token, projectName, region, input.panel, { adminPassword, secretKey })
       await env.DB.prepare(
         `INSERT INTO railway_deploys (
            id, user_id, token_id, project_id, service_id, environment_id, current_deployment_id,
@@ -139,19 +139,19 @@ export async function startPanelDeploy(env: Env, input: StartPanelDeployInput): 
         result.tcpProxyError ?? null,
         JSON.stringify(result.tcpProxies ?? []),
         1,
-        name,
+        projectName,
         input.panel.id,
         adminUsername,
         adminPassword,
         nowIso(),
       ).run()
       await env.DB.prepare('UPDATE railway_tokens SET last_used_at = ? WHERE id = ?').bind(nowIso(), tokenId).run()
-      await logStarted(env, input.userId, 'railway', name)
+      await logStarted(env, input.userId, 'railway', projectName)
       return {
         ok: true,
         platform,
         id: result.deploymentId,
-        projectName: name,
+        projectName,
         projectId: result.projectId,
         adminUsername,
         adminPassword,
